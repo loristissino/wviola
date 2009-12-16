@@ -1,0 +1,9 @@
+#summary Appunti
+
+= Qualche nota sull'installazione e la configurazione =
+
+* seguire le indicazioni su http://www.symfony-project.org/getting-started/1_4/en/02-Prerequisites
+
+* cambiare il file /etc/php5/cli/php.ini (short_open_tag e magic_quotes_gpg)
+
+installare php-apc
