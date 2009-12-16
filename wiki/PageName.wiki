@@ -4,11 +4,11 @@
 
   * seguire le indicazioni su http://www.symfony-project.org/getting-started/1_4/en/02-Prerequisites
 
-  * cambiare il file /etc/php5/cli/php.ini (short_open_tag e magic_quotes_gpg)
+  * cambiare i file _/etc/php5/cli/php.ini_ e _/etc/php5/apache2/php.ini_ (short_open_tag e magic_quotes_gpg)
 
   * installare php-apc
 
-Ottengo il seguente output:
+Si dovrebbe ottenere il seguente output:
 
 {{{
 ********************************
