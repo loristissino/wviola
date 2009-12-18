@@ -8,5 +8,9 @@
   </head>
   <body>
     <?php echo $sf_content ?>
-  </body>
+	<hr />
+	<div class="tagline">
+	<p><a href="http://code.google.com/p/wviola">WVIOLA</a></p>
+	</div>
+  </body>  
 </html>
