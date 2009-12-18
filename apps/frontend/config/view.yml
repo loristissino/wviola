@@ -9,9 +9,9 @@ default:
     #language:     en
     #robots:       index, follow
 
-  stylesheets:    [main.css]
+  stylesheets:    [main.css, flowplayer.css]
 
   javascripts:    []
 
-  has_layout:     on
+  has_layout:     true
   layout:         layout

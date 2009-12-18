@@ -1,8 +1,13 @@
+#remember_me:
+#  class: sfGuardRememberMeFilter
+# vedere prima di abilitare: http://raw.trac.symfony-project.org/ticket/7044
+
 rendering: ~
 security:  ~
 
 # insert your own filters here
 
 cache:     ~
-common:    ~
+common:
+  class: sfCommonFilter
 execution: ~
