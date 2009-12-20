@@ -2,7 +2,7 @@
 body {
 	background-color:#fff;	
 	font-family:"Lucida Grande","bitstream vera sans","trebuchet ms",verdana,arial;
-	text-align:center;
+	text-align:left;
 }
 
 #page {
@@ -41,5 +41,5 @@ a {
 }
 
 #player {
-	text-align: center;
+	text-align: left;
 }
