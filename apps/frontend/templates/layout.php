@@ -7,8 +7,10 @@
     <link rel="shortcut icon" href="/favicon.ico" />
   </head>
   <body>
+    <div id="header"><?php echo sfConfig::get('app_config_organization') ?></div>
     <?php echo $sf_content ?>
 	<hr />
+	<?php include_component('welcome', 'info') ?>
 	<div class="tagline">
 	<p><a href="http://code.google.com/p/wviola">WVIOLA</a></p>
 	</div>

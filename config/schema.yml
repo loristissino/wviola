@@ -2,9 +2,9 @@ propel:
 
   sf_guard_user_profile:
     _attributes:  { phpName: sfGuardUserProfile }
-#    user_id:      { type: integer, foreignTable: sf_guard_user, foreignReference: id, required: true, onUpdate: cascade, onDelete: cascade, primaryKey: true }
+    user_id:      { type: integer, foreignTable: sf_guard_user, foreignReference: id, required: true, onUpdate: cascade, onDelete: cascade, primaryKey: true }
     first_name:   varchar(50)
-
+    last_name:   varchar(50)
 
   picture:
     id: ~
