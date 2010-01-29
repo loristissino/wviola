@@ -10,20 +10,17 @@
 
   * creare una directory _var/wviola_ (o equivalente)
 
-Entrare nella directory creata e scaricare i file del progetto via svn:
+Scaricare i file del progetto via svn:
 
 {{{
-cd /var/wviola
-svn ...
-
+svn checkout http://wviola.googlecode.com/svn/trunk/ /var/wviola
 }}}
 
+Nota: vengono scaricati sia i file del progetto _wviola_ sia quelli del framework _symfony_.
 
-
-Dare i comandi:
+Dare il comando:
 {{{
-cd /var/wviola/web
-php check_configuration.php
+php /var/wviola/web/check_configuration.php
 }}}
 
 Si dovrebbe ottenere il seguente output:
@@ -106,8 +103,10 @@ php.ini used by PHP: /etc/php5/apache2/php.ini
   OK        PHP version is not 5.2.9
 }}}
 
+Controllo della versione di symfony:
 
 {{{
-loris@biegacz:/var/wviola$ php lib/vendor/symfony/data/bin/symfony -V
-symfony version 1.3.2-DEV (/var/wviola/lib/vendor/symfony/lib)
+php /var/wviola/lib/vendor/symfony/data/bin/symfony -V
+symfony version 1.4.0 (/var/wviola/lib/vendor/symfony/lib)
 }}}
+
