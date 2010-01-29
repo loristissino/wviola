@@ -198,3 +198,23 @@ L'inserimento di alcuni dati di prova può avvenire con il comando
 cd /var/wviola
 php symfony propel:data-load
 }}}
+
+=== Configurazione dell'applicazione ===
+
+La configurazione di base dell'applicazione web si fa agendo sul file _apps/frontend/config/app.yml_. In particolare, per quanto riguarda l'autenticazione, si potrà fare in modo che l'autenticazione avvenga via LDAP togliendo gli hash dal file e modificando opportunamente le voci `ldap_host` e `ldap_domain`.
+
+{{{
+all:
+  config:
+    organization: My Organization Name
+    website: http://www.example.com
+
+#  sf_guard_plugin:
+#    check_password_callable: [Authentication, checkLdapPassword]
+
+#  authentication:
+#    ldap_host: localhost
+#    ldap_domain: dc=example,dc=com
+}}}
+
+Nota: l'autenticazione avverrà via LDAP, ma i nomi degli utenti devono essere presenti comunque nel DB di wviola. Si può pensare ad un task da eseguire periodicamente per sincronizzare i dati.
