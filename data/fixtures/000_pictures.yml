@@ -1,0 +1,23 @@
+Picture:
+
+  picture1:
+    path: web/pictures/picture1.jpg
+  picture2:
+    path: web/pictures/picture2.jpg
+
+Description:
+  description1a:
+    picture_id: picture1
+    text: First description of picture1.jpg
+  description1b:
+    picture_id: picture1
+    text: Second description of picture1.jpg
+  description2a:
+    picture_id: picture2
+    text: First description of picture2.jpg
+  description2b:
+    picture_id: picture2
+    text: Second description of picture2.jpg
+  description2c:
+    picture_id: picture2
+    text: Third description of picture2.jpg
