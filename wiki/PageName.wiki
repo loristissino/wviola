@@ -4,13 +4,13 @@
 
 == Installazione dei file del progetto ==
 
-  * seguire le indicazioni su http://www.symfony-project.org/getting-started/1_4/en/02-Prerequisites
-
-  * cambiare i file _/etc/php5/cli/php.ini_ e _/etc/php5/apache2/php.ini_ (short_open_tag e magic_quotes_gpg)
+  * seguire le indicazioni su http://www.symfony-project.org/getting-started/1_4/en/02-Prerequisites (in particolare, sarà necessario agire sui file _/etc/php5/cli/php.ini_ e _/etc/php5/apache2/php.ini_, cambiando `short_open_tag` e `magic_quotes_gpg`)
 
   * installare php-apc
 
   * creare una directory _var/wviola_ (o equivalente)
+
+Nota: qui si potrebbe anche inserire qualche informazione in merito alla possibile configurazione specifica di questa applicazione con un file particolare di Apache.
 
 Scaricare i file del progetto via svn:
 
