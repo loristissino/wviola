@@ -8,7 +8,60 @@
 
   * installare php-apc
 
+Dare i comandi:
+{{{
+cd /var/wviola/web
+php check_configuration.php
+}}}
+
 Si dovrebbe ottenere il seguente output:
+
+{{{
+loris@biegacz:/var/wviola/web$ php check_configuration.php 
+********************************
+*                              *
+*  symfony requirements check  *
+*                              *
+********************************
+
+php.ini used by PHP: /etc/php5/cli/php.ini
+
+** WARNING **
+*  The PHP CLI can use a different php.ini file
+*  than the one used with your web server.
+*  If this is the case, please launch this
+*  utility from your web server.
+** WARNING **
+
+** Mandatory requirements **
+
+  OK        PHP version is at least 5.2.4 (5.2.10-2ubuntu6.4)
+
+** Optional checks **
+
+  OK        PDO is installed
+  OK        PDO has some drivers installed: mysql, odbc, pgsql, sqlite, sqlite2
+  OK        PHP-XML module is installed
+  OK        XSL module is installed
+  OK        The token_get_all() function is available
+  OK        The mb_strlen() function is available
+  OK        The iconv() function is available
+  OK        The utf8_decode() is available
+  OK        A PHP accelerator is installed
+  OK        php.ini has short_open_tag set to off
+  OK        php.ini has magic_quotes_gpc set to off
+  OK        php.ini has register_globals set to off
+  OK        php.ini has session.auto_start set to off
+  OK        PHP version is not 5.2.9
+}}}
+
+Visitare con il browser la pagina web
+
+{{{
+http://www.wviola.net.localhost/check_configuration.php
+}}}
+
+Si dovrebbe ottenere un output come questo:
 
 {{{
 ********************************
@@ -22,7 +75,7 @@ php.ini used by PHP: /etc/php5/apache2/php.ini
 
 ** Mandatory requirements **
 
-  OK        PHP version is at least 5.2.4 (5.2.10-2ubuntu6.3)
+  OK        PHP version is at least 5.2.4 (5.2.10-2ubuntu6.4)
 
 ** Optional checks **
 
