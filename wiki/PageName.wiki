@@ -8,6 +8,18 @@
 
   * installare php-apc
 
+  * creare una directory _var/wviola_ (o equivalente)
+
+Entrare nella directory creata e scaricare i file del progetto via svn:
+
+{{{
+cd /var/wviola
+svn ...
+
+}}}
+
+
+
 Dare i comandi:
 {{{
 cd /var/wviola/web
@@ -17,7 +29,6 @@ php check_configuration.php
 Si dovrebbe ottenere il seguente output:
 
 {{{
-loris@biegacz:/var/wviola/web$ php check_configuration.php 
 ********************************
 *                              *
 *  symfony requirements check  *
@@ -55,7 +66,7 @@ php.ini used by PHP: /etc/php5/cli/php.ini
   OK        PHP version is not 5.2.9
 }}}
 
-Visitare con il browser la pagina web
+Visitare con il browser la pagina web (ovviamente l'URL varia a seconda della configurazione):
 
 {{{
 http://www.wviola.net.localhost/check_configuration.php
@@ -94,9 +105,6 @@ php.ini used by PHP: /etc/php5/apache2/php.ini
   OK        php.ini has session.auto_start set to off
   OK        PHP version is not 5.2.9
 }}}
-
-
-(qui devo aggiungere le informazioni su svn)
 
 
 {{{
