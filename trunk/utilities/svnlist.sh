@@ -10,5 +10,3 @@ grep -v 'apps/backend/config/factories.yml' | \
 grep -v 'config/databases.yml' | \
 grep -v 'plugins/\.*' | \
 sed 's/^?      //'
-
-

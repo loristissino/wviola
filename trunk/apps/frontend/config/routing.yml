@@ -10,6 +10,10 @@ sf_guard_password:
   url:   /request_password
   param: { module: sfGuardAuth, action: password }
 
+profile:
+  url:  /profile
+  param: { module: profile, action: index }  
+
 # default rules
 homepage:
   url:   /

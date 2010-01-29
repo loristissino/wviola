@@ -8,9 +8,10 @@ DROP TABLE "sf_guard_user_profile" CASCADE;
 
 CREATE TABLE "sf_guard_user_profile"
 (
+	"user_id" INTEGER  NOT NULL,
 	"first_name" VARCHAR(50),
-	"id" serial  NOT NULL,
-	PRIMARY KEY ("id")
+	"last_name" VARCHAR(50),
+	PRIMARY KEY ("user_id")
 );
 
 COMMENT ON TABLE "sf_guard_user_profile" IS '';
@@ -54,4 +55,6 @@ COMMENT ON TABLE "description" IS '';
 
 
 SET search_path TO public;
+ALTER TABLE "sf_guard_user_profile" ADD CONSTRAINT "sf_guard_user_profile_FK_1" FOREIGN KEY ("user_id") REFERENCES "sf_guard_user" ("id") ON UPDATE CASCADE ON DELETE CASCADE;
+
 ALTER TABLE "description" ADD CONSTRAINT "description_FK_1" FOREIGN KEY ("picture_id") REFERENCES "picture" ("id");
