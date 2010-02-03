@@ -1,0 +1,67 @@
+sfGuardUser:
+  mark:
+    username:  mark
+    password:  markpwd
+  matthew:
+    username:   matthew
+    password: matthewpwd
+  andreas:
+    username:  andreas
+    password:   andreaspwd
+  john:
+    username: john
+    password:  johnpwd
+  
+sfGuardPermission:
+  admin:
+    name:           admin
+    description:    Administrator permission
+  video_encode:
+    name:          video_encode
+    description:    Video encoding
+
+sfGuardGroup:
+  admin:
+    name:           admin
+    description:    Administrator group
+  video_encoders:
+    name:           video_encoders
+    description:   Video encoders
+
+sfGuardGroupPermission:
+  admin:
+    group_id:       admin
+    permission_id:  admin
+  video_encode:
+    group_id:      video_encoders
+    permission_id: video_encode
+
+sfGuardUserGroup:
+  mark:
+    group_id:       admin
+    user_id:        mark
+  andreas:
+    group_id:       admin
+    user_id:        andreas
+  matthew:
+    group_id:       video_encoders
+    user_id:        matthew
+
+sfGuardUserProfile:
+  mark:
+    user_id:         mark  
+    first_name:   Mark
+    last_name: Gain
+  matthew:
+    user_id:         matthew  
+    first_name:   Matthew
+    last_name: Panache
+  andreas:
+    user_id:         andreas  
+    first_name:   Andreas
+    last_name: Mackerel
+  john:
+    user_id:        john
+    first_name:   John
+    last_name:   Doe
+
