@@ -6,6 +6,45 @@ propel:
     first_name:   varchar(50)
     last_name:   varchar(50)
 
+  asset_type:
+    id: ~ 
+    name: { type: varchar(255), required: true, index: unique }
+    attributes: longvarchar
+
+  asset:
+    id: ~
+    slug: { type: varchar(50), required: true, index: unique }
+    asset_type_id: ~
+    original_name: varchar(255)
+    assigned_title: varchar(255)
+    md5sum: varchar(32)
+    notes: longvarchar
+    file_date: date
+    created_at: ~
+    updated_at: ~
+
+  archive:
+    id:  ~
+    slug: varchar(50)
+    created_at: ~
+
+  category:
+    id: { type: varchar(5), primaryKey: true }
+    name: varchar(50)
+
+  access_log:
+    id: ~  
+    asset_slug:   { type: varchar(50), foreignTable: asset, foreignReference: slug, required: true }
+    user_id:      { type: integer, foreignTable: sf_guard_user, foreignReference: id, required: true, onUpdate: cascade, onDelete: cascade, primaryKey: true }
+    created_at: ~
+
+  task_log:
+    id: ~
+    task_type: integer
+    created_at: ~
+    updated_at: ~
+
+#  The following are just for tests, we'll remove them
   picture:
     id: ~
     path: varchar(255)
@@ -14,3 +53,4 @@ propel:
     id: ~
     picture_id: ~
     text: varchar(255)
+
