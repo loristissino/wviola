@@ -113,5 +113,13 @@ Il task dovrebbe essere richiamabile con il comando:
 php symfony wviola:prepare-info
 }}}
 
+=== Sincronizzazione utenti ===
 
+Gli utenti di Wviola vengono autenticati tramite LDAP, ma le informazioni di base su di essi devono essere inserite nel database. Sarà quindi necessario un task di sincronizzazione degli utenti, con il quale le informazioni sugli utenti nuovi vengono memorizzati nelle tabelle corrette del DB.
+
+Il task dovrebbe essere richiamabile con il comando:
+
+{{{
+php symfony wviola:sync-users
+}}}
 

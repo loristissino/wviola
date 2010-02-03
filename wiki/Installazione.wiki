@@ -120,12 +120,12 @@ Esempio:
 
 {{{
 $ find . -name '*-dist'
-./apps/frontend/config/app.yml-dist
+./config/app.yml-dist
 ./config/databases.yml-dist
 
 ...
 
-cp config/frontend/config/app.yml-dist config/frontend/config/app.yml
+cp config/app.yml-dist config/app.yml
 cp config/databases.yml-dist config/databases.yml
 }}}
 
