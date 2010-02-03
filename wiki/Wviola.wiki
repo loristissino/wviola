@@ -1,7 +1,6 @@
 #summary Wviola
+#labels Featured
 
 [Installazione Informazioni di base per installazione e aggiornamento]
 
 [Architettura Informazioni sull'architettura delle applicazioni]
-
-
