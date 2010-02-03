@@ -1,0 +1,25 @@
+Category:
+  ch:
+    id:  CH
+    name: Fisiochinesi terapia
+  ot:
+    id:  OT
+    name: Terapia Occupazionale e T.E.A.C.C.H.
+  ps:
+    id:  PS
+    name: Pricomotricità
+  nv:
+    id:  NV
+    name: Neurovisione/Oculistica
+  pt:
+    id:  PT
+    name: PsicoTerapia
+  op:
+    id:  OP
+    name: Orientamento Psicopedagogico
+  rl:
+    id:  RL
+    name: Fisiochinesi terapia
+  rn:
+    id:  RN
+    name: Rieducazione Neuropsicologica
