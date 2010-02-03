@@ -1,4 +1,4 @@
-#summary Appunti
+#summary Installazione
 
 = Installazione e configurazione iniziale =
 
@@ -6,7 +6,7 @@
 
   * seguire le indicazioni su http://www.symfony-project.org/getting-started/1_4/en/02-Prerequisites (in particolare, sarà necessario agire sui file _/etc/php5/cli/php.ini_ e _/etc/php5/apache2/php.ini_, cambiando `short_open_tag` e `magic_quotes_gpg`)
 
-  * installare php-apc
+  * installare i pacchetti _php-apc_ e _php5-ffmpeg_ (o equivalenti)
 
   * creare una directory _var/wviola_ (o equivalente)
 
@@ -218,3 +218,20 @@ all:
 }}}
 
 Nota: l'autenticazione avverrà via LDAP, ma i nomi degli utenti devono essere presenti comunque nel DB di wviola. Si può pensare ad un task da eseguire periodicamente per sincronizzare i dati.
+
+
+= Aggiornamenti =
+
+Per gli aggiornamenti, dovrebbe essere sufficiente spostarsi nella directory _/var/wviola_ e digitare il comando
+
+{{{
+svn update
+}}}
+
+Va però tenuto presente che, durante lo sviluppo, lo schema relazionale potrebbe venir ridefinito. Può quindi essere necessario ricreare da zero le tabelle, ricaricare i dati di prova e svuotare la cache:
+
+{{{
+php symfony propel:insert-sql
+php symfony propel:data-load
+php symfony clear-cache
+}}}

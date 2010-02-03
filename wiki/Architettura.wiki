@@ -1,0 +1,117 @@
+#summary Architettura
+
+= Architettura generale =
+
+Nota terminologica: visto che si possono archiviare diversi tipi di elementi (video, immagini, collezioni di immagini, registrazioni audio), qui di seguito userò il termine generico _asset_ per riferirmi ad una di queste risorse. (Se viene in mente un altro termine, ditemelo).
+
+Wviola si basa su tre componenti:
+
+  * un'applicazione di frontend (destinata agli utenti ordinari, che devono poter classificare gli asset)
+  * un'applicazione di backend (destinata agli amministratori, che possono consultare i _log_, impostare valori di default nelle tabelle principali, ecc.)
+  * una serie di _task_ eseguibili da riga di comando, tipicamente tramite _cron jobs_. 
+
+== Applicazione di frontend ==
+
+Descriviamo l'applicazione di frontend tramite alcuni scenari:
+
+=== Archiviazione e classificazione di un asset ===
+
+Matthew deve archiviare un asset (es. un video frutto di riprese con videocamera, o un file zip contenente una serie di fotografie). Mette il file in una particolare directory (o in una sottodirectory di questa) che gli è stata indicata.
+
+Accede all'applicazione Wviola con il proprio browser, effettua il login, sceglie l'opzione "Archiviazione asset" e gli appare un elenco dei file presenti nella directory indicata, tra i quali saranno presenti anche quello da lui appena caricato.
+
+Per ogni file trova l'indicazione del nome originale e la data di caricamento.
+
+Facendo clic sul link "Proprietà" trova altre informazioni (tipo di file, dimensione, formato video, uno o due fotogrammi, ecc.).
+
+Facendo clic sul link "Archivia" gli si apre una finestra in cui gli viene chiesto di specificare alcuni dati utili per la ricerca dell'asset in fasi successive (da definire nei dettagli). Quando fa clic sul pulsante "Archivia" le informazioni inserite nel database e l'asset viene posto in coda per l'operazione di archiviazione.
+
+=== Archiviazione e classificazione di più asset ===
+
+Matthew deve archiviare più asset, tra loro correlati (ad esempio, più riprese effettuate nello stesso giorno e riguardanti la stessa persona). Procede con il caricamento come nello scenario precedente.
+
+Accede all'applicazione Wviola con il proprio browser, effettua il login, sceglie l'opzione "Archiviazione asset" e gli appare un elenco dei file presenti nella directory indicata, tra i quali saranno presenti anche quelli da lui appena caricati.
+
+Nell'elenco, seleziona più asset e sceglie nel menù a discesa sotto l'elenco l'opzione "Archivia asset"
+
+Gli si apre una finestra in cui gli viene chiesto di specificare alcuni dati utili per la ricerca del video in fasi successive (da definire nei dettagli). Quando fa clic sul pulsante "Archivia" le informazioni inserite nel database e gli asset vengono posti in coda per l'operazione di archiviazione.
+
+=== Ricerca e visualizzazione di un asset ===
+
+John deve visualizzare alcuni asset tra quelli precedentemente archiviati.
+
+Accede all'applicazione Wviola con il proprio browser, effettua il login, sceglie l'opzione "Ricerca asset" e gli appare una finestra di ricerca in cui può specificare diversi criteri di ricerca (data, parola chiave, archiviatore, ecc.). Quando fa clic su "Trova" gli compare un elenco di asset che corrispondono ai criteri di ricerca indicati.
+
+Per ogni asset è presente una piccola anteprima (un fotogramma di un video, un'immagine rimpicciolita di una collezione, ecc.). Facendo clic sul link "Visualizza" gli viene mostrato l'asset (a bassa risoluzione), nonché un link per rintracciare l'asset archiviato ad alta risoluzione.
+
+Le operazioni di visualizzazione vengono registrate in un file di log.
+
+=== Modifica informazioni errate per gli asset archiviati ===
+
+Quando un asset viene visualizzato da un utente con permessi di amministrazione, egli troverà anche il link "Modifica informazioni", per la modifica delle informazioni associate ad un asset.
+
+== Applicazione di backend ==
+
+Andreas è l'amministratore del sistema.
+
+=== Visualizzazione dei log ===
+
+Andreas consulta i log di tutte le operazioni.
+
+=== Visualizzazione dell'archivio immagini ISO ===
+
+Andreas consulta l'archivio delle immagini ISO dei DVD-ROM contenenti gli asset in forma non compressa.
+
+== Applicazioni batch ==
+
+Le applicazioni batch vengono eseguite da riga di comando direttamente o tramite apposito _cron job_.
+
+=== Archiviazione ===
+
+Quando un utente archivia un asset, esso viene spostato in una diversa directory, con l'attribuzione di un ID univoco (slug).
+
+Questa applicazione batch, per ogni asset da archiviare:
+
+  * effettua la codifica in bassa risoluzione
+  * rende disponibile l'asset per la fruizione
+  * sposta l'asset ad alta risoluzione in una directory destinata all'archiviazione off-line
+
+Il task dovrebbe essere richiamabile con il comando:
+
+{{{
+php symfony wviola:archive-assets
+}}}
+
+=== Predisposizione immagini ISO DVD-ROM ===
+
+Questa applicazione batch considererà, in ordine cronologico i file della directory destinata all'archiviazione off-line. 
+Quando l'asset N+1 porta ad una dimensione maggiore di 4,7 GB, i file da 1 a N vengono utilizzati per la creazione dell'immagine ISO di un DVD, contenente gli asset originali e un file html e/o xml contenente un indice degli stessi.
+
+All'immagine ISO del DVD-ROM viene attribuito un identificativo univoco, riportato anche nel DB.
+
+Il task dovrebbe essere richiamabile con il comando:
+
+{{{
+php symfony wviola:prepare-archive
+}}}
+
+=== Predisposizione anteprime ===
+
+Questa applicazione, per ogni file posto nella directory delle sorgenti, determina se si tratta di un asset da archiviare (ossia, se è un'immagine, un video, una registrazione video o una collezione di immagini). In caso positivo:
+
+  * predispone un'immagine di anteprima (estraendo un fotogramma)
+  * calcola un hash del file
+  * archivia le informazioni associate al file in un file YAML
+
+Le informazioni estratte vengono messe in una directory nascosta .wviola presente nella directory in cui è presente l'asset (in questo modo non cambiano se il nome della directory viene variato) e sono associate all'i-node del file (così anche il nome del file può cambiare).
+
+La ricerca avviene basandosi sulla data di ultima modifica (partendo dalla conclusione dell'ultima esecuzione dello stesso task).
+
+Il task dovrebbe essere richiamabile con il comando:
+
+{{{
+php symfony wviola:prepare-info
+}}}
+
+
+
