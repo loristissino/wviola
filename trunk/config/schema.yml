@@ -34,8 +34,8 @@ propel:
 
   access_log:
     id: ~  
-    asset_slug:   { type: varchar(50), foreignTable: asset, foreignReference: slug, required: true }
-    user_id:      { type: integer, foreignTable: sf_guard_user, foreignReference: id, required: true, onUpdate: cascade, onDelete: cascade, primaryKey: true }
+    asset_id:  ~
+    user_id:      { type: integer, foreignTable: sf_guard_user, foreignReference: id, required: true, onUpdate: cascade, onDelete: cascade }
     created_at: ~
 
   task_log:

@@ -13,12 +13,14 @@ abstract class BaseAccessLogFormFilter extends BaseFormFilterPropel
   public function setup()
   {
     $this->setWidgets(array(
-      'asset_slug' => new sfWidgetFormPropelChoice(array('model' => 'Asset', 'add_empty' => true, 'key_method' => 'getSlug')),
+      'asset_id'   => new sfWidgetFormPropelChoice(array('model' => 'Asset', 'add_empty' => true)),
+      'user_id'    => new sfWidgetFormPropelChoice(array('model' => 'sfGuardUser', 'add_empty' => true)),
       'created_at' => new sfWidgetFormFilterDate(array('from_date' => new sfWidgetFormDate(), 'to_date' => new sfWidgetFormDate())),
     ));
 
     $this->setValidators(array(
-      'asset_slug' => new sfValidatorPropelChoice(array('required' => false, 'model' => 'Asset', 'column' => 'slug')),
+      'asset_id'   => new sfValidatorPropelChoice(array('required' => false, 'model' => 'Asset', 'column' => 'id')),
+      'user_id'    => new sfValidatorPropelChoice(array('required' => false, 'model' => 'sfGuardUser', 'column' => 'id')),
       'created_at' => new sfValidatorDateRange(array('required' => false, 'from_date' => new sfValidatorDate(array('required' => false)), 'to_date' => new sfValidatorDate(array('required' => false)))),
     ));
 
@@ -38,7 +40,7 @@ abstract class BaseAccessLogFormFilter extends BaseFormFilterPropel
   {
     return array(
       'id'         => 'Number',
-      'asset_slug' => 'ForeignKey',
+      'asset_id'   => 'ForeignKey',
       'user_id'    => 'ForeignKey',
       'created_at' => 'Date',
     );
