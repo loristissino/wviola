@@ -1,0 +1,9 @@
+AccessLog:
+  access_log1:
+    asset_id:  asset1
+    user_id:  matthew
+    created_at: 12/02/2010
+  access_log1:
+    asset_id:  asset1
+    user_id:  john
+    created_at: 12/03/2010

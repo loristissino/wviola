@@ -112,10 +112,10 @@ DROP TABLE "access_log" CASCADE;
 CREATE TABLE "access_log"
 (
 	"id" serial  NOT NULL,
-	"asset_slug" VARCHAR(50)  NOT NULL,
+	"asset_id" INTEGER,
 	"user_id" INTEGER  NOT NULL,
 	"created_at" TIMESTAMP,
-	PRIMARY KEY ("id","user_id")
+	PRIMARY KEY ("id")
 );
 
 COMMENT ON TABLE "access_log" IS '';
@@ -183,7 +183,7 @@ ALTER TABLE "sf_guard_user_profile" ADD CONSTRAINT "sf_guard_user_profile_FK_1" 
 
 ALTER TABLE "asset" ADD CONSTRAINT "asset_FK_1" FOREIGN KEY ("asset_type_id") REFERENCES "asset_type" ("id");
 
-ALTER TABLE "access_log" ADD CONSTRAINT "access_log_FK_1" FOREIGN KEY ("asset_slug") REFERENCES "asset" ("slug");
+ALTER TABLE "access_log" ADD CONSTRAINT "access_log_FK_1" FOREIGN KEY ("asset_id") REFERENCES "asset" ("id");
 
 ALTER TABLE "access_log" ADD CONSTRAINT "access_log_FK_2" FOREIGN KEY ("user_id") REFERENCES "sf_guard_user" ("id") ON UPDATE CASCADE ON DELETE CASCADE;
 

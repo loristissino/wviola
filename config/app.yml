@@ -1,0 +1,12 @@
+all:
+  config:
+    organization: My Organization Name
+    website: http://www.example.com
+
+  sf_guard_plugin:
+    check_password_callable: [Authentication, testOnly]
+
+  authentication:
+    ldap_host: localhost
+    ldap_domain: dc=example,dc=com
+

@@ -1,0 +1,21 @@
+generator:
+  class: sfPropelGenerator
+  param:
+    model_class:           AccessLog
+    theme:                 admin
+    non_verbose_templates: true
+    with_show:             false
+    singular:              AccessLog
+    plural:                AccessLogs
+    route_prefix:          access_log
+    with_propel_route:     1
+    actions_base_class:    sfActions
+
+    config:
+      actions: ~
+      fields:  ~
+      list:    ~
+      filter:  ~
+      form:    ~
+      edit:    ~
+      new:     ~
