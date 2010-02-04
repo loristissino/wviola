@@ -3,7 +3,7 @@
 
 echo "this is a test\n";
 
-$movie = new ffmpeg_movie('/var/wviola/data/filesystem/videos/video1.mpg');
+$movie = new ffmpeg_movie('/var/wviola/data/filesystem/sources/videos/video2.mpg');
 
 echo $movie->getDuration() . " the duration of a movie or audio file in seconds.\n";
 echo $movie->getFrameCount() 	. " the number of frames in a movie or audio file.\n";

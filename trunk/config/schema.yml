@@ -15,11 +15,23 @@ propel:
     id: ~
     slug: { type: varchar(50), required: true, index: unique }
     asset_type_id: ~
-    original_name: varchar(255)
     assigned_title: varchar(255)
-    md5sum: varchar(32)
     notes: longvarchar
-    file_date: date
+    frames_count: integer
+    source_filename: varchar(255)
+    source_file_date: date
+    highquality_width: integer
+    highquality_height: integer
+    highquality_video_codec: varchar(10)
+    highquality_audio_codec: varchar(10)
+    highquality_frame_rate: integer
+    highquality_md5sum: varchar(32)
+    lowquality_width: integer
+    lowquality_height: integer
+    lowquality_video_codec: varchar(10)
+    lowquality_audio_codec: varchar(10)
+    lowquality_frame_rate: integer
+    lowquality_md5sum: varchar(32)
     created_at: ~
     updated_at: ~
 
