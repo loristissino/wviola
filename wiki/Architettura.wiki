@@ -10,6 +10,8 @@ Wviola si basa su tre componenti:
   * un'applicazione di backend (destinata agli amministratori, che possono consultare i _log_, impostare valori di default nelle tabelle principali, ecc.)
   * una serie di _task_ eseguibili da riga di comando, tipicamente tramite _cron jobs_. 
 
+Per chi è interessato,  è disponibile un [PropelSchema diagramma dello schema relazionale del DB].
+
 == Applicazione di frontend ==
 
 Descriviamo l'applicazione di frontend tramite alcuni scenari:
