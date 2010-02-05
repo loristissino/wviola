@@ -17,7 +17,7 @@ propel:
     slug: { type: varchar(50), required: true, index: unique }
     asset_type_id: ~
     assigned_title: varchar(255)
-    category_id: { type: varchar(5), foreignTable: category, foreignReference: id }
+    category_id: ~
     notes: longvarchar
     frames_count: integer
     source_filename: varchar(255)
@@ -44,7 +44,8 @@ propel:
     created_at: ~
 
   category:
-    id: { type: varchar(5), primaryKey: true }
+    id: ~
+    shortcut: { type: varchar(5), index: unique }
     name: varchar(50)
 
   access_log:

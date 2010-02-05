@@ -15,14 +15,20 @@ abstract class BaseCategoryForm extends BaseFormPropel
   public function setup()
   {
     $this->setWidgets(array(
-      'id'   => new sfWidgetFormInputHidden(),
-      'name' => new sfWidgetFormInputText(),
+      'id'       => new sfWidgetFormInputHidden(),
+      'shortcut' => new sfWidgetFormInputText(),
+      'name'     => new sfWidgetFormInputText(),
     ));
 
     $this->setValidators(array(
-      'id'   => new sfValidatorPropelChoice(array('model' => 'Category', 'column' => 'id', 'required' => false)),
-      'name' => new sfValidatorString(array('max_length' => 50, 'required' => false)),
+      'id'       => new sfValidatorPropelChoice(array('model' => 'Category', 'column' => 'id', 'required' => false)),
+      'shortcut' => new sfValidatorString(array('max_length' => 5, 'required' => false)),
+      'name'     => new sfValidatorString(array('max_length' => 50, 'required' => false)),
     ));
+
+    $this->validatorSchema->setPostValidator(
+      new sfValidatorPropelUnique(array('model' => 'Category', 'column' => array('shortcut')))
+    );
 
     $this->widgetSchema->setNameFormat('category[%s]');
 

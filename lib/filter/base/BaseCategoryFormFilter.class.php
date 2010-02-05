@@ -13,11 +13,13 @@ abstract class BaseCategoryFormFilter extends BaseFormFilterPropel
   public function setup()
   {
     $this->setWidgets(array(
-      'name' => new sfWidgetFormFilterInput(),
+      'shortcut' => new sfWidgetFormFilterInput(),
+      'name'     => new sfWidgetFormFilterInput(),
     ));
 
     $this->setValidators(array(
-      'name' => new sfValidatorPass(array('required' => false)),
+      'shortcut' => new sfValidatorPass(array('required' => false)),
+      'name'     => new sfValidatorPass(array('required' => false)),
     ));
 
     $this->widgetSchema->setNameFormat('category_filters[%s]');
@@ -35,8 +37,9 @@ abstract class BaseCategoryFormFilter extends BaseFormFilterPropel
   public function getFields()
   {
     return array(
-      'id'   => 'Text',
-      'name' => 'Text',
+      'id'       => 'Number',
+      'shortcut' => 'Text',
+      'name'     => 'Text',
     );
   }
 }
