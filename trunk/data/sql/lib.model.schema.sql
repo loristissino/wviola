@@ -52,7 +52,7 @@ CREATE TABLE "asset"
 	"slug" VARCHAR(50)  NOT NULL,
 	"asset_type_id" INTEGER,
 	"assigned_title" VARCHAR(255),
-	"category_id" VARCHAR(5),
+	"category_id" INTEGER,
 	"notes" TEXT,
 	"frames_count" INTEGER,
 	"source_filename" VARCHAR(255),
@@ -108,9 +108,11 @@ DROP TABLE "category" CASCADE;
 
 CREATE TABLE "category"
 (
-	"id" VARCHAR(5)  NOT NULL,
+	"id" serial  NOT NULL,
+	"shortcut" VARCHAR(5),
 	"name" VARCHAR(50),
-	PRIMARY KEY ("id")
+	PRIMARY KEY ("id"),
+	CONSTRAINT "category_U_1" UNIQUE ("shortcut")
 );
 
 COMMENT ON TABLE "category" IS '';

@@ -1,25 +1,25 @@
 Category:
   ch:
-    id:  CH
+    shortcut:  CH
     name: Fisiochinesi terapia
   ot:
-    id:  OT
+    shortcut:  OT
     name: Terapia Occupazionale e T.E.A.C.C.H.
   ps:
-    id:  PS
+    shortcut:  PS
     name: Pricomotricità
   nv:
-    id:  NV
+    shortcut:  NV
     name: Neurovisione/Oculistica
   pt:
-    id:  PT
+    shortcut:  PT
     name: PsicoTerapia
   op:
-    id:  OP
+    shortcut:  OP
     name: Orientamento Psicopedagogico
   rl:
-    id:  RL
+    shortcut:  RL
     name: Fisiochinesi terapia
   rn:
-    id:  RN
+    shortcut:  RN
     name: Rieducazione Neuropsicologica
