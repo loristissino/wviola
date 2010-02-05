@@ -52,16 +52,20 @@ sfGuardUserProfile:
     user_id:         mark  
     first_name:   Mark
     last_name: Gain
+    imported_at: 11/05/2009 8:10
   matthew:
     user_id:         matthew  
     first_name:   Matthew
     last_name: Panache
+    imported_at: 11/05/2009 8:11
   andreas:
     user_id:         andreas  
     first_name:   Andreas
     last_name: Mackerel
+    imported_at: 11/05/2009 8:10
   john:
     user_id:        john
     first_name:   John
     last_name:   Doe
+    imported_at: 11/06/2009 8:20
 

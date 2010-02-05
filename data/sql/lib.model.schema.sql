@@ -11,6 +11,7 @@ CREATE TABLE "sf_guard_user_profile"
 	"user_id" INTEGER  NOT NULL,
 	"first_name" VARCHAR(50),
 	"last_name" VARCHAR(50),
+	"imported_at" TIMESTAMP,
 	PRIMARY KEY ("user_id")
 );
 

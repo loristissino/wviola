@@ -20,4 +20,11 @@ require 'lib/model/om/BaseCategory.php';
  */
 class Category extends BaseCategory {
 
+public function __toString()
+
+{
+	return $this->getName();
+}
+
+
 } // Category

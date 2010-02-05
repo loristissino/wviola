@@ -1,0 +1,22 @@
+generator:
+  class: sfPropelGenerator
+  param:
+    model_class:           Asset
+    theme:                 admin
+    non_verbose_templates: true
+    with_show:             false
+    singular:              Asset
+    plural:                Assets
+    route_prefix:          asset
+    with_propel_route:     1
+    actions_base_class:    sfActions
+
+    config:
+      actions: ~
+      fields:  ~
+      list:
+        display: [=id, slug, assigned_title]
+      filter:  ~
+      form:    ~
+      edit:    ~
+      new:     ~

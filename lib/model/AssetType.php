@@ -20,4 +20,11 @@ require 'lib/model/om/BaseAssetType.php';
  */
 class AssetType extends BaseAssetType {
 
+public function __toString()
+
+{
+	return $this->getName();
+}
+
+
 } // AssetType
