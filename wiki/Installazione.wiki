@@ -233,5 +233,5 @@ Va però tenuto presente che, durante lo sviluppo, lo schema relazionale potrebb
 {{{
 php symfony propel:insert-sql
 php symfony propel:data-load
-php symfony clear-cache
+php symfony cache:clear
 }}}

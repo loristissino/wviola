@@ -3,5 +3,7 @@
 
 [Installazione Informazioni di base per installazione e aggiornamento]
 
+[Bug Bug di varia natura e problemi noti]
+
 [Architettura Informazioni sull'architettura delle applicazioni]
 
