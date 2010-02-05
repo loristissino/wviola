@@ -1,13 +1,13 @@
 <?php
 
 /**
- * accesslog module configuration.
+ * access_log module configuration.
  *
  * @package    wviola
- * @subpackage accesslog
+ * @subpackage access_log
  * @author     Your name here
  * @version    SVN: $Id: configuration.php 12474 2008-10-31 10:41:27Z fabien $
  */
-class accesslogGeneratorConfiguration extends BaseAccesslogGeneratorConfiguration
+class access_logGeneratorConfiguration extends BaseAccess_logGeneratorConfiguration
 {
 }

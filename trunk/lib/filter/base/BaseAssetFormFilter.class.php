@@ -16,6 +16,7 @@ abstract class BaseAssetFormFilter extends BaseFormFilterPropel
       'slug'                    => new sfWidgetFormFilterInput(array('with_empty' => false)),
       'asset_type_id'           => new sfWidgetFormPropelChoice(array('model' => 'AssetType', 'add_empty' => true)),
       'assigned_title'          => new sfWidgetFormFilterInput(),
+      'category_id'             => new sfWidgetFormPropelChoice(array('model' => 'Category', 'add_empty' => true)),
       'notes'                   => new sfWidgetFormFilterInput(),
       'frames_count'            => new sfWidgetFormFilterInput(),
       'source_filename'         => new sfWidgetFormFilterInput(),
@@ -32,6 +33,7 @@ abstract class BaseAssetFormFilter extends BaseFormFilterPropel
       'lowquality_audio_codec'  => new sfWidgetFormFilterInput(),
       'lowquality_frame_rate'   => new sfWidgetFormFilterInput(),
       'lowquality_md5sum'       => new sfWidgetFormFilterInput(),
+      'user_id'                 => new sfWidgetFormPropelChoice(array('model' => 'sfGuardUserProfile', 'add_empty' => true)),
       'created_at'              => new sfWidgetFormFilterDate(array('from_date' => new sfWidgetFormDate(), 'to_date' => new sfWidgetFormDate())),
       'updated_at'              => new sfWidgetFormFilterDate(array('from_date' => new sfWidgetFormDate(), 'to_date' => new sfWidgetFormDate())),
     ));
@@ -40,6 +42,7 @@ abstract class BaseAssetFormFilter extends BaseFormFilterPropel
       'slug'                    => new sfValidatorPass(array('required' => false)),
       'asset_type_id'           => new sfValidatorPropelChoice(array('required' => false, 'model' => 'AssetType', 'column' => 'id')),
       'assigned_title'          => new sfValidatorPass(array('required' => false)),
+      'category_id'             => new sfValidatorPropelChoice(array('required' => false, 'model' => 'Category', 'column' => 'id')),
       'notes'                   => new sfValidatorPass(array('required' => false)),
       'frames_count'            => new sfValidatorSchemaFilter('text', new sfValidatorInteger(array('required' => false))),
       'source_filename'         => new sfValidatorPass(array('required' => false)),
@@ -56,6 +59,7 @@ abstract class BaseAssetFormFilter extends BaseFormFilterPropel
       'lowquality_audio_codec'  => new sfValidatorPass(array('required' => false)),
       'lowquality_frame_rate'   => new sfValidatorSchemaFilter('text', new sfValidatorInteger(array('required' => false))),
       'lowquality_md5sum'       => new sfValidatorPass(array('required' => false)),
+      'user_id'                 => new sfValidatorPropelChoice(array('required' => false, 'model' => 'sfGuardUserProfile', 'column' => 'user_id')),
       'created_at'              => new sfValidatorDateRange(array('required' => false, 'from_date' => new sfValidatorDate(array('required' => false)), 'to_date' => new sfValidatorDate(array('required' => false)))),
       'updated_at'              => new sfValidatorDateRange(array('required' => false, 'from_date' => new sfValidatorDate(array('required' => false)), 'to_date' => new sfValidatorDate(array('required' => false)))),
     ));
@@ -79,6 +83,7 @@ abstract class BaseAssetFormFilter extends BaseFormFilterPropel
       'slug'                    => 'Text',
       'asset_type_id'           => 'ForeignKey',
       'assigned_title'          => 'Text',
+      'category_id'             => 'ForeignKey',
       'notes'                   => 'Text',
       'frames_count'            => 'Number',
       'source_filename'         => 'Text',
@@ -95,6 +100,7 @@ abstract class BaseAssetFormFilter extends BaseFormFilterPropel
       'lowquality_audio_codec'  => 'Text',
       'lowquality_frame_rate'   => 'Number',
       'lowquality_md5sum'       => 'Text',
+      'user_id'                 => 'ForeignKey',
       'created_at'              => 'Date',
       'updated_at'              => 'Date',
     );

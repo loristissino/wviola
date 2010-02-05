@@ -2,8 +2,8 @@ access_log:
   class: sfPropelRouteCollection
   options:
     model:                AccessLog
-    module:               accesslog
-    prefix_path:          /accesslog
+    module:               access_log
+    prefix_path:          /access_log
     column:               id
     with_wildcard_routes: true
 
@@ -32,7 +32,7 @@ archive:
 # default rules
 homepage:
   url:   /
-  param: { module: default, action: index }
+  param: { module: admin, action: index }
 
 # generic rules
 # please, remove them by adding more specific rules

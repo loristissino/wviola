@@ -13,7 +13,7 @@
 <ul>
 <li><?php echo link_to(
 	__('Access log'),
-	url_for('@accesslog')
+	url_for('@access_log')
 	)
 	?>
 </ul>

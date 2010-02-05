@@ -9,5 +9,4 @@ sudo find "$BASEDIR" -type f ! -perm 660 -exec chmod 660 {} \;
 cd "$BASEDIR/utilities"
 chmod +x *sh *php
 
-
 chmod +x "$BASEDIR/symfony"

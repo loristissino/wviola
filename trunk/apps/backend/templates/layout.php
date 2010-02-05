@@ -10,5 +10,7 @@
   </head>
   <body>
     <?php echo $sf_content ?>
+	<hr />
+	<?php echo link_to(__('Backend home'), '@homepage') ?>
   </body>
 </html>
