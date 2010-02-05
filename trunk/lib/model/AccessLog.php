@@ -20,4 +20,6 @@ require 'lib/model/om/BaseAccessLog.php';
  */
 class AccessLog extends BaseAccessLog {
 
+//	public function get
+
 } // AccessLog
