@@ -19,6 +19,7 @@ abstract class BaseAssetForm extends BaseFormPropel
       'slug'                    => new sfWidgetFormInputText(),
       'asset_type_id'           => new sfWidgetFormPropelChoice(array('model' => 'AssetType', 'add_empty' => true)),
       'assigned_title'          => new sfWidgetFormInputText(),
+      'category_id'             => new sfWidgetFormPropelChoice(array('model' => 'Category', 'add_empty' => true)),
       'notes'                   => new sfWidgetFormTextarea(),
       'frames_count'            => new sfWidgetFormInputText(),
       'source_filename'         => new sfWidgetFormInputText(),
@@ -35,6 +36,7 @@ abstract class BaseAssetForm extends BaseFormPropel
       'lowquality_audio_codec'  => new sfWidgetFormInputText(),
       'lowquality_frame_rate'   => new sfWidgetFormInputText(),
       'lowquality_md5sum'       => new sfWidgetFormInputText(),
+      'user_id'                 => new sfWidgetFormPropelChoice(array('model' => 'sfGuardUserProfile', 'add_empty' => false)),
       'created_at'              => new sfWidgetFormDateTime(),
       'updated_at'              => new sfWidgetFormDateTime(),
     ));
@@ -44,6 +46,7 @@ abstract class BaseAssetForm extends BaseFormPropel
       'slug'                    => new sfValidatorString(array('max_length' => 50)),
       'asset_type_id'           => new sfValidatorPropelChoice(array('model' => 'AssetType', 'column' => 'id', 'required' => false)),
       'assigned_title'          => new sfValidatorString(array('max_length' => 255, 'required' => false)),
+      'category_id'             => new sfValidatorPropelChoice(array('model' => 'Category', 'column' => 'id', 'required' => false)),
       'notes'                   => new sfValidatorString(array('required' => false)),
       'frames_count'            => new sfValidatorInteger(array('min' => -2147483648, 'max' => 2147483647, 'required' => false)),
       'source_filename'         => new sfValidatorString(array('max_length' => 255, 'required' => false)),
@@ -60,6 +63,7 @@ abstract class BaseAssetForm extends BaseFormPropel
       'lowquality_audio_codec'  => new sfValidatorString(array('max_length' => 10, 'required' => false)),
       'lowquality_frame_rate'   => new sfValidatorInteger(array('min' => -2147483648, 'max' => 2147483647, 'required' => false)),
       'lowquality_md5sum'       => new sfValidatorString(array('max_length' => 32, 'required' => false)),
+      'user_id'                 => new sfValidatorPropelChoice(array('model' => 'sfGuardUserProfile', 'column' => 'user_id')),
       'created_at'              => new sfValidatorDateTime(array('required' => false)),
       'updated_at'              => new sfValidatorDateTime(array('required' => false)),
     ));

@@ -1,13 +1,13 @@
 <?php
 
 /**
- * accesslog module helper.
+ * access_log module helper.
  *
  * @package    wviola
- * @subpackage accesslog
+ * @subpackage access_log
  * @author     Your name here
  * @version    SVN: $Id: helper.php 12474 2008-10-31 10:41:27Z fabien $
  */
-class accesslogGeneratorHelper extends BaseAccesslogGeneratorHelper
+class access_logGeneratorHelper extends BaseAccess_logGeneratorHelper
 {
 }

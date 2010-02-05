@@ -1,0 +1,33 @@
+digraph G {
+nodesf_guard_group [label="{<table>sf_guard_group|<cols>id (INTEGER) [PK]\lname (VARCHAR)\ldescription (LONGVARCHAR)\l}", shape=record];
+nodesf_guard_permission [label="{<table>sf_guard_permission|<cols>id (INTEGER) [PK]\lname (VARCHAR)\ldescription (LONGVARCHAR)\l}", shape=record];
+nodesf_guard_group_permission [label="{<table>sf_guard_group_permission|<cols>group_id (INTEGER) [FK]\lpermission_id (INTEGER) [FK]\l}", shape=record];
+nodesf_guard_user [label="{<table>sf_guard_user|<cols>id (INTEGER) [PK]\lusername (VARCHAR)\lalgorithm (VARCHAR)\lsalt (VARCHAR)\lpassword (VARCHAR)\lcreated_at (TIMESTAMP)\llast_login (TIMESTAMP)\lis_active (BOOLEAN)\lis_super_admin (BOOLEAN)\l}", shape=record];
+nodesf_guard_user_permission [label="{<table>sf_guard_user_permission|<cols>user_id (INTEGER) [FK]\lpermission_id (INTEGER) [FK]\l}", shape=record];
+nodesf_guard_user_group [label="{<table>sf_guard_user_group|<cols>user_id (INTEGER) [FK]\lgroup_id (INTEGER) [FK]\l}", shape=record];
+nodesf_guard_remember_key [label="{<table>sf_guard_remember_key|<cols>user_id (INTEGER) [FK]\lremember_key (VARCHAR)\lip_address (VARCHAR) [PK]\lcreated_at (TIMESTAMP)\l}", shape=record];
+nodesf_guard_user_profile [label="{<table>sf_guard_user_profile|<cols>user_id (INTEGER) [FK]\lfirst_name (VARCHAR)\llast_name (VARCHAR)\l}", shape=record];
+nodeasset_type [label="{<table>asset_type|<cols>id (INTEGER) [PK]\lname (VARCHAR)\lattributes (LONGVARCHAR)\l}", shape=record];
+nodeasset [label="{<table>asset|<cols>id (INTEGER) [PK]\lslug (VARCHAR)\lasset_type_id (INTEGER) [FK]\lassigned_title (VARCHAR)\lcategory_id (VARCHAR) [FK]\lnotes (LONGVARCHAR)\lframes_count (INTEGER)\lsource_filename (VARCHAR)\lsource_file_date (DATE)\lhighquality_width (INTEGER)\lhighquality_height (INTEGER)\lhighquality_video_codec (VARCHAR)\lhighquality_audio_codec (VARCHAR)\lhighquality_frame_rate (INTEGER)\lhighquality_md5sum (VARCHAR)\llowquality_width (INTEGER)\llowquality_height (INTEGER)\llowquality_video_codec (VARCHAR)\llowquality_audio_codec (VARCHAR)\llowquality_frame_rate (INTEGER)\llowquality_md5sum (VARCHAR)\luser_id (INTEGER) [FK]\lcreated_at (TIMESTAMP)\lupdated_at (TIMESTAMP)\l}", shape=record];
+nodearchive [label="{<table>archive|<cols>id (INTEGER) [PK]\lslug (VARCHAR)\lcreated_at (TIMESTAMP)\l}", shape=record];
+nodecategory [label="{<table>category|<cols>id (VARCHAR) [PK]\lname (VARCHAR)\l}", shape=record];
+nodeaccess_log [label="{<table>access_log|<cols>id (INTEGER) [PK]\lasset_id (INTEGER) [FK]\luser_id (INTEGER) [FK]\lcreated_at (TIMESTAMP)\l}", shape=record];
+nodetask_log [label="{<table>task_log|<cols>id (INTEGER) [PK]\ltask_type (INTEGER)\lcreated_at (TIMESTAMP)\lupdated_at (TIMESTAMP)\l}", shape=record];
+nodepicture [label="{<table>picture|<cols>id (INTEGER) [PK]\lpath (VARCHAR)\l}", shape=record];
+nodedescription [label="{<table>description|<cols>id (INTEGER) [PK]\lpicture_id (INTEGER) [FK]\ltext (VARCHAR)\l}", shape=record];
+
+nodesf_guard_group_permission:cols -> nodesf_guard_group:table [label="group_id=id "];
+nodesf_guard_group_permission:cols -> nodesf_guard_permission:table [label="permission_id=id "];
+nodesf_guard_user_permission:cols -> nodesf_guard_user:table [label="user_id=id "];
+nodesf_guard_user_permission:cols -> nodesf_guard_permission:table [label="permission_id=id "];
+nodesf_guard_user_group:cols -> nodesf_guard_user:table [label="user_id=id "];
+nodesf_guard_user_group:cols -> nodesf_guard_group:table [label="group_id=id "];
+nodesf_guard_remember_key:cols -> nodesf_guard_user:table [label="user_id=id "];
+nodesf_guard_user_profile:cols -> nodesf_guard_user:table [label="user_id=id "];
+nodeasset:cols -> nodeasset_type:table [label="asset_type_id=id "];
+nodeasset:cols -> nodecategory:table [label="category_id=id "];
+nodeasset:cols -> nodesf_guard_user_profile:table [label="user_id=user_id "];
+nodeaccess_log:cols -> nodeasset:table [label="asset_id=id "];
+nodeaccess_log:cols -> nodesf_guard_user_profile:table [label="user_id=user_id "];
+nodedescription:cols -> nodepicture:table [label="picture_id=id "];
+}
