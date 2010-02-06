@@ -63,6 +63,7 @@ CREATE TABLE "asset"
 	"highquality_audio_codec" VARCHAR(10),
 	"highquality_frame_rate" INTEGER,
 	"highquality_md5sum" VARCHAR(32),
+	"archive_id" INTEGER,
 	"lowquality_width" INTEGER,
 	"lowquality_height" INTEGER,
 	"lowquality_video_codec" VARCHAR(10),
@@ -159,53 +160,16 @@ COMMENT ON TABLE "task_log" IS '';
 
 
 SET search_path TO public;
------------------------------------------------------------------------------
--- picture
------------------------------------------------------------------------------
-
-DROP TABLE "picture" CASCADE;
-
-
-CREATE TABLE "picture"
-(
-	"id" serial  NOT NULL,
-	"path" VARCHAR(255),
-	PRIMARY KEY ("id")
-);
-
-COMMENT ON TABLE "picture" IS '';
-
-
-SET search_path TO public;
------------------------------------------------------------------------------
--- description
------------------------------------------------------------------------------
-
-DROP TABLE "description" CASCADE;
-
-
-CREATE TABLE "description"
-(
-	"id" serial  NOT NULL,
-	"picture_id" INTEGER,
-	"text" VARCHAR(255),
-	PRIMARY KEY ("id")
-);
-
-COMMENT ON TABLE "description" IS '';
-
-
-SET search_path TO public;
 ALTER TABLE "sf_guard_user_profile" ADD CONSTRAINT "sf_guard_user_profile_FK_1" FOREIGN KEY ("user_id") REFERENCES "sf_guard_user" ("id") ON UPDATE CASCADE ON DELETE CASCADE;
 
 ALTER TABLE "asset" ADD CONSTRAINT "asset_FK_1" FOREIGN KEY ("asset_type_id") REFERENCES "asset_type" ("id");
 
 ALTER TABLE "asset" ADD CONSTRAINT "asset_FK_2" FOREIGN KEY ("category_id") REFERENCES "category" ("id");
 
-ALTER TABLE "asset" ADD CONSTRAINT "asset_FK_3" FOREIGN KEY ("user_id") REFERENCES "sf_guard_user_profile" ("user_id") ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE "asset" ADD CONSTRAINT "asset_FK_3" FOREIGN KEY ("archive_id") REFERENCES "archive" ("id");
+
+ALTER TABLE "asset" ADD CONSTRAINT "asset_FK_4" FOREIGN KEY ("user_id") REFERENCES "sf_guard_user_profile" ("user_id") ON UPDATE CASCADE ON DELETE CASCADE;
 
 ALTER TABLE "access_log" ADD CONSTRAINT "access_log_FK_1" FOREIGN KEY ("asset_id") REFERENCES "asset" ("id");
 
 ALTER TABLE "access_log" ADD CONSTRAINT "access_log_FK_2" FOREIGN KEY ("user_id") REFERENCES "sf_guard_user_profile" ("user_id") ON UPDATE CASCADE ON DELETE RESTRICT;
-
-ALTER TABLE "description" ADD CONSTRAINT "description_FK_1" FOREIGN KEY ("picture_id") REFERENCES "picture" ("id");

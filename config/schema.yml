@@ -28,6 +28,7 @@ propel:
     highquality_audio_codec: varchar(10)
     highquality_frame_rate: integer
     highquality_md5sum: varchar(32)
+    archive_id: ~
     lowquality_width: integer
     lowquality_height: integer
     lowquality_video_codec: varchar(10)
@@ -59,14 +60,3 @@ propel:
     task_type: integer
     created_at: ~
     updated_at: ~
-
-#  The following are just for tests, we'll remove them
-  picture:
-    id: ~
-    path: varchar(255)
-
-  description:
-    id: ~
-    picture_id: ~
-    text: varchar(255)
-
