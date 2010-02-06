@@ -54,7 +54,7 @@ CREATE TABLE "asset"
 	"assigned_title" VARCHAR(255),
 	"category_id" INTEGER,
 	"notes" TEXT,
-	"frames_count" INTEGER,
+	"duration" INTEGER,
 	"source_filename" VARCHAR(255),
 	"source_file_date" DATE,
 	"highquality_width" INTEGER,
