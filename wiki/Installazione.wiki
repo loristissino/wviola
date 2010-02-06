@@ -235,3 +235,15 @@ php symfony propel:insert-sql
 php symfony propel:data-load
 php symfony cache:clear
 }}}
+
+= Configurazione ulteriore =
+
+Volendo, si può evitare di avere negli URL il nome dello script (es. _index.php_). Bisogna intervenire sul file _apps/frontend/config/settings.yml_, indicando
+
+{{{
+prod:
+  .settings:
+    no_script_name:         true
+}}}
+
+(Forse è anche necessario lavorare sul file _web/.htaccess_)
