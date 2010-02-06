@@ -1,0 +1,24 @@
+#summary API
+
+= API =
+
+== Applicazione di frontend ==
+
+L'applicazione di frontend è raggiungibile all'indirizzo _.../index.php_.
+
+Gli URL indicati di seguito sono da aggiungere a questo indirizzo (ad esempio: _.../index.php/asset/show/id/1_).
+
+
+== Applicazione di backend ==
+
+L'applicazione di backend è raggiungibile all'indirizzo _.../backend.php_.
+
+Gli URL indicati di seguito sono da aggiungere a questo indirizzo (ad esempio: _.../index.php/archive/index_).
+
+Se lo si desidera, si può configurare l'applicazione di backend in modo che possa essere richiamata solo da determinati indirizzi di rete.
+
+
+== Task eseguibili da riga di comando ==
+
+
+

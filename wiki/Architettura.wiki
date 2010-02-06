@@ -12,6 +12,8 @@ Wviola si basa su tre componenti:
 
 Per chi è interessato,  è disponibile un [PropelSchema diagramma dello schema relazionale del DB].
 
+I dettagli sull'uso delle applicazioni saranno progressivamente resi disponibili nella pagina relativa all'[API Application Program Interface].
+
 == Applicazione di frontend ==
 
 Descriviamo l'applicazione di frontend tramite alcuni scenari:
