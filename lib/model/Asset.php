@@ -24,5 +24,6 @@ class Asset extends BaseAsset {
 	{
 		return sprintf('%d (%s)', $this->getId(), $this->getAssignedTitle());
 	}
+	
 
 } // Asset

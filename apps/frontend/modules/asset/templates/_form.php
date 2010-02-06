@@ -56,10 +56,10 @@
         </td>
       </tr>
       <tr>
-        <th><?php echo $form['frames_count']->renderLabel() ?></th>
+        <th><?php echo $form['duration']->renderLabel() ?></th>
         <td>
-          <?php echo $form['frames_count']->renderError() ?>
-          <?php echo $form['frames_count'] ?>
+          <?php echo $form['duration']->renderError() ?>
+          <?php echo $form['duration'] ?>
         </td>
       </tr>
       <tr>

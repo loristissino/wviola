@@ -19,7 +19,7 @@ propel:
     assigned_title: varchar(255)
     category_id: ~
     notes: longvarchar
-    frames_count: integer
+    duration: integer
     source_filename: varchar(255)
     source_file_date: date
     highquality_width: integer

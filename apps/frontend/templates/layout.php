@@ -8,7 +8,9 @@
   </head>
   <body>
     <div id="header"><?php echo sfConfig::get('app_config_organization') ?></div>
+	<div id="sf_admin_container">
     <?php echo $sf_content ?>
+	</div>
 	<hr />
 	<?php include_component('welcome', 'info') ?>
 	<div class="tagline">

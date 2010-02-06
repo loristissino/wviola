@@ -3,13 +3,13 @@ default:
     content-type: text/html
 
   metas:
-    #title:        symfony project
+    title:   WVIOLA
     #description:  symfony project
     #keywords:     symfony, project
     #language:     en
     #robots:       index, follow
 
-  stylesheets:    [main.css, flowplayer.css]
+  stylesheets:    [main.css, flowplayer.css, /sfPropelPlugin/css/global.css, /sfPropelPlugin/css/default.css ]
 
   javascripts:    []
 
