@@ -1,6 +1,3 @@
-<?php use_javascript('flowplayer-3.1.4.min.js') ?>
-
-
 <h1>Welcome to WVIOLA</h1>
 
 <h2>What is WVIOLA?</h2>
@@ -9,18 +6,6 @@
 <h2>What does WVIOLA do for me?</h2>
 <p>At current time, absolutely nothing...</p>
 
+<h2>Actions</h2>
 
-<p id="player" style="display:block;width:282px;height:200px;"></p> 
-	
-<script>
-	flowplayer("player", "flash/flowplayer/flowplayer-3.1.5.swf", {
-		
-		playlist: [ 
-        {url: 'http://e1h13.simplecdn.net/flowplayer/flowplayer.flv'}  
-    ], 
-		
-		});
-</script>
-
-
-<p><?php echo link_to('upload page', url_for('welcome/upload')) ?></p>
+<p><?php echo link_to(__('assets'), 'asset/list') ?></p>
