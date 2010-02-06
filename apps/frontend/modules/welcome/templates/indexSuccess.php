@@ -8,4 +8,4 @@
 
 <h2>Actions</h2>
 
-<p><?php echo link_to(__('assets'), 'asset/list') ?></p>
+<p><?php echo link_to(__('assets'), 'asset/index') ?></p>
