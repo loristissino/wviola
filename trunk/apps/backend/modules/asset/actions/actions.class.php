@@ -8,7 +8,7 @@ require_once dirname(__FILE__).'/../lib/assetGeneratorHelper.class.php';
  *
  * @package    wviola
  * @subpackage asset
- * @author     Your name here
+ * @author     Loris Tissino <loris.tissino@gmail.com>
  * @version    SVN: $Id: actions.class.php 12474 2008-10-31 10:41:27Z fabien $
  */
 class assetActions extends autoAssetActions
