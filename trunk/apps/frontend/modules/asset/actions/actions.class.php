@@ -64,6 +64,40 @@ class assetActions extends sfActions
     $this->redirect('asset/index');
   }
 
+
+  public function executeThumbnail(sfWebRequest $request)
+  {
+    $this->forward404Unless($Asset = AssetPeer::retrieveByPk($request->getParameter('id')), sprintf('Object Asset does not exist (%s).', $request->getParameter('id')));
+    $this->forward404Unless($Asset->hasThumbnail());
+	
+	$response=$this->getContext()->getResponse();
+	$response->setHttpHeader('Pragma', '');
+	$response->setHttpHeader('Cache-Control', '');
+	$response->setHttpHeader('Content-Length', $Asset->getThumbnailSize());
+	$response->setHttpHeader('Content-Type', $Asset->getThumbnailMimeType());
+
+	$response->setContent($Asset->getThumbnailData());
+	return sfView::NONE;
+
+  } 
+
+  public function executeVideo(sfWebRequest $request)
+  {
+    $this->forward404Unless($Asset = AssetPeer::retrieveByPk($request->getParameter('id')), sprintf('Object Asset does not exist (%s).', $request->getParameter('id')));
+    $this->forward404Unless($Asset->hasVideo());
+	
+	$response=$this->getContext()->getResponse();
+	$response->setHttpHeader('Pragma', '');
+	$response->setHttpHeader('Cache-Control', '');
+	$response->setHttpHeader('Content-Length', $Asset->getVideo()->getVideoSize());
+	$response->setHttpHeader('Content-Type', 'video/x-flv');
+
+	readfile($Asset->getVideo()->getFilename());
+	return sfView::NONE;
+  } 
+
+
+
   protected function processForm(sfWebRequest $request, sfForm $form)
   {
     $form->bind($request->getParameter($form->getName()), $request->getFiles($form->getName()));

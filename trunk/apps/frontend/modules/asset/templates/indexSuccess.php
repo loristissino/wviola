@@ -3,7 +3,7 @@
 <table>
   <thead>
     <tr>
-      <th>Id</th>
+      <th>Thumbnail</th>
       <th>Slug</th>
       <th>Asset type</th>
       <th>Assigned title</th>
@@ -16,7 +16,9 @@
   <tbody>
     <?php foreach ($Assets as $Asset): ?>
     <tr>
-      <td><a href="<?php echo url_for('asset/show?id='.$Asset->getId()) ?>"><?php echo $Asset->getId() ?></a></td>
+	  <td>
+		<?php include_partial('thumbnail', array('Asset'=>$Asset)) ?>
+	  </td>
       <td><?php echo $Asset->getSlug() ?></td>
       <td><?php echo $Asset->getAssetTypeId() ?></td>
       <td><?php echo $Asset->getAssignedTitle() ?></td>
