@@ -22,7 +22,7 @@ abstract class BaseAssetTypeForm extends BaseFormPropel
 
     $this->setValidators(array(
       'id'         => new sfValidatorPropelChoice(array('model' => 'AssetType', 'column' => 'id', 'required' => false)),
-      'name'       => new sfValidatorString(array('max_length' => 255)),
+      'name'       => new sfValidatorString(array('max_length' => 20)),
       'attributes' => new sfValidatorString(array('required' => false)),
     ));
 

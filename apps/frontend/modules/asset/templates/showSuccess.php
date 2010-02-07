@@ -1,5 +1,9 @@
 <h1><?php echo $Asset ?></h1>
 
+<?php if($Asset->getAssetType()->getName()=='video'): ?>
+	<?php include_partial('player', array('Asset'=>$Asset)) ?>
+<?php endif ?>
+
 <table>
   <tbody>
     <tr>
