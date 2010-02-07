@@ -52,7 +52,7 @@ abstract class BaseAssetFormFilter extends BaseFormFilterPropel
       'assigned_title'             => new sfValidatorPass(array('required' => false)),
       'category_id'                => new sfValidatorPropelChoice(array('required' => false, 'model' => 'Category', 'column' => 'id')),
       'notes'                      => new sfValidatorPass(array('required' => false)),
-      'duration'                   => new sfValidatorSchemaFilter('text', new sfValidatorInteger(array('required' => false))),
+      'duration'                   => new sfValidatorSchemaFilter('text', new sfValidatorNumber(array('required' => false))),
       'source_filename'            => new sfValidatorPass(array('required' => false)),
       'source_file_date'           => new sfValidatorDateRange(array('required' => false, 'from_date' => new sfValidatorDate(array('required' => false)), 'to_date' => new sfValidatorDate(array('required' => false)))),
       'highquality_width'          => new sfValidatorSchemaFilter('text', new sfValidatorInteger(array('required' => false))),

@@ -1,0 +1,1 @@
+<?php	echo image_tag('asset_' . $AssetType->getName(), array('alt'=>__($AssetType->getName()))) ?>

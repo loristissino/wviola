@@ -56,7 +56,7 @@ abstract class BaseAssetForm extends BaseFormPropel
       'assigned_title'             => new sfValidatorString(array('max_length' => 255, 'required' => false)),
       'category_id'                => new sfValidatorPropelChoice(array('model' => 'Category', 'column' => 'id', 'required' => false)),
       'notes'                      => new sfValidatorString(array('required' => false)),
-      'duration'                   => new sfValidatorInteger(array('min' => -2147483648, 'max' => 2147483647, 'required' => false)),
+      'duration'                   => new sfValidatorNumber(array('required' => false)),
       'source_filename'            => new sfValidatorString(array('max_length' => 255, 'required' => false)),
       'source_file_date'           => new sfValidatorDate(array('required' => false)),
       'highquality_width'          => new sfValidatorInteger(array('min' => -2147483648, 'max' => 2147483647, 'required' => false)),

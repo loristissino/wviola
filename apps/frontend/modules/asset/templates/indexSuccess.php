@@ -6,7 +6,7 @@
       <th>Thumbnail</th>
       <th>Slug</th>
       <th>Asset type</th>
-      <th>Assigned title</th>
+      <th>Assigned Title</th>
       <th>Category</th>
       <th>Notes</th>
       <th>Duration</th>
@@ -20,9 +20,13 @@
 		<?php include_partial('thumbnail', array('Asset'=>$Asset)) ?>
 	  </td>
       <td><?php echo $Asset->getSlug() ?></td>
-      <td><?php echo $Asset->getAssetTypeId() ?></td>
+	  <td>
+		<?php include_partial('assettype', array('AssetType'=>$Asset->getAssetType())) ?>
+	  </td>
       <td><?php echo $Asset->getAssignedTitle() ?></td>
-      <td><?php echo $Asset->getCategoryId() ?></td>
+	  <td>
+		<?php include_partial('category', array('Category'=>$Asset->getCategory())) ?>
+	  </td>
       <td><?php echo $Asset->getNotes() ?></td>
       <td><?php echo $Asset->getDuration() ?></td>
       <td><?php echo $Asset->getUpdatedAt() ?></td>
