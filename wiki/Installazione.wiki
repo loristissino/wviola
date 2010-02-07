@@ -122,11 +122,13 @@ Esempio:
 $ find . -name '*-dist'
 ./config/app.yml-dist
 ./config/databases.yml-dist
+./config/wviola.yml-dist
 
 ...
 
 cp config/app.yml-dist config/app.yml
 cp config/databases.yml-dist config/databases.yml
+cp config/wviola.yml-dist config/wviola.yml
 }}}
 
 
@@ -219,6 +221,18 @@ all:
 
 Nota: l'autenticazione avverrà via LDAP, ma i nomi degli utenti devono essere presenti comunque nel DB di wviola. Si può pensare ad un task da eseguire periodicamente per sincronizzare i dati.
 
+=== Altre impostazioni ===
+
+Il file _wviola.yml_ contiene tutte le impostazioni che devono essere utilizzabili direttamente dal modello, anche quando l'applicazione web non è lanciata (ad esempio nei task da riga di comando o nei test di unità).
+
+In particolare, ci saranno qui le preferenze relative alle codifiche video da effettuare, ai percorsi dove trovare i file, ecc.
+
+Per adesso c'è solo questo:
+
+{{{
+directory:
+  published: /var/wviola/data/filesystem/published
+}}}
 
 = Aggiornamenti =
 
