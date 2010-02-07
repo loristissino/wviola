@@ -2,10 +2,12 @@ Asset:
   asset1:
     slug: video2009_00000001
     asset_type_id: video
+    category_id: ch
     source_filename: video1.mpg
     assigned_title: First video
     notes: 
     source_file_date: 12/21/2009
+    duration: 3.35
     user_id: matthew
     thumbnail_from_base64: /9j/4AAQSkZJRgABAQEASABIAAD//gANTGF2YzUyLjMyLjD/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/2wBDAQUFBQcGBw4ICA4eFBEUHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wAARCAAtADwDASIAAhEBAxEB/8QAGwAAAQUBAQAAAAAAAAAAAAAABgMEBQcIAQL/xAA3EAABAwMDAQYCBgsAAAAAAAABAgMEAAURBhIhMQcTUWFxkSJBQmKBsdHhFCMkMlKDkqGjs8H/xAAYAQEAAwEAAAAAAAAAAAAAAAADAQIEBf/EACYRAAICAgECBQUAAAAAAAAAAAECAAMEERIhIgUTI2HBMUFxobH/2gAMAwEAAhEDEQA/ALt7Z4iW+zC6EAcFj/cis0adh9/ctn1Vk/ZitO9tSgrstvHkGT/nbrM2m5BbuC1jghtf3jNYBX3gTQG7TL4tdpjtdnABQkft4UT/AC1VVtv1Npq/XWVb7VL71+PnIKMBwA4KkH6Q/Giy23yRO04mzuhKojpU4tspB35Gznyxnj18qDtQWSywbs9f7ZAREmMs7VNsjY1sVgZ2j58dfM5zxgr/AA1rKTb7dI9V3FtSyBFQND6dVtGTMfPstNDUnAJJUNsp11tQxyAUqUkZ8MpFKwdQh/R+m2CsZblOlQ9XPyqNuDpUuAzuI71PeYPPKHWRwfRZ49fOpw6Syr7D4gZD9x/MIYjKdvSuuxwV9KUhninJSDV+GjK8oVdrK++7NLyj590g+zqD/wArLVqkbJDpB+ioVobV+prNfezfUYtE5ElcaIoup2LSW+TydwGcbSTjPSs5MzocNTUt0owB1+IpX6gpp8j07BsRcaiy9CUG4z7Q7rK7u1fo8l5gIZUlWxwpyQry9aX0Rdprljuy5kp6Qp8oZbLiycAAlX3prnam+i93OwsNxY8V5xsIcSy0ED4lgA8ded3tTLs4XthSELAKFOk8pzjCM8e1WexhT9eutfEJRt4bWF1wwbe2VHAdWQOuOaI5bmdTQYaCClpphw9OAsP5Hu2k+1C0eXHYcjFtS9/xFCTtCM+Y/tUzGlCRrpSWykoa3NnHT4GmsAeilufbmkw9eWdfYQsgEONywonQU6GcUxhLG0U9C+OtEwkgytbMxc1QbxBt7qI8GWw7HcUtsrUsK3AkEkdN3X8KHZmhpb0NthctlKUk5UEknHp+dWxaYzbi0tYwlfBwPlUsqwQSnq6MfWH4Vj4n+/s7nVx8x8dSqHW5n/UtpuqdTW5MS3ypSIiB+uIyFK5OM+XHvSeh9M3qO08mY0qM3vVhKiOSU7SfnWgnLJDDQYHeBO8rJyMk4A8PACmjlhgpCsF3r/FVzYxXRExgAHcq4WAFaVrWolKClOFYA564x5102+TFu6bvHeUuUkrUpKuEublqUoHw6gDwwKsZ2ywk9Av+qmztohBX7q+frGpS1kBAkOAxBM82C5MT4ofZURzhSFcKQodQR41K99jjNB19ZRp9bd2gZG95DMhkqJS6lRwD5KGcg+oqdU6rNMr8xCZQJ//Z
     thumbnail_width: 60
@@ -18,10 +20,12 @@ Asset:
   asset2:
     slug: video2009_00000002
     asset_type_id: video
+    category_id: op
     source_filename: video2.mpg
     assigned_title: Second video
     notes: 
     source_file_date: 12/22/2009
+    duration: 596.87
     user_id: matthew
     thumbnail_from_base64: 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
     thumbnail_width: 60
@@ -31,17 +35,20 @@ Asset:
 
 <?php for($i=3; $i<15; $i++): ?>
   asset<?php echo $i ?>:
-    slug: video2009_<?php echo sprintf('%010d', $i) . "\n" ?>
+    slug: video2009_<?php echo sprintf('%08d', $i) . "\n" ?>
+    category_id: ps
     asset_type_id: video
     source_filename: video<?php echo $i ?>.mpg
     assigned_title: Video number <?php echo $i . "\n"?>
+    duration: 10
     notes: 
     source_file_date: 11/<?php echo $i ?>/2009
     user_id: matthew
 <?php endfor ?>
 <?php for($i=16; $i<=17; $i++): ?>
   asset<?php echo $i ?>:
-    slug: picture2009_<?php echo sprintf('%010d', $i) . "\n" ?>
+    slug: picture2009_<?php echo sprintf('%08d', $i) . "\n" ?>
+    category_id: ps
     asset_type_id: picture
     source_filename: Picture<?php echo $i ?>.jpeg
     assigned_title: Picture number <?php echo $i . "\n"?>
@@ -51,7 +58,8 @@ Asset:
 <?php endfor ?>
 <?php for($i=18; $i<=30; $i++): ?>
   asset<?php echo $i ?>:
-    slug: photoalbum2009_<?php echo sprintf('%010d', $i) . "\n" ?>
+    slug: photoalbum2009_<?php echo sprintf('%08d', $i) . "\n" ?>
+    category_id: ps
     asset_type_id: photoalbum
     source_filename: PhotoAlbum<?php echo $i ?>.zip
     assigned_title: Photo Album number <?php echo $i . "\n"?>
