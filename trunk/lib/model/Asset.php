@@ -9,9 +9,21 @@ require 'lib/model/om/BaseAsset.php';
  */
 class Asset extends BaseAsset {
 
+    private $_AssetTypeCodes=Array(
+		1=> 'video',
+		2=> 'picture',
+		3=> 'photoalbum',
+		4=> 'audio',
+		);
+
 	public function __toString()
 	{
 		return sprintf('%d (%s)', $this->getId(), $this->getAssignedTitle());
+	}
+	
+	public function getAssetTypeCode()
+	{
+		return $this->_AssetTypeCodes[$this->getAssetType()];
 	}
 	
 	public function hasThumbnail()
@@ -19,9 +31,9 @@ class Asset extends BaseAsset {
 		return $this->getThumbnail()!=null;
 	}
 	
-	public function hasVideo()
+	public function hasVideoAsset()
 	{
-		return true; //FIXME
+		return $this->getVideoAsset()!=null; 
 	}
 	
 	public function getThumbnailMimeType()

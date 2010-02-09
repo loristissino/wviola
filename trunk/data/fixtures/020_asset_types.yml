@@ -1,9 +1,0 @@
-AssetType:
-  video:
-    name: video
-  picture:
-    name: picture
-  photoalbum:
-    name: photoalbum
-  audio:
-    name: audio

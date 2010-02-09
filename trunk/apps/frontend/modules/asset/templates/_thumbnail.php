@@ -8,7 +8,7 @@
 		)  // We need to build this because standard image_tag function appends 'png' to the URL
 	?>
 <?php else: ?>
-	<?php $image_tag=image_tag('no' . $Asset->getAssetType()->getName() . '_thumbnail', array('alt'=>__('No thumbnail available'), 'size'=>'60x45')) ?>
+	<?php $image_tag=image_tag('no' . $Asset->getAssetTypeCode() . '_thumbnail', array('alt'=>__('No thumbnail available'), 'size'=>'60x45')) ?>
 <?php endif ?>
 <?php
 	echo link_to(

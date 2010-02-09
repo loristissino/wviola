@@ -7,36 +7,19 @@ propel:
     last_name:   varchar(50)
     imported_at: timestamp
 
-  asset_type:
-    id: ~ 
-    name: { type: varchar(20), required: true, index: unique }
-    attributes: longvarchar
-
   asset:
     id: ~
     slug: { type: varchar(50), required: true, index: unique }
-    asset_type_id: ~
+    status: integer
+    archive_id: ~
+    asset_type: integer
     assigned_title: varchar(255)
     category_id: ~
     notes: longvarchar
-    duration: float
+    event_date: date
     source_filename: varchar(255)
     source_file_date: date
-    highquality_width: integer
-    highquality_height: integer
-    highquality_video_codec: varchar(10)
-    highquality_audio_codec: varchar(10)
-    highquality_picture_format: varchar(10)
-    highquality_frame_rate: integer
-    highquality_aspect_ratio: float
     highquality_md5sum: varchar(32)
-    archive_id: ~
-    lowquality_width: integer
-    lowquality_height: integer
-    lowquality_video_codec: varchar(10)
-    lowquality_audio_codec: varchar(10)
-    lowquality_picture_format: varchar(10)
-    lowquality_frame_rate: integer
     lowquality_md5sum: varchar(32)
     thumbnail: blob
     thumbnail_width: integer
@@ -46,10 +29,47 @@ propel:
     created_at: ~
     updated_at: ~
 
+  video_asset:
+    asset_id: { type: integer, foreignTable: asset, foreignReference: id, required: true, onUpdate: cascade, onDelete: cascade, primaryKey: true }
+    duration: float
+    highquality_width: integer
+    highquality_height: integer
+    highquality_video_codec: varchar(10)
+    highquality_audio_codec: varchar(10)
+    highquality_frame_rate: integer
+    highquality_aspect_ratio: float
+    lowquality_width: integer
+    lowquality_height: integer
+    lowquality_video_codec: varchar(10)
+    lowquality_audio_codec: varchar(10)
+    lowquality_frame_rate: integer
+
+  picture_asset:
+    asset_id: { type: integer, foreignTable: asset, foreignReference: id, required: true, onUpdate: cascade, onDelete: cascade, primaryKey: true }
+    highquality_width: integer
+    highquality_height: integer
+    highquality_picture_format: varchar(10)
+    lowquality_width: integer
+    lowquality_height: integer
+    lowquality_picture_format: varchar(10)
+
+  photoalbum_asset:
+    asset_id: { type: integer, foreignTable: asset, foreignReference: id, required: true, onUpdate: cascade, onDelete: cascade, primaryKey: true }
+    pictures_count: integer
+
+  audio_asset:
+    asset_id: { type: integer, foreignTable: asset, foreignReference: id, required: true, onUpdate: cascade, onDelete: cascade, primaryKey: true }
+    duration: float
+    highquality_audio_codec: varchar(10)
+    lowquality_audio_codec: varchar(10)
+
   archive:
     id:  ~
     slug: varchar(50)
     created_at: ~
+    burned_at: timestamp
+    user_id:  { type: integer, foreignTable: sf_guard_user_profile, foreignReference: user_id, required: false, onUpdate: cascade, onDelete: cascade}
+    md5sum: varchar(32)
 
   category:
     id: ~

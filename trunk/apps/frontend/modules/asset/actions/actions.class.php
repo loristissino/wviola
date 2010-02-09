@@ -84,16 +84,18 @@ class assetActions extends sfActions
   public function executeVideo(sfWebRequest $request)
   {
     $this->forward404Unless($Asset = AssetPeer::retrieveByPk($request->getParameter('id')), sprintf('Object Asset does not exist (%s).', $request->getParameter('id')));
-    $this->forward404Unless($Asset->hasVideo());
+    $this->forward404Unless($Asset->hasVideoAsset());
 	
 	$response=$this->getContext()->getResponse();
 	$response->setHttpHeader('Pragma', '');
 	$response->setHttpHeader('Cache-Control', '');
-	$response->setHttpHeader('Content-Length', $Asset->getVideo()->getVideoSize());
+	$response->setHttpHeader('Content-Length', $Asset->getVideoAsset()->getVideo()->getStat('size'));
 	$response->setHttpHeader('Content-Type', 'video/x-flv');
 
-	readfile($Asset->getVideo()->getFilename());
+	readfile($Asset->getVideoAsset()->getVideo()->getFullPath());
 	return sfView::NONE;
+
+
   } 
 
 
