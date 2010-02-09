@@ -1,7 +1,7 @@
 <?php if ($Asset->hasThumbnail()): ?>
 	<?php $image_tag=sprintf(
 		'<img src="%s" alt="%s" width="%d" height="%s" />',
-		url_for('asset/thumbnail?id=' . $Asset->getId()),
+		url_for('asset/thumbnail?id=' . $Asset->getId() .'&sf_format=jpeg'),
 		$Asset->getAssignedTitle(),
 		$Asset->getThumbnailWidth(),
 		$Asset->getThumbnailHeight()

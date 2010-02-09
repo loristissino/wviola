@@ -1,3 +1,10 @@
+thumbnail:
+  url:   /asset/thumbnail/:id.:sf_format
+  param: { module: asset, action: thumbnail }
+  requirements:
+    sf_format: jpeg
+    sf_method: get
+
 sf_guard_signin:
   url:   /login
   param: { module: sfGuardAuth, action: signin }
