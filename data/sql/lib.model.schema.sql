@@ -20,26 +20,6 @@ COMMENT ON TABLE "sf_guard_user_profile" IS '';
 
 SET search_path TO public;
 -----------------------------------------------------------------------------
--- asset_type
------------------------------------------------------------------------------
-
-DROP TABLE "asset_type" CASCADE;
-
-
-CREATE TABLE "asset_type"
-(
-	"id" serial  NOT NULL,
-	"name" VARCHAR(20)  NOT NULL,
-	"attributes" TEXT,
-	PRIMARY KEY ("id"),
-	CONSTRAINT "asset_type_U_1" UNIQUE ("name")
-);
-
-COMMENT ON TABLE "asset_type" IS '';
-
-
-SET search_path TO public;
------------------------------------------------------------------------------
 -- asset
 -----------------------------------------------------------------------------
 
@@ -50,28 +30,16 @@ CREATE TABLE "asset"
 (
 	"id" serial  NOT NULL,
 	"slug" VARCHAR(50)  NOT NULL,
-	"asset_type_id" INTEGER,
+	"status" INTEGER,
+	"archive_id" INTEGER,
+	"asset_type" INTEGER,
 	"assigned_title" VARCHAR(255),
 	"category_id" INTEGER,
 	"notes" TEXT,
-	"duration" FLOAT,
+	"event_date" DATE,
 	"source_filename" VARCHAR(255),
 	"source_file_date" DATE,
-	"highquality_width" INTEGER,
-	"highquality_height" INTEGER,
-	"highquality_video_codec" VARCHAR(10),
-	"highquality_audio_codec" VARCHAR(10),
-	"highquality_picture_format" VARCHAR(10),
-	"highquality_frame_rate" INTEGER,
-	"highquality_aspect_ratio" FLOAT,
 	"highquality_md5sum" VARCHAR(32),
-	"archive_id" INTEGER,
-	"lowquality_width" INTEGER,
-	"lowquality_height" INTEGER,
-	"lowquality_video_codec" VARCHAR(10),
-	"lowquality_audio_codec" VARCHAR(10),
-	"lowquality_picture_format" VARCHAR(10),
-	"lowquality_frame_rate" INTEGER,
 	"lowquality_md5sum" VARCHAR(32),
 	"thumbnail" BYTEA,
 	"thumbnail_width" INTEGER,
@@ -89,6 +57,96 @@ COMMENT ON TABLE "asset" IS '';
 
 SET search_path TO public;
 -----------------------------------------------------------------------------
+-- video_asset
+-----------------------------------------------------------------------------
+
+DROP TABLE "video_asset" CASCADE;
+
+
+CREATE TABLE "video_asset"
+(
+	"asset_id" INTEGER  NOT NULL,
+	"duration" FLOAT,
+	"highquality_width" INTEGER,
+	"highquality_height" INTEGER,
+	"highquality_video_codec" VARCHAR(10),
+	"highquality_audio_codec" VARCHAR(10),
+	"highquality_frame_rate" INTEGER,
+	"highquality_aspect_ratio" FLOAT,
+	"lowquality_width" INTEGER,
+	"lowquality_height" INTEGER,
+	"lowquality_video_codec" VARCHAR(10),
+	"lowquality_audio_codec" VARCHAR(10),
+	"lowquality_frame_rate" INTEGER,
+	PRIMARY KEY ("asset_id")
+);
+
+COMMENT ON TABLE "video_asset" IS '';
+
+
+SET search_path TO public;
+-----------------------------------------------------------------------------
+-- picture_asset
+-----------------------------------------------------------------------------
+
+DROP TABLE "picture_asset" CASCADE;
+
+
+CREATE TABLE "picture_asset"
+(
+	"asset_id" INTEGER  NOT NULL,
+	"highquality_width" INTEGER,
+	"highquality_height" INTEGER,
+	"highquality_picture_format" VARCHAR(10),
+	"lowquality_width" INTEGER,
+	"lowquality_height" INTEGER,
+	"lowquality_picture_format" VARCHAR(10),
+	PRIMARY KEY ("asset_id")
+);
+
+COMMENT ON TABLE "picture_asset" IS '';
+
+
+SET search_path TO public;
+-----------------------------------------------------------------------------
+-- photoalbum_asset
+-----------------------------------------------------------------------------
+
+DROP TABLE "photoalbum_asset" CASCADE;
+
+
+CREATE TABLE "photoalbum_asset"
+(
+	"asset_id" INTEGER  NOT NULL,
+	"pictures_count" INTEGER,
+	PRIMARY KEY ("asset_id")
+);
+
+COMMENT ON TABLE "photoalbum_asset" IS '';
+
+
+SET search_path TO public;
+-----------------------------------------------------------------------------
+-- audio_asset
+-----------------------------------------------------------------------------
+
+DROP TABLE "audio_asset" CASCADE;
+
+
+CREATE TABLE "audio_asset"
+(
+	"asset_id" INTEGER  NOT NULL,
+	"duration" FLOAT,
+	"highquality_audio_codec" VARCHAR(10),
+	"lowquality_audio_codec" VARCHAR(10),
+	PRIMARY KEY ("asset_id")
+);
+
+COMMENT ON TABLE "audio_asset" IS '';
+
+
+SET search_path TO public;
+-----------------------------------------------------------------------------
 -- archive
 -----------------------------------------------------------------------------
 
@@ -100,6 +158,9 @@ CREATE TABLE "archive"
 	"id" serial  NOT NULL,
 	"slug" VARCHAR(50),
 	"created_at" TIMESTAMP,
+	"burned_at" TIMESTAMP,
+	"user_id" INTEGER,
+	"md5sum" VARCHAR(32),
 	PRIMARY KEY ("id")
 );
 
@@ -169,13 +230,21 @@ COMMENT ON TABLE "task_log" IS '';
 SET search_path TO public;
 ALTER TABLE "sf_guard_user_profile" ADD CONSTRAINT "sf_guard_user_profile_FK_1" FOREIGN KEY ("user_id") REFERENCES "sf_guard_user" ("id") ON UPDATE CASCADE ON DELETE CASCADE;
 
-ALTER TABLE "asset" ADD CONSTRAINT "asset_FK_1" FOREIGN KEY ("asset_type_id") REFERENCES "asset_type" ("id");
+ALTER TABLE "asset" ADD CONSTRAINT "asset_FK_1" FOREIGN KEY ("archive_id") REFERENCES "archive" ("id");
 
 ALTER TABLE "asset" ADD CONSTRAINT "asset_FK_2" FOREIGN KEY ("category_id") REFERENCES "category" ("id");
 
-ALTER TABLE "asset" ADD CONSTRAINT "asset_FK_3" FOREIGN KEY ("archive_id") REFERENCES "archive" ("id");
+ALTER TABLE "asset" ADD CONSTRAINT "asset_FK_3" FOREIGN KEY ("user_id") REFERENCES "sf_guard_user_profile" ("user_id") ON UPDATE CASCADE ON DELETE CASCADE;
 
-ALTER TABLE "asset" ADD CONSTRAINT "asset_FK_4" FOREIGN KEY ("user_id") REFERENCES "sf_guard_user_profile" ("user_id") ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE "video_asset" ADD CONSTRAINT "video_asset_FK_1" FOREIGN KEY ("asset_id") REFERENCES "asset" ("id") ON UPDATE CASCADE ON DELETE CASCADE;
+
+ALTER TABLE "picture_asset" ADD CONSTRAINT "picture_asset_FK_1" FOREIGN KEY ("asset_id") REFERENCES "asset" ("id") ON UPDATE CASCADE ON DELETE CASCADE;
+
+ALTER TABLE "photoalbum_asset" ADD CONSTRAINT "photoalbum_asset_FK_1" FOREIGN KEY ("asset_id") REFERENCES "asset" ("id") ON UPDATE CASCADE ON DELETE CASCADE;
+
+ALTER TABLE "audio_asset" ADD CONSTRAINT "audio_asset_FK_1" FOREIGN KEY ("asset_id") REFERENCES "asset" ("id") ON UPDATE CASCADE ON DELETE CASCADE;
+
+ALTER TABLE "archive" ADD CONSTRAINT "archive_FK_1" FOREIGN KEY ("user_id") REFERENCES "sf_guard_user_profile" ("user_id") ON UPDATE CASCADE ON DELETE CASCADE;
 
 ALTER TABLE "access_log" ADD CONSTRAINT "access_log_FK_1" FOREIGN KEY ("asset_id") REFERENCES "asset" ("id");
 

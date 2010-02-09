@@ -21,14 +21,16 @@
 	  </td>
       <td><?php echo $Asset->getSlug() ?></td>
 	  <td>
-		<?php include_partial('assettype', array('AssetType'=>$Asset->getAssetType())) ?>
+		<?php include_partial('assettype', array('Asset'=>$Asset)) ?>
 	  </td>
       <td><?php echo $Asset->getAssignedTitle() ?></td>
 	  <td>
 		<?php include_partial('category', array('Category'=>$Asset->getCategory())) ?>
 	  </td>
       <td><?php echo $Asset->getNotes() ?></td>
-      <td><?php echo $Asset->getDuration() ?></td>
+      <td>
+		<?php include_partial('duration', array('Asset'=>$Asset)) ?>
+	  </td>
       <td><?php echo $Asset->getUpdatedAt() ?></td>
     </tr>
     <?php endforeach; ?>

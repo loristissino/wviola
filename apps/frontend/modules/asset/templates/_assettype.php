@@ -1,1 +1,1 @@
-<?php	echo image_tag('asset_' . $AssetType->getName(), array('alt'=>__($AssetType->getName()))) ?>
+<?php	echo image_tag('asset_' . $Asset->getAssetTypeCode(), array('alt'=>__($Asset->getAssetTypeCode()))) ?>

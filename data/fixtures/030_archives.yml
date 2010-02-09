@@ -2,6 +2,8 @@ Archive:
   archive1:
     slug: iso_20091231a
     created_at: 12/31/2009 08:20
+    burned_at: 01/05/2010 17:30
+    user_id: andreas
   archive2:
     slug: iso_20100120a
     created_at: 01/20/2010 16:40

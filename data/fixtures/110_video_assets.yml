@@ -1,0 +1,18 @@
+VideoAsset:
+  video_asset1:
+    asset_id: asset1 
+    duration: 3.35
+    lowquality_width: 320
+    lowquality_height: 240
+
+  video_asset2:
+    asset_id: asset2 
+    duration: 596.87
+    lowquality_width: 320
+    lowquality_height: 240
+
+<?php for($i=3; $i<15; $i++): ?>
+  video_asset<?php echo $i ?>:
+    asset_id: asset<?php echo $i . "\n" ?>
+    duration: <?php echo ($i +10) . "\n" ?>
+<?php endfor ?>
