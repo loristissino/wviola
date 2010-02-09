@@ -3,7 +3,10 @@
 
 [Installazione Informazioni di base per installazione e aggiornamento]
 
+[Architettura Informazioni sull'architettura delle applicazioni]
+
+[Asset Gestione degli asset: una panoramica]
+
 [Bug Bug di varia natura e problemi noti]
 
-[Architettura Informazioni sull'architettura delle applicazioni]
 

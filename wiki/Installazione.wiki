@@ -227,11 +227,15 @@ Il file _wviola.yml_ contiene tutte le impostazioni che devono essere utilizzabi
 
 In particolare, ci saranno qui le preferenze relative alle codifiche video da effettuare, ai percorsi dove trovare i file, ecc.
 
-Per adesso c'è solo questo:
+Al momento ci sono queste informazioni:
 
 {{{
 directory:
   published: /var/wviola/data/filesystem/published
+  scheduled: /var/wviola/data/filesystem/scheduled
+  sources:  /var/wviola/data/filesystem/published
+  iso_cache:  /var/wviola/data/filesystem/iso_images/cache
+  iso_images: /var/wviola/data/filesystem/iso_images/done
 }}}
 
 = Aggiornamenti =

@@ -1,4 +1,4 @@
-#summary Architettura
+#summary Descrizione sommaria di come funziona Wviola
 
 = Architettura generale =
 
