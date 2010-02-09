@@ -1,7 +1,7 @@
 directory:
   published: /var/wviola/data/filesystem/published
   scheduled: /var/wviola/data/filesystem/scheduled
-  sources:  /var/wviola/data/filesystem/published
+  sources:  /var/wviola/data/filesystem/sources
   iso_cache:  /var/wviola/data/filesystem/iso_images/cache
   iso_images: /var/wviola/data/filesystem/iso_images/done
   

@@ -27,12 +27,22 @@ class BasicFile
 			throw new Exception(sprintf('Not a valid file: %s', $this->getFullPath()));
 		}
 	}
-
-	public function getFullPath()
+	
+	public function getPath()
 	{
-		return $this->_path . '/' . $this->_basename;
+		return $this->_path;
 	}
 	
+	public function getBasename()
+	{
+		return $this->_basename;
+	}
+	
+	public function getFullPath()
+	{
+		return $this->getPath() . '/' . $this->getBasename();
+	}
+
 	public function getStat($name)
 	{
 		return $this->_stat[$name];
