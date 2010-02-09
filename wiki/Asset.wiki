@@ -1,4 +1,4 @@
-#summary Asset
+#summary Breve panoramica di descrizione della gestione degli asset
 
 = Gestione degli asset =
 
@@ -29,14 +29,14 @@ Nota: qui devo mettere qualche esempio per dare un'idea dei numeri coinvolti.
 
 Questa è una descrizione sommaria dei passi seguiti per l'archiviazione di un asset:
 
-  # Inizio procedura
+  * Inizio procedura
     # individuazione di un file tra quelli destinati all'archiviazione (nella directory indicata alla voce `directory_sources` del file _wviola.yml_)
     # indicazione delle parole chiave e di altri attributi
     # avvio della procedura di archiviazione
     # (viene creata una voce nella base di dati, con status posto a 1)
     # (il file sorgente viene spostato nella directory indicata alla voce `directory_scheduled` del file _wviola.yml_ e rinominato con un id standardizzato, denominato _slug_)
 
-  # Generazione dei file ad alta e bassa qualità
+  * Generazione dei file ad alta e bassa qualità
     # un apposito task individua il file da convertire
     # (dal file _source_ si ottengono il file _highquality_ e il file _lowquality_)
     # (il file _source_ viene eliminato)
@@ -44,7 +44,7 @@ Questa è una descrizione sommaria dei passi seguiti per l'archiviazione di un a
     # (il file _lowquality_ viene spostato nella directory indicata alla voce `directory_published` del file _wviola.yml_)
     # (per la corrispondente voce nella base di dati lo status viene posto a 2)
 
-  # Generazione delle immagini ISO dei DVD-ROM
+  * Generazione delle immagini ISO dei DVD-ROM
     # un apposito task individua il momento in cui la directory indicata alla voce `directory_iso_cache` del file _wviola.yml_ contiene un numero di file sufficiente per procedere all'archiviazione esterna
     # (viene generata l'immagine ISO di un DVD-ROM contenente i file posti nella directory)
     # (l'immagine ISO viene posta nella directory indicata alla voce `directory_iso_images` del file _wviola.yml_)
@@ -52,18 +52,17 @@ Questa è una descrizione sommaria dei passi seguiti per l'archiviazione di un a
     # (dopo gli opportuni controlli di correttezza dell'immagine ISO ottenuta, tutti i file della _cache_ che sono stati posti nell'immagine ISO vengono rimossi)
     # (il sistemista viene informato che l'immagine ISO è pronta per essere masterizzata)
 
-  # Produzione materiale dei DVD-ROM (masterizzazione)
+  * Produzione materiale dei DVD-ROM (masterizzazione)
     # il sistemista masterizza l'immagine ISO e verifica l'integrità del DVD-ROM ottenuto
     # il sistemista aggiorna la base di dati, indicando data e ora di masterizzazione del DVD-ROM
     # il sistemista, se lo desidera, rimuove l'immagine ISO del DVD-ROM, oppure la sposta su altro filesystem
-    # (per gli asset coinvolti lo status viene posto a 4)h
+    # (per gli asset coinvolti lo status viene posto a 4)
 
 Ricapitolando, per gli asset lo status può essere uno dei seguenti:
 
-  1. programmato per l'archiviazione, in attesa
-  2. archiviato su disco, disponibile per la fruizione on-line a bassa qualità
-  3. archiviato in una immagine ISO pronta per la masterizzazione, disponibile per la fruizione on-line a bassa qualità
-  4. archiviato su DVD-ROM masterizzato, disponibile per la fruizione on-line a bassa qualità
-
-
+|| *stato* || *descrizione* ||
+|| 1 || programmato per l'archiviazione, in attesa ||
+|| 2 || archiviato su disco, disponibile per la fruizione on-line a bassa qualità ||
+|| 3 || archiviato in una immagine ISO pronta per la masterizzazione, disponibile per la fruizione on-line a bassa qualità ||
+|| 4 || archiviato su DVD-ROM masterizzato, disponibile per la fruizione on-line a bassa qualità ||
 

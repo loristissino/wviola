@@ -1,6 +1,10 @@
 #summary Wviola
 #labels Featured
 
+= Introduzione =
+
+Wviola è un software che consente (consentirà) di archiviare in maniera organica e coerente filmati ed altri materiali multimediali appartenenti ad un'organizzazione, classificandoli, aggiungendo delle note e predisponendo modalità per l'accesso _on-line_ e _off-line_.
+
 [Installazione Informazioni di base per installazione e aggiornamento]
 
 [Architettura Informazioni sull'architettura delle applicazioni]

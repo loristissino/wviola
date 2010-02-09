@@ -1,4 +1,4 @@
-#summary Bug
+#summary Annotazioni su anomalie e problemi
 
 = Bug noti =
 

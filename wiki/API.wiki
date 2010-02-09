@@ -1,4 +1,4 @@
-#summary API
+#summary Informazioni sulle modalità di accesso alle applicazioni che costituiscono Wviola
 
 = API =
 

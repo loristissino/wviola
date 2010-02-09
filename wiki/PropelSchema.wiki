@@ -1,6 +1,6 @@
-#summary Wviola
+#summary Informazioni in forma grafica relative a Wviola
 
-= Diagrams =
+= Schemi e diagrammi =
 
 == Schema del database ==
 
