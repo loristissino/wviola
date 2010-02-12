@@ -67,18 +67,20 @@ class assetActions extends sfActions
 
   public function executeThumbnail(sfWebRequest $request)
   {
+
     $this->forward404Unless($Asset = AssetPeer::retrieveByPk($request->getParameter('id')), sprintf('Object Asset does not exist (%s).', $request->getParameter('id')));
-    $this->forward404Unless($Asset->hasThumbnail());
+    $this->forward404Unless($Asset->getHasThumbnail());
+	
+	$this->forward404Unless($file=$Asset->getThumbnailFile());
 	
 	$response=$this->getContext()->getResponse();
 	$response->setHttpHeader('Pragma', '');
 	$response->setHttpHeader('Cache-Control', '');
-	$response->setHttpHeader('Content-Length', $Asset->getThumbnailSize());
-	$response->setHttpHeader('Content-Type', $Asset->getThumbnailMimeType());
+	$response->setHttpHeader('Content-Length', $file->getStat('size'));
+	$response->setHttpHeader('Content-Type', $file->getMimeType());
 
-	$response->setContent($Asset->getThumbnailData());
+	$response->setContent(fread(fopen($file->getFullPath(), 'r'), $file->getStat('size')));
 	return sfView::NONE;
-
   } 
 
   public function executeVideo(sfWebRequest $request)
@@ -86,15 +88,16 @@ class assetActions extends sfActions
     $this->forward404Unless($Asset = AssetPeer::retrieveByPk($request->getParameter('id')), sprintf('Object Asset does not exist (%s).', $request->getParameter('id')));
     $this->forward404Unless($Asset->hasVideoAsset());
 	
+    $this->forward404Unless($file=$Asset->getVideoAsset()->getVideoFile());
+	
 	$response=$this->getContext()->getResponse();
 	$response->setHttpHeader('Pragma', '');
 	$response->setHttpHeader('Cache-Control', '');
-	$response->setHttpHeader('Content-Length', $Asset->getVideoAsset()->getVideo()->getStat('size'));
-	$response->setHttpHeader('Content-Type', 'video/x-flv');
+	$response->setHttpHeader('Content-Length', $file->getStat('size'));
+	$response->setHttpHeader('Content-Type', $file->getMimeType());
 
-	readfile($Asset->getVideoAsset()->getVideo()->getFullPath());
+	$response->setContent(fread(fopen($file->getFullPath(), 'r'), $file->getStat('size')));
 	return sfView::NONE;
-
 
   } 
 

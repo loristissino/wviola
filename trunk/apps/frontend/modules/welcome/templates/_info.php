@@ -10,5 +10,7 @@
  <?php else: ?>
 	<?php echo __('Login required') ?>
  <?php endif ?>
+&nbsp;-&nbsp;
+<?php echo link_to(__('Home'), '@homepage') ?>
 	</p>
 </div>

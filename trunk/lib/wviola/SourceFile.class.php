@@ -40,9 +40,5 @@ class SourceFile extends BasicFile
 		return is_writeable($this->getPath());
 	}
 	
-	public function getMD5Sum()
-	{
-		return md5_file($this->getFullPath());
-	}
 
 }

@@ -2,7 +2,7 @@
 
 require_once dirname(__FILE__).'/../bootstrap/unit.php';
  
-$t = new lime_test(5, new lime_output_color());
+$t = new lime_test(6, new lime_output_color());
 
 $t->diag('BasicFile functions on an existing file');
 
@@ -39,5 +39,8 @@ catch (Exception $e)
 	$t->pass('an exception is thrown when the file does not exist or is unreadable');
 }
 
+unset($file);
 
+$file=new BasicFile('/var/wviola_filesystem/sources/videos/video3.avi');
+$t->is($file->getMD5Sum(), 'e3344ad61822bef9d5ccaa10d78a4d27', '->getMD5Sum() returns the correct value');
 

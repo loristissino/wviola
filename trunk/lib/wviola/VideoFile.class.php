@@ -20,5 +20,10 @@ class VideoFile extends AssetFile
 	{
 		return self::EXTENSION;
 	}
+	
+	public function getMimeType()
+	{
+		return 'video/x-flv';
+	}
 
 }

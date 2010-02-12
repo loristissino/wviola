@@ -21,7 +21,7 @@ propel:
     source_file_date: date
     highquality_md5sum: varchar(32)
     lowquality_md5sum: varchar(32)
-    thumbnail: blob
+    has_thumbnail: boolean
     thumbnail_width: integer
     thumbnail_height: integer
     thumbnail_size: integer

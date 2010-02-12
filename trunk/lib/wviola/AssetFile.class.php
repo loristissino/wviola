@@ -6,11 +6,12 @@ class AssetFile extends BasicFile
 		$_slug,
 		$_extension;
 
-	public function __construct($slug, $extension)
+	public function __construct($slug, $extension, $thumbnail=false)
 	{
 		$this->_slug=$slug;
 		$this->_extension=$extension;
-		parent::__construct(wvConfig::get('directory_published'), $this->getSlug() . '.' . $this->getExtension());
+		$parameter='directory_published_' . ($thumbnail ? 'thumbnails' : 'assets');
+		parent::__construct(wvConfig::get($parameter), $this->getSlug() . '.' . $this->getExtension());
 	}
 	
 	public function getSlug()
@@ -22,4 +23,10 @@ class AssetFile extends BasicFile
 	{
 		return $this->_extension;
 	}
+	
+	public function getMimeType()
+	{
+		throw new Exception('this should be implemented in a subclass');
+	}
+	
 }

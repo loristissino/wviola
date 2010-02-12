@@ -41,7 +41,7 @@ CREATE TABLE "asset"
 	"source_file_date" DATE,
 	"highquality_md5sum" VARCHAR(32),
 	"lowquality_md5sum" VARCHAR(32),
-	"thumbnail" BYTEA,
+	"has_thumbnail" BOOLEAN,
 	"thumbnail_width" INTEGER,
 	"thumbnail_height" INTEGER,
 	"thumbnail_size" INTEGER,

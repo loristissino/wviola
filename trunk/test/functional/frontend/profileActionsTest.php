@@ -17,3 +17,12 @@ $browser->
 		checkElement('body', '/Name: Matthew/')->
 	end()
 	;
+
+$browser->
+	get('/')->
+	
+	with('response')->begin()->
+		isStatusCode(200)->
+		checkElement('h1', '/Welcome to WVIOLA/')->
+	end()
+	;
