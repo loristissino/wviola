@@ -112,6 +112,28 @@ php /var/wviola/lib/vendor/symfony/data/bin/symfony -V
 symfony version 1.4.0 (/var/wviola/lib/vendor/symfony/lib)
 }}}
 
+== Link per il comando _symfony_ ==
+
+Conviene predisporre un link simbolico per l'esecuzione dei task, in modo da poterli richiamare senza cambiare directory.
+
+Dovrebbe essere sufficiente qualcosa come:
+
+{{{
+sudo ln -sfv /var/schoolmesh/symfony /usr/local/bin/symfony
+}}}
+
+== Ambienti di esecuzione ==
+
+Esistono tre ambienti di esecuzione in cui possono essere fatte funnzionare le applicazioni:
+
+  # *dev* (ambiente di sviluppo)
+  # *test* (ambiente di test)
+  # *prod* (ambiente di produzione)
+
+Gli ambienti si distinguono per il database usato e per le configurazioni relative all'uso degli strumenti di debug.
+
+Tutti i task devono essere eseguiti specificando l'ambiente di esecuzione (il default è _dev_), ad esempio specificando sulla riga di comando `--env=prod`.
+
 == Configurazione personalizzata ==
 
 Tutti i file soggetti a configurazione personalizzata vengono forniti con il suffisso _-dist_. Essi devono essere copiati con lo stesso nome, senza il suffisso, in modo che non vengano sovrascritti in occasione degli aggiornamenti.
@@ -131,7 +153,6 @@ cp config/databases.yml-dist config/databases.yml
 cp config/wviola.yml-dist config/wviola.yml
 }}}
 
-
 === Accesso al database ===
 
 Per l'accesso al database va modificato il file _config/databases.yml_:
@@ -145,6 +166,12 @@ test:
   propel:
     param:
       classname: DebugPDO
+      dsn: 'pgsql:host=localhost;port=5432;dbname=wviola_test'
+prod:
+  propel:
+    param:
+      classname: PropelPDO
+      dsn: 'pgsql:host=localhost;port=5432;dbname=wviola_prod'
 all:
   propel:
     class: sfPropelDatabase
@@ -158,17 +185,19 @@ all:
       pooling: true
 }}}
 
+La configurazione segue la logica dei valori di default (_all_) che vengono presi in considerazione solo nel caso in cui non siano specificati valori diversi per i particolari ambienti (_dev_, _test_, _prod_).
+
 Nota: si tratta di un file YAML (vedi http://www.yaml.org/) e le indentazioni sono fatte con spazi, non con tabulatori.
 
-Creare il database con il nome preferito, dare ad un utente i privilegi necessari perché possa lavorarci e infine cambiare la configurazione come necessario.
+Creare i database (almeno quello di produzione e quello di test) con il nome preferito, dare ad un utente i privilegi necessari perché possa lavorarci e infine cambiare la configurazione come necessario.
 
 === Predisposizione delle tabelle ===
 
 Per la predisposizione delle tabelle c'è un task apposito:
 
 {{{
-cd /var/wviola
-$ php symfony propel:insert-sql
+symfony propel:insert-sql --env=prod
+symfony propel:insert-sql --env=test
 }}}
 
 Si dovrebbe ottenere un output come questo:
@@ -197,9 +226,10 @@ Nota: i database potrebbero essere diversi per i tre ambienti di sviluppo, di pr
 L'inserimento di alcuni dati di prova può avvenire con il comando
 
 {{{
-cd /var/wviola
-php symfony propel:data-load
+symfony propel:data-load --env=prod
 }}}
+
+Nota: i dati di prova sono quelli presenti nella directory _/data/fixtures_.
 
 === Configurazione dell'applicazione ===
 
@@ -219,7 +249,7 @@ all:
 #    ldap_domain: dc=example,dc=com
 }}}
 
-Nota: l'autenticazione avverrà via LDAP, ma i nomi degli utenti devono essere presenti comunque nel DB di wviola. Si può pensare ad un task da eseguire periodicamente per sincronizzare i dati.
+Nota: l'autenticazione avverrà via LDAP, ma i nomi degli utenti devono essere presenti comunque nel DB di wviola. Si dovrà pensare ad un task da eseguire periodicamente per sincronizzare i dati.
 
 === Altre impostazioni ===
 
@@ -238,6 +268,32 @@ directory:
   iso_images: /var/wviola/data/filesystem/iso_images/done
 }}}
 
+== Test ==
+
+Verranno predisposti gradualmente dei test di tipo unitario e di tipo funzionale.
+
+Per l'esecuzione, dovrebbe essere sufficiente eseguire il comando:
+
+{{{
+symfony test:all
+}}}
+
+che dovrebbe portare ad un risultato simile al seguente:
+
+{{{
+functional/frontend/profileActionsTest...............................ok
+functional/frontend/welcomeActionsTest...............................ok
+unit/AssetFileTest...................................................ok
+unit/AssetPeerTest...................................................ok
+unit/AssetTest.......................................................ok
+unit/BasicFileTest...................................................ok
+unit/SourceFileTest..................................................ok
+unit/VideoFileTest...................................................ok
+unit/wvConfigTest....................................................ok
+ All tests successful.                                                 
+ Files=9, Tests=37                                                     
+}}}
+
 = Aggiornamenti =
 
 Per gli aggiornamenti, dovrebbe essere sufficiente spostarsi nella directory _/var/wviola_ e digitare il comando
@@ -249,10 +305,13 @@ svn update
 Va però tenuto presente che, durante lo sviluppo, lo schema relazionale potrebbe venir ridefinito. Può quindi essere necessario ricreare da zero le tabelle, ricaricare i dati di prova e svuotare la cache:
 
 {{{
-php symfony propel:insert-sql
-php symfony propel:data-load
-php symfony cache:clear
+symfony propel:insert-sql --env=prod
+symfony propel:insert-sql --env=test
+symfony propel:data-load --env=prod
+symfony cache:clear
 }}}
+
+Nota: i dati per l'ambiente di test vengono caricati automaticamente all'esecuzione dei test.
 
 = Configurazione ulteriore =
 
@@ -265,3 +324,4 @@ prod:
 }}}
 
 (Forse è anche necessario lavorare sul file _web/.htaccess_)
+

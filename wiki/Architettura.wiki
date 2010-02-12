@@ -83,7 +83,7 @@ Questa applicazione batch, per ogni asset da archiviare:
 Il task dovrebbe essere richiamabile con il comando:
 
 {{{
-php symfony wviola:archive-assets
+symfony wviola:archive-assets --env=prod
 }}}
 
 === Predisposizione immagini ISO DVD-ROM ===
@@ -96,7 +96,7 @@ All'immagine ISO del DVD-ROM viene attribuito un identificativo univoco, riporta
 Il task dovrebbe essere richiamabile con il comando:
 
 {{{
-php symfony wviola:prepare-archive
+symfony wviola:prepare-archive --env=prod
 }}}
 
 === Predisposizione anteprime ===
@@ -114,7 +114,7 @@ La ricerca avviene basandosi sulla data di ultima modifica (partendo dalla concl
 Il task dovrebbe essere richiamabile con il comando:
 
 {{{
-php symfony wviola:prepare-info
+symfony wviola:prepare-info --env=prod
 }}}
 
 === Sincronizzazione utenti ===
@@ -124,6 +124,6 @@ Gli utenti di Wviola vengono autenticati tramite LDAP, ma le informazioni di bas
 Il task dovrebbe essere richiamabile con il comando:
 
 {{{
-php symfony wviola:sync-users
+symfony wviola:sync-users --env=prod
 }}}
 
