@@ -221,8 +221,6 @@ y
 >> file-     /var/wviola/config/generated-sfGuardPlugin-schema.xml
 }}}
 
-Nota: i database potrebbero essere diversi per i tre ambienti di sviluppo, di produzione e di test. In questa fase non vale la pena di complicarci la vita, visto che tutto sarà test.
-
 L'inserimento di alcuni dati di prova può avvenire con il comando
 
 {{{
