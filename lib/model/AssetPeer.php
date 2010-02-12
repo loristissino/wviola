@@ -20,4 +20,12 @@ require 'lib/model/om/BaseAssetPeer.php';
  */
 class AssetPeer extends BaseAssetPeer {
 
+	public static function retrieveBySlug($slug)
+	{
+		$c=new Criteria();
+		$c->add(AssetPeer::SLUG, $slug);
+		return AssetPeer::doSelectOne($c);
+	}
+
+
 } // AssetPeer
