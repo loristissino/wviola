@@ -53,4 +53,10 @@ class BasicFile
 		return $this->_stat;
 	}
 	
+	public function getMD5Sum()
+	{
+		return md5_file($this->getFullPath());
+	}
+
+	
 }

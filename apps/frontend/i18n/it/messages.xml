@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xliff PUBLIC "-//XLIFF//DTD XLIFF//EN" "http://www.oasis-open.org/committees/xliff/documents/xliff.dtd">
+<xliff version="1.0">
+  <file source-language="EN" target-language="it" datatype="plaintext" original="messages" date="2010-02-12T18:00:56Z" product-name="messages">
+    <header/>
+    <body>
+      <trans-unit id="1">
+        <source>Profile</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="2">
+        <source>Login</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="3">
+        <source>Logout</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="4">
+        <source>Login required</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="5">
+        <source>Home</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="6">
+        <source>Welcome to WVIOLA</source>
+        <target>Benvenuto in WVIOLA</target>
+      </trans-unit>
+      <trans-unit id="7">
+        <source>assets</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="8">
+        <source>No thumbnail available</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="9">
+        <source>Show the asset «%title%»</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="10">
+        <source>You don't have the required permission to access this page.</source>
+        <target/>
+      </trans-unit>
+      <trans-unit id="11">
+        <source>You need to login to access the page you requested.</source>
+        <target/>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

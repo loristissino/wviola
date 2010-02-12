@@ -24,7 +24,7 @@ class VideoAsset extends BaseVideoAsset {
 		$_slug,
 		$_assetFile;
 
-	public function getVideo()
+	public function getVideoFile()
 	{
 		$this->_slug=$this->getAsset()->getSlug();
 		$this->_assetFile=new VideoFile($this->_slug);

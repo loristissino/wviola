@@ -6,7 +6,7 @@ $t = new lime_test(8, new lime_output_color());
 
 $t->diag('wvConfig test -- this will only pass with default values of wviola.yml');
 
-$t->is(wvConfig::get('directory_published'), '/var/wviola/data/filesystem/published', '::get() returns the correct value');
+$t->is(wvConfig::get('directory_published_assets'), '/var/wviola_filesystem/published/assets', '::get() returns the correct value');
 $t->is(wvConfig::get('foo', 'bar'), 'bar', '::get() returns the default value for missing parameters');
 
 wvConfig::set('foo', 'bar');

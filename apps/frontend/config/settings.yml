@@ -19,6 +19,7 @@ test:
     no_script_name:         false
     etag:                   false
     csrf_secret: false
+    default_culture:        en
 
 all:
   .settings:

@@ -1,4 +1,4 @@
-<h1>Welcome to WVIOLA</h1>
+<h1><?php echo __('Welcome to WVIOLA') ?></h1>
 
 <h2>What is WVIOLA?</h2>
 <p>WVIOLA stands for <em>Web-based Video and Images On-Line Archiver</em>.</p>
