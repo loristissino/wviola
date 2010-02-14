@@ -57,6 +57,17 @@ class BasicFile
 	{
 		return md5_file($this->getFullPath());
 	}
+	
+	public function executeCommand($command)
+	{
+		return Generic::executeCommand($command);
+	}
+	
+	public function getGuessedMimeType()
+	{
+		$command=sprintf('file --brief --mime-type "%s"', $this->getFullPath());
+		return $this->executeCommand($command);
+	}
 
 	
 }

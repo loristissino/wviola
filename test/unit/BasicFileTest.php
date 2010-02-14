@@ -2,9 +2,9 @@
 
 require_once dirname(__FILE__).'/../bootstrap/unit.php';
  
-$t = new lime_test(6, new lime_output_color());
+$t = new lime_test(10, new lime_output_color());
 
-$t->diag('BasicFile functions on an existing file');
+$t->diag('BasicFile functions');
 
 $tmpfname = tempnam('/tmp', 'foo');
 
@@ -44,3 +44,17 @@ unset($file);
 $file=new BasicFile('/var/wviola_filesystem/sources/videos/video3.avi');
 $t->is($file->getMD5Sum(), 'e3344ad61822bef9d5ccaa10d78a4d27', '->getMD5Sum() returns the correct value');
 
+$t->is($file->executeCommand('/bin/echo foo'), 'foo', '->executeCommand() returns the result of a command as a string');
+$t->is_deeply($file->executeCommand('/bin/echo -e \'foo\nbar\''), array('foo', 'bar'), '->executeCommand() returns the result of a command');
+
+try
+{
+	$file->executeCommand('/bin/foobar 2>/dev/null');
+	$t->fail('->executeCommand() does not throw an exception when there is an error');
+}
+catch (Exception $e)
+{
+	$t->pass('->executeCommand() throws an exception when there is an error');
+}
+
+$t->is($file->getGuessedMimeType(), 'video/x-msvideo', '->getMimeType() returns the correct MIME Type');
