@@ -8,6 +8,8 @@ L'applicazione di frontend è raggiungibile all'indirizzo _.../index.php_.
 
 Gli URL indicati di seguito sono da aggiungere a questo indirizzo (ad esempio: _.../index.php/asset/show/id/1_).
 
+Nota: non tutti funzionano per il momento.
+
 {{{
 	
 login

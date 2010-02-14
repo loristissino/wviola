@@ -286,11 +286,14 @@ unit/AssetPeerTest...................................................ok
 unit/AssetTest.......................................................ok
 unit/BasicFileTest...................................................ok
 unit/SourceFileTest..................................................ok
+unit/ThumbnailFileTest...............................................ok
 unit/VideoFileTest...................................................ok
 unit/wvConfigTest....................................................ok
- All tests successful.                                                 
- Files=9, Tests=37                                                     
+ All tests successful.                                                
+ Files=10, Tests=46
 }}}
+
+Nota: in realtà una parte dei test falliranno, almeno fino a quando non pubblicherò alcuni dei file su cui mi baso per i test (cosa che farò al più presto, in qualche forma).
 
 = Aggiornamenti =
 
