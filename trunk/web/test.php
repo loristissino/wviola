@@ -42,6 +42,15 @@ imagejpeg($gdimage, '/tmp/mytest.jpg');
 
 //echo $movie->getNextKeyFrame() . " next key frame\n";
 
+/*
+Input #0, mpeg, from 'PA.mpg':
+  Duration: 00:53:24.86, start: 0.262222, bitrate: 4856 kb/s
+    Stream #0.0[0x1e0]: Video: mpeg2video, yuv420p, 704x576 [PAR 12:11 DAR 4:3], 9558 kb/s, 25 tbr, 90k tbn, 50 tbc
+    Stream #0.1[0x1c0]: Audio: mp2, 48000 Hz, stereo, s16, 256 kb/s
 
 
 
+
+
+
+*/

@@ -1,6 +1,6 @@
 <?php
 
-require_once dirname(__FILE__).'/../bootstrap/unit.php';
+require_once dirname(__FILE__).'/../bootstrap/FileSystem.php';
  
 $t = new lime_test(10, new lime_output_color());
 
@@ -41,8 +41,8 @@ catch (Exception $e)
 
 unset($file);
 
-$file=new BasicFile('/var/wviola_filesystem/sources/videos/video3.avi');
-$t->is($file->getMD5Sum(), 'e3344ad61822bef9d5ccaa10d78a4d27', '->getMD5Sum() returns the correct value');
+$file=new BasicFile('/var/wviola/data/filesystem/sources/videos/bigbuckbunny01.avi');
+$t->is($file->getMD5Sum(), 'e2b994bdfeeebb07da40c284ce580bb3', '->getMD5Sum() returns the correct value');
 
 $t->is($file->executeCommand('/bin/echo foo'), 'foo', '->executeCommand() returns the result of a command as a string');
 $t->is_deeply($file->executeCommand('/bin/echo -e \'foo\nbar\''), array('foo', 'bar'), '->executeCommand() returns the result of a command');
