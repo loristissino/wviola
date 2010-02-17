@@ -34,14 +34,16 @@ propel:
     duration: float
     highquality_width: integer
     highquality_height: integer
-    highquality_video_codec: varchar(10)
-    highquality_audio_codec: varchar(10)
+    highquality_video_codec: varchar(20)
+    highquality_video_pixelformat: varchar(20)
+    highquality_audio_codec: varchar(20)
     highquality_frame_rate: integer
     highquality_aspect_ratio: float
     lowquality_width: integer
     lowquality_height: integer
-    lowquality_video_codec: varchar(10)
-    lowquality_audio_codec: varchar(10)
+    lowquality_video_codec: varchar(20)
+    lowquality_video_pixelformat: varchar(20)
+    lowquality_audio_codec: varchar(20)
     lowquality_frame_rate: integer
 
   picture_asset:

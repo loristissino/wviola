@@ -57,4 +57,4 @@ catch (Exception $e)
 	$t->pass('->executeCommand() throws an exception when there is an error');
 }
 
-$t->is($file->getGuessedMimeType(), 'video/x-msvideo', '->getMimeType() returns the correct MIME Type');
+$t->is($file->getGuessedInternetMediaType(), 'video/x-msvideo', '->getMimeType() returns the correct MIME Type');
