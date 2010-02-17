@@ -249,6 +249,10 @@ all:
 
 Nota: l'autenticazione avverrà via LDAP, ma i nomi degli utenti devono essere presenti comunque nel DB di wviola. Si dovrà pensare ad un task da eseguire periodicamente per sincronizzare i dati.
 
+=== File binari per i test ===
+
+Un primo set di file binari che uso per i test è disponibile in altro sito web. Contattatemi se intendete utilizzarlo.
+
 === Altre impostazioni ===
 
 Il file _wviola.yml_ contiene tutte le impostazioni che devono essere utilizzabili direttamente dal modello, anche quando l'applicazione web non è lanciata (ad esempio nei task da riga di comando o nei test di unità).
@@ -293,7 +297,6 @@ unit/wvConfigTest....................................................ok
  Files=10, Tests=46
 }}}
 
-Nota: in realtà una parte dei test falliranno, almeno fino a quando non pubblicherò alcuni dei file su cui mi baso per i test (cosa che farò al più presto, in qualche forma).
 
 = Aggiornamenti =
 
