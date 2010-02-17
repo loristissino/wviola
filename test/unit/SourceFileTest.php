@@ -2,7 +2,7 @@
 
 require_once dirname(__FILE__).'/../bootstrap/unit.php';
  
-$t = new lime_test(7, new lime_output_color());
+$t = new lime_test(10, new lime_output_color());
 
 $t->diag('SourceFile functions');
 
@@ -22,12 +22,17 @@ $t->is($file->getWvDirIsReadable(), false, '->getWvDirIsReadable() returns the c
 $t->is($file->getWvDirIsWriteable(), false, '->getWvDirIsWriteable() returns the correct value');
 $t->is($file->canWriteWvDir(), true, '->canWriteWvDir() returns the correct value');
 
-$file->loadWvInfoFile();
+$t->is($file->getHasWvInfo(), false, '->getHasWvInfo() returns false if there are not information about the file');
 
 $file->setWvInfo('video_frame_width', 320);
+$file->setWvInfo('video_frame_height', 240);
 $t->is($file->getWvInfo('video_frame_width'), 320, '->getWvInfo() returns the correct value');
-
-echo $file->getWvInfoFilePath() . "\n";
+$t->is($file->getHasWvInfo(), true, '->getHasWvInfo() returns true if there are information about the file');
 
 $file->saveWvInfoFile();
-//var_dump($file->getCompleteWvInfo());
+// we save the file, unset the object and get a new instance for the same file...
+unset($file);
+$file=new SourceFile('/videos', 'video3.avi');
+$t->is($file->getWvInfo('video_frame_width'), 320, '->saveWvInfoFile() correctly saved the information on the file');
+
+$file->gatherWvInfo();

@@ -63,7 +63,7 @@ class BasicFile
 		return Generic::executeCommand($command);
 	}
 	
-	public function getGuessedMimeType()
+	public function getGuessedInternetMediaType()
 	{
 		$command=sprintf('file --brief --mime-type "%s"', $this->getFullPath());
 		return $this->executeCommand($command);

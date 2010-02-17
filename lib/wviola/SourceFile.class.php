@@ -17,9 +17,70 @@ class SourceFile extends BasicFile
 		$this->loadWvInfoFile();
 	}
 	
+	public function getHasWvInfo()
+	{
+		return is_array($this->_fileInfo);
+	}
+	
+	public function gatherWvInfo()
+	{
+		
+		$this->
+		setWvInfo('file_mtime', $this->getStat('mtime'))->
+		setWvInfo('file_ctime', $this->getStat('ctime'))->
+		setWvInfo('file_atime', $this->getStat('atime'))->
+		setWvInfo('file_size', $this->getStat('size'))->
+		setWvInfo('file_md5sum', $this->getMD5Sum())
+		;
+		
+		list($type,$subtype)=explode('/', $this->getGuessedInternetMediaType());
+		
+		switch($type)
+		{
+			case 'video':
+				$this->_gatherVideoInfo();
+				break;
+			case 'image':
+				$this->_gatherImageInfo();
+				break;
+			case 'application':
+				// zip file?
+				break;
+		}
+		$this->saveWvInfoFile();
+		
+		return $this;
+	}
+	
+	
+	private function _gatherVideoInfo()
+	{
+		try
+		{
+			$movie= new ffmpeg_movie($this->getFullPath());
+			
+			$this->
+			setWvInfo('video_duration', $movie->getDuration())->
+			setWvInfo('video_framecount', $movie->getFrameCount())->
+			setWvInfo('video_framerate', $movie->getFrameRate())->
+			setWvInfo('video_comment', $movie->getComment())->
+			setWvInfo('video_title', $movie->getTitle())->
+			setWvInfo('video_frame_height', $movie->getFrameHeight())->
+			setWvInfo('video_frame_width', $movie->getFrameWidth())->
+			setWvInfo('video_pixelformat', $movie->getPixelFormat())->
+			setWvInfo('video_codec', $movie->getVideoCodec())->
+			setWvInfo('audio_codec', $movie->getAudioCodec())
+			;
+		}
+		catch (Exception $e)
+		{
+			throw new Exception(sprintf('Could not gather information about file %s', $this->getFullPath()));
+		}
+	}
+	
 	public function loadWvInfoFile()
 	{
-		if ($_fileInfo)
+		if ($this->_fileInfo)
 		{
 			return;
 		}
@@ -30,14 +91,14 @@ class SourceFile extends BasicFile
 		}
 		else
 		{
-			$this->_fileInfo=array();
+			$this->_fileInfo=null;
 		}
 		
 	}
 	
 	public function saveWvInfoFile()
 	{
-		if ($_fileInfo)
+		if (!$this->_fileInfo)
 		{
 			return;
 		}
@@ -63,7 +124,8 @@ class SourceFile extends BasicFile
 		{
 			$fp=fopen($this->getWvInfoFilePath(), 'w');
 			$yaml=sfYaml::dump($this->_fileInfo, 4);
-			fwrite($fp, $yaml, strlen($yaml)); 
+			fwrite($fp, $yaml, strlen($yaml));
+			fclose($fp);
 		}
 		else
 		{
@@ -129,5 +191,4 @@ class SourceFile extends BasicFile
 		return is_writeable($this->getPath());
 	}
 	
-
 }
