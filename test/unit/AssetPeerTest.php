@@ -9,4 +9,4 @@ $t->diag('AssetPeer');
 $slug='video2009_00000001';
 
 $Asset=AssetPeer::retrieveBySlug($slug);
-$t->is($Asset->getAssignedTitle(), 'First video', '::retrieveBySlug() retrieves the correct object');
+$t->is($Asset->getAssignedTitle(), 'Outdoor meeting', '::retrieveBySlug() retrieves the correct object');

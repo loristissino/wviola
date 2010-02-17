@@ -1,13 +1,13 @@
 VideoAsset:
   video_asset1:
     asset_id: asset1 
-    duration: 3.35
+    duration: 4.41
     lowquality_width: 320
     lowquality_height: 240
 
   video_asset2:
     asset_id: asset2 
-    duration: 596.87
+    duration: 1.25
     lowquality_width: 320
     lowquality_height: 240
 
