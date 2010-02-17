@@ -1,0 +1,21 @@
+#summary Informazioni relative alla licenza, ai crediti e ai riconoscimenti
+
+= Licenza =
+
+Questa applicazione è distribuita nei termini della licenza [http://www.gnu.org/licenses/gpl.html GNU General Public License v3]
+
+= Riconoscimenti =
+
+I ringraziamenti più grossi vanno ai team che hanno sviluppato [http://www.php.net/ PHP] e [http://www.symfony-project.org/ Symfony].
+
+= Filmati e immagini di esempio =
+
+Le immagini e i filmati usati per i test e per gli screenshot sono tratte da:
+
+  * [http://www.yofrankie.org/gallery/ YoFrankie]
+  * [http://www.bigbuckbunny.org/ Big Buck Bunny]
+
+
+
+
+
