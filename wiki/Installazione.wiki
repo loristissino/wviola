@@ -251,7 +251,17 @@ Nota: l'autenticazione avverrà via LDAP, ma i nomi degli utenti devono essere p
 
 === File binari per i test ===
 
-Un primo set di file binari che uso per i test è disponibile in altro sito web. Contattatemi se intendete utilizzarlo.
+Per effettuare i test, è necessario avere dei file binari a disposizione (piccoli frammenti di video, immagini, ecc.). I file che uso attualmente sono disponibili nella [http://code.google.com/p/wviola/downloads/list pagina dei download].
+
+Va prelevato il file più recente, messo nella directory _/var/wviola/data_ e creato un link simbolico, come indicato qui di seguito:
+
+{{{
+cd /var/wviola/data
+wget http://wviola.googlecode.com/files/filesystem2010-02-18_083831.tar.bz2
+ln -sf filesystem2010-02-18_083831.tar.bz2 filesystem.tar.bz2
+}}}
+
+Quando vengono eseguiti i test, i file vengono automaticamente estratti e posti nella directory _/var/wviola/data/filesystem_, in modo da partire da una situazione pulita.
 
 === Altre impostazioni ===
 
