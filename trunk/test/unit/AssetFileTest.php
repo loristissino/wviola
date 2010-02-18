@@ -1,6 +1,6 @@
 <?php
 
-require_once dirname(__FILE__).'/../bootstrap/unit.php';
+require_once dirname(__FILE__).'/../bootstrap/FileSystem.php';
  
 $t = new lime_test(2, new lime_output_color());
 

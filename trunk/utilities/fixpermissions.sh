@@ -11,7 +11,7 @@ sudo find "$BASEDIR" -type d ! -perm 2770 -exec chmod  2770 {} \;
 sudo find "$BASEDIR" -type f ! -perm 660 -exec chmod 660 {} \;
 
 cd "$BASEDIR/utilities"
-chmod +x *sh
+chmod +x *sh *py
 
 chmod +x  "$BASEDIR/symfony"
 

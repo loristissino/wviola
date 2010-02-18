@@ -2,7 +2,7 @@
 
 require_once dirname(__FILE__).'/../bootstrap/FileSystem.php';
  
-$t = new lime_test(10, new lime_output_color());
+$t = new lime_test(14, new lime_output_color());
 
 $t->diag('SourceFile functions');
 
@@ -29,4 +29,28 @@ unset($file);
 $file=new SourceFile('/videos', 'bigbuckbunny01.avi');
 $t->is($file->getWvInfo('video_frame_width'), 320, '->saveWvInfoFile() correctly saved the information on the file');
 
+$t->comment('Now we test information gathering...');
 $file->gatherWvInfo();
+$file->saveWvInfoFile();
+
+$t->is($file->getWvInfo('video_frame_width'), 854, '->saveWvInfoFile() correctly saved the information on the file');
+$t->is($file->getWvInfo('video_aspect_ratio'), 1.77916666667, '->gatherWvInfo() correctly finds the aspect ratio for an AVI file');
+
+unset($file);
+
+$file=new SourceFile('/videos', 'bigbuckbunny02.mpeg');
+$file->gatherWvInfo();
+$file->saveWvInfoFile();
+
+$t->is($file->getWvInfo('video_aspect_ratio'), 1.33469665985, '->gatherWvInfo() correctly finds the aspect ratio for an MPEG file');
+
+$image=base64_decode($file->getWvInfo('thumbnail_1_base64content'));
+
+$tempfile=tempnam('/tmp', 'wviola');
+file_put_contents($tempfile, $image);
+
+$t->is_deeply(getimagesize($tempfile), array (0 => 60,  1 => 45,  2 => 2,  3 => 'width="60" height="45"',  'bits' => 8,  'channels' => 3,  'mime' => 'image/jpeg'), '->gatherWvInfo() produces a thumbnail as base64 content');
+
+unlink($tempfile);
+
+unset($file);
