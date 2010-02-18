@@ -6,7 +6,7 @@
 
   * seguire le indicazioni su http://www.symfony-project.org/getting-started/1_4/en/02-Prerequisites (in particolare, sarà necessario agire sui file _/etc/php5/cli/php.ini_ e _/etc/php5/apache2/php.ini_, cambiando `short_open_tag` e `magic_quotes_gpg`)
 
-  * installare i pacchetti _php-apc_ e _php5-ffmpeg_ (o equivalenti)
+  * installare i pacchetti _php-apc_, _php5-ffmpeg_, _ffprobe_, _ffmpeg_ (o equivalenti)
 
   * creare una directory _var/wviola_ (o equivalente)
 
@@ -257,8 +257,8 @@ Va prelevato il file più recente, messo nella directory _/var/wviola/data_ e cr
 
 {{{
 cd /var/wviola/data
-wget http://wviola.googlecode.com/files/filesystem2010-02-18_083831.tar.bz2
-ln -sf filesystem2010-02-18_083831.tar.bz2 filesystem.tar.bz2
+wget http://wviola.googlecode.com/files/filesystem2010-02-18_090954.tar.bz2
+ln -sf filesystem2010-02-18_090954.tar.bz2 filesystem.tar.bz2
 }}}
 
 Quando vengono eseguiti i test, i file vengono automaticamente estratti e posti nella directory _/var/wviola/data/filesystem_, in modo da partire da una situazione pulita.
@@ -278,6 +278,10 @@ directory:
   sources:  /var/wviola/data/filesystem/published
   iso_cache:  /var/wviola/data/filesystem/iso_images/cache
   iso_images: /var/wviola/data/filesystem/iso_images/done
+thumbnail:
+  number: 3
+  width: 60
+  height: 45 
 }}}
 
 == Test ==
@@ -303,8 +307,8 @@ unit/SourceFileTest..................................................ok
 unit/ThumbnailFileTest...............................................ok
 unit/VideoFileTest...................................................ok
 unit/wvConfigTest....................................................ok
- All tests successful.                                                
- Files=10, Tests=46
+ All tests successful.                                                 
+ Files=10, Tests=53                                                    
 }}}
 
 
