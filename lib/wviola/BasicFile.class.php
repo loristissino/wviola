@@ -66,7 +66,21 @@ class BasicFile
 	public function getGuessedInternetMediaType()
 	{
 		$command=sprintf('file --brief --mime-type "%s"', $this->getFullPath());
-		return $this->executeCommand($command);
+		$mimeType=$this->executeCommand($command);
+		
+		list($type, $subtype)=explode('/', $mimeType);
+		
+		if($type=='application')
+		{
+			// we need this because sometimes mpeg videos are reported as application/octet-stream
+			$command=sprintf('file --brief "%s"', $this->getFullPath());
+			$description=$this->executeCommand($command);
+			if (substr($description, 0, 13)=='MPEG sequence')
+			{
+				return 'video/mpeg';
+			}
+		}
+		return $mimeType;
 	}
 
 	

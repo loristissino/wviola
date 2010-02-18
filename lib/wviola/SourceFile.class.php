@@ -65,12 +65,97 @@ class SourceFile extends BasicFile
 			setWvInfo('video_framerate', $movie->getFrameRate())->
 			setWvInfo('video_comment', $movie->getComment())->
 			setWvInfo('video_title', $movie->getTitle())->
-			setWvInfo('video_frame_height', $movie->getFrameHeight())->
 			setWvInfo('video_frame_width', $movie->getFrameWidth())->
-			setWvInfo('video_pixelformat', $movie->getPixelFormat())->
+			setWvInfo('video_frame_height', $movie->getFrameHeight())->
 			setWvInfo('video_codec', $movie->getVideoCodec())->
 			setWvInfo('audio_codec', $movie->getAudioCodec())
 			;
+			
+			
+			$command=sprintf('ffprobe "%s" 2>&1 | grep "DAR " | sed -e "s/^.*DAR //" -e "s/].*//"', $this->getFullPath());
+			/*
+			With this command we find the Display Aspect Ratio, stored in MPEG files
+			ffprobe outputs on the standard error, hence the redirection
+			*/
+			$ratio=$this->executeCommand($command);
+			if(strpos($ratio, ':'))
+			{
+				list($width, $height)=explode(':', $ratio);
+				$ratio=$width/$height;
+				$ratioCorrection=true;
+			}
+			else
+			{
+				$ratio=$movie->getFrameWidth()/$movie->getFrameHeight();
+				$ratioCorrection=false;
+			}
+			
+			$this->setWvInfo('video_aspect_ratio', $ratio);
+		
+			$thumbnailsNumber=wvConfig::get('thumbnail_number', 5);
+
+			$thumbnailWidth=wvConfig::get('thumbnail_width', 60);
+			$thumbnailHeight=wvConfig::get('thumbnail_height', 45);
+			$thumbnailAspectRatio=$thumbnailWidth/$thumbnailHeight;
+
+			for($i=1; $i<=$thumbnailsNumber;$i++)
+			{
+				$number=(int)($i*$movie->getFrameRate()/($thumbnailsNumber+1));
+				$frame=$movie->getFrame($number)->toGDImage();
+
+				if($ratioCorrection)
+				{
+					$newWidth=$movie->getFrameWidth();
+					$newHeight=(int)($movie->getFrameWidth()/$ratio);
+					$resampledFrame=imagecreatetruecolor($newWidth, $newHeight);
+					imagecopyresampled($resampledFrame, $frame, 0, 0, 0, 0, $newWidth, $newHeight, $movie->getFrameWidth(), $movie->getFrameHeight());
+				}
+				else
+				{
+					$resampledFrame=$frame;
+				}
+				
+				if ($ratio>$thumbnailAspectRatio)
+				{
+					$srcW=(int)(imagesx($resampledFrame)*$thumbnailAspectRatio);
+					$srcH=imagesy($resampledFrame);
+					$srcX=(int)((imagesx($resampledFrame)-$srcW)/2);
+					$srcY=0;
+				}
+				else
+				{
+					$srcW=imagesx($resampledFrame);
+					$srcH=(int)(imagesx($resampledFrame)/$thumbnailAspectRatio);
+					$srcX=0;(int)((imagesx($resampledFrame)-$srcW)/2);
+					$srcY=(int)((imagesy($resampledFrame)-$srcH)/2);
+				}
+
+				$thumbnail=imagecreatetruecolor($thumbnailWidth, $thumbnailHeight);
+				
+				imagecopyresampled($thumbnail, $resampledFrame, 0, 0, $srcX, $srcY, $thumbnailWidth, $thumbnailHeight, $srcW, $srcH);
+
+				$tempfile=tempnam('/tmp', 'wviola');
+
+				imagejpeg($thumbnail, $tempfile);
+				
+				$text=base64_encode(file_get_contents($tempfile));
+
+				$this->setWvInfo('thumbnail_' . $i . '_width', $thumbnailWidth);
+				$this->setWvInfo('thumbnail_' . $i . '_height', $thumbnailHeight);
+				$this->setWvInfo('thumbnail_' . $i . '_base64content', $text);
+				
+				unlink($tempfile);
+				
+				imagedestroy($thumbnail);
+				imagedestroy($frame);
+				if(is_object($resampledFrame))
+				{
+					imagedestroy($resampledFrame);
+				}
+				
+			}
+
+			
 		}
 		catch (Exception $e)
 		{
@@ -192,3 +277,5 @@ class SourceFile extends BasicFile
 	}
 	
 }
+
+
