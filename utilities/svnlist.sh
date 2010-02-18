@@ -8,4 +8,5 @@ grep -v 'config/databases.yml' | \
 grep -v 'apps/frontend/config/factories.yml' | \
 grep -v 'apps/backend/config/factories.yml' | \
 grep -v 'plugins/\.*' | \
+grep -v 'data/filesystem*' | \
 sed 's/^?      //'
