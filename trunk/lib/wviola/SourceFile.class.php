@@ -22,6 +22,15 @@ class SourceFile extends BasicFile
 		return is_array($this->_fileInfo);
 	}
 	
+	public function appendMD5Sum()
+	{
+		$this->
+		setWvInfo('file_md5sum', $this->getMD5Sum())
+		;
+		
+		return $this;
+	}
+	
 	public function gatherWvInfo()
 	{
 		
@@ -29,9 +38,7 @@ class SourceFile extends BasicFile
 		setWvInfo('file_mtime', $this->getStat('mtime'))->
 		setWvInfo('file_ctime', $this->getStat('ctime'))->
 		setWvInfo('file_atime', $this->getStat('atime'))->
-		setWvInfo('file_size', $this->getStat('size'))->
-		setWvInfo('file_md5sum', $this->getMD5Sum())
-		;
+		setWvInfo('file_size', $this->getStat('size'));
 		
 		list($type,$subtype)=explode('/', $this->getGuessedInternetMediaType());
 		
@@ -47,7 +54,6 @@ class SourceFile extends BasicFile
 				// zip file?
 				break;
 		}
-		$this->saveWvInfoFile();
 		
 		return $this;
 	}
@@ -57,8 +63,6 @@ class SourceFile extends BasicFile
 	{
 		try
 		{
-			
-			echo "START\n";
 			$movie= new ffmpeg_movie($this->getFullPath());
 			
 			$this->
@@ -72,9 +76,7 @@ class SourceFile extends BasicFile
 			setWvInfo('video_codec', $movie->getVideoCodec())->
 			setWvInfo('audio_codec', $movie->getAudioCodec())
 			;
-			
-			echo "FFPROBE\n";
-			
+						
 			$command=sprintf('ffprobe "%s" 2>&1 | grep "DAR " | sed -e "s/^.*DAR //" -e "s/].*//"', $this->getFullPath());
 			/*
 			With this command we find the Display Aspect Ratio, stored in MPEG files.
@@ -85,12 +87,10 @@ class SourceFile extends BasicFile
 			{
 				list($width, $height)=explode(':', $sourceAspectRatio);
 				$sourceAspectRatio=$width/$height;
-//				$ratioCorrection=true;
 			}
 			else
 			{
 				$sourceAspectRatio=$movie->getFrameWidth()/$movie->getFrameHeight();
-//				$ratioCorrection=false;
 			}
 			
 			$this->setWvInfo('video_aspect_ratio', $sourceAspectRatio);
@@ -107,17 +107,9 @@ class SourceFile extends BasicFile
 			
 
 /*
-
 to get a frame, mplayer seems to be faster than ffmpeg
 
-compare this:
-mplayer -vo png -vf scale=320:240 -frames 1 -ss 80 -ao null a1.mpg 
-
-with this
-ffmpeg -i a1.mpg -ss 80 -r 1 -f image2 picture.png
-
-Seems like ffmpeg doesn't seek to the right position, simply sequentially follows the stream...
-
+compare theese:
 
 time ffmpeg -i a1.mpg -ss 300 -r 1 -f image2 picture.png
 ....
@@ -130,54 +122,13 @@ real	0m0.242s
 user	0m0.132s
 sys	0m0.048s
 
-*/
+Seems like ffmpeg doesn't seek to the right position, simply sequentially follows the stream...
 
-			echo "FRAMES\n";
+*/
 
 			for($i=1; $i<=$thumbnailsNumber;$i++)
 			{
-				
 				$position=$i*($movie->getDuration()/($thumbnailsNumber+1));
-//				$frame=$movie->getFrame($number)->toGDImage();
-				echo "Producing thumbnail $i from position $position\n";
-/*
-				if($ratioCorrection)
-				{
-					$newWidth=$movie->getFrameWidth();
-					$newHeight=(int)($movie->getFrameWidth()/$ratio);
-					$resampledFrame=imagecreatetruecolor($newWidth, $newHeight);
-					imagecopyresampled($resampledFrame, $frame, 0, 0, 0, 0, $newWidth, $newHeight, $movie->getFrameWidth(), $movie->getFrameHeight());
-				}
-				else
-				{
-					$resampledFrame=$frame;
-				}
-				
-				if ($ratio>$thumbnailAspectRatio)
-				{
-					$srcW=(int)(imagesx($resampledFrame)*$thumbnailAspectRatio);
-					$srcH=imagesy($resampledFrame);
-					$srcX=(int)((imagesx($resampledFrame)-$srcW)/2);
-					$srcY=0;
-				}
-				else
-				{
-					$srcW=imagesx($resampledFrame);
-					$srcH=(int)(imagesx($resampledFrame)/$thumbnailAspectRatio);
-					$srcX=0;(int)((imagesx($resampledFrame)-$srcW)/2);
-					$srcY=(int)((imagesy($resampledFrame)-$srcH)/2);
-				}
-
-				$thumbnail=imagecreatetruecolor($thumbnailWidth, $thumbnailHeight);
-				
-				imagecopyresampled($thumbnail, $resampledFrame, 0, 0, $srcX, $srcY, $thumbnailWidth, $thumbnailHeight, $srcW, $srcH);
-
-				$tempfile=tempnam('/tmp', 'wviola');
-
-				imagejpeg($thumbnail, $tempfile);
-				
-				$text=base64_encode(file_get_contents($tempfile));
-*/
 
 				$tempfile=$this->executeCommand(
 					sprintf('makethumbnail "%s" %f %s %s jpeg',
@@ -194,17 +145,8 @@ sys	0m0.048s
 				$this->setWvInfo('thumbnail_' . $i . '_height', $thumbnailHeight);
 				$this->setWvInfo('thumbnail_' . $i . '_base64content', $text);
 				
-//				unlink($tempfile);
+				unlink($tempfile);
 
-				echo "$tempfile\n";
-
-/*				imagedestroy($thumbnail);
-				imagedestroy($frame);
-				if(is_object($resampledFrame))
-				{
-					imagedestroy($resampledFrame);
-				}
-*/				
 			}
 
 			
