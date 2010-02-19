@@ -58,14 +58,20 @@ class BasicFile
 		return md5_file($this->getFullPath());
 	}
 	
-	public function executeCommand($command)
+	public function executeCommand($command, $custom=false)
 	{
+		if ($custom)
+		{
+			$command=wvConfig::get('directory_executables') . '/'. $command;
+		}
+		echo "EXECUTING:\n$command\n";
+		
 		return Generic::executeCommand($command);
 	}
 	
 	public function getGuessedInternetMediaType()
 	{
-		$command=sprintf('file --brief --mime-type "%s"', $this->getFullPath());
+		$command=sprintf('file --dereference --brief --mime-type "%s"', $this->getFullPath());
 		$mimeType=$this->executeCommand($command);
 		
 		list($type, $subtype)=explode('/', $mimeType);
@@ -73,7 +79,7 @@ class BasicFile
 		if($type=='application')
 		{
 			// we need this because sometimes mpeg videos are reported as application/octet-stream
-			$command=sprintf('file --brief "%s"', $this->getFullPath());
+			$command=sprintf('file --dereference --brief "%s"', $this->getFullPath());
 			$description=$this->executeCommand($command);
 			if (substr($description, 0, 13)=='MPEG sequence')
 			{
