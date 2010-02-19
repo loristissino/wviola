@@ -64,7 +64,6 @@ class BasicFile
 		{
 			$command=wvConfig::get('directory_executables') . '/'. $command;
 		}
-		echo "EXECUTING:\n$command\n";
 		
 		return Generic::executeCommand($command);
 	}

@@ -8,5 +8,5 @@ directory:
   executables: /var/wviola/lib/wviola/bin  
 thumbnail:
   number: 8
-  width: 320
-  height: 240
+  width: 60
+  height: 45

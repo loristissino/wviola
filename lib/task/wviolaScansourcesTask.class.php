@@ -37,13 +37,17 @@ EOF;
     $connection = $databaseManager->getDatabase($options['connection'] ? $options['connection'] : null)->getConnection();
 
     // add your code here
-	echo "HERE WE GO...\n";
-	
-	$file=new SourceFile('/videos', 'a1.mpg');
+
+	$file=new SourceFile('/videos', 'senso.mpg');
+	$this->log($this->formatter->format('File: ' . $file->getFullPath()), 'NOTICE');
+	$this->log($this->formatter->format('Gathering information...'), 'NOTICE');
 	$file->
-	gatherWvInfo()->
-	saveWvInfoFile()
-	;
+	gatherWvInfo()
+	->saveWvInfoFile();
+	$this->log($this->formatter->format('Computing MD5Sum...'), 'NOTICE');
+	$file->
+	appendMD5Sum()
+	->saveWvInfoFile();
 	
   }
 }
