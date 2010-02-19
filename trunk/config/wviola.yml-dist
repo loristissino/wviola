@@ -5,6 +5,7 @@ directory:
   sources:  /var/wviola/data/filesystem/sources
   iso_cache:  /var/wviola/data/filesystem/iso_images/cache
   iso_images: /var/wviola/data/filesystem/iso_images/done
+  executables: /var/wviola/lib/wviola/bin 
 thumbnail:
   number: 3
   width: 60

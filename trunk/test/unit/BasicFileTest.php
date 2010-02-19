@@ -2,7 +2,7 @@
 
 require_once dirname(__FILE__).'/../bootstrap/FileSystem.php';
  
-$t = new lime_test(10, new lime_output_color());
+$t = new lime_test(11, new lime_output_color());
 
 $t->diag('BasicFile functions');
 
@@ -46,6 +46,8 @@ $t->is($file->getMD5Sum(), 'e2b994bdfeeebb07da40c284ce580bb3', '->getMD5Sum() re
 
 $t->is($file->executeCommand('/bin/echo foo'), 'foo', '->executeCommand() returns the result of a command as a string');
 $t->is_deeply($file->executeCommand('/bin/echo -e \'foo\nbar\''), array('foo', 'bar'), '->executeCommand() returns the result of a command');
+$t->is($file->executeCommand('testcommand', true), 'This is a test', '->executeCommand() executes a custom command');
+
 
 try
 {

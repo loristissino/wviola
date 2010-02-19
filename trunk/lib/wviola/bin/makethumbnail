@@ -1,0 +1,35 @@
+#!/bin/bash
+# This will make a thumbnail out of a video
+
+if [[ $# -ne 5 ]]; then
+	echo $0 source position crop scale format
+	echo Example:
+	echo $0 /tmp/myvideofile.mpeg 20 540:576 320:240 jpeg
+	# from movie /tmp/myvideofile.mpeg
+	# take a frame after 20 seconds (more or less)
+	# cropping an area of 540:576 and scaling to 320:240
+	# and saving the image in jpeg format
+	exit 1
+fi
+
+SOURCE=$1
+POSITION=$2
+CROP=$3
+SCALE=$4
+FORMAT=$5
+
+TEMPDIR=$(mktemp -d)
+
+cd $TEMPDIR
+
+mplayer -vo $FORMAT  -frames 1 -ss $POSITION -ao null -vf crop=$CROP,scale=$SCALE $SOURCE >/dev/null 2>/dev/null
+
+TEMPFILE=$(mktemp)
+mv 00000001.* $TEMPFILE
+
+echo $TEMPFILE
+#identify $TEMPFILE
+#feh $TEMPFILE
+
+rm -rf $TEMPDIR
+
