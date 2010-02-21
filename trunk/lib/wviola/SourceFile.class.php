@@ -106,6 +106,7 @@ class SourceFile extends BasicFile
 				$frame=$moviefile->getFrameAsJpegBase64($position, $cropW, $cropH, $thumbnailWidth, $thumbnailHeight);
 				if ($frame)
 				{
+					$this->setWvInfo('thumbnail_' . $i . '_position', $position);
 					$this->setWvInfo('thumbnail_' . $i . '_width', $thumbnailWidth);
 					$this->setWvInfo('thumbnail_' . $i . '_height', $thumbnailHeight);
 					$this->setWvInfo('thumbnail_' . $i . '_base64content', $frame);
