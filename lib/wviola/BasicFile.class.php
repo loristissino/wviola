@@ -26,6 +26,14 @@ class BasicFile
 		{
 			throw new Exception(sprintf('Not a valid file: %s', $this->getFullPath()));
 		}
+		
+		if ($this->getStat('size')<0)
+		{
+			/* for big files, stat gets wrong results... */
+			$command='stat --dereference --format "%s" "' . $this->getFullPath() . '"';
+			$this->_stat['size']=(float) $this->executeCommand($command); 
+		}
+		
 	}
 	
 	public function getPath()
