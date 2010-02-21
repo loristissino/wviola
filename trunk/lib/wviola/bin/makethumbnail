@@ -5,6 +5,7 @@ if [[ $# -ne 5 ]]; then
 	echo $0 source position crop scale format
 	echo Example:
 	echo $0 /tmp/myvideofile.mpeg 20 540:576 320:240 jpeg
+	echo "The output will be FRAME=tempfile in case of success, FRAME=none in case of failure"
 	# from movie /tmp/myvideofile.mpeg
 	# take a frame after 20 seconds (more or less)
 	# cropping an area of 540:576 and scaling to 320:240
@@ -25,11 +26,40 @@ cd $TEMPDIR
 mplayer -vo $FORMAT  -frames 1 -ss $POSITION -ao null -vf crop=$CROP,scale=$SCALE $SOURCE >/dev/null 2>/dev/null
 
 TEMPFILE=$(mktemp)
-mv 00000001.* $TEMPFILE
+mv 00000001.* $TEMPFILE 2>/dev/null
 
-echo $TEMPFILE
-#identify $TEMPFILE
-#feh $TEMPFILE
+# if the position is past the last keyframe no frame is extracted
+
+if [[ $? -eq 0 ]]; then
+	echo FRAME=$TEMPFILE
+	#identify $TEMPFILE
+	# feh $TEMPFILE
+else
+	echo FRAME=none
+fi
 
 rm -rf $TEMPDIR
+
+
+exit 
+
+/*
+to get a frame, mplayer seems to be faster than ffmpeg
+
+compare theese:
+
+time ffmpeg -i a1.mpg -ss 300 -r 1 -f image2 picture.png
+....
+real	0m23.688s
+user	0m23.125s
+sys	0m0.560s
+
+time mplayer -vo png  -frames 1 -ss 300 -ao null a1.mpg 
+real	0m0.242s
+user	0m0.132s
+sys	0m0.048s
+
+Seems like ffmpeg doesn't seek to the right position, simply sequentially follows the stream...
+
+*/
 
