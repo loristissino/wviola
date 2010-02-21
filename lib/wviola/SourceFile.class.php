@@ -76,23 +76,18 @@ class SourceFile extends BasicFile
 			setWvInfo('video_codec', $movie->getVideoCodec())->
 			setWvInfo('audio_codec', $movie->getAudioCodec())
 			;
-						
-			$command=sprintf('ffprobe "%s" 2>&1 | grep "DAR " | sed -e "s/^.*DAR //" -e "s/].*//"', $this->getFullPath());
-			/*
-			With this command we find the Display Aspect Ratio, stored in MPEG files.
-			ffprobe outputs on the standard error, hence the redirection
-			*/
-			$sourceAspectRatio=$this->executeCommand($command);
-			if(strpos($ratio, ':'))
-			{
-				list($width, $height)=explode(':', $sourceAspectRatio);
-				$sourceAspectRatio=$width/$height;
-			}
-			else
+
+			$moviefile=new MovieFile($this->getFullPath());
+
+			$sourceAspectRatio=$moviefile->getExplicitAspectRatio();
+			
+			if(!$sourceAspectRatio)
 			{
 				$sourceAspectRatio=$movie->getFrameWidth()/$movie->getFrameHeight();
 			}
-			
+
+
+
 			$this->setWvInfo('video_aspect_ratio', $sourceAspectRatio);
 		
 			$thumbnailsNumber=wvConfig::get('thumbnail_number', 5);
@@ -105,50 +100,19 @@ class SourceFile extends BasicFile
 			$cropH=$movie->getFrameHeight();
 			$cropW=$movie->getFrameWidth()*$thumbnailAspectRatio/$sourceAspectRatio;
 			
-
-/*
-to get a frame, mplayer seems to be faster than ffmpeg
-
-compare theese:
-
-time ffmpeg -i a1.mpg -ss 300 -r 1 -f image2 picture.png
-....
-real	0m23.688s
-user	0m23.125s
-sys	0m0.560s
-
-time mplayer -vo png  -frames 1 -ss 300 -ao null a1.mpg 
-real	0m0.242s
-user	0m0.132s
-sys	0m0.048s
-
-Seems like ffmpeg doesn't seek to the right position, simply sequentially follows the stream...
-
-*/
-
-			for($i=1; $i<=$thumbnailsNumber;$i++)
+			for($i=0; $i<=$thumbnailsNumber;$i++)
 			{
-				$position=$i*($movie->getDuration()/($thumbnailsNumber+1));
-
-				$tempfile=$this->executeCommand(
-					sprintf('makethumbnail "%s" %f %s %s jpeg',
-						$this->getFullPath(),
-						$position,
-						$cropW . ':' . $cropH,
-						$thumbnailWidth . ':' . $thumbnailHeight
-						),
-					true);
-						
-				$text=base64_encode(file_get_contents($tempfile));
-
-				$this->setWvInfo('thumbnail_' . $i . '_width', $thumbnailWidth);
-				$this->setWvInfo('thumbnail_' . $i . '_height', $thumbnailHeight);
-				$this->setWvInfo('thumbnail_' . $i . '_base64content', $text);
-				
-				unlink($tempfile);
+				$position=$i*($movie->getDuration()/($thumbnailsNumber));
+				$frame=$moviefile->getFrameAsJpegBase64($position, $cropW, $cropH, $thumbnailWidth, $thumbnailHeight);
+				if ($frame)
+				{
+					$this->setWvInfo('thumbnail_' . $i . '_width', $thumbnailWidth);
+					$this->setWvInfo('thumbnail_' . $i . '_height', $thumbnailHeight);
+					$this->setWvInfo('thumbnail_' . $i . '_base64content', $frame);
+				}
 
 			}
-
+			unset($moviefile);
 			
 		}
 		catch (Exception $e)

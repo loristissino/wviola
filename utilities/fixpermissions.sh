@@ -13,9 +13,9 @@ sudo find "$BASEDIR" -type f ! -perm 660 -exec chmod 660 {} \;
 cd "$BASEDIR/utilities"
 chmod +x *sh *py
 
-cd "$BASEDIR/bin"
+cd "$BASEDIR/lib/wviola/bin"
 chmod +x *
 
 chmod +x  "$BASEDIR/symfony"
 
-rm -rf "$BASEDIR/data/filesystem/sources"
+rm -rf "$BASEDIR/data/filesystem"

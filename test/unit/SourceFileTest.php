@@ -44,7 +44,7 @@ $file->saveWvInfoFile();
 
 $t->is($file->getWvInfo('video_aspect_ratio'), 1.33469665985, '->gatherWvInfo() correctly finds the aspect ratio for an MPEG file');
 
-$image=base64_decode($file->getWvInfo('thumbnail_1_base64content'));
+$image=base64_decode($file->getWvInfo('thumbnail_0_base64content'));
 
 $tempfile=tempnam('/tmp', 'wviola');
 file_put_contents($tempfile, $image);
