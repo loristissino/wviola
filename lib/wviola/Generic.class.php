@@ -245,7 +245,7 @@ class Generic{
 				ob_start();
 
 				echo "RESULT: \n";
-				print_r($info);
+				print_r($result);
 
 				$f=fopen('wviolalog.txt', 'a'); fwrite($f, ob_get_contents());fclose($f);ob_end_clean();
 			}
@@ -306,5 +306,14 @@ class Generic{
 		
 	}
 	
-	
+	public static function positiveOption($v)
+	{
+		return in_array(strtoupper($v), array(1, 'YES', 'Y', 'TRUE', 'ON')); 
+	}
+
+	public static function negativeOption($v)
+	{
+		return in_array(strtoupper($v), array(0, 'NO', 'N', 'FALSE', 'OFF')); 
+	}
+
 }

@@ -44,7 +44,7 @@ class MovieFile extends BasicFile
 		ffprobe outputs on the standard error, hence the redirection
 		*/
 		$AspectRatio=$this->executeCommand($command);
-		if(strpos($AspectRatio, ':'))
+		if(@strpos($AspectRatio, ':'))
 		{
 			list($width, $height)=explode(':', $AspectRatio);
 			$AspectRatio=$width/$height;
