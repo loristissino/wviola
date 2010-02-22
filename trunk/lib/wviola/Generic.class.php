@@ -14,26 +14,23 @@ class Generic{
 				$val *= 1024;
 			case 'k':
 				$val *= 1024;
-    }
-
-    return $val;
+		}
+		return $val;
 	}
 	
 	public static function int_int_divide($x, $y) 
-	
 	{
-    return ($x - ($x % $y)) / $y;
+		return ($x - ($x % $y)) / $y;
 	}
 	
 	public static function decode($text)
-	
 	{
 		$text=str_replace('&#039;', "'", $text);
 		return html_entity_decode($text);
 	}
 	
 	public static function datetime($date, $context=null)
-		{
+	{
 			
 			if ($date===null)
 			{
@@ -273,5 +270,41 @@ class Generic{
 		$text=base64_decode(str_replace('_', '/', $var));
 		return unserialize(base64_decode(str_replace('_', '/', $var)));
 	}
+	
+	public static function removeLastCharIf(&$string, $char)
+	{
+		if (substr($string, -1)==$char)
+		{
+			$string=substr($string, 0, strlen($string)-1);
+		}
+	}
+	
+	public static function addFirstCharIfNot(&$string, $char)
+	{
+		if (substr($string, 0, 1)!=$char)
+		{
+			$string=$char . $string;
+		}
+	}
+	
+	public static function normalizeDirName(&$name)
+	{
+		Generic::removeLastCharIf($name, '/');
+		Generic::addFirstCharIfNot($name, '/');
+	}
+	
+	public static function getCompletePath($maindir, $subdir)
+	{
+		if($maindir=='/')
+		{
+			$maindir='';
+		}
+		Generic::normalizeDirName($subdir);
+		$path= $maindir . $subdir;
+		Generic::normalizeDirName($path);
+		return $path;
+		
+	}
+	
 	
 }

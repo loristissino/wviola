@@ -59,6 +59,11 @@ class SourceFile extends BasicFile
 	}
 	
 	
+	private function _gatherImageInfo()
+	{
+		return;
+	}
+	
 	private function _gatherVideoInfo()
 	{
 		try
@@ -164,7 +169,7 @@ class SourceFile extends BasicFile
 			}
 		}
 		
-		if (is_writeable($this->getWvInfoFilePath()) || (!file_exists($this->getWvInfoFilePath())))
+		if (is_writeable($this->getWvDirPath()))
 		{
 			$fp=fopen($this->getWvInfoFilePath(), 'w');
 			$yaml=sfYaml::dump($this->_fileInfo, 4);

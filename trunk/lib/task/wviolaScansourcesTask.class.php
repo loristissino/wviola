@@ -15,7 +15,8 @@ class wviolaScansourcesTask extends sfBaseTask
       new sfCommandOption('connection', null, sfCommandOption::PARAMETER_REQUIRED, 'The connection name', 'propel'),
       // add your own options here
 	
-      new sfCommandOption('directory', null, sfCommandOption::PARAMETER_OPTIONAL, 'The directory name', wvConfig::get('directory_sources')),
+      new sfCommandOption('subdir', null, sfCommandOption::PARAMETER_OPTIONAL, 'Subdirectory name', ''),
+      new sfCommandOption('recursive', null, sfCommandOption::PARAMETER_OPTIONAL, 'whether recursion will be applied', false),
 	
     ));
 
@@ -31,33 +32,61 @@ EOF;
   }
 
 
-  protected function recursivelyScanDirectory($directory, $strlen)
+  protected function ScanDirectory($sourcesDirectory, $subdir, $recursive=false)
 	{
-		$filenames=scandir($directory);
-		foreach($filenames as $basename)
+		$completeDirPath=Generic::getCompletePath($sourcesDirectory, $subdir);
+		
+		if(is_dir($completeDirPath))
 		{
-			if (substr($basename, 0, 1)=='.')
+			$filenames=@scandir($completeDirPath);
+			
+			if (!$filenames)
 			{
-				continue;
+				throw new Exception("Could not read directory: $completeDirPath");
 			}
+			
+			foreach($filenames as $basename)
+			{
+				if (substr($basename, 0, 1)=='.')
+				{
+					continue;
+				}
+				
+				$newsubdir=Generic::getCompletePath($subdir, $basename);
+				$totalpath=Generic::getCompletePath($sourcesDirectory, $newsubdir);
+				
+				if (is_dir($totalpath))
+				{
+					$this->scanDirectory($sourcesDirectory, $newsubdir, $recursive);
+				}
+				else
+				{
+					Generic::normalizeDirName($subdir);
+					
+					$file=new SourceFile($subdir, $basename);
+					
+					$this->logsection('file', $file->getFullPath(), null, 'INFO');
+					
+					$this->log($this->formatter->format('Gathering information...', 'COMMENT'));
+					$file->gatherWvInfo();
+					
+					$this->log($this->formatter->format('Computing MD5 hash...', 'COMMENT'));
+					$file->appendMD5sum();
+					
+					$file->saveWvInfoFile();
+					$this->log($this->formatter->format('Saved information.', 'INFO'));
 
-			$filepath=$directory . '/'. $basename;
-	
-			if (is_dir($filepath))
-			{
-				$this->recursivelyScanDirectory($filepath, $strlen);
+					unset($file);
+				}
+			
 			}
-			
-			$file=new SourceFile(substr($directory, $strlen), $basename);
-			$this->log($this->formatter->format('  File: ' . $file->getFullPath(), 'COMMENT'));
-			
-			// do the stuff
-			
-			unset($file);
-			
+		}
+		else
+		{
+			throw new Exception("Not a directory: $completeDirPath");
 		}
 		
-	}  
+	}
 
   protected function execute($arguments = array(), $options = array())
   {
@@ -67,39 +96,29 @@ EOF;
 
     // add your code here
 
-	$directory=$options['directory'];
+	$recursion=in_array($options['recursive'], array(1, 'true', 'yes', 'y')); 
+	
+	$subdir=$options['subdir'];
+	Generic::normalizeDirName($subdir, '/');
 	
 	$sourcesDirectory=wvConfig::get('directory_sources');
 	
-	$strlen=strlen($sourcesDirectory);
+	$completeDirPath=Generic::getCompletePath($sourcesDirectory, $subdir);
 	
-	if(substr($directory,0,$strlen)!=$sourcesDirectory)
+	$this->log($this->formatter->format(sprintf('Scanning directory: «%s»', $completeDirPath), 'COMMENT'));
+
+
+	try
 	{
-		$this->log($this->formatter->format('You cannot use this command to scan directory outside	 ' . $sourcesDirectory, 'ERROR'));
-		return 1;
+		$this->ScanDirectory($sourcesDirectory, $subdir, $recursion);
+	}
+	catch (Exception $e)
+	{
+		$this->log($this->formatter->format($e->getMessage(), 'ERROR'));
+		return 2;
 	}
 	
-	
-	$this->log($this->formatter->format('Scanning directory: ' . $directory, 'COMMENT'));
-	
-	$this->recursivelyScanDirectory($directory, $strlen);
-	
-	die();
-
-	$file=new SourceFile('/videos', 'senso.mpg');
-	$this->log($this->formatter->format('File: ' . $file->getFullPath(), 'COMMENT'));
-	$this->log($this->formatter->format('Gathering information...', 'ERROR'));
-	$this->log($this->formatter->format('INFO...', 'INFO'));
-	$file->
-	gatherWvInfo()
-	->saveWvInfoFile();
-	
-	/*
-	$this->log($this->formatter->format('Computing MD5Sum...'), 'NOTICE');
-	$file->
-	appendMD5Sum()
-	->saveWvInfoFile();
-	*/
+	return 0;
 	
   }
 }

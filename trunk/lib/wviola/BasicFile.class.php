@@ -17,6 +17,7 @@ class BasicFile
 				break;
 			case 2:
 				$this->_path=func_get_arg(0);
+				Generic::removeLastCharIf($this->_path, '/');
 				$this->_basename=func_get_arg(1);
 				break;
 		}
@@ -48,7 +49,7 @@ class BasicFile
 	
 	public function getFullPath()
 	{
-		return $this->getPath() . '/' . $this->getBasename();
+		return Generic::getCompletePath($this->getPath(), $this->getBasename());
 	}
 
 	public function getStat($name)
