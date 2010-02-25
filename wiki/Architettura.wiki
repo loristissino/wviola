@@ -66,16 +66,16 @@ Andreas consulta i log di tutte le operazioni.
 
 Andreas consulta l'archivio delle immagini ISO dei DVD-ROM contenenti gli asset in forma non compressa.
 
-== Applicazioni batch ==
+== Applicazioni batch (task)==
 
-Le applicazioni batch vengono eseguite da riga di comando direttamente o tramite apposito _cron job_.
+Le applicazioni batch (_task_, nella terminologia di Symfony) vengono eseguite da riga di comando direttamente o tramite apposito _cron job_.
 
-Per tutte le applicazioni batch è possibile ottenere un help in linea con il comando `symfony help`. Ad esempio:
+Per tutti i task è possibile ottenere un help in linea con il comando `symfony help`. Ad esempio:
 
 {{{
 $ symfony help wviola:scan-sources
 Usage:
- symfony wviola:scan-sources [--application="..."] [--env="..."] [--connection="..."] [--subdir[="..."]] [--recursive[="..."]] [--size-limit-for-md5sum[="..."]] 
+ symfony wviola:scan-sources [--application="..."] [--env="..."] [--connection="..."] [--subdir[="..."]] [--recursive[="..."]] [--size-limit-for-md5sum[="..."]] [--logged[="..."]] 
 
 Options:
  --application            The application name (default: frontend)
@@ -84,13 +84,17 @@ Options:
  --subdir                 Subdirectory name (default: /)
  --recursive              whether recursion will be applied (default: false)
  --size-limit-for-md5sum  size in bytes over which md5sums will not be computed (0 means no limit) (default: 0)
+ --logged                 whether the execution will be logged in the DB (default: true)
 
 Description:
  The wviola:scan-sources task scans the source asset directory in order to find useful information and prepare thumbnails.
  Call it with:
  
    php symfony wviola:scan-sources
+
 }}}
+
+Di ogni esecuzione di task viene tenuta traccia nel database, a meno che non si specifichi l'opzione `--logged=false`.
 
 === Archiviazione ===
 
@@ -139,20 +143,22 @@ Il task dovrebbe essere richiamabile con il comando:
 symfony wviola:scan-sources --env=prod
 }}}
 
-È possibile specificare una sottodirectory in cui lavorare (che deve essere all'interno della directory di base), se attivare la ricorsione o meno e un valore limite per la dimensione del file oltre il quale non deve essere calcolato l'hash MD5. Queste due opzioni vengono sfruttate dall'applicazione web quando un utente visualizza i file di una directory appena creata, e per la quale devono essere predisposte in fretta le anteprime e le informazioni di base, lasciando per tempi successivi il calcolo degli altri valori).
+È possibile specificare:
 
-Ulteriori informazioni possono essere ottenute con il comando:
+  * una sottodirectory in cui lavorare (che deve essere all'interno della directory di base)
+  * se attivare o meno la ricorsione
+  * un valore limite per la dimensione del file oltre il quale non deve essere calcolato l'hash MD5
+  * se registrare nel log su DB l'esecuzione del task
 
-{{{
-symfony help wviola:scan-sources
-}}}
+Queste opzioni vengono sfruttate dall'applicazione web quando un utente visualizza i file di una directory appena creata, e per la quale devono essere predisposte in fretta le anteprime e le informazioni di base, lasciando per tempi successivi il calcolo degli altri valori.
 
 Un esempio di interazione è il seguente:
 
 {{{
-symfony wviola:scan-sources --recursive=true --subdir=videos --size-limit-for-md5sum=700000 --emv=prod
-Scanning directory: «/var/wviola/data/filesystem/sources/videos»
-Recursion is on.
+$ symfony wviola:scan-sources --recursive=true --subdir=videos --size-limit-for-md5sum=700000 --emv=prod
+>> directory /var/wviola/data/filesystem/sources/videos
+>> recursion on
+>> size-limit-for-md5sum 700000
 >> source    Opening candidate source file...
 >> file      /var/wviola/data/filesystem/sources/videos/bigbuckbunny01.avi
 >> info      Basic information gathering skipped (already present).
