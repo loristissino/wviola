@@ -218,9 +218,11 @@ DROP TABLE "task_log" CASCADE;
 CREATE TABLE "task_log"
 (
 	"id" serial  NOT NULL,
-	"task_type" INTEGER,
+	"task_name" VARCHAR(50),
+	"options" TEXT,
+	"arguments" TEXT,
 	"created_at" TIMESTAMP,
-	"updated_at" TIMESTAMP,
+	"task_finished_at" TIMESTAMP,
 	PRIMARY KEY ("id")
 );
 
