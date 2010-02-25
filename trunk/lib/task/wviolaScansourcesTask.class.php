@@ -33,7 +33,7 @@ EOF;
 
 	$this->_isRecursive=false;
 	$this->_sourcesDirectory='';
-	
+
 
   }
 
@@ -51,23 +51,48 @@ EOF;
 	{
 		$file=new SourceFile($subdir, $basename);
 		
+		$this->logSection('source', 'Opening candidate source file...', null, 'COMMENT');
 		$this->logsection('file', $file->getFullPath(), null, 'INFO');
-		
-		$this->log($this->formatter->format('Gathering information...', 'COMMENT'));
-		$file->gatherWvInfo();
-		
-		if($this->mustComputeMD5Sum($file->getStat('size')))
+				
+		if (!$file->getHasWvInfo())
 		{
-			$this->log($this->formatter->format('Computing MD5 hash...', 'COMMENT'));
-			$file->appendMD5sum();
+			$this->logSection('info', 'Gathering information...', null, 'COMMENT');
+			$file->gatherWvInfo();
 		}
 		else
 		{
-			$this->log($this->formatter->format('MD5 computing skipped.', 'COMMENT'));
+			$this->logSection('info', 'Basic information gathering skipped (already present).', null, 'COMMENT');
 		}
 		
-		$file->saveWvInfoFile();
-		$this->log($this->formatter->format('Information saved.', 'INFO'));
+		if($this->mustComputeMD5Sum($file->getStat('size')))
+		{
+			if(!$file->getHasMD5Sum())
+			{
+				$this->logSection('md5sum', 'Computing MD5 hash...', null, 'COMMENT');
+				$file->appendMD5sum();
+			}
+			else
+			{
+				$this->logSection('md5sum', 'MD5 computing already done.', null, 'COMMENT');
+			}
+		}
+		else
+		{
+			$this->logSection('md5sum', 'MD5 computing skipped.', null, 'COMMENT');
+		}
+		
+		if ($file->getWvInfoChanged())
+		{
+			$file->saveWvInfoFile();
+			$this->logSection('info', 'Writing information file...', null, 'INFO');
+			$this->logSection('file+', $file->getWvInfoFilePath(), null, 'INFO');
+		}
+		else
+		{
+			$this->logSection('info', 'Information saving skipped (no need).', null, 'COMMENT');
+		}
+		
+		
 
 		unset($file);
 		
@@ -130,8 +155,15 @@ EOF;
 
     // add your code here
 
+	$tasklog= new TaskLog();
+	$tasklog->
+	setTaskName($this->name)->
+	setArguments(serialize($arguments))->
+	setOptions(serialize($options))->
+	save();
+
 	$this->_isRecursive=Generic::positiveOption($options['recursive']); 
-	
+		
 	$subdir=$options['subdir'];
 	Generic::normalizeDirName($subdir, '/');
 	
@@ -154,6 +186,12 @@ EOF;
 		return 1;
 	}
 	
+	
+	$tasklog->
+	setTaskFinishedAt(time())->
+	save();
+	// we update the record
+
 	return 0;
 	
   }

@@ -2,7 +2,7 @@
 
 require_once dirname(__FILE__).'/../bootstrap/FileSystem.php';
  
-$t = new lime_test(14, new lime_output_color());
+$t = new lime_test(19, new lime_output_color());
 
 $t->diag('SourceFile functions');
 
@@ -16,16 +16,23 @@ $t->is($file->getWvDirIsReadable(), false, '->getWvDirIsReadable() returns the c
 $t->is($file->getWvDirIsWriteable(), false, '->getWvDirIsWriteable() returns the correct value');
 $t->is($file->canWriteWvDir(), true, '->canWriteWvDir() returns the correct value');
 
-$t->is($file->getHasWvInfo(), false, '->getHasWvInfo() returns false if there are not information about the file');
+$t->is($file->getHasWvInfo(), false, '->getHasWvInfo() returns false if there is no information about the file');
 
 $file->setWvInfo('video_frame_width', 320);
 $file->setWvInfo('video_frame_height', 240);
 $t->is($file->getWvInfo('video_frame_width'), 320, '->getWvInfo() returns the correct value');
-$t->is($file->getHasWvInfo(), true, '->getHasWvInfo() returns true if there are information about the file');
+$t->is($file->getHasWvInfo(), true, '->getHasWvInfo() returns true when information about the file is present');
 
+
+$file->gatherWvInfo(true);
+//we need to gather some basic info about the file, in order to allow timestamp comparisons...
 $file->saveWvInfoFile();
+
 // we save the file, unset the object and get a new instance for the same file...
+
+//echo $file->getStat('ino');
 unset($file);
+//die();
 $file=new SourceFile('/videos', 'bigbuckbunny01.avi');
 $t->is($file->getWvInfo('video_frame_width'), 320, '->saveWvInfoFile() correctly saved the information on the file');
 
@@ -54,3 +61,28 @@ $t->is_deeply(getimagesize($tempfile), array (0 => 60,  1 => 45,  2 => 2,  3 => 
 unlink($tempfile);
 
 unset($file);
+
+$file=new SourceFile('/videos', 'bigbuckbunny02.mpeg');
+$t->is($file->getHasWvInfo(), true, '->getHasWvInfo() returns true if information about the file was already collected');
+
+$t->is($file->getHasMd5Sum(), false, '->getHasMD5Sum() returns false when MD5 was not already computed');
+
+$t->comment('computing MD5Sum');
+$file->appendMD5Sum();
+
+
+$t->is($file->getHasMd5Sum(), true, '->getHasMD5Sum() returns true when MD5 was already computed');
+
+$filepath=$file->getFullPath();
+
+unset($file);
+
+touch($filepath);
+
+$file=new SourceFile('/videos', 'bigbuckbunny02.mpeg');
+
+$t->is($file->getHasWvInfo(), false, '->getHasWvInfo() returns false when a file has been changed');
+
+$t->is(sizeof($file->getCompleteWvInfo()), 0, '->getCompleteWvInfo() returns an empty array when a file has been modified');
+
+

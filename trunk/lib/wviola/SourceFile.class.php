@@ -8,7 +8,8 @@ class SourceFile extends BasicFile
 	protected
 		$_relativePath,
 		$_basicPath,
-		$_fileInfo;
+		$_fileInfo,
+		$_infoChanged;
 
 	public function __construct($relativePath, $basename)
 	{
@@ -17,11 +18,27 @@ class SourceFile extends BasicFile
 		$this->loadWvInfoFile();
 	}
 	
+
 	public function getHasWvInfo()
 	{
-		return is_array($this->_fileInfo);
+		return (!is_null($this->_fileInfo));
 	}
 	
+	public function getWvInfoChanged()
+	{
+		return $this->_infoChanged;
+	}
+	
+	private function setWvInfoChanged($v)
+	{
+		$this->_infoChanged=$v;
+	}
+	
+	public function getHasMD5Sum()
+	{
+		return $this->getWvInfo('file_md5sum')!='';
+	}
+
 	public function appendMD5Sum()
 	{
 		$this->
@@ -31,7 +48,7 @@ class SourceFile extends BasicFile
 		return $this;
 	}
 	
-	public function gatherWvInfo()
+	public function gatherWvInfo($onlyBasicInfo=false)
 	{
 		
 		$this->
@@ -40,19 +57,21 @@ class SourceFile extends BasicFile
 		setWvInfo('file_atime', $this->getStat('atime'))->
 		setWvInfo('file_size', $this->getStat('size'));
 		
-		list($type,$subtype)=explode('/', $this->getGuessedInternetMediaType());
-		
-		switch($type)
+		if(!$onlyBasicInfo)
 		{
-			case 'video':
-				$this->_gatherVideoInfo();
-				break;
-			case 'image':
-				$this->_gatherImageInfo();
-				break;
-			case 'application':
-				// zip file?
-				break;
+			list($type,$subtype)=explode('/', $this->getGuessedInternetMediaType());
+			switch($type)
+			{
+				case 'video':
+					$this->_gatherVideoInfo();
+					break;
+				case 'image':
+					$this->_gatherImageInfo();
+					break;
+				case 'application':
+					// zip file?
+					break;
+			}
 		}
 		
 		return $this;
@@ -129,6 +148,7 @@ class SourceFile extends BasicFile
 	
 	public function loadWvInfoFile()
 	{
+		$this->setWvInfoChanged(false);
 		if ($this->_fileInfo)
 		{
 			return;
@@ -140,13 +160,22 @@ class SourceFile extends BasicFile
 		}
 		else
 		{
-			$this->_fileInfo=null;
+			$this->resetWvInfo();
 		}
 		
+		if ($this->getStat('mtime')>$this->getWvInfo('file_mtime'))
+		{
+			$this->resetWvInfo();
+		}
 	}
 	
 	public function saveWvInfoFile()
 	{
+		if (!$this->getWvInfoChanged())
+		{
+			return;
+		}
+		
 		if (!$this->_fileInfo)
 		{
 			return;
@@ -195,13 +224,22 @@ class SourceFile extends BasicFile
 	public function setWvInfo($key, $value)
 	{
 		eval('$this->_fileInfo' . $this->key2RealKey($key) . '=$value;');
+		$this->setWvInfoChanged(true);
+		
 		return $this;
 	}
-	
+
+	public function resetWvInfo()
+	{
+		unset($this->_fileInfo);
+		$this->_fileInfo=null;
+	}
+
+
 	public function getWvInfo($key, $default='')
 	{
 		$value='';
-		eval('$value=$this->_fileInfo' . $this->key2RealKey($key) . ';');
+		@eval('$value=$this->_fileInfo' . $this->key2RealKey($key) . ';');
 		return $value?$value: $default;
 	}
 	
