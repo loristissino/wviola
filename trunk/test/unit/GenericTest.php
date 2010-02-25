@@ -2,7 +2,7 @@
 
 require_once dirname(__FILE__).'/../bootstrap/unit.php';
  
-$t = new lime_test(99, new lime_output_color());
+$t = new lime_test(119, new lime_output_color());
 
 $t->diag('::datetime()');
 
@@ -251,3 +251,18 @@ $t->is(Generic::getCompletePath('/', '/bar'), '/bar', '::getCompletePath() retur
 $t->is(Generic::getCompletePath('', '/bar'), '/bar', '::getCompletePath() returns the correct complete path');
 
 $t->is(Generic::getCompletePath('', 'bar'), '/bar', '::getCompletePath() returns the correct complete path');
+
+
+$t->diag('::positiveOption()');
+
+foreach(array(1, '1', 'yes', 'y', 'YES', 'Y', 'true', 'TRUE', 'on', 'ON') as $value)
+{
+	$t->is(Generic::positiveOption($value), true, '::positiveOption() returns true for ' . $value);
+}
+
+$t->diag('::negativeOption()');
+
+foreach(array(0, '0', 'no', 'n', 'NO', 'N', 'false', 'FALSE', 'off', 'OFF') as $value)
+{
+	$t->is(Generic::negativeOption($value), false, '::negativeOption() returns false for ' . $value);
+}

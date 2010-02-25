@@ -18,6 +18,7 @@ class wviolaScansourcesTask extends sfBaseTask
       new sfCommandOption('subdir', null, sfCommandOption::PARAMETER_OPTIONAL, 'Subdirectory name', '/'),
       new sfCommandOption('recursive', null, sfCommandOption::PARAMETER_OPTIONAL, 'whether recursion will be applied', 'false'),
       new sfCommandOption('size-limit-for-md5sum', null, sfCommandOption::PARAMETER_OPTIONAL, 'size in bytes over which md5sums will not be computed (0 means no limit)', 0),
+	  new sfCommandOption('logged', null, sfCommandOption::PARAMETER_OPTIONAL, 'whether the execution will be logged in the DB', 'true'),
 	
     ));
 
@@ -33,7 +34,7 @@ EOF;
 
 	$this->_isRecursive=false;
 	$this->_sourcesDirectory='';
-
+	$this->_isLogged=true;
 
   }
 
@@ -155,12 +156,19 @@ EOF;
 
     // add your code here
 
-	$tasklog= new TaskLog();
-	$tasklog->
-	setTaskName($this->name)->
-	setArguments(serialize($arguments))->
-	setOptions(serialize($options))->
-	save();
+	$this->_isLogged=Generic::negativeOption($options['logged']);
+	
+	if($this->_isLogged)
+	{
+		echo "LOGGED\n";
+		$tasklog= new TaskLog();
+		$tasklog->
+		setTaskName($this->name)->
+		setArguments(serialize($arguments))->
+		setOptions(serialize($options))->
+		save();
+	}
+
 
 	$this->_isRecursive=Generic::positiveOption($options['recursive']); 
 		
@@ -173,8 +181,9 @@ EOF;
 	
 	$completeDirPath=Generic::getCompletePath($this->_sourcesDirectory, $subdir);
 	
-	$this->log($this->formatter->format(sprintf('Scanning directory: «%s»', $completeDirPath), 'COMMENT'));
-	$this->log($this->formatter->format(sprintf('Recursion is %s.', $this->_isRecursive? 'on': 'off'), 'COMMENT'));
+	$this->logSection('directory', $completeDirPath, null, 'COMMENT');
+	$this->logSection('recursion', $this->_isRecursive? 'on': 'off', null, 'COMMENT');
+	$this->logSection('size-limit-for-md5sum', $this->_size_limit_for_md5sum, null, 'COMMENT');
 
 	try
 	{
@@ -186,11 +195,14 @@ EOF;
 		return 1;
 	}
 	
-	
-	$tasklog->
-	setTaskFinishedAt(time())->
-	save();
-	// we update the record
+	if($this->_isLogged)
+	{
+		$tasklog->
+		setFinishedAt(time())->
+		save();
+		// we update the record
+	}
+
 
 	return 0;
 	

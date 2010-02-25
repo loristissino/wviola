@@ -88,4 +88,4 @@ propel:
     options: longvarchar
     arguments: longvarchar
     created_at: ~
-    task_finished_at: timestamp
+    finished_at: timestamp

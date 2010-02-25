@@ -313,7 +313,7 @@ class Generic{
 
 	public static function negativeOption($v)
 	{
-		return in_array(strtoupper($v), array(0, 'NO', 'N', 'FALSE', 'OFF')); 
+		return !in_array(strtoupper($v), array(0, 'NO', 'N', 'FALSE', 'OFF')); 
 	}
 
 }
