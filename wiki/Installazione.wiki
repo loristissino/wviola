@@ -253,15 +253,22 @@ Nota: l'autenticazione avverrà via LDAP, ma i nomi degli utenti devono essere p
 
 Per effettuare i test, è necessario avere dei file binari a disposizione (piccoli frammenti di video, immagini, ecc.). I file che uso attualmente sono disponibili nella [http://code.google.com/p/wviola/downloads/list pagina dei download].
 
-Va prelevato il file più recente, messo nella directory _/var/wviola/data_ e creato un link simbolico, come indicato qui di seguito:
+Va prelevato il file più recente, messo nella directory _/etc/wviola_ (questa directory, posta sotto _/etc_, può essere usata per cose che non sono sotto il controllo di subversion), e creato un link simbolico, come indicato qui di seguito:
 
 {{{
-cd /var/wviola/data
+cd /etc/wviola
 wget http://wviola.googlecode.com/files/filesystem2010-02-18_090954.tar.bz2
 ln -sf filesystem2010-02-18_090954.tar.bz2 filesystem.tar.bz2
 }}}
 
 Quando vengono eseguiti i test, i file vengono automaticamente estratti e posti nella directory _/var/wviola/data/filesystem_, in modo da partire da una situazione pulita.
+
+L'estrazione avviene (vedi file _test/bootstrap/FileSystem.php_) con l'esecuzione dei seguenti comandi:
+
+{{{
+rm -rf "/var/wviola/data/filesystem"
+tar xvjf "/etc/wviola/filesystem.tar.bz2" --directory "/var/wviola/data" 2>/dev/null
+}}}
 
 === Altre impostazioni ===
 
@@ -273,15 +280,17 @@ Al momento ci sono queste informazioni:
 
 {{{
 directory:
-  published: /var/wviola/data/filesystem/published
+  published_assets: /var/wviola/data/filesystem/published/assets
+  published_thumbnails: /var/wviola/data/filesystem/published/thumbnails
   scheduled: /var/wviola/data/filesystem/scheduled
-  sources:  /var/wviola/data/filesystem/published
+  sources:  /var/wviola/data/filesystem/sources
   iso_cache:  /var/wviola/data/filesystem/iso_images/cache
   iso_images: /var/wviola/data/filesystem/iso_images/done
+  executables: /var/wviola/lib/wviola/bin  
 thumbnail:
-  number: 3
+  number: 8
   width: 60
-  height: 45 
+  height: 45
 }}}
 
 == Test ==
@@ -303,12 +312,14 @@ unit/AssetFileTest...................................................ok
 unit/AssetPeerTest...................................................ok
 unit/AssetTest.......................................................ok
 unit/BasicFileTest...................................................ok
+unit/GenericTest.....................................................ok
+unit/MovieFileTest...................................................ok
 unit/SourceFileTest..................................................ok
 unit/ThumbnailFileTest...............................................ok
 unit/VideoFileTest...................................................ok
 unit/wvConfigTest....................................................ok
  All tests successful.                                                 
- Files=10, Tests=53                                                    
+ Files=12, Tests=162                                                               
 }}}
 
 

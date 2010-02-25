@@ -70,6 +70,28 @@ Andreas consulta l'archivio delle immagini ISO dei DVD-ROM contenenti gli asset 
 
 Le applicazioni batch vengono eseguite da riga di comando direttamente o tramite apposito _cron job_.
 
+Per tutte le applicazioni batch è possibile ottenere un help in linea con il comando `symfony help`. Ad esempio:
+
+{{{
+$ symfony help wviola:scan-sources
+Usage:
+ symfony wviola:scan-sources [--application="..."] [--env="..."] [--connection="..."] [--subdir[="..."]] [--recursive[="..."]] [--size-limit-for-md5sum[="..."]] 
+
+Options:
+ --application            The application name (default: frontend)
+ --env                    The environment (default: dev)
+ --connection             The connection name (default: propel)
+ --subdir                 Subdirectory name (default: /)
+ --recursive              whether recursion will be applied (default: false)
+ --size-limit-for-md5sum  size in bytes over which md5sums will not be computed (0 means no limit) (default: 0)
+
+Description:
+ The wviola:scan-sources task scans the source asset directory in order to find useful information and prepare thumbnails.
+ Call it with:
+ 
+   php symfony wviola:scan-sources
+}}}
+
 === Archiviazione ===
 
 Quando un utente archivia un asset, esso viene spostato in una diversa directory, con l'attribuzione di un ID univoco (slug).
@@ -103,19 +125,47 @@ symfony wviola:prepare-archive --env=prod
 
 Questa applicazione, per ogni file posto nella directory delle sorgenti, determina se si tratta di un asset da archiviare (ossia, se è un'immagine, un video, una registrazione video o una collezione di immagini). In caso positivo:
 
-  * predispone un'immagine di anteprima (estraendo un fotogramma)
+  * predispone alcune immagini tra cui sceglire per l'anteprima (estraendo fotogrammi a campione)
   * calcola un hash del file
   * archivia le informazioni associate al file in un file YAML
 
-Le informazioni estratte vengono messe in una directory nascosta .wviola presente nella directory in cui è presente l'asset (in questo modo non cambiano se il nome della directory viene variato) e sono associate all'i-node del file (così anche il nome del file può cambiare).
+Le informazioni estratte vengono messe in una directory nascosta _.wviola_ presente nella directory in cui è presente l'asset (in questo modo non cambiano se il nome della directory viene variato) e sono associate all'i-node del file (così anche il nome del file può cambiare).
 
 La ricerca avviene basandosi sulla data di ultima modifica (partendo dalla conclusione dell'ultima esecuzione dello stesso task).
 
 Il task dovrebbe essere richiamabile con il comando:
 
 {{{
-symfony wviola:prepare-info --env=prod
+symfony wviola:scan-sources --env=prod
 }}}
+
+È possibile specificare una sottodirectory in cui lavorare (che deve essere all'interno della directory di base), se attivare la ricorsione o meno e un valore limite per la dimensione del file oltre il quale non deve essere calcolato l'hash MD5. Queste due opzioni vengono sfruttate dall'applicazione web quando un utente visualizza i file di una directory appena creata, e per la quale devono essere predisposte in fretta le anteprime e le informazioni di base, lasciando per tempi successivi il calcolo degli altri valori).
+
+Ulteriori informazioni possono essere ottenute con il comando:
+
+{{{
+symfony help wviola:scan-sources
+}}}
+
+Un esempio di interazione è il seguente:
+
+{{{
+symfony wviola:scan-sources --recursive=true --subdir=videos --size-limit-for-md5sum=700000 --emv=prod
+Scanning directory: «/var/wviola/data/filesystem/sources/videos»
+Recursion is on.
+>> source    Opening candidate source file...
+>> file      /var/wviola/data/filesystem/sources/videos/bigbuckbunny01.avi
+>> info      Basic information gathering skipped (already present).
+>> md5sum    MD5 computing skipped.
+>> info      Information saving skipped (no need).
+>> source    Opening candidate source file...
+>> file      /var/wviola/data/filesystem/sources/videos/bigbuckbunny02.mpeg
+>> info      Basic information gathering skipped (already present).
+>> md5sum    Computing MD5 hash...
+>> info      Writing information file...
+>> file+     /var/wviola/data/filesystem/sources/videos/.wviola/435193.yml
+}}}
+
 
 === Sincronizzazione utenti ===
 
