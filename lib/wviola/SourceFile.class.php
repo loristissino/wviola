@@ -55,11 +55,13 @@ class SourceFile extends BasicFile
 		setWvInfo('file_mtime', $this->getStat('mtime'))->
 		setWvInfo('file_ctime', $this->getStat('ctime'))->
 		setWvInfo('file_atime', $this->getStat('atime'))->
-		setWvInfo('file_size', $this->getStat('size'));
+		setWvInfo('file_size', $this->getStat('size'))->
+		setWvInfo('file_mediatype', $this->getGuessedInternetMediaType())
+		;
 		
 		if(!$onlyBasicInfo)
 		{
-			list($type,$subtype)=explode('/', $this->getGuessedInternetMediaType());
+			list($type,$subtype)=explode('/', $this->getWvInfo('file_mediatype'));
 			switch($type)
 			{
 				case 'video':
@@ -88,7 +90,6 @@ class SourceFile extends BasicFile
 		try
 		{
 			$movie= new ffmpeg_movie($this->getFullPath());
-			
 			$this->
 			setWvInfo('video_duration', $movie->getDuration())->
 			setWvInfo('video_framecount', $movie->getFrameCount())->

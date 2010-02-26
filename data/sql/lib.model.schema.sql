@@ -221,7 +221,7 @@ CREATE TABLE "task_log"
 	"task_name" VARCHAR(50),
 	"options" TEXT,
 	"arguments" TEXT,
-	"created_at" TIMESTAMP,
+	"started_at" TIMESTAMP,
 	"finished_at" TIMESTAMP,
 	PRIMARY KEY ("id")
 );

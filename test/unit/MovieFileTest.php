@@ -2,7 +2,7 @@
 
 require_once dirname(__FILE__).'/../bootstrap/FileSystem.php';
  
-$t = new lime_test(4, new lime_output_color());
+$t = new lime_test(5, new lime_output_color());
 
 $t->diag('MovieFile functions');
 
@@ -32,3 +32,10 @@ unset($file);
 $file=new MovieFile('/var/wviola/data/filesystem/sources/videos/bigbuckbunny02.mpeg');
 
 $t->is($file->getExplicitAspectRatio(), 1.33469665985, '->getExplicitAspectRatio() returns the correct Aspect Ratio (DAR) for an MPEG file');
+
+unset($file);
+
+$file=new MovieFile('/var/wviola/data/filesystem/sources/videos/bigbuckbunny01.ogv');
+
+$t->is($file->getExplicitAspectRatio(), false, '->getExplicitAspectRatio() returns false for a theora file without explicit DAR');
+
