@@ -2,7 +2,7 @@
 
 require_once dirname(__FILE__).'/../bootstrap/FileSystem.php';
  
-$t = new lime_test(11, new lime_output_color());
+$t = new lime_test(13, new lime_output_color());
 
 $t->diag('BasicFile functions');
 
@@ -59,4 +59,15 @@ catch (Exception $e)
 	$t->pass('->executeCommand() throws an exception when there is an error');
 }
 
-$t->is($file->getGuessedInternetMediaType(), 'video/x-msvideo', '->getMimeType() returns the correct MIME Type');
+unset($file);
+
+foreach(array(
+	'bigbuckbunny01.avi' => 'video/x-msvideo',
+	'bigbuckbunny01.ogv' => 'video/ogg',
+	'bigbuckbunny02.mpeg' => 'video/mpeg',
+	) as $key=>$value)
+{
+	$file=new BasicFile('/var/wviola/data/filesystem/sources/videos/' . $key);
+	$t->is($file->getGuessedInternetMediaType(), $value, '->getGuessedInternetMediaType() returns the correct Internet Media Type for a file '. $value);
+	unset($file);
+}

@@ -1,9 +1,9 @@
 <pre>
 <?php
 
-echo "this is a test\n";
+echo "this is a test\n\n";
 
-$movie = new ffmpeg_movie('/var/wviola/data/filesystem/sources/videos/video2.mpg');
+$movie = new ffmpeg_movie('/var/wviola/data/filesystem/sources/videos/bigbuckbunny01.ogv');
 
 echo $movie->getDuration() . " the duration of a movie or audio file in seconds.\n";
 echo $movie->getFrameCount() 	. " the number of frames in a movie or audio file.\n";

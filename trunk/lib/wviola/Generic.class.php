@@ -293,6 +293,11 @@ class Generic{
 		Generic::addFirstCharIfNot($name, '/');
 	}
 	
+	public static function normalizedBooleanOption($option)
+	{
+		return $option? 'true': 'false';
+	}
+	
 	public static function getCompletePath($maindir, $subdir)
 	{
 		if($maindir=='/')

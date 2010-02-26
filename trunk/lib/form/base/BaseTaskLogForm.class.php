@@ -19,7 +19,7 @@ abstract class BaseTaskLogForm extends BaseFormPropel
       'task_name'   => new sfWidgetFormInputText(),
       'options'     => new sfWidgetFormTextarea(),
       'arguments'   => new sfWidgetFormTextarea(),
-      'created_at'  => new sfWidgetFormDateTime(),
+      'started_at'  => new sfWidgetFormDateTime(),
       'finished_at' => new sfWidgetFormDateTime(),
     ));
 
@@ -28,7 +28,7 @@ abstract class BaseTaskLogForm extends BaseFormPropel
       'task_name'   => new sfValidatorString(array('max_length' => 50, 'required' => false)),
       'options'     => new sfValidatorString(array('required' => false)),
       'arguments'   => new sfValidatorString(array('required' => false)),
-      'created_at'  => new sfValidatorDateTime(array('required' => false)),
+      'started_at'  => new sfValidatorDateTime(array('required' => false)),
       'finished_at' => new sfValidatorDateTime(array('required' => false)),
     ));
 

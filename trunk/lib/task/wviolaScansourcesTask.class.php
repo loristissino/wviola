@@ -35,6 +35,7 @@ EOF;
 	$this->_isRecursive=false;
 	$this->_sourcesDirectory='';
 	$this->_isLogged=true;
+	$this->_size_limit_for_md5sum=0;
 
   }
 
@@ -157,33 +158,45 @@ EOF;
     // add your code here
 
 	$this->_isLogged=Generic::negativeOption($options['logged']);
+	$options['logged']=Generic::normalizedBooleanOption($this->_isLogged);
 	
-	if($this->_isLogged)
-	{
-		echo "LOGGED\n";
-		$tasklog= new TaskLog();
-		$tasklog->
-		setTaskName($this->name)->
-		setArguments(serialize($arguments))->
-		setOptions(serialize($options))->
-		save();
-	}
-
-
 	$this->_isRecursive=Generic::positiveOption($options['recursive']); 
+	$options['recursive']=Generic::normalizedBooleanOption($this->_isRecursive);
 		
 	$subdir=$options['subdir'];
 	Generic::normalizeDirName($subdir, '/');
+	$options['subdir']=$subdir;
 	
 	$this->_sourcesDirectory=wvConfig::get('directory_sources');
 	
 	$this->_size_limit_for_md5sum=(float)$options['size-limit-for-md5sum'];
 	
+	$options['size-limit-for-md5sum']=$this->_size_limit_for_md5sum;
+	
 	$completeDirPath=Generic::getCompletePath($this->_sourcesDirectory, $subdir);
 	
 	$this->logSection('directory', $completeDirPath, null, 'COMMENT');
-	$this->logSection('recursion', $this->_isRecursive? 'on': 'off', null, 'COMMENT');
-	$this->logSection('size-limit-for-md5sum', $this->_size_limit_for_md5sum, null, 'COMMENT');
+	
+	foreach(array(
+		'subdir',
+		'recursive',
+		'size-limit-for-md5sum',
+		'logged',
+		) as $key)
+	{
+		$this->logSection($key, $options[$key], null, 'COMMENT');
+	}
+
+	if($this->_isLogged)
+	{
+		$tasklog= new TaskLog();
+		$tasklog->
+		setTaskName($this->name)->
+		setArguments(serialize($arguments))->
+		setOptions(serialize($options))->
+		setStartedAt(time())->
+		save();
+	}
 
 	try
 	{

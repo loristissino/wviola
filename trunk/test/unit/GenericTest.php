@@ -2,7 +2,7 @@
 
 require_once dirname(__FILE__).'/../bootstrap/unit.php';
  
-$t = new lime_test(119, new lime_output_color());
+$t = new lime_test(122, new lime_output_color());
 
 $t->diag('::datetime()');
 
@@ -234,6 +234,9 @@ $t->is($dir, '/foo', '::normalizeDirName() normalizes a dir name');
 $dir='/foo/'; Generic::normalizeDirName(&$dir);
 $t->is($dir, '/foo', '::normalizeDirName() normalizes a dir name');
 
+$array['dir']='/foo'; Generic::normalizeDirName(&$array['dir']);
+$t->is($array['dir'], '/foo', '::normalizeDirName() normalizes a dir name as array item');
+
 $t->diag('::getCompletePath()');
 
 $t->is(Generic::getCompletePath('/foo', '/bar'), '/foo/bar', '::getCompletePath() returns the correct complete path');
@@ -266,3 +269,8 @@ foreach(array(0, '0', 'no', 'n', 'NO', 'N', 'false', 'FALSE', 'off', 'OFF') as $
 {
 	$t->is(Generic::negativeOption($value), false, '::negativeOption() returns false for ' . $value);
 }
+
+
+$t->diag('::normalizeBooleanOption()');
+$t->is(Generic::normalizedBooleanOption(true), 'true', '::normalizeBooleanOption() returns «true» for true');
+$t->is(Generic::normalizedBooleanOption(false), 'false', '::normalizeBooleanOption() returns «false» for false');

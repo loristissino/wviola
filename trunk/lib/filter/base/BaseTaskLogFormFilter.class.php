@@ -16,7 +16,7 @@ abstract class BaseTaskLogFormFilter extends BaseFormFilterPropel
       'task_name'   => new sfWidgetFormFilterInput(),
       'options'     => new sfWidgetFormFilterInput(),
       'arguments'   => new sfWidgetFormFilterInput(),
-      'created_at'  => new sfWidgetFormFilterDate(array('from_date' => new sfWidgetFormDate(), 'to_date' => new sfWidgetFormDate())),
+      'started_at'  => new sfWidgetFormFilterDate(array('from_date' => new sfWidgetFormDate(), 'to_date' => new sfWidgetFormDate())),
       'finished_at' => new sfWidgetFormFilterDate(array('from_date' => new sfWidgetFormDate(), 'to_date' => new sfWidgetFormDate())),
     ));
 
@@ -24,7 +24,7 @@ abstract class BaseTaskLogFormFilter extends BaseFormFilterPropel
       'task_name'   => new sfValidatorPass(array('required' => false)),
       'options'     => new sfValidatorPass(array('required' => false)),
       'arguments'   => new sfValidatorPass(array('required' => false)),
-      'created_at'  => new sfValidatorDateRange(array('required' => false, 'from_date' => new sfValidatorDate(array('required' => false)), 'to_date' => new sfValidatorDate(array('required' => false)))),
+      'started_at'  => new sfValidatorDateRange(array('required' => false, 'from_date' => new sfValidatorDate(array('required' => false)), 'to_date' => new sfValidatorDate(array('required' => false)))),
       'finished_at' => new sfValidatorDateRange(array('required' => false, 'from_date' => new sfValidatorDate(array('required' => false)), 'to_date' => new sfValidatorDate(array('required' => false)))),
     ));
 
@@ -47,7 +47,7 @@ abstract class BaseTaskLogFormFilter extends BaseFormFilterPropel
       'task_name'   => 'Text',
       'options'     => 'Text',
       'arguments'   => 'Text',
-      'created_at'  => 'Date',
+      'started_at'  => 'Date',
       'finished_at' => 'Date',
     );
   }

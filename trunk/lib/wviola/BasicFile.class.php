@@ -89,9 +89,18 @@ class BasicFile
 			// we need this because sometimes mpeg videos are reported as application/octet-stream
 			$command=sprintf('file --dereference --brief "%s"', $this->getFullPath());
 			$description=$this->executeCommand($command);
-			if (substr($description, 0, 13)=='MPEG sequence')
+			if (preg_match('/MPEG sequence/', $description))
 			{
 				return 'video/mpeg';
+			}
+			if (preg_match('/Theora video/', $description))
+			{
+				return 'video/ogg';
+			}
+			if ($subtype=='ogg')
+			{
+				// FIXME This is likely not always true...
+				return 'video/ogg';
 			}
 		}
 		return $mimeType;
