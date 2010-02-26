@@ -157,11 +157,13 @@ EOF;
 
     // add your code here
 
-	$this->_isLogged=Generic::negativeOption($options['logged']);
-	$options['logged']=Generic::normalizedBooleanOption($this->_isLogged);
+	echo '«' . $options['logged'] . "»\n";
+
+	$this->_isLogged=Generic::normalizedBooleanValue($options['logged'], true);
+	$options['logged']=Generic::normalizedBooleanDescription($this->_isLogged);
 	
-	$this->_isRecursive=Generic::positiveOption($options['recursive']); 
-	$options['recursive']=Generic::normalizedBooleanOption($this->_isRecursive);
+	$this->_isRecursive=Generic::normalizedBooleanValue($options['recursive'], false); 
+	$options['recursive']=Generic::normalizedBooleanDescription($this->_isRecursive);
 		
 	$subdir=$options['subdir'];
 	Generic::normalizeDirName($subdir, '/');
@@ -186,6 +188,7 @@ EOF;
 	{
 		$this->logSection($key, $options[$key], null, 'COMMENT');
 	}
+
 
 	if($this->_isLogged)
 	{

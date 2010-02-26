@@ -293,11 +293,6 @@ class Generic{
 		Generic::addFirstCharIfNot($name, '/');
 	}
 	
-	public static function normalizedBooleanOption($option)
-	{
-		return $option? 'true': 'false';
-	}
-	
 	public static function getCompletePath($maindir, $subdir)
 	{
 		if($maindir=='/')
@@ -311,14 +306,25 @@ class Generic{
 		
 	}
 	
-	public static function positiveOption($v)
+	public static function normalizedBooleanDescription($option)
 	{
-		return in_array(strtoupper($v), array(1, 'YES', 'Y', 'TRUE', 'ON')); 
+		return $option? 'true': 'false';
 	}
-
-	public static function negativeOption($v)
+	
+	public static function normalizedBooleanValue($v, $default)
 	{
-		return !in_array(strtoupper($v), array(0, 'NO', 'N', 'FALSE', 'OFF')); 
+		if (in_array(strtoupper($v), array('0', 'NO', 'N', 'FALSE', 'OFF'), true))
+		{
+			return false;
+		}
+		elseif (in_array(strtoupper($v), array('1', 'YES', 'Y', 'TRUE', 'ON'), true))
+		{
+			return true;
+		}
+		else
+		{
+			return $default;
+		}
 	}
 
 }

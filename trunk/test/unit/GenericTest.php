@@ -2,7 +2,7 @@
 
 require_once dirname(__FILE__).'/../bootstrap/unit.php';
  
-$t = new lime_test(122, new lime_output_color());
+$t = new lime_test(138, new lime_output_color());
 
 $t->diag('::datetime()');
 
@@ -256,21 +256,21 @@ $t->is(Generic::getCompletePath('', '/bar'), '/bar', '::getCompletePath() return
 $t->is(Generic::getCompletePath('', 'bar'), '/bar', '::getCompletePath() returns the correct complete path');
 
 
-$t->diag('::positiveOption()');
+$t->diag('::normalizedBooleanValue()');
 
-foreach(array(1, '1', 'yes', 'y', 'YES', 'Y', 'true', 'TRUE', 'on', 'ON') as $value)
+foreach(array(false, true) as $default)
 {
-	$t->is(Generic::positiveOption($value), true, '::positiveOption() returns true for ' . $value);
+	foreach(array('1', 'yes', 'y', 'YES', 'Y', 'true', 'TRUE', 'on', 'ON') as $value)
+	{
+		$t->is(Generic::normalizedBooleanValue($value, $default), true, '::normalizedBooleanValue() returns true for «' . $value . '»');
+	}
+
+	foreach(array('0', 'no', 'n', 'NO', 'N', 'false', 'FALSE', 'off', 'OFF') as $value)
+	{
+		$t->is(Generic::normalizedBooleanValue($value, $default), false, '::normalizedBooleanValue() returns true for «' . $value . '»');
+	}
 }
 
-$t->diag('::negativeOption()');
-
-foreach(array(0, '0', 'no', 'n', 'NO', 'N', 'false', 'FALSE', 'off', 'OFF') as $value)
-{
-	$t->is(Generic::negativeOption($value), false, '::negativeOption() returns false for ' . $value);
-}
-
-
-$t->diag('::normalizeBooleanOption()');
-$t->is(Generic::normalizedBooleanOption(true), 'true', '::normalizeBooleanOption() returns «true» for true');
-$t->is(Generic::normalizedBooleanOption(false), 'false', '::normalizeBooleanOption() returns «false» for false');
+$t->diag('::normalizedBooleanDescription()');
+$t->is(Generic::normalizedBooleanDescription(true), 'true', '::normalizedBooleanDescription() returns «true» for true');
+$t->is(Generic::normalizedBooleanDescription(false), 'false', '::normalizedBooleanDescription() returns «false» for false');
