@@ -9,4 +9,5 @@ mv -v ~/Importanti/Wviola/$FILENAME /etc/wviola/
 ln -sf /etc/wviola/$FILENAME /etc/wviola/filesystem.tar.bz2
 
 
-# /var/wviola/utilities/googlecode-upload.py --summary='Binary data for tests (examples of videos and pictures)' --project=wviola /var/wviola/data/$FILENAME
+# /var/wviola/utilities/googlecode_upload.py --summary='Binary data for tests (examples of videos and pictures)' --project=wviola /etc/wviola/filesystem.tar.bz2
+

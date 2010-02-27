@@ -157,8 +157,6 @@ EOF;
 
     // add your code here
 
-	echo '«' . $options['logged'] . "»\n";
-
 	$this->_isLogged=Generic::normalizedBooleanValue($options['logged'], true);
 	$options['logged']=Generic::normalizedBooleanDescription($this->_isLogged);
 	
@@ -192,8 +190,8 @@ EOF;
 
 	if($this->_isLogged)
 	{
-		$tasklog= new TaskLog();
-		$tasklog->
+		$taskLogEvent= new TaskLogEvent();
+		$taskLogEvent->
 		setTaskName($this->name)->
 		setArguments(serialize($arguments))->
 		setOptions(serialize($options))->
@@ -213,7 +211,7 @@ EOF;
 	
 	if($this->_isLogged)
 	{
-		$tasklog->
+		$taskLogEvent->
 		setFinishedAt(time())->
 		save();
 		// we update the record

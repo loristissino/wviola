@@ -76,13 +76,13 @@ propel:
     shortcut: { type: varchar(5), index: unique }
     name: varchar(50)
 
-  access_log:
+  access_log_event:
     id: ~  
     asset_id:  ~
     user_id:      { type: integer, foreignTable: sf_guard_user_profile, foreignReference: user_id, required: true, onUpdate: cascade, onDelete: restrict }
     created_at: ~
 
-  task_log:
+  task_log_event:
     id: ~
     task_name: varchar(50)
     options: longvarchar
