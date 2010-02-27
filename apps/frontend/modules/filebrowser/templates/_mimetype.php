@@ -1,0 +1,1 @@
+<?php echo image_tag('mimetypes/' . $icon_name, array('alt'=>$mimetype, 'title'=>$mimetype)) ?>

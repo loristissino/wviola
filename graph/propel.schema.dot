@@ -15,7 +15,7 @@ nodeaudio_asset [label="{<table>audio_asset|<cols>asset_id (INTEGER) [FK]\ldurat
 nodearchive [label="{<table>archive|<cols>id (INTEGER) [PK]\lslug (VARCHAR)\lcreated_at (TIMESTAMP)\lburned_at (TIMESTAMP)\luser_id (INTEGER) [FK]\lmd5sum (VARCHAR)\l}", shape=record];
 nodecategory [label="{<table>category|<cols>id (INTEGER) [PK]\lshortcut (VARCHAR)\lname (VARCHAR)\l}", shape=record];
 nodeaccess_log [label="{<table>access_log|<cols>id (INTEGER) [PK]\lasset_id (INTEGER) [FK]\luser_id (INTEGER) [FK]\lcreated_at (TIMESTAMP)\l}", shape=record];
-nodetask_log [label="{<table>task_log|<cols>id (INTEGER) [PK]\ltask_name (VARCHAR)\loptions (LONGVARCHAR)\larguments (LONGVARCHAR)\lcreated_at (TIMESTAMP)\lfinished_at (TIMESTAMP)\l}", shape=record];
+nodetask_log [label="{<table>task_log|<cols>id (INTEGER) [PK]\ltask_name (VARCHAR)\loptions (LONGVARCHAR)\larguments (LONGVARCHAR)\lstarted_at (TIMESTAMP)\lfinished_at (TIMESTAMP)\l}", shape=record];
 
 nodesf_guard_group_permission:cols -> nodesf_guard_group:table [label="group_id=id "];
 nodesf_guard_group_permission:cols -> nodesf_guard_permission:table [label="permission_id=id "];
