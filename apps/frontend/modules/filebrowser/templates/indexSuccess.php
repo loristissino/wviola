@@ -32,13 +32,14 @@
       <th class="sf_admin_text"><?php echo __('Name') ?></th>
       <th class="sf_admin_text"><?php echo __('Size') ?></th>
       <th class="sf_admin_text"><?php echo __('Date') ?></th>
+      <th class="sf_admin_text"><?php echo __('Thumbnails') ?></th>
       <th class="sf_admin_text"><?php echo __('Actions') ?></th>
     </tr>
   </thead>
   <tbody>
     <?php foreach ($folder_items as $item): ?>
     <tr class="sf_admin_row <?php echo (++$i & 1)? 'odd':'even' ?>">
-      <td><?php // include_component('filebrowser', 'mimetype', array('mimetype'=>$item->getMimeType())) ?></td>
+      <td><?php include_component('filebrowser', 'mimetype', array('mimetype'=>$item->getGuessedInternetMediaType())) ?></td>
       <td><?php echo $item->getBaseName() ?></td>
       <td>
 	<?php if ($item->getFileType()!='directory'): ?>
@@ -46,6 +47,7 @@
 	<?php endif ?>
 	</td>
       <td><?php echo Generic::datetime($item->getStat('mtime'), $sf_context) ?></td>
+	  <td><?php include_component('filebrowser', 'thumbnails', array('file'=>$item)) ?></td>  
       <td>
 	<ul class="sf_admin_td_actions">  
 		<?php if($item->getFiletype()=='directory'): ?>

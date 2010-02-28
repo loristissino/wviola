@@ -15,6 +15,7 @@ class SourceFile extends BasicFile
 	{
 		$this->_basicPath=wvConfig::get('directory_sources');
 		parent::__construct($this->getBasicPath() . $relativePath, $basename);
+		$this->setRelativePath($relativePath);
 		$this->loadWvInfoFile();
 	}
 	
@@ -32,6 +33,18 @@ class SourceFile extends BasicFile
 	private function setWvInfoChanged($v)
 	{
 		$this->_infoChanged=$v;
+		return $this;
+	}
+	
+	private function setRelativePath($v)
+	{
+		$this->_relativePath = $v;
+		return $this;
+	}
+	
+	public function getRelativePath()
+	{
+		return $this->_relativePath;
 	}
 	
 	public function getHasMD5Sum()
@@ -126,7 +139,7 @@ class SourceFile extends BasicFile
 			$cropH=$movie->getFrameHeight();
 			$cropW=$movie->getFrameWidth()*$thumbnailAspectRatio/$sourceAspectRatio;
 			
-			for($i=0; $i<=$thumbnailsNumber;$i++)
+			for($i=0; $i<$thumbnailsNumber;$i++)
 			{
 				$position=$i*($movie->getDuration()/($thumbnailsNumber));
 				$frame=$moviefile->getFrameAsJpegBase64($position, $cropW, $cropH, $thumbnailWidth, $thumbnailHeight);
@@ -233,6 +246,34 @@ class SourceFile extends BasicFile
 		
 	}
 	
+	public function getHasThumbnails()
+	{
+		return is_array($this->getWvInfo('thumbnail'));
+	}
+	
+	
+	public function getThumbnail($number)
+	{
+		
+		Generic::removeLastCharIf($number, '.jpeg');
+		Generic::removeLastCharIf($number, '.png');
+		
+		$key='thumbnail_' . $number;
+		if (!$this->getHasWvInfo($key))
+		{
+			return false;
+		}
+
+		if (array_key_exists('base64content', $this->getWvInfo($key)))
+		{
+			return $this->getWvInfo($key);
+		}
+		else
+		{
+			return false;
+		}	
+	}
+	
 
 	private function key2RealKey($key)
 	{
@@ -260,7 +301,7 @@ class SourceFile extends BasicFile
 	{
 		$value='';
 		@eval('$value=$this->_fileInfo' . $this->key2RealKey($key) . ';');
-		return $value?$value: $default;
+		return $value!==null?$value: $default;
 	}
 	
 	public function getCompleteWvInfo()

@@ -2,7 +2,7 @@
 
 require_once dirname(__FILE__).'/../bootstrap/FileSystem.php';
  
-$t = new lime_test(26, new lime_output_color());
+$t = new lime_test(27, new lime_output_color());
 
 $t->diag('SourceFile functions');
 
@@ -57,6 +57,8 @@ $tempfile=tempnam('/tmp', 'wviola');
 file_put_contents($tempfile, $image);
 
 $t->is_deeply(getimagesize($tempfile), array (0 => 60,  1 => 45,  2 => 2,  3 => 'width="60" height="45"',  'bits' => 8,  'channels' => 3,  'mime' => 'image/jpeg'), '->gatherWvInfo() produces a thumbnail as base64 content');
+
+$t->is(sizeof($file->getWvInfo('thumbnail')), 8, '->gatherWvInfo() produces an array of thumbnails');
 
 unlink($tempfile);
 

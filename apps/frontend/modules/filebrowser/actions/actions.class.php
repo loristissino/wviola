@@ -82,6 +82,25 @@ class filebrowserActions extends sfActions
 		$this->_changeDirectory(dirname($this->folder->getPath()));
   }
 
+	public function executeThumbnail(sfWebRequest $request)
+	{
+		$this->forward404Unless($file=new SourceFile(Generic::b64_unserialize($request->getParameter('path')), Generic::b64_unserialize($request->getParameter('basename'))));
+		
+		$this->forward404Unless($this->thumbnail=$file->getThumbnail($request->getParameter('number')));
+		
+		$content=base64_decode($this->thumbnail['base64content']);
+		
+		$response=$this->getContext()->getResponse();
+		$response->setHttpHeader('Pragma', '');
+		$response->setHttpHeader('Cache-Control', '');
+		$response->setHttpHeader('Content-Length', sizeof($content));
+		$response->setHttpHeader('Content-Type', 'image/jpeg');
+
+		$response->setContent($content);
+		return sfView::NONE;
+
+	}
+
 /*
   public function executeDownload(sfWebRequest $request)
   {

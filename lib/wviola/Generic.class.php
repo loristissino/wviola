@@ -278,15 +278,15 @@ class Generic{
 	
 	public static function removeLastCharIf(&$string, $char)
 	{
-		if (substr($string, -1)==$char)
+		if (substr($string, -strlen($char))==$char)
 		{
-			$string=substr($string, 0, strlen($string)-1);
+			$string=substr($string, 0, strlen($string)-strlen($char));
 		}
 	}
 	
 	public static function addFirstCharIfNot(&$string, $char)
 	{
-		if (substr($string, 0, 1)!=$char)
+		if (substr($string, 0, strlen($char))!=$char)
 		{
 			$string=$char . $string;
 		}

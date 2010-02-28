@@ -9,3 +9,4 @@
 <h2>Actions</h2>
 
 <p><?php echo link_to(__('assets'), 'asset/index') ?></p>
+<p><?php echo link_to(__('archive asset'), 'filebrowser/index') ?></p>
