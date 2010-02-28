@@ -2,7 +2,7 @@
 
 require_once dirname(__FILE__).'/../bootstrap/FileSystem.php';
  
-$t = new lime_test(19, new lime_output_color());
+$t = new lime_test(26, new lime_output_color());
 
 $t->diag('SourceFile functions');
 
@@ -85,4 +85,19 @@ $t->is($file->getHasWvInfo(), false, '->getHasWvInfo() returns false when a file
 
 $t->is(sizeof($file->getCompleteWvInfo()), 0, '->getCompleteWvInfo() returns an empty array when a file has been modified');
 
+unset($file);
 
+foreach(array(
+'bigbuckbunny01.avi' => false,
+'bigbuckbunny02.mpeg' => false,
+'bigbuckbunny01.link.avi' => true,
+'tobeskipped.avi~' => true,
+'tobeskipped.doc' => true,
+'tobeskipped.DOC' => true,
+'tobeskipped.odt' => true,
+) as $key=>$value)
+{
+	$file=new SourceFile('/videos', $key);
+	$t->is($file->getShouldBeSkipped(), $value, '->getShouldBeSkipped() returns ' . ($value?'true':'false') . ' for ' . $key);
+	unset($file);
+}

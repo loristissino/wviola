@@ -211,8 +211,13 @@ class Generic{
 			return ltrim(rtrim($str));
 		}
 		
-		static public function executeCommand($command)
+		static public function executeCommand($command, $custom=false)
 		{
+			if ($custom)
+			{
+				$command=wvConfig::get('directory_executables') . '/'. $command;
+			}
+			
 			$debug=false;
 			
 			$info=array();
@@ -225,7 +230,7 @@ class Generic{
 			if($debug)
 			{
 				ob_start();
-
+				echo "CUSTOM? " . ($custom? 'yes': 'no') . "\n";
 				echo "---------\n";
 				echo "EXECUTING: \n";
 				echo $command . "\n";

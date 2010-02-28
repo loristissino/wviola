@@ -51,7 +51,20 @@ class SourceFolder
 			$fileList = scandir($this->getCompleteDirPath());
 			foreach ($fileList as $file)
 			{
-				$this->_folderItems[]=new SourceFile($this->getPath(), $file);
+				if (substr($file, 0, 1)!='.')
+				{
+					$sourceFile=new SourceFile($this->getPath(), $file);
+					if ($sourceFile->getShouldBeSkipped())
+					{
+						unset($sourceFile);
+						continue;
+					}
+					else
+					{
+						$this->_folderItems[]=$sourceFile;
+					}
+				}
+				
 			}
 			
 //			usort($this->_folderItems, array('FolderItem', 'compare_items'));
@@ -64,9 +77,29 @@ class SourceFolder
 		$separator=$this->getPath()=='/' ? '': '/';
 //		return str_replace(array('(', ')'), array('\(', '\)'), $this->getPath() . $separator . $name);
 		return html_entity_decode($this->getPath() . $separator . $name, ENT_QUOTES, 'UTF-8');
-
 	}
+	
+	
+	public function scanSourcesInBackground(sfContext $sfContext=null)
+	{
+		if(!$sfContext)
+		{
+			throw new Exception('This function should not be called without context');
+		}
+		
+		$command=sprintf(
+			'background symfony wviola:scan-sources --recursive=false --subdir="%s" --size-limit-for-md5sum=1 --logged=true --env=%s',
+			$this->getPath(),
+			$sfContext->getConfiguration()->getEnvironment()
+			);
+		
+		$info=Generic::executeCommand($command, true);
+		
+	}
+	
+	
 /*	
+
 	public function serveFile($name, sfWebResponse $response)
 	{
 		

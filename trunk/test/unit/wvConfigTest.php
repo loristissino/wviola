@@ -2,7 +2,7 @@
 
 require_once dirname(__FILE__).'/../bootstrap/unit.php';
  
-$t = new lime_test(8, new lime_output_color());
+$t = new lime_test(9, new lime_output_color());
 
 $t->diag('wvConfig test -- this will only pass with default values of wviola.yml');
 
@@ -16,9 +16,14 @@ $t->is(wvConfig::has('bar'), false, '::has() returns false for a non existing pa
 
 $t->is(is_array(wvConfig::getAll()), true, '::getAll() returns an array of values');
 
+$t->is_deeply(wvConfig::get('filebrowser_skipped_files'), 
+array('/~$/', '/doc$/i', '/ppt$/i', '/txt$/i', '/odt$/i' ),
+'::get() returns an array of items is array is defined');
+
 wvConfig::add(array('foo1'=>'bar1', 'foo2'=>'bar2'));
 $t->is(wvConfig::get('foo1'), 'bar1', '::add() merges new parameters');
 $t->is(wvConfig::get('foo'), 'bar', '::add() keeps old parameters');
+
 
 /*
 The following does not work... I have to figure out why...

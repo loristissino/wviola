@@ -69,12 +69,7 @@ class BasicFile
 	
 	public function executeCommand($command, $custom=false)
 	{
-		if ($custom)
-		{
-			$command=wvConfig::get('directory_executables') . '/'. $command;
-		}
-		
-		return Generic::executeCommand($command);
+		return Generic::executeCommand($command, $custom);
 	}
 	
 	public function getGuessedInternetMediaType()
@@ -104,6 +99,24 @@ class BasicFile
 			}
 		}
 		return $mimeType;
+	}
+	
+	public function getFileType()
+	{
+		if (is_dir($this->getFullPath()))
+		{
+			return 'directory';
+		}
+		if (is_link($this->getFullPath()))
+		{
+			return 'link';
+		}
+		if (is_file($this->getFullPath()))
+		{
+			return 'file';
+		}
+		return 'unknown';
+
 	}
 
 	

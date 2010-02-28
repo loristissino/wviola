@@ -14,8 +14,8 @@ nodephotoalbum_asset [label="{<table>photoalbum_asset|<cols>asset_id (INTEGER) [
 nodeaudio_asset [label="{<table>audio_asset|<cols>asset_id (INTEGER) [FK]\lduration (FLOAT)\lhighquality_audio_codec (VARCHAR)\llowquality_audio_codec (VARCHAR)\l}", shape=record];
 nodearchive [label="{<table>archive|<cols>id (INTEGER) [PK]\lslug (VARCHAR)\lcreated_at (TIMESTAMP)\lburned_at (TIMESTAMP)\luser_id (INTEGER) [FK]\lmd5sum (VARCHAR)\l}", shape=record];
 nodecategory [label="{<table>category|<cols>id (INTEGER) [PK]\lshortcut (VARCHAR)\lname (VARCHAR)\l}", shape=record];
-nodeaccess_log [label="{<table>access_log|<cols>id (INTEGER) [PK]\lasset_id (INTEGER) [FK]\luser_id (INTEGER) [FK]\lcreated_at (TIMESTAMP)\l}", shape=record];
-nodetask_log [label="{<table>task_log|<cols>id (INTEGER) [PK]\ltask_name (VARCHAR)\loptions (LONGVARCHAR)\larguments (LONGVARCHAR)\lstarted_at (TIMESTAMP)\lfinished_at (TIMESTAMP)\l}", shape=record];
+nodeaccess_log_event [label="{<table>access_log_event|<cols>id (INTEGER) [PK]\lasset_id (INTEGER) [FK]\luser_id (INTEGER) [FK]\lcreated_at (TIMESTAMP)\l}", shape=record];
+nodetask_log_event [label="{<table>task_log_event|<cols>id (INTEGER) [PK]\ltask_name (VARCHAR)\loptions (LONGVARCHAR)\larguments (LONGVARCHAR)\lstarted_at (TIMESTAMP)\lfinished_at (TIMESTAMP)\l}", shape=record];
 
 nodesf_guard_group_permission:cols -> nodesf_guard_group:table [label="group_id=id "];
 nodesf_guard_group_permission:cols -> nodesf_guard_permission:table [label="permission_id=id "];
@@ -33,6 +33,6 @@ nodepicture_asset:cols -> nodeasset:table [label="asset_id=id "];
 nodephotoalbum_asset:cols -> nodeasset:table [label="asset_id=id "];
 nodeaudio_asset:cols -> nodeasset:table [label="asset_id=id "];
 nodearchive:cols -> nodesf_guard_user_profile:table [label="user_id=user_id "];
-nodeaccess_log:cols -> nodeasset:table [label="asset_id=id "];
-nodeaccess_log:cols -> nodesf_guard_user_profile:table [label="user_id=user_id "];
+nodeaccess_log_event:cols -> nodeasset:table [label="asset_id=id "];
+nodeaccess_log_event:cols -> nodesf_guard_user_profile:table [label="user_id=user_id "];
 }
