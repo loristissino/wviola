@@ -1,4 +1,5 @@
 #!/bin/bash
-CMD=$1
-nohup $CMD & >/dev/null 2>/dev/null
+
+CMD=$@
+nohup $CMD &>/dev/null 2>/dev/null
 echo PID=$!
