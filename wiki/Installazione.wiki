@@ -153,6 +153,8 @@ cp config/databases.yml-dist config/databases.yml
 cp config/wviola.yml-dist config/wviola.yml
 }}}
 
+Nota: probabilmente sarebbe meglio avere i file di configurazione sotto _/etc_, in modo da rispettare le indicazioni del [http://www.pathname.com/fhs/ Filesystem Hierarchy Standard]. Si può fare, creando poi dei link simbolici nelle posizioni corrispondenti sotto _/var_.
+
 === Accesso al database ===
 
 Per l'accesso al database va modificato il file _config/databases.yml_:
@@ -209,12 +211,11 @@ Si dovrebbe ottenere un output come questo:
 >> schema    putting /var/wviola/plugins/sfGu...nerated-sfGuardPlugin-schema.xml
 >> file+     config/generated-sfGuardPlugin-schema.xml
 >> file-     /var/wviola/plugins/sfGuardPlugi...nerated-sfGuardPlugin-schema.xml
-                                                                    
+
   WARNING: The data in the database related to the connection name  
-           propel will be removed.                                  
-                                                                    
-  Are you sure you want to proceed? (y/N)                           
-                                                                    
+  propel will be removed.                                  
+  Are you sure you want to proceed? (y/N)
+  
 y
 >> propel    Running "insert-sql" phing task
 >> file-     /var/wviola/config/generated-schema.xml
@@ -253,21 +254,21 @@ Nota: l'autenticazione avverrà via LDAP, ma i nomi degli utenti devono essere p
 
 Per effettuare i test, è necessario avere dei file binari a disposizione (piccoli frammenti di video, immagini, ecc.). I file che uso attualmente sono disponibili nella [http://code.google.com/p/wviola/downloads/list pagina dei download].
 
-Va prelevato il file più recente, messo nella directory _/etc/wviola_ (questa directory, posta sotto _/etc_, può essere usata per cose che non sono sotto il controllo di subversion), e creato un link simbolico, come indicato qui di seguito:
+Va prelevato il file più recente, messo nella directory _/etc/wviola_ (questa directory, posta sotto _/etc_, può essere usata per cose che non sono sotto il controllo di subversion), creato un link simbolico, e scompattato il file, come indicato qui di seguito:
 
 {{{
 cd /etc/wviola
 wget http://wviola.googlecode.com/files/filesystem2010-02-18_090954.tar.bz2
 ln -sf filesystem2010-02-18_090954.tar.bz2 filesystem.tar.bz2
+tar xvjf filesystem.tar.bz2
 }}}
 
-Quando vengono eseguiti i test, i file vengono automaticamente estratti e posti nella directory _/var/wviola/data/filesystem_, in modo da partire da una situazione pulita.
+Quando vengono eseguiti i test, i file vengono copiati tramite rsync e posti nella directory _/var/wviola/data/filesystem_, in modo da partire da una situazione pulita.
 
-L'estrazione avviene (vedi file _test/bootstrap/FileSystem.php_) con l'esecuzione dei seguenti comandi:
+L'estrazione avviene (vedi file _lib/wviola/bin/resettestfilesystem.sh_) con l'esecuzione del comando:
 
 {{{
-rm -rf "/var/wviola/data/filesystem"
-tar xvjf "/etc/wviola/filesystem.tar.bz2" --directory "/var/wviola/data" 2>/dev/null
+rsync -az --delete /etc/wviola/filesystem /var/wviola/data/
 }}}
 
 === Altre impostazioni ===
@@ -281,16 +282,39 @@ Al momento ci sono queste informazioni:
 {{{
 directory:
   published_assets: /var/wviola/data/filesystem/published/assets
+  # where published assets are kept
+
   published_thumbnails: /var/wviola/data/filesystem/published/thumbnails
+  # where thumbnails of published assets are kept
+
   scheduled: /var/wviola/data/filesystem/scheduled
+  # where files to be published are kept
+
   sources:  /var/wviola/data/filesystem/sources
+  # where the user will browse files to publish (by using the web app)
+
   iso_cache:  /var/wviola/data/filesystem/iso_images/cache
+  # where encoded file to be burn into a DVD are kept
+
   iso_images: /var/wviola/data/filesystem/iso_images/done
-  executables: /var/wviola/lib/wviola/bin  
+  # where iso images ready for burning are kept
+
+  trash: /var/wviola/data/filesystem/trash
+  # where original source files are moved after encoding is done
+
+  executables: /var/wviola/lib/wviola/bin
+  # where common utilities are to be found
+
 thumbnail:
   number: 8
+  # number of thumbnails to prepare for each video  
   width: 60
   height: 45
+  # the size of the thumbnail to prepare  
+
+filebrowser:
+  skipped_files: [ '/~$/', '/doc$/i', '/ppt$/i', '/txt$/i', '/odt$/i' ]
+  # regular expressions to use with filenames: files matching are skipped
 }}}
 
 == Test ==
