@@ -56,7 +56,8 @@ class SourceFile extends BasicFile
 		setWvInfo('file_ctime', $this->getStat('ctime'))->
 		setWvInfo('file_atime', $this->getStat('atime'))->
 		setWvInfo('file_size', $this->getStat('size'))->
-		setWvInfo('file_mediatype', $this->getGuessedInternetMediaType())
+		setWvInfo('file_mediatype', $this->getGuessedInternetMediaType())->
+		setWvInfo('file_type', $this->getFileType())
 		;
 		
 		if(!$onlyBasicInfo)
@@ -168,6 +169,24 @@ class SourceFile extends BasicFile
 		{
 			$this->resetWvInfo();
 		}
+	}
+	
+	
+	public function getShouldBeSkipped()
+	{
+		foreach(wvConfig::get('filebrowser_skipped_files') as $regexp)
+		{
+			if(preg_match($regexp, $this->getBaseName()))
+			{
+				return true;
+			}
+			
+			if($this->getFileType()=='link')
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	public function saveWvInfoFile()

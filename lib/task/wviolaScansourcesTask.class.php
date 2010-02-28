@@ -51,10 +51,21 @@ EOF;
 
 	protected function processFile($subdir, $basename)
 	{
+		$this->log('');
+
 		$file=new SourceFile($subdir, $basename);
 		
 		$this->logSection('source', 'Opening candidate source file...', null, 'COMMENT');
+		
 		$this->logsection('file', $file->getFullPath(), null, 'INFO');
+		
+		if ($file->getShouldBeSkipped())
+		{
+			$this->logSection('info', 'Skipped for file name matching.', null, 'COMMENT');
+			unset($file);
+			return;
+		}
+		
 				
 		if (!$file->getHasWvInfo())
 		{
@@ -93,9 +104,6 @@ EOF;
 		{
 			$this->logSection('info', 'Information saving skipped (no need).', null, 'COMMENT');
 		}
-		
-		
-
 		unset($file);
 		
 	}

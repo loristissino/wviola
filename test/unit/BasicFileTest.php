@@ -2,7 +2,7 @@
 
 require_once dirname(__FILE__).'/../bootstrap/FileSystem.php';
  
-$t = new lime_test(13, new lime_output_color());
+$t = new lime_test(16, new lime_output_color());
 
 $t->diag('BasicFile functions');
 
@@ -71,3 +71,16 @@ foreach(array(
 	$t->is($file->getGuessedInternetMediaType(), $value, '->getGuessedInternetMediaType() returns the correct Internet Media Type for a file '. $value);
 	unset($file);
 }
+
+
+$file=new BasicFile('/var/wviola/data/filesystem/sources/videos/bigbuckbunny01.avi');
+$t->is($file->getFileType(), 'file', '->getFileType() returns «file» for a file.');
+unset($file);
+
+$file=new BasicFile('/var/wviola/data/filesystem/sources/videos');
+$t->is($file->getFileType(), 'directory', '->getFileType() returns «directory» for a directory.');
+unset($file);
+
+$file=new BasicFile('/var/wviola/data/filesystem/sources/videos/bigbuckbunny01.link.avi');
+$t->is($file->getFileType(), 'link', '->getFileType() returns «link» for a symbolic link.');
+unset($file);

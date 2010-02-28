@@ -23,6 +23,8 @@ class filebrowserActions extends sfActions
 		}
 		$this->getUser()->setAttribute('oldpath', $this->path);
 		
+		$this->folder->scanSourcesInBackground($this->getContext());
+		
 	}
 	
  /**
