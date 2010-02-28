@@ -2,7 +2,7 @@
 
 require_once dirname(__FILE__).'/../bootstrap/unit.php';
  
-$t = new lime_test(138, new lime_output_color());
+$t = new lime_test(140, new lime_output_color());
 
 $t->diag('::datetime()');
 
@@ -274,3 +274,9 @@ foreach(array(false, true) as $default)
 $t->diag('::normalizedBooleanDescription()');
 $t->is(Generic::normalizedBooleanDescription(true), 'true', '::normalizedBooleanDescription() returns «true» for true');
 $t->is(Generic::normalizedBooleanDescription(false), 'false', '::normalizedBooleanDescription() returns «false» for false');
+
+
+$t->is(Generic::b64_serialize('/()|~_"f@$£o\o&.'), 'czoxNzoiLygpfH5fImZAJMKjb1xvJi4iOw==', '::b64_serialize() converts a value into a string');
+
+$t->is(Generic::b64_unserialize('czoxNzoiLygpfH5fImZAJMKjb1xvJi4iOw=='), '/()|~_"f@$£o\o&.', '::b64_unserialize() converts a string back into the value');
+
