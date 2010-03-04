@@ -30,6 +30,13 @@ The [wviola:scan-sources|INFO] task scans the source asset directory in order to
 Call it with:
 
   [php symfony wviola:scan-sources|INFO]
+
+The subdirectory name can be specified either as '/foo', 'foo/', 'foo' or '/foo/'.
+Anyway, it must exist and must be under the path specified in wviola.yml for sources.
+
+The task ends with an exception if something goes wrong (e.g. when a file could not be
+read or written).
+
 EOF;
 
 	$this->_isRecursive=false;
@@ -214,9 +221,13 @@ EOF;
 	catch (Exception $e)
 	{
 		$this->log($this->formatter->format($e->getMessage(), 'ERROR'));
+		$taskLogEvent->
+		setTaskException($e->getMessage())->
+		save();
 		return 1;
 	}
 	
+	sleep(10);
 	if($this->_isLogged)
 	{
 		$taskLogEvent->

@@ -89,3 +89,5 @@ propel:
     arguments: longvarchar
     started_at: timestamp
     finished_at: timestamp
+    task_exception: longvarchar
+
