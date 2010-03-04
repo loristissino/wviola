@@ -13,19 +13,21 @@ abstract class BaseTaskLogEventFormFilter extends BaseFormFilterPropel
   public function setup()
   {
     $this->setWidgets(array(
-      'task_name'   => new sfWidgetFormFilterInput(),
-      'options'     => new sfWidgetFormFilterInput(),
-      'arguments'   => new sfWidgetFormFilterInput(),
-      'started_at'  => new sfWidgetFormFilterDate(array('from_date' => new sfWidgetFormDate(), 'to_date' => new sfWidgetFormDate())),
-      'finished_at' => new sfWidgetFormFilterDate(array('from_date' => new sfWidgetFormDate(), 'to_date' => new sfWidgetFormDate())),
+      'task_name'      => new sfWidgetFormFilterInput(),
+      'options'        => new sfWidgetFormFilterInput(),
+      'arguments'      => new sfWidgetFormFilterInput(),
+      'started_at'     => new sfWidgetFormFilterDate(array('from_date' => new sfWidgetFormDate(), 'to_date' => new sfWidgetFormDate())),
+      'finished_at'    => new sfWidgetFormFilterDate(array('from_date' => new sfWidgetFormDate(), 'to_date' => new sfWidgetFormDate())),
+      'task_exception' => new sfWidgetFormFilterInput(),
     ));
 
     $this->setValidators(array(
-      'task_name'   => new sfValidatorPass(array('required' => false)),
-      'options'     => new sfValidatorPass(array('required' => false)),
-      'arguments'   => new sfValidatorPass(array('required' => false)),
-      'started_at'  => new sfValidatorDateRange(array('required' => false, 'from_date' => new sfValidatorDate(array('required' => false)), 'to_date' => new sfValidatorDate(array('required' => false)))),
-      'finished_at' => new sfValidatorDateRange(array('required' => false, 'from_date' => new sfValidatorDate(array('required' => false)), 'to_date' => new sfValidatorDate(array('required' => false)))),
+      'task_name'      => new sfValidatorPass(array('required' => false)),
+      'options'        => new sfValidatorPass(array('required' => false)),
+      'arguments'      => new sfValidatorPass(array('required' => false)),
+      'started_at'     => new sfValidatorDateRange(array('required' => false, 'from_date' => new sfValidatorDate(array('required' => false)), 'to_date' => new sfValidatorDate(array('required' => false)))),
+      'finished_at'    => new sfValidatorDateRange(array('required' => false, 'from_date' => new sfValidatorDate(array('required' => false)), 'to_date' => new sfValidatorDate(array('required' => false)))),
+      'task_exception' => new sfValidatorPass(array('required' => false)),
     ));
 
     $this->widgetSchema->setNameFormat('task_log_event_filters[%s]');
@@ -43,12 +45,13 @@ abstract class BaseTaskLogEventFormFilter extends BaseFormFilterPropel
   public function getFields()
   {
     return array(
-      'id'          => 'Number',
-      'task_name'   => 'Text',
-      'options'     => 'Text',
-      'arguments'   => 'Text',
-      'started_at'  => 'Date',
-      'finished_at' => 'Date',
+      'id'             => 'Number',
+      'task_name'      => 'Text',
+      'options'        => 'Text',
+      'arguments'      => 'Text',
+      'started_at'     => 'Date',
+      'finished_at'    => 'Date',
+      'task_exception' => 'Text',
     );
   }
 }

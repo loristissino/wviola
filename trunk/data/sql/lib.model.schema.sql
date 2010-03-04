@@ -223,6 +223,7 @@ CREATE TABLE "task_log_event"
 	"arguments" TEXT,
 	"started_at" TIMESTAMP,
 	"finished_at" TIMESTAMP,
+	"task_exception" TEXT,
 	PRIMARY KEY ("id")
 );
 

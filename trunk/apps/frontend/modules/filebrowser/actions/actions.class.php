@@ -23,8 +23,6 @@ class filebrowserActions extends sfActions
 		}
 		$this->getUser()->setAttribute('oldpath', $this->path);
 		
-		$this->folder->scanSourcesInBackground($this->getContext());
-		
 	}
 	
  /**
@@ -36,6 +34,9 @@ class filebrowserActions extends sfActions
   {
 	
 		$this->path=$this->folder->getPath();
+		
+		$this->folder->scanSourcesInBackground($this->getContext());
+		
 		$this->folder_items=$this->folder->getFolderItems();
 		
 	

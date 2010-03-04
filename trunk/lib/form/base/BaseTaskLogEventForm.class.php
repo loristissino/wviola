@@ -15,21 +15,23 @@ abstract class BaseTaskLogEventForm extends BaseFormPropel
   public function setup()
   {
     $this->setWidgets(array(
-      'id'          => new sfWidgetFormInputHidden(),
-      'task_name'   => new sfWidgetFormInputText(),
-      'options'     => new sfWidgetFormTextarea(),
-      'arguments'   => new sfWidgetFormTextarea(),
-      'started_at'  => new sfWidgetFormDateTime(),
-      'finished_at' => new sfWidgetFormDateTime(),
+      'id'             => new sfWidgetFormInputHidden(),
+      'task_name'      => new sfWidgetFormInputText(),
+      'options'        => new sfWidgetFormTextarea(),
+      'arguments'      => new sfWidgetFormTextarea(),
+      'started_at'     => new sfWidgetFormDateTime(),
+      'finished_at'    => new sfWidgetFormDateTime(),
+      'task_exception' => new sfWidgetFormTextarea(),
     ));
 
     $this->setValidators(array(
-      'id'          => new sfValidatorPropelChoice(array('model' => 'TaskLogEvent', 'column' => 'id', 'required' => false)),
-      'task_name'   => new sfValidatorString(array('max_length' => 50, 'required' => false)),
-      'options'     => new sfValidatorString(array('required' => false)),
-      'arguments'   => new sfValidatorString(array('required' => false)),
-      'started_at'  => new sfValidatorDateTime(array('required' => false)),
-      'finished_at' => new sfValidatorDateTime(array('required' => false)),
+      'id'             => new sfValidatorPropelChoice(array('model' => 'TaskLogEvent', 'column' => 'id', 'required' => false)),
+      'task_name'      => new sfValidatorString(array('max_length' => 50, 'required' => false)),
+      'options'        => new sfValidatorString(array('required' => false)),
+      'arguments'      => new sfValidatorString(array('required' => false)),
+      'started_at'     => new sfValidatorDateTime(array('required' => false)),
+      'finished_at'    => new sfValidatorDateTime(array('required' => false)),
+      'task_exception' => new sfValidatorString(array('required' => false)),
     ));
 
     $this->widgetSchema->setNameFormat('task_log_event[%s]');
