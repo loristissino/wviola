@@ -11,7 +11,13 @@ VideoAsset:
     lowquality_width: 320
     lowquality_height: 240
 
-<?php for($i=3; $i<15; $i++): ?>
+  video_asset3:
+    asset_id: asset3 
+    duration: 1.95
+    lowquality_width: 320
+    lowquality_height: 240
+
+<?php for($i=4; $i<15; $i++): ?>
   video_asset<?php echo $i ?>:
     asset_id: asset<?php echo $i . "\n" ?>
     duration: <?php echo ($i +10) . "\n" ?>

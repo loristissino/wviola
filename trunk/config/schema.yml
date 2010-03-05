@@ -9,7 +9,7 @@ propel:
 
   asset:
     id: ~
-    slug: { type: varchar(50), required: true, index: unique }
+    uniqid: { type: varchar(50), required: true, index: unique }
     status: integer
     archive_id: ~
     asset_type: integer
@@ -19,6 +19,7 @@ propel:
     event_date: date
     source_filename: varchar(255)
     source_file_date: date
+    source_md5sum: { type: varchar(32), index: true }
     highquality_md5sum: varchar(32)
     lowquality_md5sum: varchar(32)
     has_thumbnail: boolean

@@ -21,13 +21,13 @@ require 'lib/model/om/BaseVideoAsset.php';
 class VideoAsset extends BaseVideoAsset {
 	
 	protected
-		$_slug,
+		$_uniqid,
 		$_assetFile;
 
 	public function getVideoFile()
 	{
-		$this->_slug=$this->getAsset()->getSlug();
-		$this->_assetFile=new VideoFile($this->_slug);
+		$this->_uniqid=$this->getAsset()->getUniqid();
+		$this->_assetFile=new VideoFile($this->_uniqid);
 		return $this->_assetFile;
 	}
 

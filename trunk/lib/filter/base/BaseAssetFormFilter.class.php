@@ -13,7 +13,7 @@ abstract class BaseAssetFormFilter extends BaseFormFilterPropel
   public function setup()
   {
     $this->setWidgets(array(
-      'slug'               => new sfWidgetFormFilterInput(array('with_empty' => false)),
+      'uniqid'             => new sfWidgetFormFilterInput(array('with_empty' => false)),
       'status'             => new sfWidgetFormFilterInput(),
       'archive_id'         => new sfWidgetFormPropelChoice(array('model' => 'Archive', 'add_empty' => true)),
       'asset_type'         => new sfWidgetFormFilterInput(),
@@ -23,6 +23,7 @@ abstract class BaseAssetFormFilter extends BaseFormFilterPropel
       'event_date'         => new sfWidgetFormFilterDate(array('from_date' => new sfWidgetFormDate(), 'to_date' => new sfWidgetFormDate())),
       'source_filename'    => new sfWidgetFormFilterInput(),
       'source_file_date'   => new sfWidgetFormFilterDate(array('from_date' => new sfWidgetFormDate(), 'to_date' => new sfWidgetFormDate())),
+      'source_md5sum'      => new sfWidgetFormFilterInput(),
       'highquality_md5sum' => new sfWidgetFormFilterInput(),
       'lowquality_md5sum'  => new sfWidgetFormFilterInput(),
       'has_thumbnail'      => new sfWidgetFormChoice(array('choices' => array('' => 'yes or no', 1 => 'yes', 0 => 'no'))),
@@ -35,7 +36,7 @@ abstract class BaseAssetFormFilter extends BaseFormFilterPropel
     ));
 
     $this->setValidators(array(
-      'slug'               => new sfValidatorPass(array('required' => false)),
+      'uniqid'             => new sfValidatorPass(array('required' => false)),
       'status'             => new sfValidatorSchemaFilter('text', new sfValidatorInteger(array('required' => false))),
       'archive_id'         => new sfValidatorPropelChoice(array('required' => false, 'model' => 'Archive', 'column' => 'id')),
       'asset_type'         => new sfValidatorSchemaFilter('text', new sfValidatorInteger(array('required' => false))),
@@ -45,6 +46,7 @@ abstract class BaseAssetFormFilter extends BaseFormFilterPropel
       'event_date'         => new sfValidatorDateRange(array('required' => false, 'from_date' => new sfValidatorDate(array('required' => false)), 'to_date' => new sfValidatorDate(array('required' => false)))),
       'source_filename'    => new sfValidatorPass(array('required' => false)),
       'source_file_date'   => new sfValidatorDateRange(array('required' => false, 'from_date' => new sfValidatorDate(array('required' => false)), 'to_date' => new sfValidatorDate(array('required' => false)))),
+      'source_md5sum'      => new sfValidatorPass(array('required' => false)),
       'highquality_md5sum' => new sfValidatorPass(array('required' => false)),
       'lowquality_md5sum'  => new sfValidatorPass(array('required' => false)),
       'has_thumbnail'      => new sfValidatorChoice(array('required' => false, 'choices' => array('', 1, 0))),
@@ -72,7 +74,7 @@ abstract class BaseAssetFormFilter extends BaseFormFilterPropel
   {
     return array(
       'id'                 => 'Number',
-      'slug'               => 'Text',
+      'uniqid'             => 'Text',
       'status'             => 'Number',
       'archive_id'         => 'ForeignKey',
       'asset_type'         => 'Number',
@@ -82,6 +84,7 @@ abstract class BaseAssetFormFilter extends BaseFormFilterPropel
       'event_date'         => 'Date',
       'source_filename'    => 'Text',
       'source_file_date'   => 'Date',
+      'source_md5sum'      => 'Text',
       'highquality_md5sum' => 'Text',
       'lowquality_md5sum'  => 'Text',
       'has_thumbnail'      => 'Boolean',

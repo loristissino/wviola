@@ -6,9 +6,9 @@ class ThumbnailFile extends AssetFile
 	const
 		EXTENSION = 'jpeg';
 	
-	public function __construct($slug)
+	public function __construct($uniqid)
 	{
-		parent::__construct($slug, self::EXTENSION, true);
+		parent::__construct($uniqid, self::EXTENSION, true);
 	}
 	
 	public function getAssetType()

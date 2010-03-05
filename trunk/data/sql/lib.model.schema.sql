@@ -29,7 +29,7 @@ DROP TABLE "asset" CASCADE;
 CREATE TABLE "asset"
 (
 	"id" serial  NOT NULL,
-	"slug" VARCHAR(50)  NOT NULL,
+	"uniqid" VARCHAR(50)  NOT NULL,
 	"status" INTEGER,
 	"archive_id" INTEGER,
 	"asset_type" INTEGER,
@@ -39,6 +39,7 @@ CREATE TABLE "asset"
 	"event_date" DATE,
 	"source_filename" VARCHAR(255),
 	"source_file_date" DATE,
+	"source_md5sum" VARCHAR(32),
 	"highquality_md5sum" VARCHAR(32),
 	"lowquality_md5sum" VARCHAR(32),
 	"has_thumbnail" BOOLEAN,
@@ -49,13 +50,15 @@ CREATE TABLE "asset"
 	"created_at" TIMESTAMP,
 	"updated_at" TIMESTAMP,
 	PRIMARY KEY ("id"),
-	CONSTRAINT "asset_U_1" UNIQUE ("slug")
+	CONSTRAINT "asset_U_1" UNIQUE ("uniqid")
 );
 
 COMMENT ON TABLE "asset" IS '';
 
 
 SET search_path TO public;
+CREATE INDEX "asset_I_1" ON "asset" ("source_md5sum");
+
 -----------------------------------------------------------------------------
 -- video_asset
 -----------------------------------------------------------------------------

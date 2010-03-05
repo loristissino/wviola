@@ -6,7 +6,7 @@ $t = new lime_test(1, new lime_output_color());
 
 $t->diag('AssetPeer');
 
-$slug='video2009_00000001';
+$uniqid='vid_4ab00000000000.10000000';
 
-$Asset=AssetPeer::retrieveBySlug($slug);
-$t->is($Asset->getAssignedTitle(), 'Outdoor meeting', '::retrieveBySlug() retrieves the correct object');
+$Asset=AssetPeer::retrieveByUniqid($uniqid);
+$t->is($Asset->getAssignedTitle(), 'Outdoor meeting', '::retrieveByUniqid() retrieves the correct object');
