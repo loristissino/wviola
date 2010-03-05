@@ -12,8 +12,10 @@ I ringraziamenti più grossi vanno ai team che hanno sviluppato [http://www.php.
 
 Le immagini e i filmati usati per i test e per gli screenshot sono tratte da:
 
-  * [http://www.yofrankie.org/gallery/ YoFrankie]
-  * [http://www.bigbuckbunny.org/ Big Buck Bunny]
+  * [http://www.yofrankie.org/gallery/ YoFrankie] (c) copyright Blender Foundation | apricot.blender.org
+  * [http://www.bigbuckbunny.org/ Big Buck Bunny] (c) copyright Blender Foundation | www.blender.org
+
+  
 
 
 
