@@ -91,7 +91,12 @@ Description:
  Call it with:
  
    php symfony wviola:scan-sources
-
+ 
+ The subdirectory name can be specified either as '/foo', 'foo/', 'foo' or '/foo/'.
+ Anyway, it must exist and must be under the path specified in wviola.yml for sources.
+ 
+ The task ends with an exception if something goes wrong (e.g. when a file could not be
+ read or written). 
 }}}
 
 Di ogni esecuzione di task viene tenuta traccia nel database, a meno che non si specifichi l'opzione `--logged=false`.
