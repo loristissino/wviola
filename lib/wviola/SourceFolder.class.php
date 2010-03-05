@@ -85,15 +85,15 @@ class SourceFolder
 		if(!$sfContext)
 		{
 			throw new Exception('This function should not be called without context');
-		}
+		} 
 		
 		$command=sprintf(
-			'background symfony wviola:scan-sources --recursive=false --subdir="%s" --size-limit-for-md5sum=1 --logged=true --env=%s',
+			'symfony wviola:scan-sources --recursive=false --subdir="%s" --size-limit-for-md5sum=1 --logged=false --env=%s 2>/dev/null >/dev/null &',
 			$this->getPath(),
 			$sfContext->getConfiguration()->getEnvironment()
 			);
 		
-		$info=Generic::executeCommand($command, true);
+		$info=Generic::executeCommand($command, false);
 		
 	}
 	
