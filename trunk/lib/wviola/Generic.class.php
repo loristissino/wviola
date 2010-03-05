@@ -230,6 +230,7 @@ class Generic{
 			if($debug)
 			{
 				ob_start();
+				echo "=========\n";
 				echo "CUSTOM? " . ($custom? 'yes': 'no') . "\n";
 				echo "---------\n";
 				echo "EXECUTING: \n";

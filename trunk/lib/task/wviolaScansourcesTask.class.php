@@ -227,7 +227,6 @@ EOF;
 		return 1;
 	}
 	
-	sleep(10);
 	if($this->_isLogged)
 	{
 		$taskLogEvent->
