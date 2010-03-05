@@ -4,7 +4,7 @@ FILENAME=filesystem$(date +%F_%H%M%S).tar.bz2
 
 cd /home/loris/Importanti/Wviola
 sudo find filesystem -type d -exec chmod -v 777 {} \;
-sudo find filesystem -type f -exec chmod -v 444 {} \;
+sudo find filesystem -type f -exec chmod -v 666 {} \;
 tar cpvjf $FILENAME filesystem
 md5sum $FILENAME
 mv -v ~/Importanti/Wviola/$FILENAME /etc/wviola/

@@ -11,8 +11,8 @@
       <td><?php echo $Asset->getId() ?></td>
     </tr>
     <tr>
-      <th>Slug:</th>
-      <td><?php echo $Asset->getSlug() ?></td>
+      <th>UniqId:</th>
+      <td><?php echo $Asset->getUniqid() ?></td>
     </tr>
     <tr>
       <th>Asset type:</th>

@@ -18,7 +18,7 @@ directory:
   # where iso images ready for burning are kept
 
   trash: /var/wviola/data/filesystem/trash
-  # where original source files are moved after encoding is done
+  # where original source files are moved after beeing encoded
 
   executables: /var/wviola/lib/wviola/bin
   # where common utilities are to be found

@@ -6,9 +6,9 @@ class VideoFile extends AssetFile
 	const
 		EXTENSION = 'flv';
 	
-	public function __construct($slug)
+	public function __construct($uniqid)
 	{
-		parent::__construct($slug, self::EXTENSION);
+		parent::__construct($uniqid, self::EXTENSION);
 	}
 	
 	public function getAssetType()

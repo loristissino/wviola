@@ -15,6 +15,12 @@ class Asset extends BaseAsset {
 		3=> 'photoalbum',
 		4=> 'audio',
 		);
+    private $_AssetTypeShortCodes=Array(
+		1=> 'vid',
+		2=> 'pic',
+		3=> 'alb',
+		4=> 'aud',
+		);
 
 	public function __toString()
 	{
@@ -25,6 +31,11 @@ class Asset extends BaseAsset {
 	{
 		return $this->_AssetTypeCodes[$this->getAssetType()];
 	}
+  
+	public function getAssetTypeShortCode()
+	{
+		return $this->_AssetTypeShortCodes[$this->getAssetType()];
+	}
 		
 	public function hasVideoAsset()
 	{
@@ -33,7 +44,7 @@ class Asset extends BaseAsset {
 		
 	public function getThumbnailFile()
 	{
-		$file=new ThumbnailFile($this->getSlug());
+		$file=new ThumbnailFile($this->getUniqid());
 		return $file;
 	}
 

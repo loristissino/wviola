@@ -65,7 +65,7 @@ EOF;
 		$this->logSection('source', 'Opening candidate source file...', null, 'COMMENT');
 		
 		$this->logsection('file', $file->getFullPath(), null, 'INFO');
-		
+
 		if ($file->getShouldBeSkipped())
 		{
 			$this->logSection('info', 'Skipped for file name matching.', null, 'COMMENT');

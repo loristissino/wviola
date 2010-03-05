@@ -4,7 +4,7 @@
   <thead>
     <tr>
       <th>Thumbnail</th>
-      <th>Slug</th>
+      <th>UniqId</th>
       <th>Asset type</th>
       <th>Assigned Title</th>
       <th>Category</th>
@@ -19,7 +19,7 @@
 	  <td>
 		<?php include_partial('thumbnail', array('Asset'=>$Asset)) ?>
 	  </td>
-      <td><?php echo $Asset->getSlug() ?></td>
+      <td><?php echo $Asset->getUniqid() ?></td>
 	  <td>
 		<?php include_partial('assettype', array('Asset'=>$Asset)) ?>
 	  </td>

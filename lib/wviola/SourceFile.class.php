@@ -63,7 +63,6 @@ class SourceFile extends BasicFile
 	
 	public function gatherWvInfo($onlyBasicInfo=false)
 	{
-		
 		$this->
 		setWvInfo('file_mtime', $this->getStat('mtime'))->
 		setWvInfo('file_ctime', $this->getStat('ctime'))->
@@ -187,6 +186,7 @@ class SourceFile extends BasicFile
 	
 	public function getShouldBeSkipped()
 	{
+    
 		foreach(wvConfig::get('filebrowser_skipped_files') as $regexp)
 		{
 			if(preg_match($regexp, $this->getBaseName()))
@@ -201,6 +201,28 @@ class SourceFile extends BasicFile
 		}
 		return false;
 	}
+  
+  private function makeWvDirPathIfNeeded()
+  {
+		if (
+			(!is_dir($this->getWvDirPath()))
+			&&
+			($this->canWriteWvDir())
+			)
+		{
+			try
+			{
+				mkdir($this->getWvDirPath());
+        chmod($this->getWvDirPath(), 0777);
+				//clearstatcache();
+			}
+			catch (Exception $e)
+			{
+				throw new Exception (sprintf('Could not make dir %s', $this->getWvDirPath()));
+			}
+		}
+  }
+  
 	
 	public function saveWvInfoFile()
 	{
@@ -214,31 +236,27 @@ class SourceFile extends BasicFile
 			return;
 		}
 		
-		if (
-			(!is_dir($this->getWvDirPath()))
-			&&
-			($this->canWriteWvDir())
-			)
-		{
-			try
-			{
-				mkdir($this->getWvDirPath());
-				//clearstatcache();
-			}
-			catch (Exception $e)
-			{
-				throw new Exception (sprintf('Could not make dir %s', $this->getWvDirPath()));
-			}
-		}
+    $this->makeWvDirPathIfNeeded();
 		
-		if (is_writeable($this->getWvDirPath()))
+		try
 		{
 			$fp=fopen($this->getWvInfoFilePath(), 'w');
 			$yaml=sfYaml::dump($this->_fileInfo, 4);
-			fwrite($fp, $yaml, strlen($yaml));
-			fclose($fp);
+      
+      if (@flock($fp, LOCK_EX))
+      {
+        fwrite($fp, $yaml, strlen($yaml));
+        fclose($fp);
+        @flock($fp, LOCK_UN);
+        chmod($this->getWvInfoFilePath(), 0666);
+      }
+      else
+      {
+        throw new Exception(sprintf('Could not acquire lock to file "%s"', $this->getWvInfoFilePath()));
+      }
+
 		}
-		else
+		catch (Exception $e)
 		{
 			throw new Exception(sprintf('Could not write to file "%s"', $this->getWvInfoFilePath()));
 		}
@@ -318,7 +336,7 @@ class SourceFile extends BasicFile
 	{
 		return $this->getWvDirPath() . '/' . $this->getStat('ino') . '.yml';
 	}
-	
+  
 	public function getWvDirPath()
 	{
 		return $this->getPath() . '/' . self::WV_DIR;

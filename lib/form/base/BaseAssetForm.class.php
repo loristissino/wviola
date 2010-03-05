@@ -16,7 +16,7 @@ abstract class BaseAssetForm extends BaseFormPropel
   {
     $this->setWidgets(array(
       'id'                 => new sfWidgetFormInputHidden(),
-      'slug'               => new sfWidgetFormInputText(),
+      'uniqid'             => new sfWidgetFormInputText(),
       'status'             => new sfWidgetFormInputText(),
       'archive_id'         => new sfWidgetFormPropelChoice(array('model' => 'Archive', 'add_empty' => true)),
       'asset_type'         => new sfWidgetFormInputText(),
@@ -26,6 +26,7 @@ abstract class BaseAssetForm extends BaseFormPropel
       'event_date'         => new sfWidgetFormDate(),
       'source_filename'    => new sfWidgetFormInputText(),
       'source_file_date'   => new sfWidgetFormDate(),
+      'source_md5sum'      => new sfWidgetFormInputText(),
       'highquality_md5sum' => new sfWidgetFormInputText(),
       'lowquality_md5sum'  => new sfWidgetFormInputText(),
       'has_thumbnail'      => new sfWidgetFormInputCheckbox(),
@@ -39,7 +40,7 @@ abstract class BaseAssetForm extends BaseFormPropel
 
     $this->setValidators(array(
       'id'                 => new sfValidatorPropelChoice(array('model' => 'Asset', 'column' => 'id', 'required' => false)),
-      'slug'               => new sfValidatorString(array('max_length' => 50)),
+      'uniqid'             => new sfValidatorString(array('max_length' => 50)),
       'status'             => new sfValidatorInteger(array('min' => -2147483648, 'max' => 2147483647, 'required' => false)),
       'archive_id'         => new sfValidatorPropelChoice(array('model' => 'Archive', 'column' => 'id', 'required' => false)),
       'asset_type'         => new sfValidatorInteger(array('min' => -2147483648, 'max' => 2147483647, 'required' => false)),
@@ -49,6 +50,7 @@ abstract class BaseAssetForm extends BaseFormPropel
       'event_date'         => new sfValidatorDate(array('required' => false)),
       'source_filename'    => new sfValidatorString(array('max_length' => 255, 'required' => false)),
       'source_file_date'   => new sfValidatorDate(array('required' => false)),
+      'source_md5sum'      => new sfValidatorString(array('max_length' => 32, 'required' => false)),
       'highquality_md5sum' => new sfValidatorString(array('max_length' => 32, 'required' => false)),
       'lowquality_md5sum'  => new sfValidatorString(array('max_length' => 32, 'required' => false)),
       'has_thumbnail'      => new sfValidatorBoolean(array('required' => false)),
@@ -61,7 +63,7 @@ abstract class BaseAssetForm extends BaseFormPropel
     ));
 
     $this->validatorSchema->setPostValidator(
-      new sfValidatorPropelUnique(array('model' => 'Asset', 'column' => array('slug')))
+      new sfValidatorPropelUnique(array('model' => 'Asset', 'column' => array('uniqid')))
     );
 
     $this->widgetSchema->setNameFormat('asset[%s]');

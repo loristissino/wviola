@@ -1,3 +1,3 @@
 #!/bin/bash
 
-rsync -az --delete /etc/wviola/filesystem /var/wviola/data/
+rsync -azv --delete /etc/wviola/filesystem /var/wviola/data/
