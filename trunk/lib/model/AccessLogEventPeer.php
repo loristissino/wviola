@@ -1,6 +1,6 @@
 <?php
 
-require 'lib/model/om/BaseAccessLogEventPeer.php';
+#require 'lib/model/om/BaseAccessLogEventPeer.php';
 
 
 /**

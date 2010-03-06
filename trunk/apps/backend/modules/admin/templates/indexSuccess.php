@@ -1,9 +1,9 @@
 <h1><?php echo __('Backend administration') ?></h1>
 
-<h2><?php echo __('Archives') ?></h2>
+<h2><?php echo __('Media') ?></h2>
 <ul>
 <li><?php echo link_to(
-	__('Archives'),
+	__('ISO images and DVD-ROM archives'),
 	url_for('@archive')
 	)
 	?></li>
@@ -16,10 +16,10 @@
 
 <h2><?php echo __('Logs') ?></h2>
 <ul>
-<li><?php /* echo link_to(
+<li><?php echo link_to(
 	__('Access log'),
-	url_for('@access_log') 
-	) */
+	url_for('@access_log_event') 
+	) 
 	?></li>
 <li><?php echo link_to(
 	__('Task log'),
