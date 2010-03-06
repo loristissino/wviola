@@ -1,9 +1,20 @@
-task_log:
+archive:
   class: sfPropelRouteCollection
   options:
-    model:                TaskLog
-    module:               task_log
-    prefix_path:          /task_log
+    model:                Archive
+    module:               archive
+    prefix_path:          /archive
+    column:               id
+    with_wildcard_routes: true
+
+
+
+task_log_event:
+  class: sfPropelRouteCollection
+  options:
+    model:                TaskLogEvent
+    module:               tasklog
+    prefix_path:          /tasklog
     column:               id
     with_wildcard_routes: true
 
@@ -16,15 +27,6 @@ asset:
     column:               id
     with_wildcard_routes: true
 
-asset_type:
-  class: sfPropelRouteCollection
-  options:
-    model:                AssetType
-    module:               asset_type
-    prefix_path:          /asset_type
-    column:               id
-    with_wildcard_routes: true
-
 sf_guard_user_profile:
   class: sfPropelRouteCollection
   options:
@@ -34,31 +36,12 @@ sf_guard_user_profile:
     column:               user_id
     with_wildcard_routes: true
 
-access_log:
-  class: sfPropelRouteCollection
-  options:
-    model:                AccessLog
-    module:               access_log
-    prefix_path:          /access_log
-    column:               id
-    with_wildcard_routes: true
-
-
 category:
   class: sfPropelRouteCollection
   options:
     model:                Category
     module:               category
     prefix_path:          /category
-    column:               id
-    with_wildcard_routes: true
-
-archive:
-  class: sfPropelRouteCollection
-  options:
-    model:                Archive
-    module:               archive
-    prefix_path:          /archive
     column:               id
     with_wildcard_routes: true
 

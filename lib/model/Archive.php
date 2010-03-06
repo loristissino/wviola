@@ -20,4 +20,9 @@ require 'lib/model/om/BaseArchive.php';
  */
 class Archive extends BaseArchive {
 
+  public function __toString()
+  {
+    return 'archive_'.$this->getId();
+  }
+
 } // Archive

@@ -16,14 +16,14 @@
 
 <h2><?php echo __('Logs') ?></h2>
 <ul>
-<li><?php echo link_to(
+<li><?php /* echo link_to(
 	__('Access log'),
-	url_for('@access_log')
-	)
+	url_for('@access_log') 
+	) */
 	?></li>
 <li><?php echo link_to(
 	__('Task log'),
-	url_for('@task_log')
+	url_for('@task_log_event')
 	)
 	?>
 </ul>
@@ -33,11 +33,6 @@
 <li><?php echo link_to(
 	__('Categories'),
 	url_for('@category')
-	)
-	?></li>
-<li><?php echo link_to(
-	__('Asset types'),
-	url_for('@asset_type')
 	)
 	?></li>
 </ul>
