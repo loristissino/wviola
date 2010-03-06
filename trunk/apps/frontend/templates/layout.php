@@ -4,7 +4,7 @@
     <?php include_http_metas() ?>
     <?php include_metas() ?>
     <?php include_title() ?>
-    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="shortcut icon" href="/images/favicon.ico" />
   </head>
   <body>
     <div id="header"><?php echo sfConfig::get('app_config_organization') ?></div>
