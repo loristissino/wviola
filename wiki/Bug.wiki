@@ -2,6 +2,4 @@
 
 = Bug noti =
 
-  1. L'interfaccia generata da Symfony con l'admin generator (nel backend) ha un problema che si verifica quando si fa clic sull'intestazione delle colonne per cambiare l'ordinamento. Viene generato un Segmentation Fault di Apache e si presenta una pagina bianca.
-
-
+  1. [RISOLTO] ~~L'interfaccia generata da Symfony con l'admin generator (nel backend) ha un problema che si verifica quando si fa clic sull'intestazione delle colonne per cambiare l'ordinamento. Viene generato un Segmentation Fault di Apache e si presenta una pagina bianca.~~
