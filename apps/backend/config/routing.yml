@@ -1,13 +1,11 @@
-archive:
+access_log_event:
   class: sfPropelRouteCollection
   options:
-    model:                Archive
-    module:               archive
-    prefix_path:          /archive
+    model:                AccessLogEvent
+    module:               accesslog
+    prefix_path:          /accesslog
     column:               id
     with_wildcard_routes: true
-
-
 
 task_log_event:
   class: sfPropelRouteCollection
@@ -24,6 +22,15 @@ asset:
     model:                Asset
     module:               asset
     prefix_path:          /asset
+    column:               id
+    with_wildcard_routes: true
+
+archive:
+  class: sfPropelRouteCollection
+  options:
+    model:                Archive
+    module:               archive
+    prefix_path:          /archive
     column:               id
     with_wildcard_routes: true
 

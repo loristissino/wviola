@@ -1,6 +1,6 @@
 <?php
 
-require 'lib/model/om/BaseCategoryPeer.php';
+# require 'lib/model/om/BaseCategoryPeer.php';
 
 
 /**

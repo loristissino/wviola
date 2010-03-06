@@ -1,6 +1,6 @@
 <?php
 
-require 'lib/model/om/BaseArchivePeer.php';
+# require 'lib/model/om/BaseArchivePeer.php';
 
 
 /**

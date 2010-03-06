@@ -3,7 +3,9 @@ Archive:
     slug: iso_20091231a
     created_at: 12/31/2009 08:20
     burned_at: 01/05/2010 17:30
+    md5sum: 6b33fc73f01fd24cf24e8ee277067335
     user_id: andreas
   archive2:
     slug: iso_20100120a
     created_at: 01/20/2010 16:40
+    md5sum: 14a0721ca7a00ac5374bc250be3e480d

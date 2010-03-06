@@ -1,6 +1,6 @@
 <?php
 
-require 'lib/model/om/BaseAssetPeer.php';
+#require 'lib/model/om/BaseAssetPeer.php';
 
 
 /**

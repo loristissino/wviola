@@ -21,4 +21,4 @@ chmod +x *
 
 chmod +x  "$BASEDIR/symfony"
 
-rm -rf "$BASEDIR/data/filesystem"
+rm -rfv "$BASEDIR/data/filesystem"
