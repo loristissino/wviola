@@ -1,13 +1,13 @@
 generator:
   class: sfPropelGenerator
   param:
-    model_class:           AssetType
+    model_class:           TaskLogEvent
     theme:                 admin
     non_verbose_templates: true
     with_show:             false
-    singular:              AssetType
-    plural:                AssetTypes
-    route_prefix:          asset_type
+    singular:              TaskLogEvent
+    plural:                TaskLogEvents
+    route_prefix:          task_log_event
     with_propel_route:     1
     actions_base_class:    sfActions
 

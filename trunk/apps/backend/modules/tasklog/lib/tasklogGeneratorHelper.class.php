@@ -1,13 +1,13 @@
 <?php
 
 /**
- * archive module helper.
+ * tasklog module helper.
  *
  * @package    wviola
- * @subpackage archive
+ * @subpackage tasklog
  * @author     Loris Tissino <loris.tissino@gmail.com>
  * @version    SVN: $Id: helper.php 12474 2008-10-31 10:41:27Z fabien $
  */
-class archiveGeneratorHelper extends BaseArchiveGeneratorHelper
+class tasklogGeneratorHelper extends BaseTasklogGeneratorHelper
 {
 }

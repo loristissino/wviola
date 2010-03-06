@@ -3,20 +3,20 @@
 class AssetFile extends BasicFile
 {
 	protected 
-		$_slug,
+		$_uniqid,
 		$_extension;
 
-	public function __construct($slug, $extension, $thumbnail=false)
+	public function __construct($uniqid, $extension, $thumbnail=false)
 	{
-		$this->_slug=$slug;
+		$this->_uniqid=$uniqid;
 		$this->_extension=$extension;
 		$parameter='directory_published_' . ($thumbnail ? 'thumbnails' : 'assets');
-		parent::__construct(wvConfig::get($parameter), $this->getSlug() . '.' . $this->getExtension());
+		parent::__construct(wvConfig::get($parameter), $this->getUniqid() . '.' . $this->getExtension());
 	}
 	
-	public function getSlug()
+	public function getUniqid()
 	{
-		return $this->_slug;
+		return $this->_uniqid;
 	}
 	
 	public function getExtension()
