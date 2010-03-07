@@ -33,27 +33,31 @@ class assetActions extends sfActions
 
   public function executeNew(sfWebRequest $request)
   {
-    $this->sourcefile=$this->getUser()->getAttribute('sourcefile');
+    $this->forward404Unless($this->sourcefile=$this->getUser()->getAttribute('sourcefile'));
     $this->form = new AssetForm();
+    $this->form->addThumbnailWidget($this->sourcefile, $this->getContext());
+    $this->form->setDefault('thumbnail', $request->getParameter('thumbnail', 0));
   }
 
   public function executeCreate(sfWebRequest $request)
   {
     $this->forward404Unless($request->isMethod(sfRequest::POST));
+    $this->forward404Unless($this->sourcefile=$this->getUser()->getAttribute('sourcefile'));
 
     $this->form = new AssetForm();
-
+    $this->form->addThumbnailWidget($this->sourcefile, $this->getContext());
     $this->processForm($request, $this->form);
 
     $this->setTemplate('new');
   }
-
+/*
   public function executeEdit(sfWebRequest $request)
   {
     $this->forward404Unless($Asset = AssetPeer::retrieveByPk($request->getParameter('id')), sprintf('Object Asset does not exist (%s).', $request->getParameter('id')));
     $this->form = new AssetForm($Asset);
   }
-
+*/
+/*
   public function executeUpdate(sfWebRequest $request)
   {
     $this->forward404Unless($request->isMethod(sfRequest::POST) || $request->isMethod(sfRequest::PUT));
@@ -64,7 +68,8 @@ class assetActions extends sfActions
 
     $this->setTemplate('edit');
   }
-
+*/
+/*
   public function executeDelete(sfWebRequest $request)
   {
     $request->checkCSRFProtection();
@@ -74,7 +79,7 @@ class assetActions extends sfActions
 
     $this->redirect('asset/index');
   }
-
+*/
 
   public function executeThumbnail(sfWebRequest $request)
   {

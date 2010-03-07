@@ -1,3 +1,10 @@
+sourcethumbnail:
+  url:   /filebrowser/thumbnail/path/:path/basename/:basename/number/:number.:sf_format
+  param: { module: filebrowser, action: thumbnail }
+  requirements:
+    sf_format: jpeg
+    sf_method: get
+
 thumbnail:
   url:   /asset/thumbnail/:id.:sf_format
   param: { module: asset, action: thumbnail }

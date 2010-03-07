@@ -21,13 +21,6 @@
     <tbody>
       <?php echo $form->renderGlobalErrors() ?>
       <tr>
-        <th><?php echo $form['uniqid']->renderLabel() ?></th>
-        <td>
-          <?php echo $form['uniqid']->renderError() ?>
-          <?php echo $form['uniqid'] ?>
-        </td>
-      </tr>
-      <tr>
         <th><?php echo $form['assigned_title']->renderLabel() ?></th>
         <td>
           <?php echo $form['assigned_title']->renderError() ?>
@@ -49,26 +42,20 @@
         </td>
       </tr>
       <tr>
-        <th><?php echo $form['source_filename']->renderLabel() ?></th>
+        <th><?php echo $form['event_date']->renderLabel() ?></th>
         <td>
-          <?php echo $form['source_filename']->renderError() ?>
-          <?php echo $form['source_filename'] ?>
+          <?php echo $form['event_date']->renderError() ?>
+          <?php echo $form['event_date'] ?>
         </td>
       </tr>
       <tr>
-        <th><?php echo $form['source_file_date']->renderLabel() ?></th>
+        <th><?php echo $form['thumbnail']->renderLabel() ?></th>
         <td>
-          <?php echo $form['source_file_date']->renderError() ?>
-          <?php echo $form['source_file_date'] ?>
+          <?php echo $form['thumbnail']->renderError() ?>
+          <?php echo $form['thumbnail'] ?>
         </td>
       </tr>
-      <tr>
-        <th><?php echo $form['user_id']->renderLabel() ?></th>
-        <td>
-          <?php echo $form['user_id']->renderError() ?>
-          <?php echo $form['user_id'] ?>
-        </td>
-      </tr>
+
     </tbody>
   </table>
 </form>

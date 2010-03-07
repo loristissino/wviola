@@ -2,8 +2,10 @@ AccessLogEvent:
   access_log_event1:
     asset_id:  asset1
     user_id:  matthew
+    session: <?php echo md5('foo') . "\n" ?>
     created_at: 12/02/2010
   access_log_event2:
     asset_id:  asset1
     user_id:  john
+    session: <?php echo md5('bar') . "\n" ?>
     created_at: 12/03/2010
