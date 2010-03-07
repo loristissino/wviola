@@ -40,13 +40,16 @@ sfGuardUserGroup:
   mark:
     group_id:       admin
     user_id:        mark
-  andreas:
+  andreas1:
     group_id:       admin
+    user_id:        andreas
+  andreas2:
+    group_id:       video_encoders
     user_id:        andreas
   matthew:
     group_id:       video_encoders
     user_id:        matthew
-
+  
 sfGuardUserProfile:
   mark:
     user_id:         mark  

@@ -46,7 +46,7 @@ class assetActions extends sfActions
 
     $this->form = new AssetForm();
     $this->form->addThumbnailWidget($this->sourcefile, $this->getContext());
-    $this->processForm($request, $this->form);
+    $this->processForm($request, $this->form, $this->sourcefile);
 
     $this->setTemplate('new');
   }
@@ -126,14 +126,29 @@ class assetActions extends sfActions
 
 
 
-  protected function processForm(sfWebRequest $request, sfForm $form)
+  protected function processForm(sfWebRequest $request, sfForm $form, SourceFile $sourcefile)
   {
     $form->bind($request->getParameter($form->getName()), $request->getFiles($form->getName()));
     if ($form->isValid())
     {
-      $Asset = $form->save();
-
-      $this->redirect('asset/edit?id='.$Asset->getId());
+      $Asset = new Asset();
+      try
+      {
+        $Asset->archiveSourceFile(
+          $this->getUser()->getProfile()->getUserId(),
+          $sourcefile,
+          $form->getValues()
+          );
+      }
+      catch (Exception $e)
+      {
+        $this->getUser()->setFlash('error', 'FIXME Something went wrong' . $e->getMessage());
+        $this->redirect('filebrowser/index');
+      }
+      
+      $this->getUser()->setFlash('notice', 'FIXME Source file scheduled for archiviation');
+      $this->redirect('filebrowser/index');
+      
     }
   }
 }

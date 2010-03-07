@@ -15,7 +15,7 @@ generator:
       actions: ~
       fields:  ~
       list:
-        display: [=id, uniqid, assigned_title]
+        display: [=id, user_id, uniqid, assigned_title]
       filter:  ~
       form:    ~
       edit:    ~
