@@ -1,0 +1,12 @@
+#summary Alcune istantanee a dimostrazione dell'interfaccia di Wviola
+
+= Istantanee =
+
+== Lista paginata degli asset ==
+
+http://wviola.googlecode.com/svn/wiki/assetlist.png
+
+== Scelta dell'asset da archiviare ==
+
+http://wviola.googlecode.com/svn/wiki/sources.png
+
