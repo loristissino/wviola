@@ -1,4 +1,5 @@
-<?php echo image_tag(url_for(
+<?php echo link_to(
+  image_tag(url_for(
 		sprintf(
 			'filebrowser/thumbnail?path=%s&basename=%s&number=%d.jpeg',
 			Generic::b64_serialize($file->getRelativePath()),
@@ -8,9 +9,14 @@
 		,
 		array(
 			'alt'=>'Position=' . $file->getWvInfo('thumbnail_' . $number . '_position', '0'),
-			'title'=>'Position=' . $file->getWvInfo('thumbnail_' . $number . '_position'),
 			'size'=>sprintf('%dx%d', $file->getWvInfo('thumbnail_' . $number . '_width'), $file->getWvInfo('thumbnail_' . $number . '_height'))
 		)
-		)
-		
+		),
+  url_for('filebrowser/archive?name='. urlencode($file->getBaseName()) . '&thumbnail=' . $number),
+  array(
+    'title'=>__('Archive asset «%filename%»', 
+      array('%filename%'=>$file->getBaseName())
+      ))
+  )
+	
 ?>

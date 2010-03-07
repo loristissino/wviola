@@ -14,7 +14,7 @@ $browser->
 	
 	with('response')->begin()->
 		isStatusCode(200)->
-		checkElement('body', '/Name: Matthew/')->
+    checkElement('h1#maintitle', "/Matthew's profile/")->
 	end()
 	;
 

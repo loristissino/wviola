@@ -21,17 +21,10 @@
     <tbody>
       <?php echo $form->renderGlobalErrors() ?>
       <tr>
-        <th><?php echo $form['slug']->renderLabel() ?></th>
+        <th><?php echo $form['uniqid']->renderLabel() ?></th>
         <td>
-          <?php echo $form['slug']->renderError() ?>
-          <?php echo $form['slug'] ?>
-        </td>
-      </tr>
-      <tr>
-        <th><?php echo $form['asset_type_id']->renderLabel() ?></th>
-        <td>
-          <?php echo $form['asset_type_id']->renderError() ?>
-          <?php echo $form['asset_type_id'] ?>
+          <?php echo $form['uniqid']->renderError() ?>
+          <?php echo $form['uniqid'] ?>
         </td>
       </tr>
       <tr>
@@ -56,13 +49,6 @@
         </td>
       </tr>
       <tr>
-        <th><?php echo $form['duration']->renderLabel() ?></th>
-        <td>
-          <?php echo $form['duration']->renderError() ?>
-          <?php echo $form['duration'] ?>
-        </td>
-      </tr>
-      <tr>
         <th><?php echo $form['source_filename']->renderLabel() ?></th>
         <td>
           <?php echo $form['source_filename']->renderError() ?>
@@ -77,108 +63,10 @@
         </td>
       </tr>
       <tr>
-        <th><?php echo $form['highquality_width']->renderLabel() ?></th>
-        <td>
-          <?php echo $form['highquality_width']->renderError() ?>
-          <?php echo $form['highquality_width'] ?>
-        </td>
-      </tr>
-      <tr>
-        <th><?php echo $form['highquality_height']->renderLabel() ?></th>
-        <td>
-          <?php echo $form['highquality_height']->renderError() ?>
-          <?php echo $form['highquality_height'] ?>
-        </td>
-      </tr>
-      <tr>
-        <th><?php echo $form['highquality_video_codec']->renderLabel() ?></th>
-        <td>
-          <?php echo $form['highquality_video_codec']->renderError() ?>
-          <?php echo $form['highquality_video_codec'] ?>
-        </td>
-      </tr>
-      <tr>
-        <th><?php echo $form['highquality_audio_codec']->renderLabel() ?></th>
-        <td>
-          <?php echo $form['highquality_audio_codec']->renderError() ?>
-          <?php echo $form['highquality_audio_codec'] ?>
-        </td>
-      </tr>
-      <tr>
-        <th><?php echo $form['highquality_frame_rate']->renderLabel() ?></th>
-        <td>
-          <?php echo $form['highquality_frame_rate']->renderError() ?>
-          <?php echo $form['highquality_frame_rate'] ?>
-        </td>
-      </tr>
-      <tr>
-        <th><?php echo $form['highquality_md5sum']->renderLabel() ?></th>
-        <td>
-          <?php echo $form['highquality_md5sum']->renderError() ?>
-          <?php echo $form['highquality_md5sum'] ?>
-        </td>
-      </tr>
-      <tr>
-        <th><?php echo $form['lowquality_width']->renderLabel() ?></th>
-        <td>
-          <?php echo $form['lowquality_width']->renderError() ?>
-          <?php echo $form['lowquality_width'] ?>
-        </td>
-      </tr>
-      <tr>
-        <th><?php echo $form['lowquality_height']->renderLabel() ?></th>
-        <td>
-          <?php echo $form['lowquality_height']->renderError() ?>
-          <?php echo $form['lowquality_height'] ?>
-        </td>
-      </tr>
-      <tr>
-        <th><?php echo $form['lowquality_video_codec']->renderLabel() ?></th>
-        <td>
-          <?php echo $form['lowquality_video_codec']->renderError() ?>
-          <?php echo $form['lowquality_video_codec'] ?>
-        </td>
-      </tr>
-      <tr>
-        <th><?php echo $form['lowquality_audio_codec']->renderLabel() ?></th>
-        <td>
-          <?php echo $form['lowquality_audio_codec']->renderError() ?>
-          <?php echo $form['lowquality_audio_codec'] ?>
-        </td>
-      </tr>
-      <tr>
-        <th><?php echo $form['lowquality_frame_rate']->renderLabel() ?></th>
-        <td>
-          <?php echo $form['lowquality_frame_rate']->renderError() ?>
-          <?php echo $form['lowquality_frame_rate'] ?>
-        </td>
-      </tr>
-      <tr>
-        <th><?php echo $form['lowquality_md5sum']->renderLabel() ?></th>
-        <td>
-          <?php echo $form['lowquality_md5sum']->renderError() ?>
-          <?php echo $form['lowquality_md5sum'] ?>
-        </td>
-      </tr>
-      <tr>
         <th><?php echo $form['user_id']->renderLabel() ?></th>
         <td>
           <?php echo $form['user_id']->renderError() ?>
           <?php echo $form['user_id'] ?>
-        </td>
-      </tr>
-      <tr>
-        <th><?php echo $form['created_at']->renderLabel() ?></th>
-        <td>
-          <?php echo $form['created_at']->renderError() ?>
-          <?php echo $form['created_at'] ?>
-        </td>
-      </tr>
-      <tr>
-        <th><?php echo $form['updated_at']->renderLabel() ?></th>
-        <td>
-          <?php echo $form['updated_at']->renderError() ?>
-          <?php echo $form['updated_at'] ?>
         </td>
       </tr>
     </tbody>

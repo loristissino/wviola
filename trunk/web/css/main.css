@@ -7,3 +7,19 @@ color: red;
 {
 color: blue;	
 }
+
+
+#sf_admin_container ul li.sf_admin_action_opendir a
+{
+  background: url(../images/opendir.png) no-repeat 0 0;
+}
+
+#sf_admin_container ul li.sf_admin_action_updir a
+{
+  background: url(../images/updir.png) no-repeat 0 0;
+}
+
+#sf_admin_container ul li.sf_admin_action_archive a
+{
+  background: url(../images/archive.png) no-repeat 0 0;
+}

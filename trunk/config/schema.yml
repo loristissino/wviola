@@ -81,7 +81,10 @@ propel:
     id: ~  
     asset_id:  ~
     user_id:      { type: integer, foreignTable: sf_guard_user_profile, foreignReference: user_id, required: true, onUpdate: cascade, onDelete: restrict }
+    session: varchar(32)
     created_at: ~
+    _uniques:
+      aus: [asset_id, user_id, session]
 
   task_log_event:
     id: ~

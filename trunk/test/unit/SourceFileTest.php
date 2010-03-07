@@ -2,7 +2,7 @@
 
 require_once dirname(__FILE__).'/../bootstrap/FileSystem.php';
  
-$t = new lime_test(27, new lime_output_color());
+$t = new lime_test(29, new lime_output_color());
 
 $t->diag('SourceFile functions');
 
@@ -46,6 +46,7 @@ $file->saveWvInfoFile();
 
 $t->is($file->getWvInfo('video_frame_width'), 854, '->saveWvInfoFile() correctly saved the information on the file');
 $t->is($file->getWvInfo('video_aspect_ratio'), 1.77916666667, '->gatherWvInfo() correctly finds the aspect ratio for an AVI file');
+$t->is($file->getWvInfo('file_archivable'), true, '->gatherWvInfo() correctly sets archivable to true for an AVI file');
 
 unset($file);
 
@@ -108,7 +109,6 @@ foreach(array(
 	unset($file);
 }
 
-echo uniqid('wv', true) . "\n";
-echo uniqid('wv', true) . "\n";
-echo uniqid('wv', true) . "\n";
-echo uniqid('wv', true) . "\n";
+$file=new SourceFile('/videos', 'tobeskipped.doc');
+$file->gatherWvInfo();
+$t->isnt($file->getWvInfo('file_archivable'), true, '->gatherWvInfo() does not set archivable to true for not archivable documents');
