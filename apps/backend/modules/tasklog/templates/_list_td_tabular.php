@@ -19,10 +19,10 @@
   <?php endforeach ?>
 </td>
 <td class="sf_admin_date sf_admin_list_td_started_at">
-  <?php echo false !== strtotime($TaskLogEvent->getStartedAt()) ? format_date($TaskLogEvent->getStartedAt(), wvConfig::get('backend_date_format')) : '&nbsp;' ?>
+  <?php echo false !== strtotime($TaskLogEvent->getStartedAt()) ? format_date($TaskLogEvent->getStartedAt(), sfConfig::get('app_admin_date_format')) : '&nbsp;' ?>
 </td>
 <td class="sf_admin_date sf_admin_list_td_finished_at">
-  <?php echo false !== strtotime($TaskLogEvent->getFinishedAt()) ? format_date($TaskLogEvent->getFinishedAt(), wvConfig::get('backend_date_format')) : '&nbsp;' ?>
+  <?php echo false !== strtotime($TaskLogEvent->getFinishedAt()) ? format_date($TaskLogEvent->getFinishedAt(), sfConfig::get('app_admin_date_format')) : '&nbsp;' ?>
 </td>
 <td class="sf_admin_text sf_admin_list_td_task_exception">
   <?php echo $TaskLogEvent->getTaskException() ?>

@@ -12,7 +12,17 @@ class assetActions extends sfActions
 {
   public function executeIndex(sfWebRequest $request)
   {
-    $this->Assets = AssetPeer::doSelect(new Criteria());
+//    $this->Assets = AssetPeer::doSelect(new Criteria());
+
+
+    $this->pager = new sfPropelPager(
+      'Asset',
+      sfConfig::get('app_max_asset_per_page')
+    );
+
+//    $this->pager->setCriteria($this->category->getActiveJobsCriteria());
+    $this->pager->setPage($request->getParameter('page', 1));
+    $this->pager->init();
   }
 
   public function executeShow(sfWebRequest $request)

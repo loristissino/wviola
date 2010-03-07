@@ -34,8 +34,4 @@ filebrowser:
   skipped_files: [ '/~$/', '/doc$/i', '/ppt$/i', '/txt$/i', '/odt$/i' ]
   # regular expressions to use with filenames: files matching are skipped
 
-backend:
-  date_format: yyyy-MM-dd HH:mm:ss
-  # format for time representation in backend
-  # see http://framework.zend.com/manual/en/zend.date.constants.html
   
