@@ -1,7 +1,7 @@
 all:
   config:
     organization: My Organization Name
-    website: http://www.example.com
+    website: http://www.wviola.net.localhost
 
   sf_guard_plugin:
     check_password_callable: [Authentication, testOnly]
