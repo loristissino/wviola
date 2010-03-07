@@ -69,4 +69,19 @@ class Asset extends BaseAsset {
   }
 
 
+  public function archiveSourceFile($userId, SourceFile $sourcefile, $values)
+  {
+    $this
+    ->setUserId($userId)
+    ->setUniqid(rand()*1000)
+    ->setNotes($values['notes'])
+    ->setAssignedTitle($values['assigned_title'])
+    ->save();
+    
+    // FIXME This must be completed...
+    
+  }
+  
+  
+
 } // Asset
