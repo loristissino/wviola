@@ -53,6 +53,52 @@ class filebrowserActions extends sfActions
 		
   }
 
+  public function executeArchive(sfWebRequest $request)
+  {
+		$this->folder=$this->folder->getPath();
+    $this->filename=$request->getParameter('name');
+    $this->thumbnail=$request->getParameter('thumbnail', '');
+    
+    $error=false;
+    
+		try
+    {
+      $this->sourcefile= new SourceFile($this->folder, $this->filename);
+    }
+    catch (Exception $e)
+    {
+      $error=true;
+    }
+
+    if (($this->thumbnail!='') && !$this->sourcefile->getThumbnail($this->thumbnail))
+    {
+      $this->forward404();
+    }
+
+    if(true !== $this->sourcefile->getWvInfo('file_archivable'))
+    {
+      $error=true;
+    }
+    
+    
+    if ($error)
+    {
+      $this->getUser()->setFlash('error',
+        $this->getContext()->getI18N()->
+        __('For some reason, it is not possible to archive file %filename%',
+        array('%filename%'=>$this->filename))
+        );
+      $this->redirect('filebrowser/index');
+      
+    }
+    
+    $this->getUser()->setAttribute('sourcefile', $this->sourcefile);
+    $this->forward('asset', 'new');
+    
+  }
+
+
+
 /*
   public function executeRemove(sfWebRequest $request)
   {

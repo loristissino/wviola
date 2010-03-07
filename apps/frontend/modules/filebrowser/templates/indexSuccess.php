@@ -58,6 +58,18 @@
 			?>
 			</li>
 		<?php endif ?>
+		<?php if($item->getWvInfo('file_archivable')==true): ?>
+			<li class="sf_admin_action_archive"><?php echo link_to(
+				__('Archive'),
+				url_for('asset/new?name='. urlencode($item->getBaseName())),
+        array(
+          'title'=>__('Archive asset «%filename%»', 
+            array('%filename%'=>$item->getBaseName())
+            ))
+				)
+			?>
+			</li>
+		<?php endif ?>
 		</ul>
 	  </td>
 	</tr>

@@ -203,8 +203,10 @@ CREATE TABLE "access_log_event"
 	"id" serial  NOT NULL,
 	"asset_id" INTEGER,
 	"user_id" INTEGER  NOT NULL,
+	"session" VARCHAR(32),
 	"created_at" TIMESTAMP,
-	PRIMARY KEY ("id")
+	PRIMARY KEY ("id"),
+	CONSTRAINT "aus" UNIQUE ("asset_id","user_id","session")
 );
 
 COMMENT ON TABLE "access_log_event" IS '';

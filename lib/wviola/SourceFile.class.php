@@ -158,6 +158,9 @@ class SourceFile extends BasicFile
 		{
 			throw new Exception(sprintf('Could not gather information about file %s', $this->getFullPath()));
 		}
+    
+    $this->setWvInfo('file_archivable', true);
+    
 	}
 	
 	public function loadWvInfoFile()
@@ -268,6 +271,11 @@ class SourceFile extends BasicFile
 	{
 		return is_array($this->getWvInfo('thumbnail'));
 	}
+  
+  public function getThumbnailNb()
+  {
+    return sizeof($this->getWvInfo('thumbnail'));
+  }
 	
 	
 	public function getThumbnail($number)

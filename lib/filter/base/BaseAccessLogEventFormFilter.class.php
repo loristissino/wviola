@@ -15,12 +15,14 @@ abstract class BaseAccessLogEventFormFilter extends BaseFormFilterPropel
     $this->setWidgets(array(
       'asset_id'   => new sfWidgetFormPropelChoice(array('model' => 'Asset', 'add_empty' => true)),
       'user_id'    => new sfWidgetFormPropelChoice(array('model' => 'sfGuardUserProfile', 'add_empty' => true)),
+      'session'    => new sfWidgetFormFilterInput(),
       'created_at' => new sfWidgetFormFilterDate(array('from_date' => new sfWidgetFormDate(), 'to_date' => new sfWidgetFormDate())),
     ));
 
     $this->setValidators(array(
       'asset_id'   => new sfValidatorPropelChoice(array('required' => false, 'model' => 'Asset', 'column' => 'id')),
       'user_id'    => new sfValidatorPropelChoice(array('required' => false, 'model' => 'sfGuardUserProfile', 'column' => 'user_id')),
+      'session'    => new sfValidatorPass(array('required' => false)),
       'created_at' => new sfValidatorDateRange(array('required' => false, 'from_date' => new sfValidatorDate(array('required' => false)), 'to_date' => new sfValidatorDate(array('required' => false)))),
     ));
 
@@ -42,6 +44,7 @@ abstract class BaseAccessLogEventFormFilter extends BaseFormFilterPropel
       'id'         => 'Number',
       'asset_id'   => 'ForeignKey',
       'user_id'    => 'ForeignKey',
+      'session'    => 'Text',
       'created_at' => 'Date',
     );
   }

@@ -48,5 +48,25 @@ class Asset extends BaseAsset {
 		return $file;
 	}
 
+  public function logAccess($user_id, $cookie)
+  {
+    try
+    {
+      $entry=new AccessLogEvent();
+      $entry
+      ->setUserId($user_id)
+      ->setAsset($this)
+      ->setSession($cookie)
+      ->save();
+    }
+    catch (Exception $e)
+    {
+      /* nothing to do here...
+      This should happen when a user accesses the same asset twice
+      in the same session: we don't need to log it twice
+      */
+    }
+  }
+
 
 } // Asset

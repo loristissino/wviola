@@ -33,6 +33,7 @@ class assetActions extends sfActions
 
   public function executeNew(sfWebRequest $request)
   {
+    $this->sourcefile=$this->getUser()->getAttribute('sourcefile');
     $this->form = new AssetForm();
   }
 
@@ -97,23 +98,24 @@ class assetActions extends sfActions
   {
     $this->forward404Unless($Asset = AssetPeer::retrieveByPk($request->getParameter('id')), sprintf('Object Asset does not exist (%s).', $request->getParameter('id')));
     $this->forward404Unless($Asset->hasVideoAsset());
-	
     $this->forward404Unless($file=$Asset->getVideoAsset()->getVideoFile());
+
+    $Asset->logAccess($this->getUser()->getProfile()->getUserId(), $request->getCookie('wviola'));
 	
-	$response=$this->getContext()->getResponse();
-	$response->setHttpHeader('Pragma', '');
-	$response->setHttpHeader('Cache-Control', '');
-	$response->setHttpHeader('Content-Length', $file->getStat('size'));
-	$response->setHttpHeader('Content-Type', $file->getMimeType());
+    $response=$this->getContext()->getResponse();
+    $response->setHttpHeader('Pragma', '');
+    $response->setHttpHeader('Cache-Control', '');
+    $response->setHttpHeader('Content-Length', $file->getStat('size'));
+    $response->setHttpHeader('Content-Type', $file->getMimeType());
 
-//	$response->setContent(fread(fopen($file->getFullPath(), 'r'), $file->getStat('size')));
+  //	$response->setContent(fread(fopen($file->getFullPath(), 'r'), $file->getStat('size')));
 
-/* For big files, not to be read in memory, this should be better:
-   see http://forum.symfony-project.org/index.php/m/63030/
-*/
-	$response->sendHttpHeaders();
-	readfile($file->getFullPath());
-	return sfView::NONE;
+    /* For big files, not to be read in memory, this should be better:
+       see http://forum.symfony-project.org/index.php/m/63030/
+    */
+    $response->sendHttpHeaders();
+    readfile($file->getFullPath());
+    return sfView::NONE;
 
   } 
 
