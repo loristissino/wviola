@@ -19,6 +19,7 @@ propel:
     event_date: date
     source_filename: varchar(255)
     source_file_date: date
+    source_size: { type: bigint, index: true }
     source_md5sum: { type: varchar(32), index: true }
     highquality_md5sum: varchar(32)
     lowquality_md5sum: varchar(32)
@@ -29,6 +30,8 @@ propel:
     user_id:  { type: integer, foreignTable: sf_guard_user_profile, foreignReference: user_id, required: true, onUpdate: cascade, onDelete: cascade}
     created_at: ~
     updated_at: ~
+    _uniques:
+      sm: [ source_size, source_md5sum ]
 
   video_asset:
     asset_id: { type: integer, foreignTable: asset, foreignReference: id, required: true, onUpdate: cascade, onDelete: cascade, primaryKey: true }

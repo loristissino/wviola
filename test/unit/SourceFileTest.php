@@ -2,7 +2,7 @@
 
 require_once dirname(__FILE__).'/../bootstrap/FileSystem.php';
  
-$t = new lime_test(29, new lime_output_color());
+$t = new lime_test(30, new lime_output_color());
 
 $t->diag('SourceFile functions');
 
@@ -112,3 +112,13 @@ foreach(array(
 $file=new SourceFile('/videos', 'tobeskipped.doc');
 $file->gatherWvInfo();
 $t->isnt($file->getWvInfo('file_archivable'), true, '->gatherWvInfo() does not set archivable to true for not archivable documents');
+unset($file);
+
+
+$file=new SourceFile('/videos', 'big_buck_apple_duplicate.mpeg');
+$file
+->gatherWvInfo()
+->appendMD5Sum();
+$id=$file->getWvInfo('file_asset_id');
+
+$t->isnt($id, null, '->getWvInfo() returns the id of an asset that has the same size and md5sum');

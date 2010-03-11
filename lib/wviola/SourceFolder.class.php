@@ -88,7 +88,7 @@ class SourceFolder
 		} 
 		
 		$command=sprintf(
-			'symfony wviola:scan-sources --recursive=false --subdir="%s" --size-limit-for-md5sum=1 --logged=false --env=%s 2>/dev/null >/dev/null &',
+			'symfony wviola:scan-sources --recursive=false --subdir="%s" --logged=false --env=%s 2>/dev/null >/dev/null &',
 			$this->getPath(),
 			$sfContext->getConfiguration()->getEnvironment()
 			);

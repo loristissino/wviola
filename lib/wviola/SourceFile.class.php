@@ -18,8 +18,7 @@ class SourceFile extends BasicFile
 		$this->setRelativePath($relativePath);
 		$this->loadWvInfoFile();
 	}
-	
-
+  
 	public function getHasWvInfo()
 	{
 		return (!is_null($this->_fileInfo));
@@ -55,9 +54,17 @@ class SourceFile extends BasicFile
 	public function appendMD5Sum()
 	{
 		$this->
-		setWvInfo('file_md5sum', $this->getMD5Sum())
-		;
-		
+		setWvInfo('file_md5sum', $this->getMD5Sum());
+    
+    if($Asset=AssetPeer::retrieveBySourceSizeAndMd5sum(
+      $this->getWvInfo('file_size'),
+      $this->getWvInfo('file_md5sum')
+      ))
+    {
+      $this->setWvInfo('file_asset_id', $Asset->getId());
+      $this->setWvInfo('file_archivable', false);
+    }
+    
 		return $this;
 	}
 	

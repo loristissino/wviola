@@ -17,7 +17,7 @@ class wviolaScansourcesTask extends sfBaseTask
 	
       new sfCommandOption('subdir', null, sfCommandOption::PARAMETER_OPTIONAL, 'Subdirectory name', '/'),
       new sfCommandOption('recursive', null, sfCommandOption::PARAMETER_OPTIONAL, 'whether recursion will be applied', 'false'),
-      new sfCommandOption('size-limit-for-md5sum', null, sfCommandOption::PARAMETER_OPTIONAL, 'size in bytes over which md5sums will not be computed (0 means no limit)', 0),
+//      new sfCommandOption('size-limit-for-md5sum', null, sfCommandOption::PARAMETER_OPTIONAL, 'size in bytes over which md5sums will not be computed (0 means no limit)', 0),
 	  new sfCommandOption('logged', null, sfCommandOption::PARAMETER_OPTIONAL, 'whether the execution will be logged in the DB', 'true'),
 	
     ));
@@ -42,11 +42,11 @@ EOF;
 	$this->_isRecursive=false;
 	$this->_sourcesDirectory='';
 	$this->_isLogged=true;
-	$this->_size_limit_for_md5sum=0;
+//	$this->_size_limit_for_md5sum=0;
 
   }
 
-
+/*
   protected function mustComputeMD5Sum($size)
 	{
 		if($this->_size_limit_for_md5sum==0)
@@ -55,7 +55,7 @@ EOF;
 		}
 		return $size < $this->_size_limit_for_md5sum;
 	}
-
+*/
 	protected function processFile($subdir, $basename)
 	{
 		$this->log('');
@@ -84,8 +84,8 @@ EOF;
 			$this->logSection('info', 'Basic information gathering skipped (already present).', null, 'COMMENT');
 		}
 		
-		if($this->mustComputeMD5Sum($file->getStat('size')))
-		{
+//		if($this->mustComputeMD5Sum($file->getStat('size')))
+//		{
 			if(!$file->getHasMD5Sum())
 			{
 				$this->logSection('md5sum', 'Computing MD5 hash...', null, 'COMMENT');
@@ -95,11 +95,11 @@ EOF;
 			{
 				$this->logSection('md5sum', 'MD5 computing already done.', null, 'COMMENT');
 			}
-		}
-		else
-		{
-			$this->logSection('md5sum', 'MD5 computing skipped.', null, 'COMMENT');
-		}
+//		}
+//		else
+//		{
+//			$this->logSection('md5sum', 'MD5 computing skipped.', null, 'COMMENT');
+//		}
 		
 		if ($file->getWvInfoChanged())
 		{
@@ -183,11 +183,13 @@ EOF;
 	$options['subdir']=$subdir;
 	
 	$this->_sourcesDirectory=wvConfig::get('directory_sources');
-	
+
+/*
 	$this->_size_limit_for_md5sum=(float)$options['size-limit-for-md5sum'];
 	
 	$options['size-limit-for-md5sum']=$this->_size_limit_for_md5sum;
-	
+*/
+
 	$completeDirPath=Generic::getCompletePath($this->_sourcesDirectory, $subdir);
 	
 	$this->logSection('directory', $completeDirPath, null, 'COMMENT');
@@ -195,7 +197,7 @@ EOF;
 	foreach(array(
 		'subdir',
 		'recursive',
-		'size-limit-for-md5sum',
+//		'size-limit-for-md5sum',
 		'logged',
 		) as $key)
 	{
