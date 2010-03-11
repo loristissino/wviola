@@ -47,6 +47,7 @@ CREATE TABLE "asset"
 	"thumbnail_width" INTEGER,
 	"thumbnail_height" INTEGER,
 	"thumbnail_size" INTEGER,
+	"thumbnail_position" FLOAT,
 	"user_id" INTEGER  NOT NULL,
 	"created_at" TIMESTAMP,
 	"updated_at" TIMESTAMP,

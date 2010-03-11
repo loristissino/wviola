@@ -27,6 +27,7 @@ propel:
     thumbnail_width: integer
     thumbnail_height: integer
     thumbnail_size: integer
+    thumbnail_position: float
     user_id:  { type: integer, foreignTable: sf_guard_user_profile, foreignReference: user_id, required: true, onUpdate: cascade, onDelete: cascade}
     created_at: ~
     updated_at: ~

@@ -134,7 +134,7 @@ class assetActions extends sfActions
       $Asset = new Asset();
       try
       {
-        $Asset->archiveSourceFile(
+        $Asset->scheduleSourceFileForArchiviation(
           $this->getUser()->getProfile()->getUserId(),
           $sourcefile,
           $form->getValues()

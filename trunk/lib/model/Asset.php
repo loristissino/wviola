@@ -8,6 +8,12 @@ require 'lib/model/om/BaseAsset.php';
  * @package    lib.model
  */
 class Asset extends BaseAsset {
+  
+    const
+      SCHEDULED = 1,
+      CACHED = 2,
+      ISO_IMAGE = 3,
+      DVDROM = 4;
 
     private $_AssetTypeCodes=Array(
 		1=> 'video',
@@ -69,16 +75,58 @@ class Asset extends BaseAsset {
   }
 
 
-  public function archiveSourceFile($userId, SourceFile $sourcefile, $values)
+  public function scheduleSourceFileForArchiviation($userId, SourceFile $sourcefile, $values)
   {
-    $this
-    ->setUserId($userId)
-    ->setUniqid(rand()*1000)
-    ->setNotes($values['notes'])
-    ->setAssignedTitle($values['assigned_title'])
-    ->save();
     
-    // FIXME This must be completed...
+    $this
+    ->setAssetType($sourcefile->getWvInfo('source_type'))
+    ->setAssetType($this->getAssetType())
+    ->setSourceFileName($sourcefile->getBaseName())
+    ->setSourceFileDate($sourcefile->getStat('mtime'))
+    ->setSourceSize($sourcefile->getStat('size'))
+    ->setSourceMD5Sum($sourcefile->getMD5Sum())
+    ;
+    
+    $thumbnail=$sourcefile->getThumbnail($values['thumbnail']);
+
+    $uniqid = $sourcefile->moveFileToScheduled($this->getAssetTypeShortCode());
+
+    try
+    {
+      $fp=fopen(wvConfig::get('directory_published_thumbnails'). '/' . $uniqid . '.jpeg', 'w');
+      $content=base64_decode($thumbnail['base64content']);
+      fwrite($fp, $content, strlen($content));
+      fclose($fp);
+      $this
+      ->setHasThumbnail(true)
+      ->setThumbnailWidth($thumbnail['width'])
+      ->setThumbnailHeight($thumbnail['height'])
+      ->setThumbnailPosition($thumbnail['position'])
+      ;
+    }
+    catch (Exception $e)
+    {
+      // TODO: what else, if a thumbnail cannot be written?
+      $this->setHasThumbnail(false);
+    }
+
+    if ($uniqid)
+    {
+      $this
+      ->setUserId($userId)
+      ->setUniqid($uniqid)
+      ->setNotes($values['notes'])
+      ->setAssignedTitle($values['assigned_title'])
+      ->setEventDate($values['event_date'])
+      ->setCategoryId($values['category_id'])
+      ->setStatus(self::SCHEDULED)
+      ->save();
+    }
+    else
+    {
+      throw new Exception(sprintf('Could not move file «%s» to Scheduled directory', $sourcefile->getCompletePath()));
+    }
+    
     
   }
   
