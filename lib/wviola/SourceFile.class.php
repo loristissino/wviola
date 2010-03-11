@@ -3,7 +3,12 @@
 class SourceFile extends BasicFile
 {
 	
-	const WV_DIR= '.wviola';
+	const
+    WV_DIR= '.wviola',
+    VIDEO = 1,
+    PICTURE = 2,
+    PHOTOALBUM = 3,
+    AUDIO = 4;
 	
 	protected
 		$_relativePath,
@@ -55,7 +60,7 @@ class SourceFile extends BasicFile
 	{
 		$this->
 		setWvInfo('file_md5sum', $this->getMD5Sum());
-    
+    /*
     if($Asset=AssetPeer::retrieveBySourceSizeAndMd5sum(
       $this->getWvInfo('file_size'),
       $this->getWvInfo('file_md5sum')
@@ -64,6 +69,7 @@ class SourceFile extends BasicFile
       $this->setWvInfo('file_asset_id', $Asset->getId());
       $this->setWvInfo('file_archivable', false);
     }
+*/
     
 		return $this;
 	}
@@ -88,7 +94,7 @@ class SourceFile extends BasicFile
 					$this->_gatherVideoInfo();
 					break;
 				case 'image':
-					$this->_gatherImageInfo();
+					$this->_gatherPictureInfo();
 					break;
 				case 'application':
 					// zip file?
@@ -100,13 +106,15 @@ class SourceFile extends BasicFile
 	}
 	
 	
-	private function _gatherImageInfo()
+	private function _gatherPictureInfo()
 	{
+    $this->setWvInfo('source_type', self::PICTURE);
 		return;
 	}
 	
 	private function _gatherVideoInfo()
 	{
+    $this->setWvInfo('source_type', self::VIDEO);
 		try
 		{
 			$movie= new ffmpeg_movie($this->getFullPath());
@@ -371,6 +379,24 @@ class SourceFile extends BasicFile
 	{
 		return is_writeable($this->getPath());
 	}
+
+  public function moveFileToScheduled($prefix)
+  {
+    $uniqid=uniqid($prefix, true);
+    
+    try
+    {
+      rename(
+        $this->getFullPath(),
+        wvConfig::get('directory_scheduled') . '/' . $uniqid
+        );
+    }
+    catch (Exception $e)
+    {
+      return false;
+    }
+    return $uniqid;
+  }
 	
 }
 
