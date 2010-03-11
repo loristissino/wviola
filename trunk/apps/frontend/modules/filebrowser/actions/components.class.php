@@ -25,6 +25,7 @@ class filebrowserComponents extends sfComponents
   public function executeThumbnails(sfWebRequest $request)
   {
 	$this->has_thumbnails=$this->file->getHasThumbnails();  
+  $this->links=$this->file->getWvInfo('file_asset_id')==null;
   }
   
 }

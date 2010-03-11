@@ -20,12 +20,21 @@
  */
 class AssetPeer extends BaseAssetPeer {
 
-	public static function retrieveByUniqid($slug)
+	public static function retrieveByUniqid($uniqid)
 	{
 		$c=new Criteria();
-		$c->add(AssetPeer::UNIQID, $slug);
+		$c->add(AssetPeer::UNIQID, $uniqid);
 		return AssetPeer::doSelectOne($c);
 	}
+
+	public static function retrieveBySourceSizeAndMd5sum($size, $md5sum)
+	{
+		$c=new Criteria();
+		$c->add(AssetPeer::SOURCE_SIZE, $size);
+		$c->add(AssetPeer::SOURCE_MD5SUM, $md5sum);
+		return AssetPeer::doSelectOne($c);
+	}
+
 
 
 } // AssetPeer

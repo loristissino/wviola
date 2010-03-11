@@ -47,7 +47,13 @@
 	<?php endif ?>
 	</td>
       <td><?php echo Generic::datetime($item->getStat('mtime'), $sf_context) ?></td>
-	  <td><?php include_component('filebrowser', 'thumbnails', array('file'=>$item)) ?></td>  
+	  <td>
+      <?php include_component('filebrowser', 'thumbnails', array('file'=>$item)) ?>
+      <?php if($item->getWvInfo('file_asset_id')): ?>
+        <br />
+        <?php echo __('Looks like this asset is a duplicate of a one already archived.') ?>
+      <?php endif ?>
+    </td>  
       <td>
 	<ul class="sf_admin_td_actions">  
 		<?php if($item->getFiletype()=='directory'): ?>
@@ -64,6 +70,17 @@
 				url_for('asset/new?name='. urlencode($item->getBaseName())),
         array(
           'title'=>__('Archive asset «%filename%»', 
+            array('%filename%'=>$item->getBaseName())
+            ))
+				)
+			?>
+		<?php endif ?>
+		<?php if($item->getWvInfo('file_asset_id')!=null): ?>
+			<li class="sf_admin_action_playvideo"><?php echo link_to(
+				__('Show'),
+				url_for('asset/show?id='. $item->getWvInfo('file_asset_id')),
+        array(
+          'title'=>__('Show already archived asset «%filename%»', 
             array('%filename%'=>$item->getBaseName())
             ))
 				)

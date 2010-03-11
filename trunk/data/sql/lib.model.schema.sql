@@ -39,6 +39,7 @@ CREATE TABLE "asset"
 	"event_date" DATE,
 	"source_filename" VARCHAR(255),
 	"source_file_date" DATE,
+	"source_size" INT8,
 	"source_md5sum" VARCHAR(32),
 	"highquality_md5sum" VARCHAR(32),
 	"lowquality_md5sum" VARCHAR(32),
@@ -50,14 +51,17 @@ CREATE TABLE "asset"
 	"created_at" TIMESTAMP,
 	"updated_at" TIMESTAMP,
 	PRIMARY KEY ("id"),
-	CONSTRAINT "asset_U_1" UNIQUE ("uniqid")
+	CONSTRAINT "asset_U_1" UNIQUE ("uniqid"),
+	CONSTRAINT "sm" UNIQUE ("source_size","source_md5sum")
 );
 
 COMMENT ON TABLE "asset" IS '';
 
 
 SET search_path TO public;
-CREATE INDEX "asset_I_1" ON "asset" ("source_md5sum");
+CREATE INDEX "asset_I_1" ON "asset" ("source_size");
+
+CREATE INDEX "asset_I_2" ON "asset" ("source_md5sum");
 
 -----------------------------------------------------------------------------
 -- video_asset
