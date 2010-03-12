@@ -23,7 +23,17 @@ Nella terminologia di Wviola, si parla di:
   * file ad alta qualità (_highquality_), con riguardo al file che verrà memorizzato su DVD-ROM e sarà fruibile solo _off-line_
   * file a bassa qualità (_lowquality_), con riguardo al file che verrà messo a disposizione per la fruizione permanente _on-line_
 
-Nota: qui devo mettere qualche esempio per dare un'idea dei numeri coinvolti.
+Ad esempio, un esperimento effettuato con un file video di circa 53 minuti ha mostrato questi valori:
+
+  * la versione originale è di circa 1,9 GiB (formato MPEG2)
+  * la versione ad alta qualità per il backup è di circa 420 MiB (formato Ogg Theora)
+  * la versione a bassa qualità per lo streaming è di circa 147 MiB (formato Flash Video)
+
+Naturalmente, le versioni ad alta qualità e a bassa qualità possono avere versioni diverse a seconda delle impostazioni per la codifica e la compressione (bitrate, dimensioni del frame, ecc.).
+
+http://wviola.googlecode.com/svn/wiki/compressione.png
+
+I tempi di codifica si sono aggirati sui 100 minuti per la versione ad alta qualità e sui 12 minuti per quella a bassa qualità.
 
 == Procedura seguita per l'archiviazione ==
 

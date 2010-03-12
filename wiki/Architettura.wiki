@@ -28,7 +28,7 @@ Per ogni file trova l'indicazione del nome originale e la data di caricamento.
 
 Facendo clic sul link "Proprietà" trova altre informazioni (tipo di file, dimensione, formato video, uno o due fotogrammi, ecc.).
 
-Facendo clic sul link "Archivia" gli si apre una finestra in cui gli viene chiesto di specificare alcuni dati utili per la ricerca dell'asset in fasi successive (da definire nei dettagli). Quando fa clic sul pulsante "Archivia" le informazioni inserite nel database e l'asset viene posto in coda per l'operazione di archiviazione.
+Facendo clic sul link "Archivia" gli si apre una finestra in cui gli viene chiesto di specificare alcuni dati utili per la ricerca dell'asset in fasi successive (da definire nei dettagli). Quando fa clic sul pulsante "Archivia" le informazioni vengono inserite nel database e l'asset viene posto in coda per l'operazione di archiviazione.
 
 === Archiviazione e classificazione di più asset ===
 
@@ -75,7 +75,7 @@ Per tutti i task è possibile ottenere un help in linea con il comando `symfony 
 {{{
 $ symfony help wviola:scan-sources
 Usage:
- symfony wviola:scan-sources [--application="..."] [--env="..."] [--connection="..."] [--subdir[="..."]] [--recursive[="..."]] [--size-limit-for-md5sum[="..."]] [--logged[="..."]] 
+ symfony wviola:scan-sources [--application="..."] [--env="..."] [--connection="..."] [--subdir[="..."]] [--recursive[="..."]] [--logged[="..."]] 
 
 Options:
  --application            The application name (default: frontend)
@@ -83,7 +83,6 @@ Options:
  --connection             The connection name (default: propel)
  --subdir                 Subdirectory name (default: /)
  --recursive              whether recursion will be applied (default: false)
- --size-limit-for-md5sum  size in bytes over which md5sums will not be computed (0 means no limit) (default: 0)
  --logged                 whether the execution will be logged in the DB (default: true)
 
 Description:
@@ -103,7 +102,7 @@ Di ogni esecuzione di task viene tenuta traccia nel database, a meno che non si 
 
 === Archiviazione ===
 
-Quando un utente archivia un asset, esso viene spostato in una diversa directory, con l'attribuzione di un ID univoco (slug).
+Quando un utente archivia un asset, esso viene spostato in una diversa directory, con l'attribuzione di un ID univoco (uniqid).
 
 Questa applicazione batch, per ogni asset da archiviare:
 
@@ -160,11 +159,10 @@ Queste opzioni vengono sfruttate dall'applicazione web quando un utente visualiz
 Un esempio di interazione è il seguente:
 
 {{{
-$ symfony wviola:scan-sources --recursive=true --subdir=videos/stuff --size-limit-for-md5sum=700000
+$ symfony wviola:scan-sources --recursive=true --subdir=videos/stuff 
 >> directory /var/wviola/data/filesystem/sources/videos/stuff
 >> subdir    /videos/stuff
 >> recursive true
->> size-limit-for-md5sum 700000
 >> logged    true
 
 >> source    Opening candidate source file...

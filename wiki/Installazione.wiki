@@ -124,7 +124,7 @@ sudo ln -sfv /var/schoolmesh/symfony /usr/local/bin/symfony
 
 == Ambienti di esecuzione ==
 
-Esistono tre ambienti di esecuzione in cui possono essere fatte funnzionare le applicazioni:
+Esistono tre ambienti di esecuzione in cui possono essere fatte funzionare le applicazioni:
 
   # *dev* (ambiente di sviluppo)
   # *test* (ambiente di test)

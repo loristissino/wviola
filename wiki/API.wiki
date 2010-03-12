@@ -58,7 +58,7 @@ filebrowser/open/{dirname}
 filebrowser/up
   post: cambia la directory corrente andando al livello superiore
 
-filebrowser/encode/{filename}
+filebrowser/archive/{filename}
   get: imposta il path del file come variabile di sessione e ridirige l'azione ad 'asset/new'
 
 }}}
