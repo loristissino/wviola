@@ -22,7 +22,7 @@
 		<?php include_partial('assettype', array('Asset'=>$Asset)) ?>
 	  </td>
 	  <td>
-      	<?php include_partial('thumbnail', array('Asset'=>$Asset)) ?>
+      	<?php include_partial('thumbnail', array('Asset'=>$Asset, 'link'=>true)) ?>
 	  </td>
       <td>
         <?php echo $Asset->getAssignedTitle() ?></td>

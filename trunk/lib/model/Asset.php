@@ -78,13 +78,15 @@ class Asset extends BaseAsset {
   public function scheduleSourceFileForArchiviation($userId, SourceFile $sourcefile, $values)
   {
     
+    $fullpath=$sourcefile->getFullPath();
+    
     $this
     ->setAssetType($sourcefile->getWvInfo('source_type'))
     ->setAssetType($this->getAssetType())
     ->setSourceFileName($sourcefile->getBaseName())
     ->setSourceFileDate($sourcefile->getStat('mtime'))
     ->setSourceSize($sourcefile->getStat('size'))
-    ->setSourceMD5Sum($sourcefile->getMD5Sum())
+    ->setSourceMD5Sum($sourcefile->getWvInfo('file_md5sum'))
     ;
     
     $thumbnail=$sourcefile->getThumbnail($values['thumbnail']);
@@ -124,7 +126,7 @@ class Asset extends BaseAsset {
     }
     else
     {
-      throw new Exception(sprintf('Could not move file «%s» to Scheduled directory', $sourcefile->getCompletePath()));
+      throw new Exception(sprintf('Could not move file «%s» to Scheduled directory', $fullpath));
     }
     
     

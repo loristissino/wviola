@@ -35,7 +35,7 @@ class filebrowserActions extends sfActions
 	
 		$this->path=$this->folder->getPath();
 		
-		$this->folder->scanSourcesInBackground($this->getContext());
+		//$this->folder->scanSourcesInBackground($this->getContext());
 		
 		$this->folder_items=$this->folder->getFolderItems();
 		
@@ -85,7 +85,7 @@ class filebrowserActions extends sfActions
     {
       $this->getUser()->setFlash('error',
         $this->getContext()->getI18N()->
-        __('For some reason, it is not possible to archive file %filename%',
+        __('For some reason, it is not possible to schedule file %filename% for archiviation.',
         array('%filename%'=>$this->filename))
         );
       $this->redirect('filebrowser/index');

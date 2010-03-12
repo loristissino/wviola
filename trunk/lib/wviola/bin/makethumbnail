@@ -13,7 +13,7 @@ if [[ $# -ne 5 ]]; then
 	exit 1
 fi
 
-SOURCE=$1
+SOURCE="$1"
 POSITION=$2
 CROP=$3
 SCALE=$4
@@ -23,7 +23,7 @@ TEMPDIR=$(mktemp -d)
 
 cd $TEMPDIR
 
-mplayer -vo $FORMAT  -frames 1 -ss $POSITION -ao null -vf crop=$CROP,scale=$SCALE $SOURCE >/dev/null 2>/dev/null
+mplayer -vo $FORMAT  -frames 1 -ss $POSITION -ao null -vf crop=$CROP,scale=$SCALE "$SOURCE" >/dev/null 2>/dev/null
 
 TEMPFILE=$(mktemp)
 mv 00000001.* $TEMPFILE 2>/dev/null
@@ -44,7 +44,7 @@ rm -rf $TEMPDIR
 exit 
 
 /*
-to get a frame, mplayer seems to be faster than ffmpeg
+to get a frame, mplayer seems to be much faster than ffmpeg
 
 compare theese:
 

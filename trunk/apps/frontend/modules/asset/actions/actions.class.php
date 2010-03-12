@@ -128,6 +128,8 @@ class assetActions extends sfActions
 
   protected function processForm(sfWebRequest $request, sfForm $form, SourceFile $sourcefile)
   {
+    
+    $filename=$sourcefile->getBaseName();
     $form->bind($request->getParameter($form->getName()), $request->getFiles($form->getName()));
     if ($form->isValid())
     {
@@ -142,11 +144,11 @@ class assetActions extends sfActions
       }
       catch (Exception $e)
       {
-        $this->getUser()->setFlash('error', 'FIXME Something went wrong' . $e->getMessage());
+        $this->getUser()->setFlash('error', 'Something went wrong.' . ' ' . $e->getMessage());
         $this->redirect('filebrowser/index');
       }
       
-      $this->getUser()->setFlash('notice', 'FIXME Source file scheduled for archiviation');
+      $this->getUser()->setFlash('notice', $this->getContext()->getI18N()->__('Source file «%filename%» correctly scheduled for archiviation.', array('%filename%'=>$filename)));
       $this->redirect('filebrowser/index');
       
     }

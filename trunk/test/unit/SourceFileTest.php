@@ -2,7 +2,7 @@
 
 require_once dirname(__FILE__).'/../bootstrap/FileSystem.php';
  
-$t = new lime_test(32, new lime_output_color());
+$t = new lime_test(33, new lime_output_color());
 
 $t->diag('SourceFile functions');
 
@@ -130,3 +130,5 @@ $file=new SourceFile('/videos', 'bigbuckbunny01.avi');
 $uniqid=$file->moveFileToScheduled('vid');
 $t->cmp_ok($uniqid, '!==', false, '->moveFileToScheduled() returns the uniqid of the file');
 $t->is(file_exists(wvConfig::get('directory_scheduled') . '/' . $uniqid), true, '->moveFileToScheduled() actually moves the file');
+$t->is(file_exists($file->getWvInfoFilePath()), false, '->moveFileToScheduled() deletes the wvinfo file');
+

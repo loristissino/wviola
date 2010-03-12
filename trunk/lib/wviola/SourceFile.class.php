@@ -60,7 +60,7 @@ class SourceFile extends BasicFile
 	{
 		$this->
 		setWvInfo('file_md5sum', $this->getMD5Sum());
-    /*
+    
     if($Asset=AssetPeer::retrieveBySourceSizeAndMd5sum(
       $this->getWvInfo('file_size'),
       $this->getWvInfo('file_md5sum')
@@ -69,7 +69,6 @@ class SourceFile extends BasicFile
       $this->setWvInfo('file_asset_id', $Asset->getId());
       $this->setWvInfo('file_archivable', false);
     }
-*/
     
 		return $this;
 	}
@@ -152,7 +151,7 @@ class SourceFile extends BasicFile
 			
 			$cropH=$movie->getFrameHeight();
 			$cropW=$movie->getFrameWidth()*$thumbnailAspectRatio/$sourceAspectRatio;
-			
+			      
 			for($i=0; $i<$thumbnailsNumber;$i++)
 			{
 				$position=$i*($movie->getDuration()/($thumbnailsNumber));
@@ -164,6 +163,10 @@ class SourceFile extends BasicFile
 					$this->setWvInfo('thumbnail_' . $i . '_height', $thumbnailHeight);
 					$this->setWvInfo('thumbnail_' . $i . '_base64content', $frame);
 				}
+        else
+        {
+          //echo "Could not get frame!\n";
+        }
 
 			}
 			unset($moviefile);
@@ -395,6 +398,19 @@ class SourceFile extends BasicFile
     {
       return false;
     }
+
+    try
+    {
+      unlink($this->getWvInfoFilePath());
+    }
+    catch (Exception $e)
+    {
+      //TODO: write to an error log file or DB table...
+    }
+
+
+    
+    
     return $uniqid;
   }
 	
