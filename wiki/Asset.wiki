@@ -35,6 +35,8 @@ http://wviola.googlecode.com/svn/wiki/compressione.png
 
 I tempi di codifica si sono aggirati sui 100 minuti per la versione ad alta qualità e sui 12 minuti per quella a bassa qualità.
 
+Del file originale vengono archiviate nel database alcune informazioni (data del file, dimensione, hash md5), in modo da avere la possibilità di fare alcune statistiche e, soprattutto, di evitare che uno stesso file venga archiviato più volte.
+
 == Procedura seguita per l'archiviazione ==
 
 Questa è una descrizione sommaria dei passi seguiti per l'archiviazione di un asset:

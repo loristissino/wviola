@@ -6,7 +6,7 @@
 
   * seguire le indicazioni su http://www.symfony-project.org/getting-started/1_4/en/02-Prerequisites (in particolare, sarà necessario agire sui file _/etc/php5/cli/php.ini_ e _/etc/php5/apache2/php.ini_, cambiando `short_open_tag` e `magic_quotes_gpg`)
 
-  * installare i pacchetti _php-apc_, _php5-ffmpeg_, _ffprobe_, _ffmpeg_ (o equivalenti)
+  * installare i pacchetti _php-apc_, _php5-ffmpeg_, _ffprobe_, _ffmpeg_, _ffmpeg2theora_, _mplayer_ (o equivalenti)
 
   * creare una directory _var/wviola_ (o equivalente)
 
@@ -330,6 +330,11 @@ symfony test:all
 che dovrebbe portare ad un risultato simile al seguente:
 
 {{{
+functional/backend/accesslogActionsTest..............................ok
+functional/backend/archiveActionsTest................................ok
+functional/backend/tasklogActionsTest................................ok
+functional/backend/video_assetActionsTest............................ok
+functional/frontend/filebrowserActionsTest...........................ok
 functional/frontend/profileActionsTest...............................ok
 functional/frontend/welcomeActionsTest...............................ok
 unit/AssetFileTest...................................................ok
@@ -343,7 +348,7 @@ unit/ThumbnailFileTest...............................................ok
 unit/VideoFileTest...................................................ok
 unit/wvConfigTest....................................................ok
  All tests successful.                                                 
- Files=12, Tests=204                                                     
+ Files=17, Tests=235                                                   
 }}}
 
 
