@@ -225,7 +225,7 @@ class Generic{
 			$return_var=0;
 			
 			$command='LANG=it_IT.utf-8; ' . $command;
-			// FIXME: this is needed, as it should be more general than it_IT.utf8
+			// FIXME: this is needed, but it should be more general than it_IT.utf8
 
 			if($debug)
 			{

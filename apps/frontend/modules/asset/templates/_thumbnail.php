@@ -10,12 +10,18 @@
 <?php endif ?>
 <?php
 //  echo htmlentities($image_tag);
-
-	echo link_to(
-	$image_tag,
-	url_for('asset/show?id='.$Asset->getId()),
-	array(
-		'title'=>__('Show the asset «%title%»', array('%title%'=>$Asset->getAssignedTitle()))
-		)
-	)
+  if($link)
+  {
+    echo link_to(
+    $image_tag,
+    url_for('asset/show?id='.$Asset->getId()),
+    array(
+      'title'=>__('Show the asset «%title%»', array('%title%'=>$Asset->getAssignedTitle()))
+      )
+    );
+  }
+  else
+  {
+    echo $image_tag;
+  }
 ?>

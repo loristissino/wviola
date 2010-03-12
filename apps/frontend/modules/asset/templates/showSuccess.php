@@ -2,6 +2,10 @@
 
 <?php if($Asset->hasVideoAsset()): ?>
 	<?php include_partial('player', array('VideoAsset'=>$Asset->getVideoAsset())) ?>
+<?php else: ?>
+	<?php include_partial('thumbnail', array('Asset'=>$Asset, 'link'=>false)) ?>
+  <br />
+  <br />
 <?php endif ?>
 
 <table>
@@ -9,6 +13,10 @@
     <tr>
       <th>Id:</th>
       <td><?php echo $Asset->getId() ?></td>
+    </tr>
+    <tr>
+      <th>Status:</th>
+      <td><?php echo $Asset->getStatus() ?></td>
     </tr>
     <tr>
       <th>UniqId:</th>
