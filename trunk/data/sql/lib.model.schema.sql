@@ -20,49 +20,6 @@ COMMENT ON TABLE "sf_guard_user_profile" IS '';
 
 SET search_path TO public;
 -----------------------------------------------------------------------------
--- binder
------------------------------------------------------------------------------
-
-DROP TABLE "binder" CASCADE;
-
-
-CREATE TABLE "binder"
-(
-	"id" serial  NOT NULL,
-	"user_id" INTEGER  NOT NULL,
-	"category_id" INTEGER,
-	"notes" TEXT,
-	"event_date" DATE,
-	"created_at" TIMESTAMP,
-	"updated_at" TIMESTAMP,
-	PRIMARY KEY ("id")
-);
-
-COMMENT ON TABLE "binder" IS '';
-
-
-SET search_path TO public;
------------------------------------------------------------------------------
--- binder_user
------------------------------------------------------------------------------
-
-DROP TABLE "binder_user" CASCADE;
-
-
-CREATE TABLE "binder_user"
-(
-	"binder_id" INTEGER,
-	"user_id" INTEGER  NOT NULL,
-	"id" serial  NOT NULL,
-	PRIMARY KEY ("id"),
-	CONSTRAINT "bu" UNIQUE ("binder_id","user_id")
-);
-
-COMMENT ON TABLE "binder_user" IS '';
-
-
-SET search_path TO public;
------------------------------------------------------------------------------
 -- asset
 -----------------------------------------------------------------------------
 
@@ -196,6 +153,48 @@ COMMENT ON TABLE "audio_asset" IS '';
 
 SET search_path TO public;
 -----------------------------------------------------------------------------
+-- binder
+-----------------------------------------------------------------------------
+
+DROP TABLE "binder" CASCADE;
+
+
+CREATE TABLE "binder"
+(
+	"id" serial  NOT NULL,
+	"user_id" INTEGER  NOT NULL,
+	"category_id" INTEGER,
+	"notes" TEXT,
+	"event_date" DATE,
+	"created_at" TIMESTAMP,
+	"updated_at" TIMESTAMP,
+	PRIMARY KEY ("id")
+);
+
+COMMENT ON TABLE "binder" IS '';
+
+
+SET search_path TO public;
+-----------------------------------------------------------------------------
+-- binder_user
+-----------------------------------------------------------------------------
+
+DROP TABLE "binder_user" CASCADE;
+
+
+CREATE TABLE "binder_user"
+(
+	"binder_id" INTEGER  NOT NULL,
+	"user_id" INTEGER  NOT NULL,
+	"updated_at" TIMESTAMP,
+	PRIMARY KEY ("binder_id","user_id")
+);
+
+COMMENT ON TABLE "binder_user" IS '';
+
+
+SET search_path TO public;
+-----------------------------------------------------------------------------
 -- archive
 -----------------------------------------------------------------------------
 
@@ -284,14 +283,6 @@ COMMENT ON TABLE "task_log_event" IS '';
 SET search_path TO public;
 ALTER TABLE "sf_guard_user_profile" ADD CONSTRAINT "sf_guard_user_profile_FK_1" FOREIGN KEY ("user_id") REFERENCES "sf_guard_user" ("id") ON UPDATE CASCADE ON DELETE CASCADE;
 
-ALTER TABLE "binder" ADD CONSTRAINT "binder_FK_1" FOREIGN KEY ("user_id") REFERENCES "sf_guard_user_profile" ("user_id") ON UPDATE CASCADE ON DELETE CASCADE;
-
-ALTER TABLE "binder" ADD CONSTRAINT "binder_FK_2" FOREIGN KEY ("category_id") REFERENCES "category" ("id");
-
-ALTER TABLE "binder_user" ADD CONSTRAINT "binder_user_FK_1" FOREIGN KEY ("binder_id") REFERENCES "binder" ("id");
-
-ALTER TABLE "binder_user" ADD CONSTRAINT "binder_user_FK_2" FOREIGN KEY ("user_id") REFERENCES "sf_guard_user_profile" ("user_id") ON UPDATE CASCADE ON DELETE CASCADE;
-
 ALTER TABLE "asset" ADD CONSTRAINT "asset_FK_1" FOREIGN KEY ("binder_id") REFERENCES "binder" ("id");
 
 ALTER TABLE "asset" ADD CONSTRAINT "asset_FK_2" FOREIGN KEY ("archive_id") REFERENCES "archive" ("id");
@@ -303,6 +294,14 @@ ALTER TABLE "picture_asset" ADD CONSTRAINT "picture_asset_FK_1" FOREIGN KEY ("as
 ALTER TABLE "photoalbum_asset" ADD CONSTRAINT "photoalbum_asset_FK_1" FOREIGN KEY ("asset_id") REFERENCES "asset" ("id") ON UPDATE CASCADE ON DELETE CASCADE;
 
 ALTER TABLE "audio_asset" ADD CONSTRAINT "audio_asset_FK_1" FOREIGN KEY ("asset_id") REFERENCES "asset" ("id") ON UPDATE CASCADE ON DELETE CASCADE;
+
+ALTER TABLE "binder" ADD CONSTRAINT "binder_FK_1" FOREIGN KEY ("user_id") REFERENCES "sf_guard_user_profile" ("user_id") ON UPDATE CASCADE ON DELETE CASCADE;
+
+ALTER TABLE "binder" ADD CONSTRAINT "binder_FK_2" FOREIGN KEY ("category_id") REFERENCES "category" ("id");
+
+ALTER TABLE "binder_user" ADD CONSTRAINT "binder_user_FK_1" FOREIGN KEY ("binder_id") REFERENCES "binder" ("id") ON UPDATE CASCADE ON DELETE CASCADE;
+
+ALTER TABLE "binder_user" ADD CONSTRAINT "binder_user_FK_2" FOREIGN KEY ("user_id") REFERENCES "sf_guard_user_profile" ("user_id") ON UPDATE CASCADE ON DELETE CASCADE;
 
 ALTER TABLE "archive" ADD CONSTRAINT "archive_FK_1" FOREIGN KEY ("user_id") REFERENCES "sf_guard_user_profile" ("user_id") ON UPDATE CASCADE ON DELETE CASCADE;
 
