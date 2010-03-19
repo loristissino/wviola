@@ -24,7 +24,7 @@
           $page,
           url_for($action . '?page=' . $page),
           array(
-            'title'=>__('Go to page %page%', array('page'=>$page)),
+            'title'=>__('Go to page %page%', array('%page%'=>$page)),
             )
           )
         ?>

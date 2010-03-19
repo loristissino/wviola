@@ -7,32 +7,45 @@ propel:
     last_name:   varchar(50)
     imported_at: timestamp
 
+  binder:
+    id:
+    user_id:  { type: integer, foreignTable: sf_guard_user_profile, foreignReference: user_id, required: true, onUpdate: cascade, onDelete: cascade}
+    category_id: ~
+    notes: longvarchar
+    event_date: date
+    created_at: ~
+    updated_at: ~
+
+  binder_user:
+    binder_id: ~
+    user_id:  { type: integer, foreignTable: sf_guard_user_profile, foreignReference: user_id, required: true, onUpdate: cascade, onDelete: cascade}
+    _uniques:
+      bu: [ binder_id, user_id ]
+
   asset:
     id: ~
     uniqid: { type: varchar(50), required: true, index: unique }
+    binder_id: ~
     status: integer
     archive_id: ~
     asset_type: integer
     assigned_title: varchar(255)
-    category_id: ~
     notes: longvarchar
-    event_date: date
     source_filename: varchar(255)
-    source_file_date: date
+    source_file_datetime: timestamp
     source_size: { type: bigint, index: true }
-    source_md5sum: { type: varchar(32), index: true }
-    highquality_md5sum: varchar(32)
+    source_lmd5sum: { type: varchar(34), index: true } # see why 34 below
+    highquality_md5sum: varchar(32) 
     lowquality_md5sum: varchar(32)
     has_thumbnail: boolean
     thumbnail_width: integer
     thumbnail_height: integer
     thumbnail_size: integer
     thumbnail_position: float
-    user_id:  { type: integer, foreignTable: sf_guard_user_profile, foreignReference: user_id, required: true, onUpdate: cascade, onDelete: cascade}
     created_at: ~
     updated_at: ~
     _uniques:
-      sm: [ source_size, source_md5sum ]
+      sm: [ source_size, source_lmd5sum ]
 
   video_asset:
     asset_id: { type: integer, foreignTable: asset, foreignReference: id, required: true, onUpdate: cascade, onDelete: cascade, primaryKey: true }
@@ -98,3 +111,14 @@ propel:
     started_at: timestamp
     finished_at: timestamp
     task_exception: longvarchar
+
+
+# Why 34 chars for md5sums?
+# Dealing with big files (like video assets), it takes a long time to compute
+# md5sums for the whole content.
+# Since we use md5sums mainly to identify a file (avoiding undesired 
+# duplications), we need only to have a check of the first portion of the file,
+# speeding up things a bit.
+# But in different configurations, we may choose a different portion of the file,
+# so we need a way to store this information too.
+# See lib/wviola/bin/limitedmd5sum for details about how this works.

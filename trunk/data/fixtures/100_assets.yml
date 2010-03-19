@@ -2,14 +2,12 @@ Asset:
   asset1:
     uniqid: vid_4ab00000000000.10000000
     asset_type: 1
-    category_id: ch
+    binder_id: binder1
     source_filename: Outdoor Meeting.mpeg
     assigned_title: Outdoor meeting
     notes: (c) copyright Blender Foundation | www.blender.org
-    event_date: 12/21/2009
-    source_file_date: 12/21/2009
-    user_id: matthew
-    source_md5sum: c1d63fa7b9ba76582dd3903a8ae903aa
+    source_file_datetime: 12/21/2009
+    source_lmd5sum: c1d63fa7b9ba76582dd3903a8ae903aa
     highquality_md5sum: f42d6ad8c1fb4c29f2035131c7feb398
     lowquality_md5sum: 7d194283a0c815fa66d1aecd5d2cbe9a
     has_thumbnail: true
@@ -19,13 +17,11 @@ Asset:
   asset2:
     uniqid: vid_4ab00000000000.20000000
     asset_type: 1
-    category_id: op
+    binder_id: binder1
     source_filename: Big Buck Bunny 2.mpg
     assigned_title: Hidden
     notes: (c) copyright Blender Foundation | www.blender.org
-    event_date: 12/22/2009
-    source_file_date: 12/23/2009
-    user_id: matthew
+    source_file_datetime: 12/23/2009
     highquality_md5sum: 1e14867e34033234896abc98ecf8427e
     lowquality_md5sum: a725051252925d29e0322ec423db1293
     has_thumbnail: true
@@ -36,14 +32,12 @@ Asset:
   asset3:
     uniqid: vid_4ab00000000000.30000000
     asset_type: 1
-    category_id: op
+    binder_id: binder2
     source_filename: Big Buck Bunny and the apple.mpg
     assigned_title: Apple
     notes: (c) copyright Blender Foundation | www.blender.org
-    event_date: 12/22/2009
-    source_file_date: 12/23/2009
-    user_id: matthew
-    source_md5sum: 8df3f37d4cb351d5129b92d251985455
+    source_file_datetime: 12/23/2009
+    source_lmd5sum: 8df3f37d4cb351d5129b92d251985455
     source_size: 260288
     highquality_md5sum: 062f15950820a1717a23d105b934e03c
     lowquality_md5sum: 7954446d253b1b82138880c0fcc3d6ef
@@ -54,23 +48,21 @@ Asset:
 <?php for($i=4; $i<15; $i++): ?>
   asset<?php echo $i ?>:
     uniqid: video2009_<?php echo sprintf('%08d', $i) . "\n" ?>
-    category_id: ps
+    binder_id: binder3
     asset_type: 1
     source_filename: video<?php echo $i ?>.mpg
     assigned_title: Video number <?php echo $i . "\n"?>
-    source_file_date: 11/<?php echo $i ?>/2009
-    user_id: matthew
+    source_file_datetime: 11/<?php echo $i ?>/2009
 <?php endfor ?>
 
   asset15:
     uniqid: picture2009_00000015
-    category_id: ps
     asset_type: 2
+    binder_id: binder3
     source_filename: Evil Frank.jpeg
     assigned_title: Evil Frank
     notes: (c) copyright Blender Foundation | apricot.blender.org
-    source_file_date: 11/1/2009
-    user_id: matthew
+    source_file_datetime: 11/1/2009
     highquality_md5sum: d6d7a3b378d9fc5d7ff2806c87474a52
     lowquality_md5sum: 3ebe026f46a19acacd30f59af95b27a9
     has_thumbnail: true
@@ -80,23 +72,21 @@ Asset:
 <?php for($i=16; $i<=17; $i++): ?>
   asset<?php echo $i ?>:
     uniqid: picture2009_<?php echo sprintf('%08d', $i) . "\n" ?>
-    category_id: ps
     asset_type: 2
+    binder_id: binder3
     source_filename: Picture<?php echo $i ?>.jpeg
     assigned_title: Picture number <?php echo $i . "\n"?>
     notes: 
-    source_file_date: 11/<?php echo $i ?>/2009
-    user_id: matthew
+    source_file_datetime: 11/<?php echo $i ?>/2009
 <?php endfor ?>
 
 <?php for($i=18; $i<=30; $i++): ?>
   asset<?php echo $i ?>:
     uniqid: photoalbum2009_<?php echo sprintf('%08d', $i) . "\n" ?>
-    category_id: ps
     asset_type: 3
+    binder_id: binder3
     source_filename: PhotoAlbum<?php echo $i ?>.zip
     assigned_title: Photo Album number <?php echo $i . "\n"?>
     notes: 
-    source_file_date: 11/<?php echo $i ?>/2009
-    user_id: matthew
+    source_file_datetime: 11/<?php echo $i ?>/2009
 <?php endfor ?>
