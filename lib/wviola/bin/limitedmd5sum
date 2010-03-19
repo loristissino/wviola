@@ -1,0 +1,55 @@
+#!/bin/bash
+# This will compute the md5sum of the first portion of a file
+
+if [[ $# -lt 1 ]]; then
+cat >&2 <<EOF
+  Usage:
+  $0 file [portion]
+  
+  The portion is specified as a single hexadecimal digit, with
+  the following meaning:
+  
+  0 =   1 MiB
+  1 =   2 MiB
+  2 =   4 MiB
+  3 =   8 MiB
+  4 =  16 MiB
+  5 =  32 MiB
+  6 =  64 MiB
+  7 = 128 MiB
+  8 = 256 MiB
+  9 = 512 MiB
+  a =   1 GiB
+  b =   2 GiB
+  c =   4 GiB
+  d =   8 GiB
+  e =  16 GiB
+  f =  32 GiB
+  
+  If portion is not specified, the whole file will be checked.
+
+  The output will be in one line like the following:
+  MD5SUM=ab1c591b12b02133dadcdca7c36be4f6:a
+  
+  After the semicolon, the digit specified as portion
+  is reported, thus permitting future comparisons.
+  
+EOF
+	exit 1
+fi
+
+FILE="$1"
+
+N=$2
+
+if echo 01234567890abcdef | grep $N >/dev/null 2>/dev/null; then
+  let COUNT=$((1024*2**0x$N))
+  MD5SUM=$(dd if="$FILE" bs=1024 count=$COUNT 2>/dev/null | md5sum -b | sed 's/ .*$//')
+  printf "MD5SUM=%s:%s\n" $MD5SUM $N
+else
+  MD5SUM=$(md5sum -b "$FILE" | sed 's/ .*$//')
+  printf "MD5SUM=%s\n" $MD5SUM
+fi
+
+
+
