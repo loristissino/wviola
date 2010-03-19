@@ -16,6 +16,9 @@ I dettagli sull'uso delle applicazioni saranno progressivamente resi disponibili
 
 == Applicazione di frontend ==
 
+*Nota: ciò che segue va rivisto, in seguito alla considerazione che sia più efficiente
+gestire dei raccoglitori di asset, con informazioni cumulative*
+
 Descriviamo l'applicazione di frontend tramite alcuni scenari:
 
 === Archiviazione e classificazione di un asset ===
