@@ -31,7 +31,7 @@ class AssetPeer extends BaseAssetPeer {
 	{
 		$c=new Criteria();
 		$c->add(AssetPeer::SOURCE_SIZE, $size);
-		$c->add(AssetPeer::SOURCE_MD5SUM, $md5sum);
+		$c->add(AssetPeer::SOURCE_LMD5SUM, $md5sum);
 		return AssetPeer::doSelectOne($c);
 	}
 

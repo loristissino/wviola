@@ -20,6 +20,49 @@ COMMENT ON TABLE "sf_guard_user_profile" IS '';
 
 SET search_path TO public;
 -----------------------------------------------------------------------------
+-- binder
+-----------------------------------------------------------------------------
+
+DROP TABLE "binder" CASCADE;
+
+
+CREATE TABLE "binder"
+(
+	"id" serial  NOT NULL,
+	"user_id" INTEGER  NOT NULL,
+	"category_id" INTEGER,
+	"notes" TEXT,
+	"event_date" DATE,
+	"created_at" TIMESTAMP,
+	"updated_at" TIMESTAMP,
+	PRIMARY KEY ("id")
+);
+
+COMMENT ON TABLE "binder" IS '';
+
+
+SET search_path TO public;
+-----------------------------------------------------------------------------
+-- binder_user
+-----------------------------------------------------------------------------
+
+DROP TABLE "binder_user" CASCADE;
+
+
+CREATE TABLE "binder_user"
+(
+	"binder_id" INTEGER,
+	"user_id" INTEGER  NOT NULL,
+	"id" serial  NOT NULL,
+	PRIMARY KEY ("id"),
+	CONSTRAINT "bu" UNIQUE ("binder_id","user_id")
+);
+
+COMMENT ON TABLE "binder_user" IS '';
+
+
+SET search_path TO public;
+-----------------------------------------------------------------------------
 -- asset
 -----------------------------------------------------------------------------
 
@@ -30,17 +73,16 @@ CREATE TABLE "asset"
 (
 	"id" serial  NOT NULL,
 	"uniqid" VARCHAR(50)  NOT NULL,
+	"binder_id" INTEGER,
 	"status" INTEGER,
 	"archive_id" INTEGER,
 	"asset_type" INTEGER,
 	"assigned_title" VARCHAR(255),
-	"category_id" INTEGER,
 	"notes" TEXT,
-	"event_date" DATE,
 	"source_filename" VARCHAR(255),
-	"source_file_date" DATE,
+	"source_file_datetime" TIMESTAMP,
 	"source_size" INT8,
-	"source_md5sum" VARCHAR(32),
+	"source_lmd5sum" VARCHAR(34),
 	"highquality_md5sum" VARCHAR(32),
 	"lowquality_md5sum" VARCHAR(32),
 	"has_thumbnail" BOOLEAN,
@@ -48,12 +90,11 @@ CREATE TABLE "asset"
 	"thumbnail_height" INTEGER,
 	"thumbnail_size" INTEGER,
 	"thumbnail_position" FLOAT,
-	"user_id" INTEGER  NOT NULL,
 	"created_at" TIMESTAMP,
 	"updated_at" TIMESTAMP,
 	PRIMARY KEY ("id"),
 	CONSTRAINT "asset_U_1" UNIQUE ("uniqid"),
-	CONSTRAINT "sm" UNIQUE ("source_size","source_md5sum")
+	CONSTRAINT "sm" UNIQUE ("source_size","source_lmd5sum")
 );
 
 COMMENT ON TABLE "asset" IS '';
@@ -62,7 +103,7 @@ COMMENT ON TABLE "asset" IS '';
 SET search_path TO public;
 CREATE INDEX "asset_I_1" ON "asset" ("source_size");
 
-CREATE INDEX "asset_I_2" ON "asset" ("source_md5sum");
+CREATE INDEX "asset_I_2" ON "asset" ("source_lmd5sum");
 
 -----------------------------------------------------------------------------
 -- video_asset
@@ -243,11 +284,17 @@ COMMENT ON TABLE "task_log_event" IS '';
 SET search_path TO public;
 ALTER TABLE "sf_guard_user_profile" ADD CONSTRAINT "sf_guard_user_profile_FK_1" FOREIGN KEY ("user_id") REFERENCES "sf_guard_user" ("id") ON UPDATE CASCADE ON DELETE CASCADE;
 
-ALTER TABLE "asset" ADD CONSTRAINT "asset_FK_1" FOREIGN KEY ("archive_id") REFERENCES "archive" ("id");
+ALTER TABLE "binder" ADD CONSTRAINT "binder_FK_1" FOREIGN KEY ("user_id") REFERENCES "sf_guard_user_profile" ("user_id") ON UPDATE CASCADE ON DELETE CASCADE;
 
-ALTER TABLE "asset" ADD CONSTRAINT "asset_FK_2" FOREIGN KEY ("category_id") REFERENCES "category" ("id");
+ALTER TABLE "binder" ADD CONSTRAINT "binder_FK_2" FOREIGN KEY ("category_id") REFERENCES "category" ("id");
 
-ALTER TABLE "asset" ADD CONSTRAINT "asset_FK_3" FOREIGN KEY ("user_id") REFERENCES "sf_guard_user_profile" ("user_id") ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE "binder_user" ADD CONSTRAINT "binder_user_FK_1" FOREIGN KEY ("binder_id") REFERENCES "binder" ("id");
+
+ALTER TABLE "binder_user" ADD CONSTRAINT "binder_user_FK_2" FOREIGN KEY ("user_id") REFERENCES "sf_guard_user_profile" ("user_id") ON UPDATE CASCADE ON DELETE CASCADE;
+
+ALTER TABLE "asset" ADD CONSTRAINT "asset_FK_1" FOREIGN KEY ("binder_id") REFERENCES "binder" ("id");
+
+ALTER TABLE "asset" ADD CONSTRAINT "asset_FK_2" FOREIGN KEY ("archive_id") REFERENCES "archive" ("id");
 
 ALTER TABLE "video_asset" ADD CONSTRAINT "video_asset_FK_1" FOREIGN KEY ("asset_id") REFERENCES "asset" ("id") ON UPDATE CASCADE ON DELETE CASCADE;
 
