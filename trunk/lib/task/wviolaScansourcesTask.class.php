@@ -223,9 +223,12 @@ EOF;
 	catch (Exception $e)
 	{
 		$this->log($this->formatter->format($e->getMessage(), 'ERROR'));
-		$taskLogEvent->
-		setTaskException($e->getMessage())->
-		save();
+    if ($taskLogEvent)
+    {
+      $taskLogEvent->
+      setTaskException($e->getMessage())->
+      save();
+    }
 		return 1;
 	}
 	

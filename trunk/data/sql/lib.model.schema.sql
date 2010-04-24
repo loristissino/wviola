@@ -176,25 +176,6 @@ COMMENT ON TABLE "binder" IS '';
 
 SET search_path TO public;
 -----------------------------------------------------------------------------
--- binder_user
------------------------------------------------------------------------------
-
-DROP TABLE "binder_user" CASCADE;
-
-
-CREATE TABLE "binder_user"
-(
-	"binder_id" INTEGER  NOT NULL,
-	"user_id" INTEGER  NOT NULL,
-	"updated_at" TIMESTAMP,
-	PRIMARY KEY ("binder_id","user_id")
-);
-
-COMMENT ON TABLE "binder_user" IS '';
-
-
-SET search_path TO public;
------------------------------------------------------------------------------
 -- archive
 -----------------------------------------------------------------------------
 
@@ -298,10 +279,6 @@ ALTER TABLE "audio_asset" ADD CONSTRAINT "audio_asset_FK_1" FOREIGN KEY ("asset_
 ALTER TABLE "binder" ADD CONSTRAINT "binder_FK_1" FOREIGN KEY ("user_id") REFERENCES "sf_guard_user_profile" ("user_id") ON UPDATE CASCADE ON DELETE CASCADE;
 
 ALTER TABLE "binder" ADD CONSTRAINT "binder_FK_2" FOREIGN KEY ("category_id") REFERENCES "category" ("id");
-
-ALTER TABLE "binder_user" ADD CONSTRAINT "binder_user_FK_1" FOREIGN KEY ("binder_id") REFERENCES "binder" ("id") ON UPDATE CASCADE ON DELETE CASCADE;
-
-ALTER TABLE "binder_user" ADD CONSTRAINT "binder_user_FK_2" FOREIGN KEY ("user_id") REFERENCES "sf_guard_user_profile" ("user_id") ON UPDATE CASCADE ON DELETE CASCADE;
 
 ALTER TABLE "archive" ADD CONSTRAINT "archive_FK_1" FOREIGN KEY ("user_id") REFERENCES "sf_guard_user_profile" ("user_id") ON UPDATE CASCADE ON DELETE CASCADE;
 
