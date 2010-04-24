@@ -27,21 +27,11 @@ Matthew deve archiviare un asset (es. un video frutto di riprese con videocamera
 
 Accede all'applicazione Wviola con il proprio browser, effettua il login, sceglie l'opzione "Archiviazione asset" e gli appare un elenco dei file presenti nella directory indicata, tra i quali saranno presenti anche quello da lui appena caricato.
 
-Per ogni file trova l'indicazione del nome originale e la data di caricamento.
-
-Facendo clic sul link "Proprietà" trova altre informazioni (tipo di file, dimensione, formato video, uno o due fotogrammi, ecc.).
+Per ogni file trova l'indicazione del nome originale, la data di caricamento, la dimensione, una serie di fotogrammi, ecc.
 
 Facendo clic sul link "Archivia" gli si apre una finestra in cui gli viene chiesto di specificare alcuni dati utili per la ricerca dell'asset in fasi successive (da definire nei dettagli). Quando fa clic sul pulsante "Archivia" le informazioni vengono inserite nel database e l'asset viene posto in coda per l'operazione di archiviazione.
 
-=== Archiviazione e classificazione di più asset ===
-
-Matthew deve archiviare più asset, tra loro correlati (ad esempio, più riprese effettuate nello stesso giorno e riguardanti la stessa persona). Procede con il caricamento come nello scenario precedente.
-
-Accede all'applicazione Wviola con il proprio browser, effettua il login, sceglie l'opzione "Archiviazione asset" e gli appare un elenco dei file presenti nella directory indicata, tra i quali saranno presenti anche quelli da lui appena caricati.
-
-Nell'elenco, seleziona più asset e sceglie nel menù a discesa sotto l'elenco l'opzione "Archivia asset"
-
-Gli si apre una finestra in cui gli viene chiesto di specificare alcuni dati utili per la ricerca del video in fasi successive (da definire nei dettagli). Quando fa clic sul pulsante "Archivia" le informazioni inserite nel database e gli asset vengono posti in coda per l'operazione di archiviazione.
+Un asset viene inserito in un raccoglitore (_binder_) collegato all'utente: è nel raccoglitore che potranno essere inserite informazioni quali categoria, data dell'evento, ecc.
 
 === Ricerca e visualizzazione di un asset ===
 
