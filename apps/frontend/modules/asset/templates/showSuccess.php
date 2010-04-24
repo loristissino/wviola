@@ -31,8 +31,8 @@
       <td><?php echo $Asset->getAssignedTitle() ?></td>
     </tr>
     <tr>
-      <th>Category:</th>
-      <td><?php echo $Asset->getCategoryId() ?></td>
+      <th>Binder:</th>
+      <td><?php echo $Asset->getBinderId() ?></td>
     </tr>
     <tr>
       <th>Notes:</th>
@@ -45,7 +45,7 @@
     </tr>
     <tr>
       <th>Source file date:</th>
-      <td><?php echo $Asset->getSourceFileDate() ?></td>
+      <td><?php echo $Asset->getSourceFileDatetime() ?></td>
     </tr>
     <tr>
       <th>Highquality md5sum:</th>
@@ -54,10 +54,6 @@
     <tr>
       <th>Archived in:</th>
       <td><?php echo $Asset->getArchiveId() ?></td>
-    </tr>
-    <tr>
-      <th>User:</th>
-      <td><?php echo $Asset->getUserId() ?></td>
     </tr>
   </tbody>
 </table>

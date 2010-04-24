@@ -84,9 +84,9 @@ class Asset extends BaseAsset {
     ->setAssetType($sourcefile->getWvInfo('source_type'))
     ->setAssetType($this->getAssetType())
     ->setSourceFileName($sourcefile->getBaseName())
-    ->setSourceFileDate($sourcefile->getStat('mtime'))
+    ->setSourceFileDatetime($sourcefile->getStat('mtime'))
     ->setSourceSize($sourcefile->getStat('size'))
-    ->setSourceMD5Sum($sourcefile->getWvInfo('file_md5sum'))
+    ->setSourceLmd5Sum($sourcefile->getWvInfo('file_lmd5sum'))
     ;
     
     $thumbnail=$sourcefile->getThumbnail($values['thumbnail']);
@@ -114,13 +114,21 @@ class Asset extends BaseAsset {
 
     if ($uniqid)
     {
+      
+      //FIXME -- We need to add the binder
+      //FIXME -- We need to manage the event date with the binder, not with the asset
+      
+      /*
+      ->setUserId(...)
+      ->setEventDate($values['event_date'])
+      ->setCategoryId($values['category_id'])
+
+      */
+      
       $this
-      ->setUserId($userId)
       ->setUniqid($uniqid)
       ->setNotes($values['notes'])
       ->setAssignedTitle($values['assigned_title'])
-      ->setEventDate($values['event_date'])
-      ->setCategoryId($values['category_id'])
       ->setStatus(self::SCHEDULED)
       ->save();
     }

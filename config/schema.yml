@@ -75,11 +75,6 @@ propel:
     created_at: ~
     updated_at: ~
 
-  binder_user:
-    binder_id: { type: integer, foreignTable: binder, foreignReference: id, required: true, onUpdate: cascade, onDelete: cascade, primaryKey: true }
-    user_id:  { type: integer, foreignTable: sf_guard_user_profile, foreignReference: user_id, required: true, onUpdate: cascade, onDelete: cascade, primaryKey: true}
-    updated_at: ~
-
   archive:
     id:  ~
     slug: varchar(50)

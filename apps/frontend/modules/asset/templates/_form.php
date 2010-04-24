@@ -28,24 +28,10 @@
         </td>
       </tr>
       <tr>
-        <th><?php echo $form['category_id']->renderLabel() ?></th>
-        <td>
-          <?php echo $form['category_id']->renderError() ?>
-          <?php echo $form['category_id'] ?>
-        </td>
-      </tr>
-      <tr>
         <th><?php echo $form['notes']->renderLabel() ?></th>
         <td>
           <?php echo $form['notes']->renderError() ?>
           <?php echo $form['notes'] ?>
-        </td>
-      </tr>
-      <tr>
-        <th><?php echo $form['event_date']->renderLabel() ?></th>
-        <td>
-          <?php echo $form['event_date']->renderError() ?>
-          <?php echo $form['event_date'] ?>
         </td>
       </tr>
       <tr>

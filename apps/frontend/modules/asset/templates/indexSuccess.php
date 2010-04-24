@@ -9,7 +9,7 @@
       <th>Type</th>
       <th>Thumbnail</th>
       <th>Title</th>
-      <th>Category</th>
+      <th>Binder</th>
       <th>Notes</th>
       <th>Duration</th>
       <th>Date</th>
@@ -27,7 +27,7 @@
       <td>
         <?php echo $Asset->getAssignedTitle() ?></td>
 	  <td>
-		<?php include_partial('category', array('Category'=>$Asset->getCategory())) ?>
+		<?php include_partial('binder', array('Binder'=>$Asset->getBinder())) ?>
 	  </td>
       <td><?php echo $Asset->getNotes() ?></td>
       <td>
