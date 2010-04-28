@@ -20,4 +20,11 @@ require 'lib/model/om/BaseBinderPeer.php';
  */
 class BinderPeer extends BaseBinderPeer {
 
+  public static function retrieveByUserId($user_id)
+  {
+    $c = new Criteria();
+    $c->add(BinderPeer::USER_ID, $user_id);
+    return BinderPeer::doSelect($c);
+  }
+
 } // BinderPeer

@@ -13,8 +13,6 @@ class assetActions extends sfActions
   public function executeIndex(sfWebRequest $request)
   {
 //    $this->Assets = AssetPeer::doSelect(new Criteria());
-
-
     $this->pager = new sfPropelPager(
       'Asset',
       sfConfig::get('app_max_asset_per_page')
@@ -34,7 +32,7 @@ class assetActions extends sfActions
   public function executeNew(sfWebRequest $request)
   {
     $this->forward404Unless($this->sourcefile=$this->getUser()->getAttribute('sourcefile'));
-    $this->form = new AssetForm();
+    $this->form = new AssetForm($this->getUser()->getProfile()->getUserId());
     $this->form->addThumbnailWidget($this->sourcefile, $this->getContext());
     $this->form->setDefault('thumbnail', $request->getParameter('thumbnail', 0));
   }
@@ -44,7 +42,7 @@ class assetActions extends sfActions
     $this->forward404Unless($request->isMethod(sfRequest::POST));
     $this->forward404Unless($this->sourcefile=$this->getUser()->getAttribute('sourcefile'));
 
-    $this->form = new AssetForm();
+    $this->form = new AssetForm($this->getUser()->getProfile()->getUserId());
     $this->form->addThumbnailWidget($this->sourcefile, $this->getContext());
     $this->processForm($request, $this->form, $this->sourcefile);
 

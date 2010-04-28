@@ -216,6 +216,11 @@ class SourceFile extends BasicFile
 				return true;
 		}
     
+    if($this->getFileType()=='directory')
+    {
+      return false;
+    }
+    
     // we don't skip files with the extension in the white list
 		foreach(wvConfig::get('filebrowser_white_list') as $regexp)
 		{

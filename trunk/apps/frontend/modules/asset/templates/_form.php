@@ -35,6 +35,13 @@
         </td>
       </tr>
       <tr>
+        <th><?php echo $form['binder_id']->renderLabel() ?></th>
+        <td>
+          <?php echo $form['binder_id']->renderError() ?>
+          <?php echo $form['binder_id'] ?>
+        </td>
+      </tr>
+      <tr>
         <th><?php echo $form['thumbnail']->renderLabel() ?></th>
         <td>
           <?php echo $form['thumbnail']->renderError() ?>

@@ -10,10 +10,19 @@
  */
 class AssetForm extends BaseAssetForm
 {
+  private $_userId;
+  
+  public function __construct($user_id)
+  {
+    $this->_userId = $user_id;
+    parent::__construct();
+  }
+  
   public function configure()
   {
     unset(
       $this['uniqid'],
+      $this['binder_id'],
       $this['status'],
       $this['archive_id'],
       $this['asset_type'],
@@ -34,6 +43,13 @@ class AssetForm extends BaseAssetForm
         $this->validatorSchema['assigned_title'],
         $this->validatorSchema['notes']
       );
+            
+      $c = new Criteria();
+      $c->add(BinderPeer::USER_ID, $this->_userId);
+      
+      $this->widgetSchema['binder_id'] = new sfWidgetFormPropelChoice(array('model' => 'Binder', 'add_empty' => true, 'criteria' => $c));
+      
+      $this->validatorSchema['binder_id'] = new sfValidatorPropelChoice(array('model' => 'Binder', 'column' => 'id', 'required' => true));
       
       $this->validatorSchema['assigned_title'] = new sfValidatorString(array(
         'required' => true,

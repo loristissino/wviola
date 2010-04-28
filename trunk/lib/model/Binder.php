@@ -20,4 +20,9 @@ require 'lib/model/om/BaseBinder.php';
  */
 class Binder extends BaseBinder {
 
+  public function __toString()
+  {
+    return $this->getEventDate() . ' ' . $this->getNotes();
+  }
+
 } // Binder
