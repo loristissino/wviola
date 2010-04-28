@@ -31,7 +31,8 @@ thumbnail:
   # the size of the thumbnail to prepare  
 
 filebrowser:
-  skipped_files: [ '/~$/', '/doc$/i', '/ppt$/i', '/txt$/i', '/odt$/i' ]
-  # regular expressions to use with filenames: files matching are skipped
+  md5sum_limit: f
+  white_list: [ '/png$/i', '/jpg$/i', '/mov$/i', '/mpeg$/i', '/mpg$/i', '/avi$/i' ]
+  # regular expressions to use with filenames: only files matching are scanned
 
   

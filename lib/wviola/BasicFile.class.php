@@ -62,9 +62,20 @@ class BasicFile
 		return $this->_stat;
 	}
 	
-	public function getMD5Sum()
+	public function getMD5Sum($limit='')
 	{
-		return md5_file($this->getFullPath());
+    if ($limit=='')
+    {
+      return md5_file($this->getFullPath());
+    }
+    else
+    {
+      $info=$this->executeCommand(
+        sprintf('limitedmd5sum "%s" %s', $this->getFullPath(), $limit),
+        true);
+      list($key, $value)=explode('=', $info);
+      return $value;
+    }
 	}
 	
 	public function executeCommand($command, $custom=false)

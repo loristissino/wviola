@@ -59,7 +59,10 @@ class SourceFile extends BasicFile
 	public function appendMD5Sum()
 	{
 		$this->
-		setWvInfo('file_md5sum', $this->getMD5Sum());
+		setWvInfo('file_md5sum', 
+      $this->getMD5Sum(
+        wvConfig::get('filebrowser_md5sum_limit'))
+      );
     
     if($Asset=AssetPeer::retrieveBySourceSizeAndMd5sum(
       $this->getWvInfo('file_size'),
@@ -207,20 +210,22 @@ class SourceFile extends BasicFile
 	
 	public function getShouldBeSkipped()
 	{
+    // we skip symbolic links...
+    if($this->getFileType()=='link')
+		{
+				return true;
+		}
     
-		foreach(wvConfig::get('filebrowser_skipped_files') as $regexp)
+    // we don't skip files with the extension in the white list
+		foreach(wvConfig::get('filebrowser_white_list') as $regexp)
 		{
 			if(preg_match($regexp, $this->getBaseName()))
 			{
-				return true;
+				return false;
 			}
-			
-			if($this->getFileType()=='link')
-			{
-				return true;
-			}
-		}
-		return false;
+    }
+		
+		return true;
 	}
   
   private function makeWvDirPathIfNeeded()
