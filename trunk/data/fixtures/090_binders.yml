@@ -11,6 +11,11 @@ Binder:
     event_date: 12/22/2009
   binder3:
     user_id: matthew
-    category_id: ch
+    category_id: ot
     notes: Third binder
     event_date: 12/23/2009
+  binder4:
+    user_id: andreas
+    category_id: op
+    notes: Fourth binder
+    event_date: 12/24/2009
