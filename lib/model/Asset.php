@@ -114,19 +114,10 @@ class Asset extends BaseAsset {
 
     if ($uniqid)
     {
-      
-      //FIXME -- We need to add the binder
-      //FIXME -- We need to manage the event date with the binder, not with the asset
-      
-      /*
-      ->setUserId(...)
-      ->setEventDate($values['event_date'])
-      ->setCategoryId($values['category_id'])
-
-      */
-      
+       
       $this
       ->setUniqid($uniqid)
+      ->setBinderId($values['binder_id'])
       ->setNotes($values['notes'])
       ->setAssignedTitle($values['assigned_title'])
       ->setStatus(self::SCHEDULED)

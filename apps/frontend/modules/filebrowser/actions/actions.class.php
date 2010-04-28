@@ -23,6 +23,7 @@ class filebrowserActions extends sfActions
 		}
 		$this->getUser()->setAttribute('oldpath', $this->path);
 		
+    $this->extra=wvConfig::get('directory_sources');
 	}
 	
  /**

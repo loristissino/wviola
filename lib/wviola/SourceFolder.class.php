@@ -14,6 +14,11 @@ class SourceFolder
 			$this->_folderItems=Array();
 		}
 
+  public function __toString()
+  {
+    return $this->getPath();
+  }
+
 	public function getPath()
 		{
 			return $this->_path;
