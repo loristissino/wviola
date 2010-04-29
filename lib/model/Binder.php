@@ -36,5 +36,12 @@ class Binder extends BaseBinder {
     
     return $this;
   }
+  
+  public function getAssetsCriteria()
+  {
+    $c = new Criteria();
+    $c->add(AssetPeer::BINDER_ID, $this->getId());
+    return $c;
+  }
 
 } // Binder
