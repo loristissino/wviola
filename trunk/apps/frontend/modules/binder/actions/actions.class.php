@@ -26,6 +26,17 @@ class binderActions extends sfActions
   {
     $this->Binder = BinderPeer::retrieveByPk($request->getParameter('id'));
     $this->forward404Unless($this->Binder);
+    
+    $this->pager = new sfPropelPager(
+      'Asset',
+      sfConfig::get('app_max_assets_per_page')
+    );
+    $this->pager->setCriteria($this->Binder->getAssetsCriteria());
+
+    $this->pager->setPage($request->getParameter('page', 1));
+    $this->pager->init();
+
+    
   }
 
   public function executeNew(sfWebRequest $request)
@@ -66,7 +77,18 @@ class binderActions extends sfActions
     $request->checkCSRFProtection();
 
     $this->forward404Unless($Binder = BinderPeer::retrieveByPk($request->getParameter('id')), sprintf('Object Binder does not exist (%s).', $request->getParameter('id')));
-    $Binder->delete();
+    
+    try
+    {
+      $Binder->delete();
+      $this->getUser()->setFlash('notice', $this->getContext()->getI18N()->__('The item has been successfully removed.'));
+    }
+    catch (Exception $e)
+    {
+      $this->getUser()->setFlash('error', 'Something went wrong.' . ' ' . $e->getMessage());
+      $this->redirect('binder/edit?id=' . $Binder->getId());
+  
+    }
 
     $this->redirect('binder/index');
   }

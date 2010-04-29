@@ -1,13 +1,6 @@
-<h1>SOURCES</h1>
+<h1>Sources</h1>
 
 <h2><?php echo $path ?></h2>
-
-<?php if ($sf_user->hasFlash('notice')): ?>
-  <div class="notice"><?php echo $sf_user->getFlash('notice')?></div>
-<?php endif; ?>
-<?php if ($sf_user->hasFlash('error')): ?>
-  <div class="error"><?php echo $sf_user->getFlash('error')?></div>
-<?php endif; ?>
 
 <?php if($path!='/'): ?>
 <ul class="sf_admin_actions">

@@ -11,6 +11,7 @@
       <th>Category</th>
       <th>Notes</th>
       <th>Event date</th>
+      <th>Assets count</th>
     </tr>
   </thead>
   <tbody>
@@ -21,10 +22,16 @@
       <td><?php echo $Binder->getCategory() ?></td>
       <td><?php echo $Binder->getNotes() ?></td>
       <td><?php echo $Binder->getEventDate() ?></td>
+      <td><?php echo $Binder->countAssets() ?></td>
     </tr>
     <?php endforeach; ?>
   </tbody>
 </table>
 <?php endif ?>
 
-  <a href="<?php echo url_for('binder/new') ?>">New</a>
+  <?php echo link_to(
+    __('New binder'),
+    url_for('binder/new')
+    )
+  ?>
+  

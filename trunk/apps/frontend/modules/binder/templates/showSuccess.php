@@ -21,16 +21,11 @@
       <th>Event date:</th>
       <td><?php echo $Binder->getEventDate() ?></td>
     </tr>
-    <tr>
-      <th>Created at:</th>
-      <td><?php echo $Binder->getCreatedAt() ?></td>
-    </tr>
-    <tr>
-      <th>Updated at:</th>
-      <td><?php echo $Binder->getUpdatedAt() ?></td>
-    </tr>
   </tbody>
 </table>
+
+<h2>Assets List</h2>
+<?php include_partial('asset/assetpager', array('pager'=>$pager, 'action'=>url_for('binder/show?id=' . $Binder->getId()), 'item_name'=>'asset')) ?>
 
 <hr />
 

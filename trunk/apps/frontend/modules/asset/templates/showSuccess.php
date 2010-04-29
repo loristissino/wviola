@@ -32,7 +32,14 @@
     </tr>
     <tr>
       <th>Binder:</th>
-      <td><?php echo $Asset->getBinderId() ?></td>
+      <td>
+      <?php echo link_to(
+        $Asset->getBinderId(),
+        url_for('binder/show?id=' . $Asset->getBinderId())
+        ) ?>
+        &nbsp;
+      <?php echo $Asset->getBinder() ?>
+      </td>
     </tr>
     <tr>
       <th>Notes:</th>
