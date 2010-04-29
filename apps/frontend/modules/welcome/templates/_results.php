@@ -1,7 +1,7 @@
 <div class="pagination_desc">
   <strong>
   <?php echo format_number_choice(
-    '[0]No asset found|[1]One asset found|(1,+Inf]%number% assets found',
+    '[0]No ' . $item_name . ' found|[1]One ' . $item_name . ' found|(1,+Inf]%number% ' . $item_name . 's found',
     array('%number%'=>$pager->getNbResults()),
     $pager->getNbResults()
     )

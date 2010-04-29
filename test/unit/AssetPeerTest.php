@@ -12,5 +12,5 @@ $Asset=AssetPeer::retrieveByUniqid($uniqid);
 $t->is($Asset->getAssignedTitle(), 'Outdoor meeting', '::retrieveByUniqid() retrieves the correct object');
 unset($Asset);
 
-$Asset=AssetPeer::retrieveBySourceSizeAndMd5sum(260288, '8df3f37d4cb351d5129b92d251985455');
+$Asset=AssetPeer::retrieveBySourceSizeAndMd5sum(260288, '8df3f37d4cb351d5129b92d251985455:f');
 $t->is($Asset->getAssignedTitle(), 'Apple', '::retrieveBySourceSizeAndMd5sum() retrieves the correct asset');

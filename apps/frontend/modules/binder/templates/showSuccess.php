@@ -1,3 +1,4 @@
+<h1>Binder</h1>
 <table>
   <tbody>
     <tr>
@@ -6,11 +7,11 @@
     </tr>
     <tr>
       <th>User:</th>
-      <td><?php echo $Binder->getUserId() ?></td>
+      <td><?php echo $Binder->getsfGuardUserProfile() ?></td>
     </tr>
     <tr>
       <th>Category:</th>
-      <td><?php echo $Binder->getCategoryId() ?></td>
+      <td><?php echo $Binder->getCategory() ?></td>
     </tr>
     <tr>
       <th>Notes:</th>

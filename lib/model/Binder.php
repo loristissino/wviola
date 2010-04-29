@@ -24,5 +24,17 @@ class Binder extends BaseBinder {
   {
     return $this->getEventDate() . ' ' . $this->getNotes();
   }
+  
+  public function setFromForm($user_id, $values)
+  {
+    $this
+    ->setUserId($user_id)
+    ->setCategoryId($values['category_id'])
+    ->setNotes($values['notes'])
+    ->setEventDate($values['event_date'])
+    ;
+    
+    return $this;
+  }
 
 } // Binder

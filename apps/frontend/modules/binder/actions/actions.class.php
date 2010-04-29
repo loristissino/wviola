@@ -12,7 +12,14 @@ class binderActions extends sfActions
 {
   public function executeIndex(sfWebRequest $request)
   {
-    $this->Binders = BinderPeer::retrieveByUserId($this->getUser()->getProfile()->getUserId());
+    $this->pager = new sfPropelPager(
+      'Binder',
+      sfConfig::get('app_max_binders_per_page')
+    );
+    $this->pager->setCriteria($this->getUser()->getProfile()->getBinderCriteria());
+
+    $this->pager->setPage($request->getParameter('page', 1));
+    $this->pager->init();
   }
 
   public function executeShow(sfWebRequest $request)
@@ -69,7 +76,19 @@ class binderActions extends sfActions
     $form->bind($request->getParameter($form->getName()), $request->getFiles($form->getName()));
     if ($form->isValid())
     {
-      $Binder = $form->save();
+      $values=$form->getValues();
+      $Binder=BinderPeer::retrieveByPK($values['id']);
+      
+      if(!$Binder)
+      {
+        $Binder = new Binder();
+      }
+      
+      $Binder->setFromForm(
+        $this->getUser()->getProfile()->getUserId(),
+        $form->getValues()
+        )
+      ->save();
 
       $this->redirect('binder/edit?id='.$Binder->getId());
     }

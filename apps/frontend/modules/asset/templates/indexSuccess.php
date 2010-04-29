@@ -1,5 +1,5 @@
 <h1>Assets List</h1>
-<?php include_partial('welcome/results', array('pager'=>$pager, 'action'=>'asset/index')) ?>
+<?php include_partial('welcome/results', array('pager'=>$pager, 'action'=>'asset/index', 'item_name'=>'asset')) ?>
 <?php include_partial('welcome/pager', array('pager'=>$pager, 'action'=>'asset/index')) ?>
 
 <?php if ($pager->getNbResults()>0): ?>
