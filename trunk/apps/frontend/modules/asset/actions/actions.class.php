@@ -15,10 +15,9 @@ class assetActions extends sfActions
 //    $this->Assets = AssetPeer::doSelect(new Criteria());
     $this->pager = new sfPropelPager(
       'Asset',
-      sfConfig::get('app_max_asset_per_page')
+      sfConfig::get('app_max_assets_per_page')
     );
 
-//    $this->pager->setCriteria($this->category->getActiveJobsCriteria());
     $this->pager->setPage($request->getParameter('page', 1));
     $this->pager->init();
   }

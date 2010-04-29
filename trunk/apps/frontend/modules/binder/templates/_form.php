@@ -20,6 +20,7 @@
     </tfoot>
     <tbody>
       <?php echo $form->renderGlobalErrors() ?>
+<?php /*
       <tr>
         <th><?php echo $form['user_id']->renderLabel() ?></th>
         <td>
@@ -27,6 +28,7 @@
           <?php echo $form['user_id'] ?>
         </td>
       </tr>
+*/ ?>
       <tr>
         <th><?php echo $form['category_id']->renderLabel() ?></th>
         <td>
@@ -48,13 +50,15 @@
           <?php echo $form['event_date'] ?>
         </td>
       </tr>
-      <tr>
+<?php
+/*      <tr>
         <th><?php echo $form['created_at']->renderLabel() ?></th>
         <td>
           <?php echo $form['created_at']->renderError() ?>
           <?php echo $form['created_at'] ?>
         </td>
       </tr>
+
       <tr>
         <th><?php echo $form['updated_at']->renderLabel() ?></th>
         <td>
@@ -62,6 +66,7 @@
           <?php echo $form['updated_at'] ?>
         </td>
       </tr>
+*/?>
     </tbody>
   </table>
 </form>
