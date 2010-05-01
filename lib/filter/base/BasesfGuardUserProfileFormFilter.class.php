@@ -13,17 +13,19 @@ abstract class BasesfGuardUserProfileFormFilter extends BaseFormFilterPropel
   public function setup()
   {
     $this->setWidgets(array(
-      'first_name'       => new sfWidgetFormFilterInput(),
-      'last_name'        => new sfWidgetFormFilterInput(),
-      'imported_at'      => new sfWidgetFormFilterDate(array('from_date' => new sfWidgetFormDate(), 'to_date' => new sfWidgetFormDate())),
-      'binder_user_list' => new sfWidgetFormPropelChoice(array('model' => 'Binder', 'add_empty' => true)),
+      'first_name'  => new sfWidgetFormFilterInput(),
+      'last_name'   => new sfWidgetFormFilterInput(),
+      'email'       => new sfWidgetFormFilterInput(),
+      'imported_at' => new sfWidgetFormFilterDate(array('from_date' => new sfWidgetFormDate(), 'to_date' => new sfWidgetFormDate())),
+      'updated_at'  => new sfWidgetFormFilterDate(array('from_date' => new sfWidgetFormDate(), 'to_date' => new sfWidgetFormDate())),
     ));
 
     $this->setValidators(array(
-      'first_name'       => new sfValidatorPass(array('required' => false)),
-      'last_name'        => new sfValidatorPass(array('required' => false)),
-      'imported_at'      => new sfValidatorDateRange(array('required' => false, 'from_date' => new sfValidatorDate(array('required' => false)), 'to_date' => new sfValidatorDate(array('required' => false)))),
-      'binder_user_list' => new sfValidatorPropelChoice(array('model' => 'Binder', 'required' => false)),
+      'first_name'  => new sfValidatorPass(array('required' => false)),
+      'last_name'   => new sfValidatorPass(array('required' => false)),
+      'email'       => new sfValidatorPass(array('required' => false)),
+      'imported_at' => new sfValidatorDateRange(array('required' => false, 'from_date' => new sfValidatorDate(array('required' => false)), 'to_date' => new sfValidatorDate(array('required' => false)))),
+      'updated_at'  => new sfValidatorDateRange(array('required' => false, 'from_date' => new sfValidatorDate(array('required' => false)), 'to_date' => new sfValidatorDate(array('required' => false)))),
     ));
 
     $this->widgetSchema->setNameFormat('sf_guard_user_profile_filters[%s]');
@@ -31,31 +33,6 @@ abstract class BasesfGuardUserProfileFormFilter extends BaseFormFilterPropel
     $this->errorSchema = new sfValidatorErrorSchema($this->validatorSchema);
 
     parent::setup();
-  }
-
-  public function addBinderUserListColumnCriteria(Criteria $criteria, $field, $values)
-  {
-    if (!is_array($values))
-    {
-      $values = array($values);
-    }
-
-    if (!count($values))
-    {
-      return;
-    }
-
-    $criteria->addJoin(BinderUserPeer::USER_ID, sfGuardUserProfilePeer::USER_ID);
-
-    $value = array_pop($values);
-    $criterion = $criteria->getNewCriterion(BinderUserPeer::BINDER_ID, $value);
-
-    foreach ($values as $value)
-    {
-      $criterion->addOr($criteria->getNewCriterion(BinderUserPeer::BINDER_ID, $value));
-    }
-
-    $criteria->add($criterion);
   }
 
   public function getModelName()
@@ -66,11 +43,12 @@ abstract class BasesfGuardUserProfileFormFilter extends BaseFormFilterPropel
   public function getFields()
   {
     return array(
-      'user_id'          => 'ForeignKey',
-      'first_name'       => 'Text',
-      'last_name'        => 'Text',
-      'imported_at'      => 'Date',
-      'binder_user_list' => 'ManyKey',
+      'user_id'     => 'ForeignKey',
+      'first_name'  => 'Text',
+      'last_name'   => 'Text',
+      'email'       => 'Text',
+      'imported_at' => 'Date',
+      'updated_at'  => 'Date',
     );
   }
 }

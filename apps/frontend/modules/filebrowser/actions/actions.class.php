@@ -13,6 +13,7 @@ class filebrowserActions extends sfActions
 
   public function preExecute()
 	{
+    
 		$this->profile=$this->getUser()->getProfile();
 		$this->path = $this->getUser()->getAttribute('path', '/');
 		$this->folder= new SourceFolder(wvConfig::get('directory_sources'), $this->path);
@@ -26,6 +27,12 @@ class filebrowserActions extends sfActions
     $this->extra=wvConfig::get('directory_sources');
 	}
 	
+  
+  public function executeOpendir(sfWebRequest $request)
+  {
+		$this->_changeDirectory(Generic::b64_unserialize($request->getParameter('code')));
+  }
+  
  /**
   * Executes index action
   *

@@ -11,7 +11,9 @@ CREATE TABLE "sf_guard_user_profile"
 	"user_id" INTEGER  NOT NULL,
 	"first_name" VARCHAR(50),
 	"last_name" VARCHAR(50),
+	"email" VARCHAR(255),
 	"imported_at" TIMESTAMP,
+	"updated_at" TIMESTAMP,
 	PRIMARY KEY ("user_id")
 );
 
@@ -262,6 +264,30 @@ COMMENT ON TABLE "task_log_event" IS '';
 
 
 SET search_path TO public;
+-----------------------------------------------------------------------------
+-- source
+-----------------------------------------------------------------------------
+
+DROP TABLE "source" CASCADE;
+
+
+CREATE TABLE "source"
+(
+	"id" serial  NOT NULL,
+	"user_id" INTEGER  NOT NULL,
+	"relative_path" VARCHAR(255)  NOT NULL,
+	"basename" VARCHAR(255)  NOT NULL,
+	"status" INTEGER,
+	"inode" INT8,
+	"task_log_event_id" INTEGER,
+	"created_at" TIMESTAMP,
+	PRIMARY KEY ("id")
+);
+
+COMMENT ON TABLE "source" IS '';
+
+
+SET search_path TO public;
 ALTER TABLE "sf_guard_user_profile" ADD CONSTRAINT "sf_guard_user_profile_FK_1" FOREIGN KEY ("user_id") REFERENCES "sf_guard_user" ("id") ON UPDATE CASCADE ON DELETE CASCADE;
 
 ALTER TABLE "asset" ADD CONSTRAINT "asset_FK_1" FOREIGN KEY ("binder_id") REFERENCES "binder" ("id");
@@ -285,3 +311,7 @@ ALTER TABLE "archive" ADD CONSTRAINT "archive_FK_1" FOREIGN KEY ("user_id") REFE
 ALTER TABLE "access_log_event" ADD CONSTRAINT "access_log_event_FK_1" FOREIGN KEY ("asset_id") REFERENCES "asset" ("id");
 
 ALTER TABLE "access_log_event" ADD CONSTRAINT "access_log_event_FK_2" FOREIGN KEY ("user_id") REFERENCES "sf_guard_user_profile" ("user_id") ON UPDATE CASCADE ON DELETE RESTRICT;
+
+ALTER TABLE "source" ADD CONSTRAINT "source_FK_1" FOREIGN KEY ("user_id") REFERENCES "sf_guard_user_profile" ("user_id") ON UPDATE CASCADE ON DELETE RESTRICT;
+
+ALTER TABLE "source" ADD CONSTRAINT "source_FK_2" FOREIGN KEY ("task_log_event_id") REFERENCES "task_log_event" ("id");

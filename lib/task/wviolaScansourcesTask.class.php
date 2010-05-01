@@ -106,6 +106,18 @@ EOF;
 			$file->saveWvInfoFile();
 			$this->logSection('info', 'Writing information file...', null, 'INFO');
 			$this->logSection('file+', $file->getWvInfoFilePath(), null, 'INFO');
+      
+      $user = sfGuardUserProfilePeer::getByUsername($file->getOwner());
+      $source = new Source();
+      $source
+      ->setUserId($user->getId())
+      ->setRelativePath($file->getRelativePath())
+      ->setBasename($file->getBasename())
+      ->setStatus(1)
+      ->setInode($file->getStat('ino'))
+      ->save();
+      $this->logSection('db+', $user->getUsername(), null, 'INFO');
+      
 		}
 		else
 		{

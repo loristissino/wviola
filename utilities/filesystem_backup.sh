@@ -11,7 +11,9 @@ mv -v ~/Importanti/Wviola/$FILENAME /etc/wviola/
 ln -sf /etc/wviola/$FILENAME /etc/wviola/filesystem.tar.bz2
 
 cd /etc/wviola
-tar xpvjf filesystem.tar.bz2
+sudo tar xpvjf filesystem.tar.bz2
+sudo cp -v ~/Importanti/Wviola/wviola.yml .
+sudo chown www-data wviola.yml
 
 # /var/wviola/utilities/googlecode_upload.py --summary='Binary data for tests (examples of videos and pictures)' --project=wviola /etc/wviola/filesystem.tar.bz2
 

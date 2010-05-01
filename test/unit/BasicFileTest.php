@@ -2,7 +2,7 @@
 
 require_once dirname(__FILE__).'/../bootstrap/FileSystem.php';
  
-$t = new lime_test(17, new lime_output_color());
+$t = new lime_test(18, new lime_output_color());
 
 $t->diag('BasicFile functions');
 
@@ -85,3 +85,8 @@ unset($file);
 $file=new BasicFile('/var/wviola/data/filesystem/sources/videos/bigbuckbunny01.link.avi');
 $t->is($file->getFileType(), 'link', '->getFileType() returns «link» for a symbolic link.');
 unset($file);
+
+$file=new BasicFile('/var/wviola/data/filesystem/sources/videos/bigbuckbunny02.mpeg');
+$t->is($file->getOwner(), 'matthew', '->getOwner() returns the correct owner of the file.');
+unset($file);
+
