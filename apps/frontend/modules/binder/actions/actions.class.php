@@ -41,24 +41,46 @@ class binderActions extends sfActions
 
   public function executeNew(sfWebRequest $request)
   {
-    $this->form = new BinderForm();
+    $embedded = preg_match('/asset\/create/', $request->getReferer())
+      || preg_match('/filebrowser\/archive/', $request->getReferer());
+    
+    $this->form = new BinderForm(null, array('embedded'=>$embedded));
+    if($embedded)
+    {
+      $this->setLayout('popup');
+    }
   }
 
   public function executeCreate(sfWebRequest $request)
   {
     $this->forward404Unless($request->isMethod(sfRequest::POST));
 
-    $this->form = new BinderForm();
+    $embedded = $request->getParameter('embedded');
 
-    $this->processForm($request, $this->form);
+    $this->form = new BinderForm(null, array('embedded'=>$embedded));
+
+    $this->processForm($request, $this->form, $embedded);
 
     $this->setTemplate('new');
+
+    if($embedded)
+    {
+      $this->setLayout('popup');
+    }    
   }
 
   public function executeEdit(sfWebRequest $request)
   {
     $this->forward404Unless($Binder = BinderPeer::retrieveByPk($request->getParameter('id')), sprintf('Object Binder does not exist (%s).', $request->getParameter('id')));
-    $this->form = new BinderForm($Binder);
+    
+    $embedded = $request->getParameter('embedded');
+    
+    $this->form = new BinderForm($Binder, $embedded);
+    
+    if($embedded)
+    {
+      $this->setLayout('popup');
+    }    
   }
 
   public function executeUpdate(sfWebRequest $request)
@@ -93,7 +115,7 @@ class binderActions extends sfActions
     $this->redirect('binder/index');
   }
 
-  protected function processForm(sfWebRequest $request, sfForm $form)
+  protected function processForm(sfWebRequest $request, sfForm $form, $embedded = false)
   {
     $form->bind($request->getParameter($form->getName()), $request->getFiles($form->getName()));
     if ($form->isValid())
@@ -111,8 +133,8 @@ class binderActions extends sfActions
         $form->getValues()
         )
       ->save();
-
-      $this->redirect('binder/edit?id='.$Binder->getId());
+      
+      $this->redirect('binder/edit?id='.$Binder->getId() . ($embedded? '&embedded=true':''));
     }
   }
 }

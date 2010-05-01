@@ -10,6 +10,20 @@
  */
 class BinderForm extends BaseBinderForm
 {
+
+  private
+    $_embedded;
+
+  public function __construct($object=null, $options=array())
+  {
+    
+    if(@$options['embedded']==true)
+    {
+      $this->_embedded = true;
+    }
+    parent::__construct($object, $options);
+  }
+  
   public function configure()
   {
     unset(
@@ -17,5 +31,12 @@ class BinderForm extends BaseBinderForm
       $this['created_at'],
       $this['updated_at']
     );
+    
+    $this->widgetSchema['embedded'] = new sfWidgetFormInputHidden(array(), array('name' => 'embedded'));
+
+    $this->setDefault('embedded', $this->_embedded);
+    
+    $this->validatorSchema['embedded'] = new sfValidatorPass();
+
   }
 }

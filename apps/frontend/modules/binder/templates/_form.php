@@ -10,11 +10,17 @@
       <tr>
         <td colspan="2">
           <?php echo $form->renderHiddenFields(false) ?>
-          &nbsp;<a href="<?php echo url_for('binder/index') ?>">Back to list</a>
+          &nbsp;
+          <?php if(!$form['embedded']->getValue()): ?>
+          <?php echo link_to(
+            __('Back to list'),
+            url_for('binder/index'))
+          ?>
           <?php if (!$form->getObject()->isNew()): ?>
             &nbsp;<?php echo link_to('Delete', 'binder/delete?id='.$form->getObject()->getId(), array('method' => 'delete', 'confirm' => 'Are you sure?')) ?>
           <?php endif; ?>
-          <input type="submit" value="Save" />
+          <?php endif ?>
+          <input type="submit" value="<?php echo __('Save') ?>" />
         </td>
       </tr>
     </tfoot>
