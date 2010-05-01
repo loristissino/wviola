@@ -86,7 +86,7 @@ class AssetForm extends BaseAssetForm
       array(
         'choices'=>$thumbnails,
         'label_separator'=>'&nbsp;',
-        'separator'=>'&nbsp;&nbsp;',
+        'separator'=>'',
         )
     );
     

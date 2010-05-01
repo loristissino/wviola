@@ -10,6 +10,7 @@
  */
 class assetActions extends sfActions
 {
+  
   public function executeIndex(sfWebRequest $request)
   {
 //    $this->Assets = AssetPeer::doSelect(new Criteria());
@@ -30,16 +31,21 @@ class assetActions extends sfActions
 
   public function executeNew(sfWebRequest $request)
   {
+    
     $this->forward404Unless($this->sourcefile=$this->getUser()->getAttribute('sourcefile'));
     $this->form = new AssetForm($this->getUser()->getProfile()->getUserId());
     $this->form->addThumbnailWidget($this->sourcefile, $this->getContext());
     $this->form->setDefault('thumbnail', $request->getParameter('thumbnail', 0));
+    
+    $this->binderform = new BinderForm();
   }
 
   public function executeCreate(sfWebRequest $request)
   {
     $this->forward404Unless($request->isMethod(sfRequest::POST));
     $this->forward404Unless($this->sourcefile=$this->getUser()->getAttribute('sourcefile'));
+
+    $this->binderform = new BinderForm();
 
     $this->form = new AssetForm($this->getUser()->getProfile()->getUserId());
     $this->form->addThumbnailWidget($this->sourcefile, $this->getContext());
