@@ -4,8 +4,10 @@ propel:
     _attributes:  { phpName: sfGuardUserProfile }
     user_id:      { type: integer, foreignTable: sf_guard_user, foreignReference: id, required: true, onUpdate: cascade, onDelete: cascade, primaryKey: true }
     first_name:   varchar(50)
-    last_name:   varchar(50)
-    imported_at: timestamp
+    last_name:    varchar(50)
+    email:        varchar(255)
+    imported_at:  timestamp
+    updated_at:   timestamp
 
   asset:
     id: ~
@@ -106,6 +108,16 @@ propel:
     finished_at: timestamp
     task_exception: longvarchar
 
+
+  source:
+    id: ~
+    user_id:  { type: integer, foreignTable: sf_guard_user_profile, foreignReference: user_id, required: true, onUpdate: cascade, onDelete: restrict }
+    relative_path: { type: varchar(255), required: true }
+    basename: { type: varchar(255), required: true }
+    status: integer
+    inode: bigint
+    task_log_event_id: ~
+    created_at: ~
 
 # Why 34 chars for md5sums?
 # Dealing with big files (like video assets), it takes a long time to compute

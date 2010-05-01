@@ -2,11 +2,13 @@
 
 require_once dirname(__FILE__).'/../bootstrap/FileSystem.php';
  
-$t = new lime_test(33, new lime_output_color());
+$t = new lime_test(34, new lime_output_color());
 
 $t->diag('SourceFile functions');
 
 $file=new SourceFile('/newvideos', 'fakevideo.mpeg');
+
+$t->is($file->getRelativePath(), '/newvideos', '->getRelativePath() returns the correct value');
 
 $t->is($file->getBasicPath(), '/var/wviola/data/filesystem/sources', '->getBasicPath() returns the correct value');
 $t->is($file->getBasename(), 'fakevideo.mpeg', '->getBasename() returns the correct value');

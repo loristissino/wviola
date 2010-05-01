@@ -130,5 +130,11 @@ class BasicFile
 
 	}
 
+	public function getOwner()
+	{
+		$command='stat -c %U' . sprintf(' "%s"', $this->getFullPath());
+		$user=$this->executeCommand($command);
+		return $user;
+  }
 	
 }

@@ -32,8 +32,9 @@
   <tbody>
     <?php foreach ($folder_items as $item): ?>
     <tr class="sf_admin_row <?php echo (++$i & 1)? 'odd':'even' ?>">
+    
       <td><?php include_component('filebrowser', 'mimetype', array('mimetype'=>$item->getGuessedInternetMediaType())) ?></td>
-      <td><?php echo $item->getBaseName() ?></td>
+      <td><a name="<?php echo $item->getStat('ino') ?>"><?php echo $item->getBaseName() ?></a></td>
       <td>
 	<?php if ($item->getFileType()!='directory'): ?>
 		<?php echo $item->getStat('size') ?>
