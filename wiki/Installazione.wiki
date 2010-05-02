@@ -155,6 +155,8 @@ cp config/wviola.yml-dist config/wviola.yml
 
 Nota: probabilmente sarebbe meglio avere i file di configurazione sotto _/etc_, in modo da rispettare le indicazioni del [http://www.pathname.com/fhs/ Filesystem Hierarchy Standard]. Si può fare, creando poi dei link simbolici nelle posizioni corrispondenti sotto _/var_.
 
+TODO: Aggiungere uno script che rileva i file _-dist_ che non hanno una controparte, e li copia.
+
 === Accesso al database ===
 
 Per l'accesso al database va modificato il file _config/databases.yml_:
@@ -316,6 +318,17 @@ filebrowser:
   skipped_files: [ '/~$/', '/doc$/i', '/ppt$/i', '/txt$/i', '/odt$/i' ]
   # regular expressions to use with filenames: files matching are skipped
 }}}
+
+=== Mailer ===
+
+L'applicazione è in grado di spedire dei messaggi di posta elettronica agli utenti.
+
+È necessario però configurare, agendo sul file _/apps/frontend/config/factories.yml_, quale server di 
+posta va usato, quale strategia di spedizione, ecc.
+
+Per informazioni al riguardo, si rimanda a:
+
+http://www.symfony-project.org/more-with-symfony/1_4/en/04-Emails
 
 == Test ==
 
