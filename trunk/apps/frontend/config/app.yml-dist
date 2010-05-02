@@ -1,3 +1,4 @@
 all:
   max_assets_per_page: 5
   max_binders_per_page: 2
+  max_sources_per_page: 10

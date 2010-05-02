@@ -1,0 +1,46 @@
+TaskLogEvent:
+  task_log_event1:
+    task_name: foo1
+    started_at: 12/01/2009 9:10
+    finished_at: 12/01/2009 9:12
+  task_log_event2:
+    task_name: foo2
+    started_at: 12/03/2009 9:10
+    finished_at: 12/03/2009 9:12
+
+Source:
+  source1:
+    user_id: mark
+    relative_path: /foobar
+    basename: baz1.mpeg
+    status: <?php echo SourcePeer::STATUS_READY . "\n" ?>
+    inode: 9991
+    task_log_event_id: task_log_event1
+  source2:
+    user_id: matthew
+    relative_path: /foobar
+    basename: baz2.mpeg
+    status: <?php echo SourcePeer::STATUS_READY . "\n" ?>
+    inode: 9992
+    task_log_event_id: task_log_event1
+  source3:
+    user_id: matthew
+    relative_path: /foobar
+    basename: baz3.mpeg
+    status: <?php echo SourcePeer::STATUS_READY . "\n" ?>
+    inode: 9993
+    task_log_event_id: task_log_event1
+  source4:
+    user_id: matthew
+    relative_path: /foobar
+    basename: baz3.mpeg
+    status: <?php echo SourcePeer::STATUS_EMAILSENT . "\n" ?>
+    inode: 9994
+    task_log_event_id: task_log_event1
+  source5:
+    user_id: matthew
+    relative_path: /foobar
+    basename: baz3.mpeg
+    status: <?php echo SourcePeer::STATUS_SCHEDULED . "\n" ?>
+    inode: 9995
+    task_log_event_id: task_log_event2

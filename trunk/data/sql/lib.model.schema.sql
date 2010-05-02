@@ -312,6 +312,6 @@ ALTER TABLE "access_log_event" ADD CONSTRAINT "access_log_event_FK_1" FOREIGN KE
 
 ALTER TABLE "access_log_event" ADD CONSTRAINT "access_log_event_FK_2" FOREIGN KEY ("user_id") REFERENCES "sf_guard_user_profile" ("user_id") ON UPDATE CASCADE ON DELETE RESTRICT;
 
-ALTER TABLE "source" ADD CONSTRAINT "source_FK_1" FOREIGN KEY ("user_id") REFERENCES "sf_guard_user_profile" ("user_id") ON UPDATE CASCADE ON DELETE RESTRICT;
+ALTER TABLE "source" ADD CONSTRAINT "source_FK_1" FOREIGN KEY ("user_id") REFERENCES "sf_guard_user_profile" ("user_id") ON UPDATE CASCADE ON DELETE CASCADE;
 
 ALTER TABLE "source" ADD CONSTRAINT "source_FK_2" FOREIGN KEY ("task_log_event_id") REFERENCES "task_log_event" ("id");

@@ -35,4 +35,9 @@ filebrowser:
   white_list: [ '/png$/i', '/jpg$/i', '/mov$/i', '/mpeg$/i', '/mpg$/i', '/avi$/i' ]
   # regular expressions to use with filenames: only files matching are scanned
 
+mail:
+  bot_address: wviola@example.com
+  bot_name: WVIOLA bot
+  sourceready_template: /var/wviola/templates/email/sourcesready.txt
+  
   

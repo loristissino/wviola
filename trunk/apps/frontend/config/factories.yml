@@ -35,6 +35,30 @@ all:
     param:
       session_name: wviola
 
+
+# http://www.symfony-project.org/more-with-symfony/1_4/en/04-Emails
+default:
+  mailer:
+    class: sfMailer
+    param:
+      logging:           %SF_LOGGING_ENABLED%
+      charset:           %SF_CHARSET%
+      delivery_strategy: spool
+      spool_class:     Swift_FileSpool
+      spool_arguments:   [ /var/spool/swiftmail ]  
+  
+#      delivery_strategy: single_address
+#      delivery_address: user@example.com
+      transport:
+        class: Swift_SmtpTransport
+        param:
+          host:       localhost
+          port:       25
+#          encryption: ssl
+#          username:   smtp@example.com
+#          password:   aSekret
+
+
 #all:
 #  controller:
 #    class: sfFrontWebController
