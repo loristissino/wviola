@@ -43,6 +43,7 @@ EOF;
 	$this->_sourcesDirectory='';
 	$this->_isLogged=true;
 //	$this->_size_limit_for_md5sum=0;
+  $this->_logEvent;
 
   }
 
@@ -113,8 +114,9 @@ EOF;
       ->setUserId($user->getId())
       ->setRelativePath($file->getRelativePath())
       ->setBasename($file->getBasename())
-      ->setStatus(1)
+      ->setStatus(SourcePeer::STATUS_READY)
       ->setInode($file->getStat('ino'))
+      ->setTaskLogEventId($this->_logEvent)
       ->save();
       $this->logSection('db+', $user->getUsername(), null, 'INFO');
       
@@ -226,6 +228,8 @@ EOF;
 		setOptions(serialize($options))->
 		setStartedAt(time())->
 		save();
+    
+    $this->_logEvent=$taskLogEvent->getId();
 	}
 
 	try
@@ -251,7 +255,14 @@ EOF;
 		save();
 		// we update the record
 	}
-
+  
+  $notices = $taskLogEvent->retrieveUsersToSendEmailsTo();
+  foreach($notices as $user=>$number)
+  {
+    $profile=sfGuardUserProfilePeer::retrieveByPK($user);
+    $profile->sendSourceReadyNotice($this->getMailer(), $number);
+    $this->logSection('mail+', $profile->getEmail() . ' (' . $number . ')', null, 'INFO');
+  }
 
 	return 0;
 	

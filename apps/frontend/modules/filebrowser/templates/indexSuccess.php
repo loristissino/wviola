@@ -1,4 +1,4 @@
-<h1>Sources</h1>
+<h1>File browser</h1>
 
 <h2><?php echo $path ?></h2>
 
@@ -34,7 +34,7 @@
     <tr class="sf_admin_row <?php echo (++$i & 1)? 'odd':'even' ?>">
     
       <td><?php include_component('filebrowser', 'mimetype', array('mimetype'=>$item->getGuessedInternetMediaType())) ?></td>
-      <td><a name="<?php echo $item->getStat('ino') ?>"><?php echo $item->getBaseName() ?></a></td>
+      <td><a name="<?php echo $item->getStat('ino') ?>"></a><?php echo $item->getBaseName() ?></td>
       <td>
 	<?php if ($item->getFileType()!='directory'): ?>
 		<?php echo $item->getStat('size') ?>

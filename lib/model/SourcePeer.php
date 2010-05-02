@@ -20,4 +20,31 @@ require 'lib/model/om/BaseSourcePeer.php';
  */
 class SourcePeer extends BaseSourcePeer {
 
+  const
+    STATUS_READY = 1,
+    STATUS_EMAILSENT = 2,
+    STATUS_SCHEDULED = 3
+    ;
+    
+  public static function getStatusDescription($status)
+  {
+    $statuses=array(
+      self::STATUS_READY => 'Ready',
+      self::STATUS_EMAILSENT => 'Email sent',
+      self::STATUS_SCHEDULED => 'Scheduled',
+      );
+    return $statuses[$status];
+    
+  }
+  
+  public static function retrieveByTasklogEvent($id)
+  {
+    $c = new Criteria();
+    $c->add(SourcePeer::TASK_LOG_EVENT_ID, $id);
+    $c->clearSelectColumns();
+    $c->addGroupByColumn(SourcePeer::USER_ID);
+    $c->addAsColumn('USER_ID', 'MIN(' . SourcePeer::USER_ID . ')');
+    return SourcePeer::doSelect($c);
+  }
+
 } // SourcePeer

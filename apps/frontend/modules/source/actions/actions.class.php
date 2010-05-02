@@ -12,7 +12,14 @@ class sourceActions extends sfActions
 {
   public function executeIndex(sfWebRequest $request)
   {
-    $this->Sources = SourcePeer::doSelect(new Criteria());
+    $this->pager = new sfPropelPager(
+      'Source',
+      sfConfig::get('app_max_sources_per_page')
+    );
+    $this->pager->setCriteria($this->getUser()->getProfile()->getSourceCriteria());
+
+    $this->pager->setPage($request->getParameter('page', 1));
+    $this->pager->init();
   }
 
   public function executeShow(sfWebRequest $request)

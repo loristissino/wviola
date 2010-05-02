@@ -20,4 +20,33 @@ require 'lib/model/om/BaseTaskLogEvent.php';
  */
 class TaskLogEvent extends BaseTaskLogEvent {
 
+  public function retrieveUsersToSendEmailsTo()
+  {
+    // Couldn't figure out how to get this with Propel addGroupBy function
+    
+    $c = new Criteria();
+    $c->add(SourcePeer::TASK_LOG_EVENT_ID, $this->getId());
+    
+    $infos=SourcePeer::doSelect($c);
+    
+    $users=array();
+    
+    foreach($infos as $info)
+    {
+      $key=$info->getUserId();
+      if(!array_key_exists($key, $users))
+      {
+        $users[$key] = 1;
+      }
+      else
+      {
+        $users[$key]++;
+      }
+    }
+    
+    return $users;
+    
+  }
+
+
 } // TaskLogEvent

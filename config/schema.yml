@@ -111,7 +111,7 @@ propel:
 
   source:
     id: ~
-    user_id:  { type: integer, foreignTable: sf_guard_user_profile, foreignReference: user_id, required: true, onUpdate: cascade, onDelete: restrict }
+    user_id:  { type: integer, foreignTable: sf_guard_user_profile, foreignReference: user_id, required: true, onUpdate: cascade, onDelete: cascade }
     relative_path: { type: varchar(255), required: true }
     basename: { type: varchar(255), required: true }
     status: integer
