@@ -5,10 +5,16 @@
     <?php include_metas() ?>
     <?php include_title() ?>
     <link rel="shortcut icon" href="<?php echo sfConfig::get('app_config_website')?>/images/favicon.ico" />
+    <?php use_javascript('search.js') ?>
+    <?php use_helper('jQuery') ?>
+    <?php include_javascripts() 
+    /* the book says it could be at the end of the page for performance reasons 
+    but that way it doesn't work with FlowPlayer (which is not unobtrusive) */?>
   </head>
   <body>
     <div id="header"><?php echo sfConfig::get('app_config_organization') ?></div>
 	<div id="sf_admin_container">
+  <?php include_partial('welcome/searchbox') ?>
     <?php if ($sf_user->hasFlash('notice')): ?>
       <div class="notice"><?php echo $sf_user->getFlash('notice')?></div>
     <?php endif; ?>

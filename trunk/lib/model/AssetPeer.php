@@ -34,7 +34,46 @@ class AssetPeer extends BaseAssetPeer {
 		$c->add(AssetPeer::SOURCE_LMD5SUM, $md5sum);
 		return AssetPeer::doSelectOne($c);
 	}
+  
+  public static function doDeleteAll($con = null)
+  {
+    if (file_exists($index = Generic::getLuceneIndexFile('asset')))
+    {
+      sfToolkit::clearDirectory($index);
+      rmdir($index);
+    }
+   
+    return parent::doDeleteAll($con);
+  }
 
 
+  public static function getLuceneIndex()
+  {
+    return Generic::getLuceneIndex('asset');
+  }
+  
+  static public function getForLuceneQuery($query)
+  {
+    try
+    {
+      $hits = self::getLuceneIndex()->find($query);
+    }
+    catch (Exception $e)
+    {
+      return array();
+    }
+    
+    $pks = array();
+    foreach ($hits as $hit)
+    {
+      $pks[] = $hit->pk;
+    }
+   
+    $c = new Criteria();
+    $c->add(self::ID, $pks, Criteria::IN);
+    $c->setLimit(20);
+   
+    return self::doSelect($c);
+  }
 
 } // AssetPeer

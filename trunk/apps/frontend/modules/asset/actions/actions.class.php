@@ -11,6 +11,24 @@
 class assetActions extends sfActions
 {
   
+  public function executeSearch(sfWebRequest $request)
+  {
+    $this->forwardUnless($query = $request->getParameter('query'), 'asset', 'index');
+    $this->Assets = AssetPeer::getForLuceneQuery($query);
+    
+    if ($request->isXmlHttpRequest())
+    {
+      if ('*' == $query || !$this->Assets)
+      {
+        return $this->renderText('No results.');
+      }
+
+      return $this->renderPartial('asset/list', array('Assets' => $this->Assets));
+    }
+
+  }
+
+  
   public function executeIndex(sfWebRequest $request)
   {
 //    $this->Assets = AssetPeer::doSelect(new Criteria());
@@ -108,7 +126,7 @@ class assetActions extends sfActions
     $this->forward404Unless($Asset->hasVideoAsset());
     $this->forward404Unless($file=$Asset->getVideoAsset()->getVideoFile());
 
-    $Asset->logAccess($this->getUser()->getProfile()->getUserId(), $request->getCookie('wviola'));
+//    $Asset->logAccess($this->getUser()->getProfile()->getUserId(), $request->getCookie('wviola'));
 	
     $response=$this->getContext()->getResponse();
     $response->setHttpHeader('Pragma', '');

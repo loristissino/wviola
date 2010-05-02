@@ -15,7 +15,8 @@ On the file getting edited, enter the name of the directory and the svn source:
 Save.
 
 Run
-
+    svn ci -m 'added external plugin'
     svn update
     
 You're done.
+

@@ -28,6 +28,76 @@ class Asset extends BaseAsset {
 		4=> 'aud',
 		);
 
+
+  public function save(PropelPDO $con = null)
+  {
+    
+    if (is_null($con))
+    {
+    $con = Propel::getConnection(AssetPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
+    }
+    
+    $con->beginTransaction();
+    try
+    {
+      $ret = parent::save($con);
+      $this->updateLuceneIndex();
+      $con->commit();
+      return $ret;
+    }
+    catch (Exception $e)
+    {
+      $con->rollBack();
+      throw $e;
+    }
+  }
+  
+  public function delete(PropelPDO $con = null)
+{
+  $index = AssetPeer::getLuceneIndex();
+ 
+  foreach ($index->find('pk:'.$this->getId()) as $hit)
+  {
+    $index->delete($hit->id);
+  }
+ 
+  return parent::delete($con);
+}
+  
+  public function updateLuceneIndex()
+  {
+    $index = AssetPeer::getLuceneIndex();
+   
+    // remove existing entries
+    foreach ($index->find('pk:'.$this->getId()) as $hit)
+    {
+      $index->delete($hit->id);
+    }
+    /*
+    // don't index expired and non-activated jobs
+    if ($this->isExpired() || !$this->getIsActivated())
+    {
+      return;
+    }
+    */
+   
+    $doc = new Zend_Search_Lucene_Document();
+   
+    // store asset primary key to identify it in the search results
+    $doc->addField(Zend_Search_Lucene_Field::Keyword('pk', $this->getId()));
+   
+    // index asset fields
+    $doc->addField(Zend_Search_Lucene_Field::UnStored('notes', $this->getNotes(), 'utf-8'));
+    $doc->addField(Zend_Search_Lucene_Field::UnStored('title', $this->getAssignedTitle(), 'utf-8'));
+    $doc->addField(Zend_Search_Lucene_Field::UnStored('binder', $this->getBinder()->getNotes(), 'utf-8'));
+    $doc->addField(Zend_Search_Lucene_Field::Keyword('date', $this->getBinder()->getEventDate('%Y%m%d'), 'utf-8'));
+    
+    // add asset to the index
+    $index->addDocument($doc);
+    $index->commit();
+  }
+
+
 	public function __toString()
 	{
 		return sprintf('%d (%s)', $this->getId(), $this->getAssignedTitle());
