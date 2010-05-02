@@ -332,5 +332,23 @@ class Generic{
 			return $default;
 		}
 	}
+  
+  static public function getLuceneIndex($name)
+  {
+    ProjectConfiguration::registerZend();
+   
+    if (file_exists($index = self::getLuceneIndexFile($name)))
+    {
+      return Zend_Search_Lucene::open($index);
+    }
+   
+    return Zend_Search_Lucene::create($index);
+  }
+ 
+  static public function getLuceneIndexFile($name)
+  {
+    return sfConfig::get('sf_data_dir').'/' . $name . '.index';
+ //   return sfConfig::get('sf_data_dir').'/' . $name . '.' .sfConfig::get('sf_environment').'.index';
+  }
 
 }

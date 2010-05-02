@@ -1,3 +1,7 @@
+asset_search:
+  url: /search
+  param: { module: asset, action: search }
+
 sourcethumbnail:
   url:   /filebrowser/thumbnail/path/:path/basename/:basename/number/:number.:sf_format
   param: { module: filebrowser, action: thumbnail }

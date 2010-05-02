@@ -31,3 +31,5 @@ AssetPeer::retrieveByUniqid($uniqid)->logAccess($user_id, $cookie);
 
 $Asset=AssetPeer::retrieveByUniqid($uniqid);
 $t->is($Asset->countAccessLogEvents(), 2, '->logAccess() logs the access once per session');
+
+echo $Asset->getBinder()->getEventDate('%Y%m%d') . "\n";
