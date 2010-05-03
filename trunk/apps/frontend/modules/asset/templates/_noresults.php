@@ -1,0 +1,1 @@
+<p><?php echo __('No results.') ?></p>

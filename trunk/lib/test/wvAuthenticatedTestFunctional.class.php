@@ -17,13 +17,15 @@ class wvAuthenticatedTestFunctional extends sfTestFunctional
 	public function authenticate($username, $password, $click = 'sign in', $nameFormat = 'signin')  {
 		
 		$signin_url = sfConfig::get('sf_login_module','default').'/'.sfConfig::get('sf_login_action','default');
-		
-		return $this->get($signin_url)->click($click,
-			array($nameFormat => array(
-					'username' => $username,
-					'password' => $password
-			))
-		)->with('user')->isAuthenticated();
+    
+
+    return $this->get($signin_url)->click($click,
+      array($nameFormat => array(
+          'username' => $username,
+          'password' => $password
+      ))
+    )->with('user')->isAuthenticated();
+    
 	}
 	
 }

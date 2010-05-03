@@ -13,9 +13,3 @@ $tasklog_event=TaskLogEventPeer::doSelectOne($c);
 $data = SourcePeer::retrieveByTasklogEvent($tasklog_event->getId());
 
 $t->is(sizeof($data), 2, '::retrieveByTasklogEvent() returns the correct number of users');
-
-foreach($data as $record)
-{
-  echo $record->getsfGuardUserProfile()->getEmail() . "\n";
-}
-

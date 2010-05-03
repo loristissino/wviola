@@ -20,6 +20,14 @@ class sfGuardUserProfile extends BasesfGuardUserProfile
     return $c;
   }
   
+  public function getAssetCriteria()
+  {
+    $c = new Criteria();
+    $c->addJoin(AssetPeer::BINDER_ID, BinderPeer::ID);
+    $c->add(BinderPeer::USER_ID, $this->getUserId());
+    return $c;
+  }
+  
   public function getSourceCriteria()
   {
     $c = new Criteria();

@@ -31,7 +31,6 @@ class Asset extends BaseAsset {
 
   public function save(PropelPDO $con = null)
   {
-    
     if (is_null($con))
     {
     $con = Propel::getConnection(AssetPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
@@ -90,7 +89,9 @@ class Asset extends BaseAsset {
     $doc->addField(Zend_Search_Lucene_Field::UnStored('notes', $this->getNotes(), 'utf-8'));
     $doc->addField(Zend_Search_Lucene_Field::UnStored('title', $this->getAssignedTitle(), 'utf-8'));
     $doc->addField(Zend_Search_Lucene_Field::UnStored('binder', $this->getBinder()->getNotes(), 'utf-8'));
-    $doc->addField(Zend_Search_Lucene_Field::Keyword('date', $this->getBinder()->getEventDate('%Y%m%d'), 'utf-8'));
+    $doc->addField(Zend_Search_Lucene_Field::Unstored('date', $this->getBinder()->getEventDate('%Y%m%d'), 'utf-8'));
+    $doc->addField(Zend_Search_Lucene_Field::Unstored('type', $this->getAssetTypeCode(), 'utf-8'));
+    $doc->addField(Zend_Search_Lucene_Field::Unstored('category', $this->getBinder()->getCategoryId(), 'utf-8'));
     
     // add asset to the index
     $index->addDocument($doc);
@@ -201,6 +202,16 @@ class Asset extends BaseAsset {
     
   }
   
+  public function updateValuesFromForm($values)
+  {
+    $this
+    ->setBinderId($values['binder_id'])
+    ->setNotes($values['notes'])
+    ->setAssignedTitle($values['assigned_title'])
+    ->save();
+    
+    return $this;
+  }
   
 
 } // Asset

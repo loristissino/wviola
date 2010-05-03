@@ -80,11 +80,22 @@ Asset:
     source_file_datetime: 11/<?php echo $i ?>/2009
 <?php endfor ?>
 
-<?php for($i=18; $i<=30; $i++): ?>
+<?php for($i=18; $i<=25; $i++): ?>
   asset<?php echo $i ?>:
     uniqid: photoalbum2009_<?php echo sprintf('%08d', $i) . "\n" ?>
     asset_type: 3
     binder_id: binder3
+    source_filename: PhotoAlbum<?php echo $i ?>.zip
+    assigned_title: Photo Album number <?php echo $i . "\n"?>
+    notes: 
+    source_file_datetime: 11/<?php echo $i ?>/2009
+<?php endfor ?>
+
+<?php for($i=26; $i<=30; $i++): ?>
+  asset<?php echo $i ?>:
+    uniqid: photoalbum2009_<?php echo sprintf('%08d', $i) . "\n" ?>
+    asset_type: 3
+    binder_id: binder4
     source_filename: PhotoAlbum<?php echo $i ?>.zip
     assigned_title: Photo Album number <?php echo $i . "\n"?>
     notes: 

@@ -65,8 +65,12 @@
   </tbody>
 </table>
 
-<hr />
-
-<a href="<?php echo url_for('asset/edit?id='.$Asset->getId()) ?>">Edit</a>
-&nbsp;
-<a href="<?php echo url_for('asset/index') ?>">List</a>
+<?php if($editable): ?>
+<ul class="sf_admin_td_actions">
+<li class="sf_admin_action_edit"><?php echo link_to(
+  __('Edit'),
+  url_for('asset/edit?id='.$Asset->getId())
+  )
+?></li>
+</ul>
+<?php endif ?>

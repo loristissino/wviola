@@ -56,7 +56,8 @@ class AssetPeer extends BaseAssetPeer {
   {
     try
     {
-      $hits = self::getLuceneIndex()->find($query);
+      // Lucene outputs a notice if the query is malformed... 
+      $hits = @self::getLuceneIndex()->find($query);
     }
     catch (Exception $e)
     {
