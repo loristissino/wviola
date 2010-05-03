@@ -55,5 +55,9 @@ class welcomeActions extends sfActions
 	
   }
 
+  public function executeTest404(sfWebRequest $request)
+  {
+    $this->forward404();
+  }
 
 }

@@ -13,14 +13,15 @@ class assetActions extends sfActions
   
   public function executeSearch(sfWebRequest $request)
   {
-    $this->forwardUnless($query = $request->getParameter('query'), 'asset', 'index');
-    $this->Assets = AssetPeer::getForLuceneQuery($query);
+//    $this->forwardUnless($query = $request->getParameter('query'), 'asset', 'index');
+    $this->query = $request->getParameter('query');
+    $this->Assets = AssetPeer::getForLuceneQuery($this->query);
     
     if ($request->isXmlHttpRequest())
     {
-      if ('*' == $query || !$this->Assets)
+      if ('*' == $this->query || !$this->Assets)
       {
-        return $this->renderText('No results.');
+        return $this->renderPartial('asset/noresults');
       }
 
       return $this->renderPartial('asset/list', array('Assets' => $this->Assets));
@@ -36,6 +37,8 @@ class assetActions extends sfActions
       'Asset',
       sfConfig::get('app_max_assets_per_page')
     );
+    
+    $this->pager->setCriteria($this->getUser()->getProfile()->getAssetCriteria());
 
     $this->pager->setPage($request->getParameter('page', 1));
     $this->pager->init();
@@ -45,6 +48,8 @@ class assetActions extends sfActions
   {
     $this->Asset = AssetPeer::retrieveByPk($request->getParameter('id'));
     $this->forward404Unless($this->Asset);
+    $this->editable=$this->getUser()->getProfile()->getUserId()===$this->Asset->getBinder()->getUserId();
+    
   }
 
   public function executeNew(sfWebRequest $request)
@@ -71,25 +76,32 @@ class assetActions extends sfActions
 
     $this->setTemplate('new');
   }
-/*
+  
   public function executeEdit(sfWebRequest $request)
   {
     $this->forward404Unless($Asset = AssetPeer::retrieveByPk($request->getParameter('id')), sprintf('Object Asset does not exist (%s).', $request->getParameter('id')));
-    $this->form = new AssetForm($Asset);
+    $this->forward404Unless($Asset->getBinder()->getUserId()==$this->getUser()->getProfile()->getUserId());
+    
+    $this->form = new AssetForm($this->getUser()->getProfile()->getUserId());
+    $this->form
+    ->setDefault('id', $Asset->getId())
+    ->setDefault('binder_id', $Asset->getBinderId())
+    ->setDefault('assigned_title', $Asset->getAssignedTitle())
+    ->setDefault('notes', $Asset->getNotes())
+    ;
   }
-*/
-/*
+
   public function executeUpdate(sfWebRequest $request)
   {
     $this->forward404Unless($request->isMethod(sfRequest::POST) || $request->isMethod(sfRequest::PUT));
-    $this->forward404Unless($Asset = AssetPeer::retrieveByPk($request->getParameter('id')), sprintf('Object Asset does not exist (%s).', $request->getParameter('id')));
-    $this->form = new AssetForm($Asset);
+    $this->forward404Unless($this->Asset = AssetPeer::retrieveByPk($request->getParameter('id')), sprintf('Object Asset does not exist (%s).', $request->getParameter('id')));
+    $this->forward404Unless($this->Asset->getBinder()->getUserId()==$this->getUser()->getProfile()->getUserId());
+    $this->form = new AssetForm($this->getUser()->getProfile()->getUserId());
 
     $this->processForm($request, $this->form);
 
     $this->setTemplate('edit');
   }
-*/
 /*
   public function executeDelete(sfWebRequest $request)
   {
@@ -147,31 +159,46 @@ class assetActions extends sfActions
 
 
 
-  protected function processForm(sfWebRequest $request, sfForm $form, SourceFile $sourcefile)
+  protected function processForm(sfWebRequest $request, sfForm $form, SourceFile $sourcefile=null)
   {
-    
-    $filename=$sourcefile->getBaseName();
+    if ($sourcefile)
+    {
+      $filename=$sourcefile->getBaseName();
+    }
     $form->bind($request->getParameter($form->getName()), $request->getFiles($form->getName()));
     if ($form->isValid())
     {
-      $Asset = new Asset();
-      try
+      if (!$this->Asset) // it's getting scheduled
       {
-        $Asset->scheduleSourceFileForArchiviation(
-          $this->getUser()->getProfile()->getUserId(),
-          $sourcefile,
-          $form->getValues()
-          );
+        $Asset = new Asset();
+        try
+        {
+          $Asset->scheduleSourceFileForArchiviation(
+            $this->getUser()->getProfile()->getUserId(),
+            $sourcefile,
+            $form->getValues()
+            );
+          $this->getUser()->setFlash('notice', $this->getContext()->getI18N()->__('Source file «%filename%» correctly scheduled for archiviation.', array('%filename%'=>$filename)));
+          $this->redirect('filebrowser/index');
+        }
+        catch (Exception $e)
+        {
+          $this->getUser()->setFlash('error', 'Something went wrong.' . ' ' . $e->getMessage());
+          $this->redirect('filebrowser/index');
+        }
       }
-      catch (Exception $e)
+      else // it's a data update
       {
-        $this->getUser()->setFlash('error', 'Something went wrong.' . ' ' . $e->getMessage());
-        $this->redirect('filebrowser/index');
+        try
+        {
+          $this->Asset->updateValuesFromForm($form->getValues());
+        }
+        catch (Exception $e)
+        {
+          $this->getUser()->setFlash('error', 'Sorry, Could not update data.');
+          $this->redirect('asset/show?id='. $Asset->getId());
+        }
       }
-      
-      $this->getUser()->setFlash('notice', $this->getContext()->getI18N()->__('Source file «%filename%» correctly scheduled for archiviation.', array('%filename%'=>$filename)));
-      $this->redirect('filebrowser/index');
-      
     }
   }
 }

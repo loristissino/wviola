@@ -14,7 +14,6 @@
   <body>
     <div id="header"><?php echo sfConfig::get('app_config_organization') ?></div>
 	<div id="sf_admin_container">
-  <?php include_partial('welcome/searchbox') ?>
     <?php if ($sf_user->hasFlash('notice')): ?>
       <div class="notice"><?php echo $sf_user->getFlash('notice')?></div>
     <?php endif; ?>
@@ -22,9 +21,8 @@
       <div class="error"><?php echo $sf_user->getFlash('error')?></div>
     <?php endif; ?>
     <?php echo $sf_content ?>
+	  <?php include_component('welcome', 'info') ?>
 	</div>
-	<hr />
-	<?php include_component('welcome', 'info') ?>
 	<div class="tagline">
 	<p><a href="http://code.google.com/p/wviola">WVIOLA</a></p>
 	</div>

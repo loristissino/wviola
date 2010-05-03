@@ -2,20 +2,20 @@ Binder:
   binder1:
     user_id: matthew
     category_id: ch
-    notes: First binder
+    notes: Spring
     event_date: 12/21/2009
   binder2:
     user_id: matthew
     category_id: ch
-    notes: Second binder
+    notes: Summer
     event_date: 12/22/2009
   binder3:
     user_id: matthew
     category_id: ot
-    notes: Third binder
+    notes: Autumn
     event_date: 12/23/2009
   binder4:
     user_id: andreas
     category_id: op
-    notes: Fourth binder
+    notes: Winter
     event_date: 12/24/2009

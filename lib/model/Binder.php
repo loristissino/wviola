@@ -43,5 +43,35 @@ class Binder extends BaseBinder {
     $c->add(AssetPeer::BINDER_ID, $this->getId());
     return $c;
   }
+  
+  public function save(PropelPDO $con = null)
+  {
+    if (is_null($con))
+    {
+    $con = Propel::getConnection(BinderPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
+    }
+    
+    $con->beginTransaction();
+    try
+    {
+      $ret = parent::save($con);
+      $this->updateLuceneIndex();
+      $con->commit();
+      return $ret;
+    }
+    catch (Exception $e)
+    {
+      $con->rollBack();
+      throw $e;
+    }
+  }
+  
+  public function updateLuceneIndex()
+  {
+    foreach ($this->getAssets() as $Asset)
+    {
+      $Asset->updateLuceneIndex();
+    }
+  }
 
 } // Binder

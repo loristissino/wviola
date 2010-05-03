@@ -29,7 +29,7 @@
 
 */ ?>
 
-<form action="<?php echo url_for('asset/'.($form->getObject()->isNew() ? 'create' : 'update').(!$form->getObject()->isNew() ? '?id='.$form->getObject()->getId() : '')) ?>" method="post" <?php $form->isMultipart() and print 'enctype="multipart/form-data" ' ?>>
+<form action="<?php echo url_for('asset/'.(!$form['id']->getValue() ? 'create' : 'update').($form['id']->getValue() ? '?id='.$form['id']->getValue() : '')) ?>" method="post" <?php $form->isMultipart() and print 'enctype="multipart/form-data" ' ?>>
 <?php if (!$form->getObject()->isNew()): ?>
 <input type="hidden" name="sf_method" value="put" />
 <?php endif; ?>
@@ -38,11 +38,11 @@
       <tr>
         <td colspan="2">
           <?php echo $form->renderHiddenFields(false) ?>
-          &nbsp;<a href="<?php echo url_for('filebrowser/index') ?>">Back to files</a>
+          
           <?php if (!$form->getObject()->isNew()): ?>
             &nbsp;<?php echo link_to('Delete', 'asset/delete?id='.$form->getObject()->getId(), array('method' => 'delete', 'confirm' => 'Are you sure?')) ?>
           <?php endif; ?>
-          <input type="submit" value="Archive" />
+          <input type="submit" value="<?php echo $form['id']->getValue()? __('Save'): __('Archive') ?>" />
         </td>
       </tr>
     </tfoot>
@@ -74,13 +74,6 @@
         <td>
           <?php echo $form['notes']->renderError() ?>
           <?php echo $form['notes'] ?>
-        </td>
-      </tr>
-      <tr>
-        <th><?php echo $form['thumbnail']->renderLabel() ?></th>
-        <td>
-          <?php echo $form['thumbnail']->renderError() ?>
-          <?php echo $form['thumbnail'] ?>
         </td>
       </tr>
 

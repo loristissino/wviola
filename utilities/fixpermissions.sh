@@ -22,3 +22,5 @@ chmod +x *
 chmod +x  "$BASEDIR/symfony"
 
 rm -rfv "$BASEDIR/data/filesystem"
+
+rm -rfv "$BASEDIR/data/asset.index"

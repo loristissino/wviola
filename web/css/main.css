@@ -8,6 +8,14 @@ color: red;
 color: blue;	
 }
 
+.searchhelp
+{
+	color:#2D5AC3;
+	font-weight:normal;		
+	margin-bottom:10px;
+	font-style:italic;
+}
+
 
 #sf_admin_container ul li.sf_admin_action_opendir a
 {
@@ -27,4 +35,24 @@ color: blue;
 #sf_admin_container ul li.sf_admin_action_playvideo a
 {
   background: url(../images/asset_playvideo.png) no-repeat 0 0;
+}
+
+#sf_admin_container ul li.sf_admin_action_search a
+{
+  background: url(../images/search.png) no-repeat 0 0;
+}
+
+#sf_admin_container ul li.sf_admin_action_binders a
+{
+  background: url(../images/binders.png) no-repeat 0 0;
+}
+
+#sf_admin_container ul li.sf_admin_action_assets a
+{
+  background: url(../images/assets.png) no-repeat 0 0;
+}
+
+#sf_admin_container ul li.sf_admin_action_sources a
+{
+  background: url(../images/sources.png) no-repeat 0 0;
 }
