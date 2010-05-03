@@ -1,13 +1,13 @@
 <table>
   <thead>
     <tr>
-      <th>Type</th>
-      <th>Thumbnail</th>
-      <th>Title</th>
-      <th>Binder</th>
-      <th>Notes</th>
-      <th>Duration</th>
-      <th>Date</th>
+      <th><?php echo __('Type') ?></th>
+      <th><?php echo __('Thumbnail') ?></th>
+      <th><?php echo __('Title') ?></th>
+      <th><?php echo __('Binder') ?></th>
+      <th><?php echo __('Notes') ?></th>
+      <th><?php echo __('Duration') ?></th>
+      <th><?php echo __('Date') ?></th>
     </tr>
   </thead>
   <tbody>
