@@ -1,4 +1,6 @@
 <?php
+//http://forum.symfony-project.org/index.php/m/96085/
+ob_start();
 
 include(dirname(__FILE__).'/../../bootstrap/functional.php');
 

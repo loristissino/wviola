@@ -5,14 +5,5 @@
 <?php include_partial('asset/list', array('Assets'=>$pager->getResults())) ?>
 <?php endif ?>
 
-<?php if ($sf_user->hasCredential('video_encode')): ?>
-<?php echo link_to(
-  __('New asset'),
-  url_for('filebrowser/index'),
-  array(
-    'title'=>__('Add a new asset by choosing a file to encode/transform'),
-    )
-  )
-?>
-<?php endif ?>
+
   
