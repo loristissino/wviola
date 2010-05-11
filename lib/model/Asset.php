@@ -8,7 +8,9 @@ require 'lib/model/om/BaseAsset.php';
  * @package    lib.model
  */
 class Asset extends BaseAsset {
-  
+
+  // see http://code.google.com/p/wviola/wiki/Asset for details
+
     const
       SCHEDULED = 1,
       CACHED = 2,
@@ -199,9 +201,12 @@ class Asset extends BaseAsset {
         $sourcefile->getRelativePath(),
         $sourcefile->getBaseName()
         );
-      $Source
-      ->setStatus(SourcePeer::STATUS_SCHEDULED)
-      ->save();
+      if ($Source)
+      {
+        $Source
+        ->setStatus(SourcePeer::STATUS_SCHEDULED)
+        ->save();
+      }
 
       return true;
     }
@@ -224,6 +229,38 @@ class Asset extends BaseAsset {
     ->save();
     
     return $this;
+  }
+  
+  
+  public function publish()
+  {
+    try
+    {
+      $command=sprintf('publishasset %s "%s" "%s" "%s" "%s"',
+          $this->getAssetTypeCode(),
+          wvConfig::get('directory_scheduled') . '/' . $this->getUniqId(),
+          wvConfig::get('directory_published_assets') . '/'. $this->getUniqId(),
+          wvConfig::get('directory_iso_cache') . '/' . $this->getUniqId(),
+          wvConfig::get('directory_trash')
+          );
+
+      echo $command;
+      $info = Generic::executeCommand($command, true);
+      
+      $videoAsset = new VideoAsset();
+      $videoAsset
+      ->setAssetId($this->getId())
+      ->setLowQualityWidth(320)
+      ->setLowQualityHeight(240)
+      ->save();
+      
+    }
+    catch (Exception $e)
+    {
+      //FIXME
+      return false;
+    }
+    
   }
   
 

@@ -1,0 +1,20 @@
+#!/bin/bash
+# This will publish an asset, converting it to low quality (e.g., flash video) and high quality (e.g. OGV)
+
+if [[ $# -ne 5 ]]; then
+	echo $0 type source target_low_quality target_high_quality trash_dir
+	exit 1
+fi
+
+ASSET_TYPE=$1
+SOURCE="$2"
+TARGET_LOW_QUALITY="$3"
+TARGET_HIGH_QUALITY="$4"
+TRASH_DIR="$5"
+
+case $ASSET_TYPE in
+'video')
+    ffmpeg -i "$SOURCE" -ar 22050 -ab 32000 -f flv -s 320x240 "$TARGET_LOW_QUALITY".flv
+    mv "$SOURCE" "$TRASH_DIR"
+    ;;
+esac

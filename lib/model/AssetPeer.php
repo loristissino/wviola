@@ -20,6 +20,16 @@
  */
 class AssetPeer extends BaseAssetPeer {
 
+
+
+  public static function retrieveByStatus($status)
+  {
+		$c=new Criteria();
+		$c->add(AssetPeer::STATUS, $status);
+		return AssetPeer::doSelect($c);
+  }
+
+
 	public static function retrieveByUniqid($uniqid)
 	{
 		$c=new Criteria();

@@ -30,6 +30,11 @@ thumbnail:
   height: 45
   # the size of the thumbnail to prepare  
 
+command:
+  video_width: 320
+  video_height: 240
+  video_low_quality: ffmpeg -i "%source%" -ar 22050 -ab 32000 -f flv -s %width%x%height% "%target%"
+
 filebrowser:
   md5sum_limit: f
   white_list: [ '/png$/i', '/jpg$/i', '/mov$/i', '/mpeg$/i', '/mpg$/i', '/avi$/i' ]
