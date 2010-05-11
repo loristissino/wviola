@@ -109,17 +109,19 @@ EOF;
 			$this->logSection('file+', $file->getWvInfoFilePath(), null, 'INFO');
       
       $user = sfGuardUserProfilePeer::getByUsername($file->getOwner());
-      $source = new Source();
-      $source
-      ->setUserId($user->getId())
-      ->setRelativePath($file->getRelativePath())
-      ->setBasename($file->getBasename())
-      ->setStatus(SourcePeer::STATUS_READY)
-      ->setInode($file->getStat('ino'))
-      ->setTaskLogEventId($this->_logEvent)
-      ->save();
-      $this->logSection('db+', $user->getUsername(), null, 'INFO');
-      
+      if($user)
+      {
+        $source = new Source();
+        $source
+        ->setUserId($user->getId())
+        ->setRelativePath($file->getRelativePath())
+        ->setBasename($file->getBasename())
+        ->setStatus(SourcePeer::STATUS_READY)
+        ->setInode($file->getStat('ino'))
+        ->setTaskLogEventId($this->_logEvent)
+        ->save();
+        $this->logSection('db+', $user->getUsername(), null, 'INFO');
+      }
 		}
 		else
 		{
