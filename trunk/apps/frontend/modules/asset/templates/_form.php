@@ -76,6 +76,15 @@
           <?php echo $form['notes'] ?>
         </td>
       </tr>
+      <?php if($form->getOption('thumbnail')): ?>
+        <tr>
+          <th><?php echo $form['thumbnail']->renderLabel() ?></th>
+          <td>
+            <?php echo $form['thumbnail']->renderError() ?>
+            <?php echo $form['thumbnail'] ?>
+          </td>
+        </tr>
+      <?php endif ?>
 
     </tbody>
   </table>

@@ -11,10 +11,40 @@
 class assetActions extends sfActions
 {
   
+  protected function luceneBuildQuery($values)
+  {
+    $query='';
+    foreach(array('title', 'notes', 'binder', 'date') as $field)
+    {
+      if(array_key_exists($field, $values) && $values[$field]!='')
+      {
+        $query.=sprintf('%s:"%s"', $field, $values[$field]);
+      }
+    }
+      return $query;
+  }
+  
+  
+  public function executeAdvancedsearch(sfWebRequest $request)
+  {
+    $this->form = new AdvancedSearchForm($request->getParameter('query'));
+    
+    if ($request->getParameter('actionrequested')=='search')
+    {
+      $this->form->bind($request->getParameter('query'));
+      if ($this->form->isValid())
+      {
+        $this->redirect('asset/search?query='.$this->luceneBuildQuery($this->form->getValues()));
+      }
+
+    }
+//    $this->form = new AdvancedSearchForm($request->getParameter('query'));
+  }
+  
   public function executeSearch(sfWebRequest $request)
   {
-//    $this->forwardUnless($query = $request->getParameter('query'), 'asset', 'index');
     $this->query = $request->getParameter('query');
+    
     $this->Assets = AssetPeer::getForLuceneQuery($this->query);
     
     if ($request->isXmlHttpRequest())
@@ -59,6 +89,7 @@ class assetActions extends sfActions
     $this->form = new AssetForm($this->getUser()->getProfile()->getUserId());
     $this->form->addThumbnailWidget($this->sourcefile, $this->getContext());
     $this->form->setDefault('thumbnail', $request->getParameter('thumbnail', 0));
+    $this->form->setOption('thumbnail', true);
     
     $this->binderform = new BinderForm();
   }
@@ -72,6 +103,7 @@ class assetActions extends sfActions
 
     $this->form = new AssetForm($this->getUser()->getProfile()->getUserId());
     $this->form->addThumbnailWidget($this->sourcefile, $this->getContext());
+    $this->form->setOption('thumbnail', true);
     $this->processForm($request, $this->form, $this->sourcefile);
 
     $this->setTemplate('new');
@@ -89,6 +121,8 @@ class assetActions extends sfActions
     ->setDefault('assigned_title', $Asset->getAssignedTitle())
     ->setDefault('notes', $Asset->getNotes())
     ;
+    
+    $this->form->setOption('thumbnail', false);
   }
 
   public function executeUpdate(sfWebRequest $request)
@@ -171,27 +205,27 @@ class assetActions extends sfActions
       if (!$this->Asset) // it's getting scheduled
       {
         $Asset = new Asset();
-        try
+        if ($Asset->scheduleSourceFileForArchiviation(
+          $this->getUser()->getProfile()->getUserId(),
+          $sourcefile,
+          $form->getValues()
+          ))
         {
-          $Asset->scheduleSourceFileForArchiviation(
-            $this->getUser()->getProfile()->getUserId(),
-            $sourcefile,
-            $form->getValues()
-            );
           $this->getUser()->setFlash('notice', $this->getContext()->getI18N()->__('Source file «%filename%» correctly scheduled for archiviation.', array('%filename%'=>$filename)));
-          $this->redirect('filebrowser/index');
         }
-        catch (Exception $e)
+        else
         {
-          $this->getUser()->setFlash('error', 'Something went wrong.' . ' ' . $e->getMessage());
-          $this->redirect('filebrowser/index');
+          $this->getUser()->setFlash('error', 'Something went wrong with scheduling.' . ' ' . $e->getMessage());
         }
+          
+        $this->redirect('filebrowser/index');
       }
       else // it's a data update
       {
         try
         {
           $this->Asset->updateValuesFromForm($form->getValues());
+          $this->getUser()->setFlash('notice', $this->getContext()->getI18N()->__('Data updated'));
         }
         catch (Exception $e)
         {

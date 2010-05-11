@@ -28,7 +28,7 @@
       <td>
 		<?php include_partial('asset/duration', array('Asset'=>$Asset)) ?>
 	  </td>
-      <td><?php echo $Asset->getUpdatedAt() ?></td>
+      <td><?php echo $Asset->getBinder()->getEventDate() ?></td>
     </tr>
     <?php endforeach; ?>
   </tbody>

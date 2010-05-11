@@ -142,7 +142,7 @@
       </trans-unit>
       <trans-unit id="35">
         <source>Archive asset «%filename%»</source>
-        <target>Archivia l'originle «%filename%»</target>
+        <target>Archivia l'originale «%filename%»</target>
       </trans-unit>
       <trans-unit id="36">
         <source>Basic information</source>
