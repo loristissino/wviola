@@ -46,5 +46,13 @@ class SourcePeer extends BaseSourcePeer {
     $c->addAsColumn('USER_ID', 'MIN(' . SourcePeer::USER_ID . ')');
     return SourcePeer::doSelect($c);
   }
+  
+  public static function retrieveByPathAndBasename($path, $basename)
+  {
+    $c = new Criteria();
+    $c->add(SourcePeer::RELATIVE_PATH, $path);
+    $c->add(SourcePeer::BASENAME, $basename);
+    return SourcePeer::doSelectOne($c);
+  }
 
 } // SourcePeer

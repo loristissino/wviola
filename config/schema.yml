@@ -112,12 +112,14 @@ propel:
   source:
     id: ~
     user_id:  { type: integer, foreignTable: sf_guard_user_profile, foreignReference: user_id, required: true, onUpdate: cascade, onDelete: cascade }
-    relative_path: { type: varchar(255), required: true }
-    basename: { type: varchar(255), required: true }
+    relative_path: { type: varchar(255), required: true, index: true }
+    basename: { type: varchar(255), required: true, index: true }
     status: integer
     inode: bigint
     task_log_event_id: ~
     created_at: ~
+    _indexes:
+      pb: [ relative_path, basename ]
 
 # Why 34 chars for md5sums?
 # Dealing with big files (like video assets), it takes a long time to compute

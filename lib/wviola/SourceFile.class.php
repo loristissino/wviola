@@ -397,29 +397,18 @@ class SourceFile extends BasicFile
   {
     $uniqid=uniqid($prefix, true);
     
-    try
-    {
-      rename(
+    if (!rename(
         $this->getFullPath(),
         wvConfig::get('directory_scheduled') . '/' . $uniqid
-        );
-    }
-    catch (Exception $e)
+        ))
     {
       return false;
     }
 
-    try
-    {
-      unlink($this->getWvInfoFilePath());
-    }
-    catch (Exception $e)
+    if (!@unlink($this->getWvInfoFilePath()))
     {
       //TODO: write to an error log file or DB table...
     }
-
-
-    
     
     return $uniqid;
   }

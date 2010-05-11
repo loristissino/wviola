@@ -1,4 +1,4 @@
-<?php include_partial('welcome/searchbox') ?>
+<?php include_partial('welcome/searchbox', array('query'=>$query)) ?>
 <?php if(sizeof($Assets)>0): ?>
 <h2>Search results</h2>
 <?php endif ?>

@@ -193,10 +193,23 @@ class Asset extends BaseAsset {
       ->setAssignedTitle($values['assigned_title'])
       ->setStatus(self::SCHEDULED)
       ->save();
+      
+      // FIXME This should be put in a transaction
+      $Source = SourcePeer::retrieveByPathAndBasename(
+        $sourcefile->getRelativePath(),
+        $sourcefile->getBaseName()
+        );
+      $Source
+      ->setStatus(SourcePeer::STATUS_SCHEDULED)
+      ->save();
+
+      return true;
     }
     else
     {
       throw new Exception(sprintf('Could not move file «%s» to Scheduled directory', $fullpath));
+      return false;
+
     }
     
     

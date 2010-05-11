@@ -288,6 +288,12 @@ COMMENT ON TABLE "source" IS '';
 
 
 SET search_path TO public;
+CREATE INDEX "source_I_1" ON "source" ("relative_path");
+
+CREATE INDEX "source_I_2" ON "source" ("basename");
+
+CREATE INDEX "pb" ON "source" ("relative_path","basename");
+
 ALTER TABLE "sf_guard_user_profile" ADD CONSTRAINT "sf_guard_user_profile_FK_1" FOREIGN KEY ("user_id") REFERENCES "sf_guard_user" ("id") ON UPDATE CASCADE ON DELETE CASCADE;
 
 ALTER TABLE "asset" ADD CONSTRAINT "asset_FK_1" FOREIGN KEY ("binder_id") REFERENCES "binder" ("id");

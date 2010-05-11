@@ -2,6 +2,14 @@ asset_search:
   url: /search
   param: { module: asset, action: search }
 
+asset_empty_advancedsearch:
+  url: /advancedsearch
+  param: { module: asset, action: advancedsearch }
+
+asset_filled_advancedsearch:
+  url: /advancedsearch/query/:query
+  param: { module: asset, action: advancedsearch }
+
 sourcethumbnail:
   url:   /filebrowser/thumbnail/path/:path/basename/:basename/number/:number.:sf_format
   param: { module: filebrowser, action: thumbnail }
