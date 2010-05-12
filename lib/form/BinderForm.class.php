@@ -38,5 +38,13 @@ class BinderForm extends BaseBinderForm
     
     $this->validatorSchema['embedded'] = new sfValidatorPass();
 
+    $this->validatorSchema['notes'] = new sfValidatorString(array(
+      'required' => true,
+    ));
+
+    $this->validatorSchema['category_id'] = new sfValidatorPropelChoice(array('model' => 'Category', 'column' => 'id', 'required' => true));
+    
+    $this->validatorSchema['event_date'] = new sfValidatorDate(array('required' => true));
+
   }
 }

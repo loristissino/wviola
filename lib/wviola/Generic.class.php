@@ -218,7 +218,7 @@ class Generic{
 				$command=wvConfig::get('directory_executables') . '/'. $command;
 			}
 			
-			$debug=true;
+			$debug=false;
 			
 			$info=array();
 			$result=array();

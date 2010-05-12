@@ -37,7 +37,7 @@ command:
 
 filebrowser:
   md5sum_limit: f
-  white_list: [ '/png$/i', '/jpg$/i', '/mov$/i', '/mpeg$/i', '/mpg$/i', '/avi$/i' ]
+  white_list: [ '/png$/i', '/jpg$/i', '/mov$/i', '/mpeg$/i', '/mpg$/i', '/avi$/i', '/ogv$/' ]
   # regular expressions to use with filenames: only files matching are scanned
 
 mail:
