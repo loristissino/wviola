@@ -2,17 +2,16 @@
 
 = Lista delle cose ancora da fare =
 
-1. Completare il task di sincronizzazione utenti da server LDAP
-2. Fare in modo che un raccoglitore possa essere considerato chiuso dopo un certo numero di giorni
-3. Scrivere un task che raccolga in ordine cronologico i raccoglitori chiusi e prepari, al raggiungimento di una certa soglia, le immagini ISO dei DVD da produrre
-4. Mettere nell'immagine ISO anche un file HTML che funzioni da indice per il DVD-ROM
-5. Fare in modo che l'utente possa scegliere solo tra i propri raccoglitori ancora aperti, quando deve archiviare un asset.
-6. Completare lo script del task di archiviazione, che faccia il lavoro anche di produzione dei video ad alta risoluzione da mettere via
-7. Creare per tutte le immagini di uno stesso utente in una stessa cartella, un file zip (photoalbum) da archiviare
-8. Pensare ad un modo per presentare l'album a bassa risoluzione (equivalente al formato flash per i video). Questo dipende dalla dimensione delle foto e dell'album.
-9. Predisporre un task che, partendo dal file di configurazione, generi gli script bash che richiamano i comandi per l'archiviazione ad alta qualità e a bassa qualità
-10. Scrivere documentazione sul funzionamento del motore di ricerca integrato
-11. Controllare la correttezza della documentazione sul Wiki
-12. Predisporre i test funzionali
-
+  # Completare il task di sincronizzazione utenti da server LDAP
+  # Fare in modo che un raccoglitore possa essere considerato chiuso dopo un certo numero di giorni
+  # Scrivere un task che raccolga in ordine cronologico i raccoglitori chiusi e prepari, al raggiungimento di una certa soglia, le immagini ISO dei DVD da produrre
+  # Mettere nell'immagine ISO anche un file HTML che funzioni da indice per il DVD-ROM
+  # Fare in modo che l'utente possa scegliere solo tra i propri raccoglitori ancora aperti, quando deve archiviare un asset.
+  # Completare lo script del task di archiviazione, che faccia il lavoro anche di produzione dei video ad alta risoluzione da mettere via
+  # Creare per tutte le immagini di uno stesso utente in una stessa cartella, un file zip (photoalbum) da archiviare
+  # Pensare ad un modo per presentare l'album a bassa risoluzione (equivalente al formato flash per i video). Questo dipende dalla dimensione delle foto e dell'album.
+  # Predisporre un task che, partendo dal file di configurazione, generi gli script bash che richiamano i comandi per l'archiviazione ad alta qualità e a bassa qualità
+  # Scrivere documentazione sul funzionamento del motore di ricerca integrato
+  # Controllare la correttezza della documentazione sul Wiki
+  # Predisporre i test funzionali
 
