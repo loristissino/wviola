@@ -138,24 +138,21 @@ Tutti i task devono essere eseguiti specificando l'ambiente di esecuzione (il de
 
 Tutti i file soggetti a configurazione personalizzata vengono forniti con il suffisso _-dist_. Essi devono essere copiati con lo stesso nome, senza il suffisso, in modo che non vengano sovrascritti in occasione degli aggiornamenti.
 
+Nella directory _utilities_ c'è uno script (_fix\_dist\_files_) che mostra quali sono i file che vanno creati a partire dal file _-dist_ corrispondente.
+
 Esempio:
 
 {{{
-$ find . -name '*-dist'
-./config/app.yml-dist
-./config/databases.yml-dist
-./config/wviola.yml-dist
-
-...
-
-cp config/app.yml-dist config/app.yml
-cp config/databases.yml-dist config/databases.yml
-cp config/wviola.yml-dist config/wviola.yml
+$ utilities/fix_dist_files.sh 
+OK:         ./apps/frontend/config/app.yml
+MISSING:    ./apps/frontend/config/factories.yml
+OK:         ./templates/email/sourcesready.txt
+OK:         ./config/app.yml
+OK:         ./config/databases.yml
+OK:         ./config/wviola.yml
 }}}
 
 Nota: probabilmente sarebbe meglio avere i file di configurazione sotto _/etc_, in modo da rispettare le indicazioni del [http://www.pathname.com/fhs/ Filesystem Hierarchy Standard]. Si può fare, creando poi dei link simbolici nelle posizioni corrispondenti sotto _/var_.
-
-TODO: Aggiungere uno script che rileva i file _-dist_ che non hanno una controparte, e li copia.
 
 === Accesso al database ===
 
