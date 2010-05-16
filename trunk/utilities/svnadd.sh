@@ -1,2 +1,2 @@
 #!/bin/bash
-/var/schoolmesh/utilities/svnlist.sh  | xargs svn add 
+/var/wviola/utilities/svnlist.sh  | xargs svn add 
