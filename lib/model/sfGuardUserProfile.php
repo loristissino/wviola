@@ -3,6 +3,69 @@
 class sfGuardUserProfile extends BasesfGuardUserProfile
 {
 
+		public function getBelongsToGuardGroup(sfGuardGroup $group)
+		{
+			$c=new Criteria();
+			$c->add(sfGuardUserGroupPeer::USER_ID, $this->getUserId());
+			$c->add(sfGuardUserGroupPeer::GROUP_ID, $group->getId());
+			if ($user_group = sfGuardUserGroupPeer::doSelectOne($c))
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+		
+		
+		public function getBelongsToGuardGroupByName($groupname)
+		{
+			$group=sfGuardGroupProfilePeer::retrieveByName($groupname);
+			return $this->getBelongsToGuardGroup($group);
+		}
+		
+		public function getGuardGroups()
+		{
+			$c=new Criteria();
+			$c->add(sfGuardUserGroupPeer::USER_ID, $this->getUserId());
+			$c->addJoin(sfGuardUserGroupPeer::GROUP_ID, sfGuardGroupPeer::ID);
+			$t = sfGuardUserGroupPeer::doSelectJoinsfGuardGroup($c);
+			return $t;
+		}
+		
+
+		public function addToGuardGroup(sfGuardGroup $group)
+		{
+			if ($this->getBelongsToGuardGroup($group))
+			{
+				return $this;
+			}
+			
+			$usergroup = new sfGuardUserGroup();
+			$usergroup
+			->setUserId($this->getUserId())
+			->setGroupId($group->getId())
+			->save();
+			
+			return $this;
+		}
+
+		public function removeFromGuardGroup(sfGuardGroup $group)
+		{
+			$c=new Criteria();
+			$c->add(sfGuardUserGroupPeer::USER_ID, $this->getUserId());
+			$c->add(sfGuardUserGroupPeer::GROUP_ID, $group->getId());
+			$user_group = sfGuardUserGroupPeer::doSelectOne($c);
+			if ($user_group)
+			{
+				$user_group->delete();
+			}
+			return $this;
+		}
+
+
+
   public function update($firstname, $lastname, $email)
   {
     $this
