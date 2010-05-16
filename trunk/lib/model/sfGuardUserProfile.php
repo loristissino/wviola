@@ -2,7 +2,17 @@
 
 class sfGuardUserProfile extends BasesfGuardUserProfile
 {
-	
+
+  public function update($firstname, $lastname, $email)
+  {
+    $this
+    ->setFirstname($firstname)
+    ->setLastname($lastname)
+    ->setEmail($email);
+    
+    return $this;
+  }
+  
 	public function __toString()
 	{
 		return $this->getFirstName() . ' ' . $this->getLastName();
