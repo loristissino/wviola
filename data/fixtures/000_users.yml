@@ -3,38 +3,50 @@ sfGuardUser:
     username:  mark
     password:  markpwd
   matthew:
-    username:   matthew
-    password: matthewpwd
+    username:  matthew
+    password:  matthewpwd
   andreas:
     username:  andreas
-    password:   andreaspwd
+    password:  andreaspwd
+  eloise:
+    username:  eloise
+    password:  eloisepwd
   john:
-    username: john
+    username:  john
     password:  johnpwd
   
 sfGuardPermission:
   admin:
     name:           admin
     description:    Administrator permission
-  video_encode:
-    name:          video_encode
-    description:    Video encoding
+  asset_encode:
+    name:           asset_encode
+    description:    Asset encoding
+  asset_view:
+    name:           asset_view
+    description:    Asset viewing 
 
 sfGuardGroup:
   admin:
     name:           admin
     description:    Administrator group
-  video_encoders:
-    name:           video_encoders
-    description:   Video encoders
+  asset_encoders:
+    name:           asset_encoders
+    description:    Asset encoders
+  asset_viewers:
+    name:           asset_viewers
+    description:    Asset Viewers
 
 sfGuardGroupPermission:
   admin:
     group_id:       admin
     permission_id:  admin
-  video_encode:
-    group_id:      video_encoders
-    permission_id: video_encode
+  asset_encode:
+    group_id:       asset_encoders
+    permission_id:  asset_encode
+  asset_view:
+    group_id:       asset_viewers
+    permission_id:  asset_view
 
 sfGuardUserGroup:
   mark:
@@ -44,35 +56,44 @@ sfGuardUserGroup:
     group_id:       admin
     user_id:        andreas
   andreas2:
-    group_id:       video_encoders
+    group_id:       asset_encoders
     user_id:        andreas
   matthew:
-    group_id:       video_encoders
+    group_id:       asset_encoders
     user_id:        matthew
+  eloise:
+    group_id:       asset_viewers
+    user_id:        eloise
   
 sfGuardUserProfile:
   mark:
     user_id:         mark  
-    first_name:   Mark
-    last_name: Gain
-    email: mark@example.com
-    imported_at: 11/05/2009 8:10
+    first_name:      Mark
+    last_name:       Gain
+    email:           mark@example.com
+    imported_at:     11/05/2009 8:10
   matthew:
     user_id:         matthew  
-    first_name:   Matthew
-    last_name: Panache
-    email: matthew@example.com
-    imported_at: 11/05/2009 8:11
+    first_name:      Matthew
+    last_name:       Panache
+    email:           matthew@example.com
+    imported_at:     11/05/2009 8:11
   andreas:
     user_id:         andreas  
-    first_name:   Andreas
-    last_name: Mackerel
-    email: andreas@example.com
-    imported_at: 11/05/2009 8:10
+    first_name:      Andreas
+    last_name:       Mackerel
+    email:           andreas@example.com
+    imported_at:     11/05/2009 8:12
+  eloise:
+    user_id:         eloise
+    first_name:      Eloise
+    last_name:       Eardrum
+    email:           eloise@example.com
+    imported_at:     11/05/2010 8:13
   john:
-    user_id:        john
-    first_name:   John
-    last_name:   Doe
-    email: john@example.com
-    imported_at: 11/06/2009 8:20
+    user_id:         john
+    first_name:      John
+    last_name:       Doe
+    email:           john@example.com
+    imported_at:     11/06/2009 8:20
 
