@@ -168,6 +168,7 @@ CREATE TABLE "binder"
 	"category_id" INTEGER,
 	"notes" TEXT,
 	"event_date" DATE,
+	"is_open" BOOLEAN,
 	"created_at" TIMESTAMP,
 	"updated_at" TIMESTAMP,
 	PRIMARY KEY ("id")
