@@ -1,2 +1,2 @@
-all:
+new:
   credentials: asset_encode

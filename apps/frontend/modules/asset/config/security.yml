@@ -1,2 +1,6 @@
 new:
-  credentials: video_encode
+  credentials: asset_encode
+search:
+  credentials: asset_view
+show:
+  credentials: asset_view

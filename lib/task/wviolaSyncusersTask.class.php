@@ -31,12 +31,45 @@ Call it with:
 EOF;
 
     $this->_foundUsers=Array();
+    $this->_guardGroups=Array(
+      'admin' => Array(),
+      'asset_encoders' => Array(), 
+      'asset_viewers' => Array(),
+    );
 
     $this->_isLogged=true;
     $this->_logEvent;
 
 
   }
+  
+  
+  protected function setGuardGroups($groups)
+  {
+    $ldapGroupCN=sfConfig::get('app_authentication_ldap_groupattribute_cn');
+    $ldapGroupMembers=sfConfig::get('app_authentication_ldap_groupattribute_members');
+    foreach($this->_guardGroups as $guardGroupName=>&$guardGroupMembers)
+    {
+      $this->logSection('group*', $guardGroupName, null, 'COMMENT');
+
+      $ldapGroups=sfConfig::get('app_authentication_guardgroup_' . $guardGroupName);
+      
+      foreach($ldapGroups as $ldapGroup)
+      {
+        for($i=0;$i<$groups['count']; $i++)
+        {
+          if($groups[$i][$ldapGroupCN][0]==$ldapGroup)
+          {
+            for($u=0;$u<$groups[$i][$ldapGroupMembers]['count'];$u++)
+            {
+              $guardGroupMembers[$groups[$i][$ldapGroupMembers][$u]]=1;
+            }
+          }
+        }
+      }
+    }
+  }
+  
   
   protected function checkUser($user)
   {
@@ -76,15 +109,32 @@ EOF;
       $this->logSection('user', $username, null, 'COMMENT');
     }
     
+    
+    foreach($this->_guardGroups as $guardGroupName=>$guardGroupMembers)
+    {
+      if(array_key_exists($username, $guardGroupMembers))
+      {
+        if(!$profile->getBelongsToGuardGroupByName($guardGroupName))
+        {
+          $profile->addToGuardGroup(sfGuardGroupProfilePeer::retrieveByName($guardGroupName));
+          $this->logSection(' group+', $guardGroupName, null, 'INFO');
+        }
+      }
+      else
+      {
+        if($profile->getBelongsToGuardGroupByName($guardGroupName))
+        {
+          $profile->removeFromGuardGroup(sfGuardGroupProfilePeer::retrieveByName($guardGroupName));
+          $this->logSection(' group-', $guardGroupName, null, 'INFO');
+        }
+      }
+    }
+    
   }
   
   
   protected function syncUsers()
   {
-
-//$ATTRIBUTIU = array("objectClass", "dn", "cn", "sn", "displayName", "telephoneNumber", "title", "physicalDeliveryOfficeName", "mail", "uid", "uidNumber", "gidNumber", "mailRoutingAddress", "sambaPwdLastSet", "sambaLogonTime", "sambaPwdMustChange", "sambaAcctFlags");
-
-$ATTRIBUTIG = array("cn", "gidNumber", "memberUid", "description");
 
     $server=sfConfig::get('app_authentication_ldap_host');
 		$basedn=sfConfig::get('app_authentication_ldap_domain');
@@ -98,15 +148,60 @@ $ATTRIBUTIG = array("cn", "gidNumber", "memberUid", "description");
       sfConfig::get('app_authentication_ldap_userattribute_lastname')
     );
     
-    
-    include('/home/loris/Scrivania/ldap_output.php');
-    
-   // print_r($users);
-    
-    for($i=0;$i<sizeof($users)-1; $i++)
+    $groups_attributes=array(
+      sfConfig::get('app_authentication_ldap_groupattribute_cn'),
+      sfConfig::get('app_authentication_ldap_groupattribute_members'),
+    );
+
+
+    $test=false;
+    if ($test)
     {
-      // LDAP returns the count of items as 'count'=>..., so we skip it by going 
-      // up to sizeof($users)-1
+      // USED FOR TESTS
+      require('/etc/wviola/ldap_output.php');
+    }
+    else
+    {
+      // we do the real thing...
+      if (!($connect = ldap_connect($server)))
+      {
+        throw new Exception("Could not connect to LDAP server");
+      }
+
+      ldap_set_option($connect, LDAP_OPT_PROTOCOL_VERSION, 3);
+      ldap_bind($connect);
+      
+      $sr = ldap_search($connect, $usersou. ',' . $basedn, "uid=*", $users_attributes);
+
+      $nr = ldap_count_entries($connect, $sr);
+
+      if ($nr > 0)
+      {
+        $users = ldap_get_entries($connect, $sr);
+      }
+      else
+      {
+        throw new Exception('No user entries found');
+      }
+
+      $sr = ldap_search($connect, $groupsou. ',' . $basedn, "cn=*", $groups_attributes);
+
+      $nr = ldap_count_entries($connect, $sr);
+
+      if ($nr > 0)
+      {
+        $groups = ldap_get_entries($connect, $sr);
+      }
+      else
+      {
+        throw new Exception('No group entries found');
+      }
+    }
+    
+    $this->setGuardGroups($groups);
+    
+    for($i=0;$i<$users['count']; $i++)
+    {
       $this->checkUser($users[$i]);
     }
     
@@ -114,51 +209,15 @@ $ATTRIBUTIG = array("cn", "gidNumber", "memberUid", "description");
     
     foreach($oldUsers as $sfuser)
     {
-      $sfuser->setIsActive(false)->save();
-      $this->logSection('user-', $sfuser->getUsername(), null, 'INFO');
+      if($sfuser->getIsActive())
+      {
+        $sfuser->setIsActive(false)->save();
+        $this->logSection('user-', $sfuser->getUsername(), null, 'INFO');
+      }
     }
     
-    
-    
-//    print_r($users);
-/*
-    echo $server . "\n";
-	//	$dn = "uid=$username,ou=People,$basedn";
-
-		if (!($connect = ldap_connect($server))) {
-			die ("Could not connect to LDAP server\n");
-		   }
-
-		ldap_set_option($connect, LDAP_OPT_PROTOCOL_VERSION, 3);
-
-    
-//    echo ldap_bind($connect)?'yes':'no';
 
 
-    $sr = ldap_search($connect, $usersou. ',' . $basedn, "uid=*", $users_attributes);
-
-$nr = ldap_count_entries($connect, $sr);
-echo "Utenti: $nr\n";
-
-if ($nr > 0) {
-  $users = ldap_get_entries($connect, $sr);
-print_r($users);
-}
-
-    $sr = ldap_search($connect, $groupsou. ',' . $basedn, "cn=*", $ATTRIBUTIG);
-
-$nr = ldap_count_entries($connect, $sr);
-echo "Gruppi: $nr\n";
-
-if ($nr > 0) {
-  $users = ldap_get_entries($connect, $sr);
-print_r($users);
-}
-
-
-
-    echo "Connesso\n";
-*/
   }
 
   protected function execute($arguments = array(), $options = array())
