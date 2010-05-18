@@ -3,6 +3,7 @@
 = Lista delle cose ancora da fare =
 
   # ~~Completare il task di sincronizzazione utenti da server LDAP~~
+  # ~~Aggiungere un _datepicker_ per l'input della data degli eventi~~
   # Fare in modo che un raccoglitore possa essere considerato chiuso dopo un certo numero di giorni
   # Scrivere un task che raccolga in ordine cronologico i raccoglitori chiusi e prepari, al raggiungimento di una certa soglia, le immagini ISO dei DVD da produrre
   # Mettere nell'immagine ISO anche un file HTML che funzioni da indice per il DVD-ROM
