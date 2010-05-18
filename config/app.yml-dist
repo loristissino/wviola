@@ -7,6 +7,16 @@ all:
 #    check_password_callable: [Authentication, checkLdapPassword]
 
 #  authentication:
-#    ldap_host: localhost
+#    ldap_host: ldaps://ldap.example.com ldaps://ldap2.example.com
 #    ldap_domain: dc=example,dc=com
-
+#    ldap_users: ou=People
+#    ldap_groups: ou=Group
+#    ldap_userattribute_username: uid
+#    ldap_userattribute_email: mail
+#    ldap_userattribute_firstname: first
+#    ldap_userattribute_lastname: last
+#    ldap_groupattribute_cn: cn
+#    ldap_groupattribute_members: memberuid
+#    guardgroup_admin: [webadmin]
+#    guardgroup_asset_encoders: [alpha]
+#    guardgroup_asset_viewers: [beta,gamma]
