@@ -60,6 +60,7 @@ EOF;
         {
           if($groups[$i][$ldapGroupCN][0]==$ldapGroup)
           {
+            $this->logSection(' ldap*', $groups[$i][$ldapGroupCN][0], null, 'COMMENT');
             for($u=0;$u<$groups[$i][$ldapGroupMembers]['count'];$u++)
             {
               $guardGroupMembers[$groups[$i][$ldapGroupMembers][$u]]=1;
