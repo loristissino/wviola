@@ -243,11 +243,11 @@ all:
 #    check_password_callable: [Authentication, checkLdapPassword]
 
 #  authentication:
-#    ldap_host: localhost
+#    ldap_host: ldaps://ldap.example.com ldaps://ldap2.example.com
 #    ldap_domain: dc=example,dc=com
 }}}
 
-Nota: l'autenticazione avverrà via LDAP, ma i nomi degli utenti devono essere presenti comunque nel DB di wviola. Si dovrà pensare ad un task da eseguire periodicamente per sincronizzare i dati.
+Nota: l'autenticazione avverrà via LDAP, ma i nomi degli utenti devono essere presenti comunque nel DB di wviola. I dati dovranno essere sincronizzati periodicamente tramite l'apposito task.
 
 === File binari per i test ===
 

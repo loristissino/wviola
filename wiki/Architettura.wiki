@@ -106,7 +106,7 @@ Questa applicazione batch, per ogni asset da archiviare:
 Il task dovrebbe essere richiamabile con il comando:
 
 {{{
-symfony wviola:archive-assets --env=prod
+symfony wviola:publish-assets --env=prod
 }}}
 
 === Predisposizione immagini ISO DVD-ROM ===
@@ -183,6 +183,70 @@ Gli utenti di Wviola vengono autenticati tramite LDAP, ma le informazioni di bas
 Il task dovrebbe essere richiamabile con il comando:
 
 {{{
-symfony wviola:sync-users --env=prod
+symfony wviola:sync-users --application=frontend --env=prod
 }}}
 
+Affinché la sincronizzazione avvenga correttamente, è necessario specificare nel file _config/app.yml_:
+
+  * le unità organizzative a cui appartengono utenti e gruppi
+  * quali attributi devono essere usati per utenti e gruppi (e come farli corrispondere ai campi nella base di dati)
+  * quali gruppi LDAP devono essere fatti corrispondere ai GuardGroups dell'applicazione (ai quali, a loro volta, sono assegnati i permessi necessari per eseguire le diverse azioni)
+  
+Ad esempio, se il file _config/app.yml_ contiene le seguenti righe
+
+{{{
+  ...
+  
+  authentication:
+    ldap_host: ldaps://ldap.example.com ldaps://ldap2.example.com
+    ldap_domain: dc=example,dc=com
+    ldap_users: ou=People
+    ldap_groups: ou=Group
+    ldap_userattribute_username: uid
+    ldap_userattribute_email: mail
+    ldap_userattribute_firstname: first
+    ldap_userattribute_lastname: last
+    ldap_groupattribute_cn: cn
+    ldap_groupattribute_members: memberuid
+    guardgroup_admin: [webadmin]
+    guardgroup_asset_encoders: [alpha]
+    guardgroup_asset_viewers: [beta,gamma]
+}}}
+
+tutti gli utenti che fanno parte del gruppo beta o del gruppo gamma verranno inseriti nel GuardGroup _asset\_viewers_, per cui potranno accedere alla visualizzazione degli asset.
+
+L'output del task, simile al seguente,
+
+{{{
+>> group*    admin
+>>  ldap*    webadmin
+>> group*    asset_encoders
+>>  ldap*    alpha
+>> group*    asset_viewers
+>>  ldap*    beta
+>>  ldap*    gamma
+>> user      mark
+>> user      matthew
+>>  group-   asset_encoders
+>> user      andreas
+>>  group-   asset_encoders
+>> user      eloise
+>>  group-   asset_viewers
+>> user      john
+>>  group+   asset_viewers
+>> user+     sarah
+>>  group+   admin
+>>  group+   asset_viewers
+>> user-     paul
+}}}
+
+va interpretato in questo modo:
+
+  * sono stati presi in considerazione i GuardGroup _admin_, _asset\_encoders_ e _asset\_viewers_ (per ognuno vengono visualizzati i gruppi LDAP corrispondenti)
+  * per _mark_ non ci sono state modifiche
+  * _matthew_ e _andreas_ sono stati tolto dal GuardGroup _asset\_encoders_
+  * _eloise_ è stata tolta dal GuardGroup _asset\_viewers_
+  * _john_ è stato inserito nel GuardGroup _asset\_viewers_
+  * è stato aggiunto un nuovo utente, _sarah_, inserita nei GuardGroup _admin_ e _asset\_viewers_
+  * è stato reso "non più attivo" l'utente _paul_
+  
