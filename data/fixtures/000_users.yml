@@ -58,8 +58,11 @@ sfGuardUserGroup:
   andreas2:
     group_id:       asset_encoders
     user_id:        andreas
-  matthew:
+  matthew_encoder:
     group_id:       asset_encoders
+    user_id:        matthew
+  matthew_viewer:
+    group_id:       asset_viewers
     user_id:        matthew
   eloise:
     group_id:       asset_viewers

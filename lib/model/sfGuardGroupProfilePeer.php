@@ -24,6 +24,18 @@ class sfGuardGroupProfilePeer extends sfGuardGroupPeer
 	  $c->add(sfGuardGroupPeer::NAME, $name);
 	  return sfGuardGroupPeer::doSelectOne($c); 
 	}
-	
-	
+  
+
+  static public function retrieveAllGuardGroupsAsArray()
+  {
+    $ret=Array();
+	  $gg = sfGuardGroupPeer::doSelect(new Criteria());
+    foreach ($gg as $g)
+    {
+      $ret[]=$g->getName();
+    }
+    return $ret;
+    
+  }
+
 }

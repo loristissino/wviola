@@ -31,11 +31,8 @@ Call it with:
 EOF;
 
     $this->_foundUsers=Array();
-    $this->_guardGroups=Array(
-      'admin' => Array(),
-      'asset_encoders' => Array(), 
-      'asset_viewers' => Array(),
-    );
+
+    $this->_guardGroups=Array();
 
     $this->_isLogged=true;
     $this->_logEvent;
@@ -48,6 +45,13 @@ EOF;
   {
     $ldapGroupCN=sfConfig::get('app_authentication_ldap_groupattribute_cn');
     $ldapGroupMembers=sfConfig::get('app_authentication_ldap_groupattribute_members');
+    
+    $guardgroups=sfGuardGroupProfilePeer::retrieveAllGuardGroupsAsArray();
+    foreach($guardgroups as $guardgroup)
+    {
+      $this->_guardGroups[$guardgroup]=Array();
+    }
+    
     foreach($this->_guardGroups as $guardGroupName=>&$guardGroupMembers)
     {
       $this->logSection('group*', $guardGroupName, null, 'COMMENT');

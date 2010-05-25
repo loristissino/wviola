@@ -23,5 +23,5 @@ class Authentication {
 
 		return @ldap_bind($connect, $dn, $password);
 	}
-  
+    
 }
