@@ -111,17 +111,16 @@ class sfGuardUserProfile extends BasesfGuardUserProfile
   
   private function _composeEmail($template_code)
   {
-    $template=file(wvConfig::get($template_code));
-    $subject=$template[0];
-    $body='';
-    for($i=1; $i<sizeof($template); $i++)
+    $filename=wvConfig::get($template_code);
+    if (!is_readable($filename))
     {
-      if(substr($template[$i],0,1)!='#')
-      {
-        $body.=$template[$i];
-      }
+      throw new Exception('File not readable: ' . $filename);
     }
-    return array('subject'=>$subject, 'body'=>$body);
+    $template=sfYaml::load($filename);
+    return array(
+      'subject'=>$template['message']['subject'], 
+      'body'=>$template['message']['body']
+      );
   }
   
   

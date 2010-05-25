@@ -10,8 +10,10 @@ To add a plugin through svn, do the following:
     
 On the file getting edited, enter the name of the directory and the svn source:
 
-    sfJqueryReloadedPlugin http://svn.sym...sfJqueryReloadedPlugin/1.2/trunk
-    
+    sfJqueryReloadedPlugin http://svn.symfony-project.com/plugins/sfJqueryReloadedPlugin/1.2/trunk
+
+(The directory sfJqueryReloadedPlugin must NOT exist before)
+
 Save.
 
 Run

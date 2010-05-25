@@ -21,4 +21,3 @@
 <?php else: ?>
   <?php echo __('No permission') ?>
 <?php endif ?>
-
