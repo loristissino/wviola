@@ -1,0 +1,11 @@
+message:
+  subject: Documenti multimediali pronti per l'archiviazione
+  body: |
+    È stata effettuata la scansione di %number% tuoi documenti multimediali, che
+    sono adesso pronti per l'archiviazione.
+
+    Puoi vedere la lista accedendo alla pagina web:
+
+    http://www.example.com/source/
+ 
+                  The Wviola Bot

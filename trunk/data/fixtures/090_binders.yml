@@ -19,3 +19,9 @@ Binder:
     category_id: op
     notes: Winter
     event_date: 12/24/2009
+  binder5:
+    user_id: matthew
+    category_id: ot
+    notes: Last year
+    event_date: 12/20/2008
+    is_open: false

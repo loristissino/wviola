@@ -74,7 +74,7 @@ propel:
     category_id: ~
     notes: longvarchar
     event_date: date
-    is_open: boolean
+    is_open: { type: boolean, default: true }
     created_at: ~
     updated_at: ~
 

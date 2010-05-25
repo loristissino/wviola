@@ -17,7 +17,7 @@ $t->is(wvConfig::has('bar'), false, '::has() returns false for a non existing pa
 $t->is(is_array(wvConfig::getAll()), true, '::getAll() returns an array of values');
 
 $t->is_deeply(wvConfig::get('filebrowser_white_list'), 
-array('/png$/i', '/jpg$/i', '/mov$/i', '/mpeg$/i', '/mpg$/i', '/avi$/i' ),
+array('/png$/i', '/jpg$/i', '/mov$/i', '/mpeg$/i', '/mpg$/i', '/avi$/i', '/ogv$/i' ),
 '::get() returns an array of items is array is defined');
 
 wvConfig::add(array('foo1'=>'bar1', 'foo2'=>'bar2'));

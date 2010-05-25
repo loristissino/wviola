@@ -215,7 +215,7 @@ class assetActions extends sfActions
         }
         else
         {
-          $this->getUser()->setFlash('error', 'Something went wrong with scheduling.' . ' ' . $e->getMessage());
+          $this->getUser()->setFlash('error', 'Something went wrong with scheduling.');
         }
           
         $this->redirect('filebrowser/index');

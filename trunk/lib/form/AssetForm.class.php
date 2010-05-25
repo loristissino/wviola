@@ -46,10 +46,11 @@ class AssetForm extends BaseAssetForm
             
       $c = new Criteria();
       $c->add(BinderPeer::USER_ID, $this->_userId);
+      $c->add(BinderPeer::IS_OPEN, true);
       
       $this->widgetSchema['binder_id'] = new sfWidgetFormPropelChoice(array('model' => 'Binder', 'add_empty' => true, 'criteria' => $c));
       
-      $this->validatorSchema['binder_id'] = new sfValidatorPropelChoice(array('model' => 'Binder', 'column' => 'id', 'required' => true));
+      $this->validatorSchema['binder_id'] = new sfValidatorPropelChoice(array('model' => 'Binder', 'column' => 'id', 'required' => true, 'criteria'=>$c));
       
       $this->validatorSchema['assigned_title'] = new sfValidatorString(array(
         'required' => true,

@@ -6,3 +6,5 @@
   </table>
   <input type="submit" value="sign in" />
 </form>
+
+<?php use_javascript('signin.js') ?>

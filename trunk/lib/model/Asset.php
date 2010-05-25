@@ -151,6 +151,13 @@ class Asset extends BaseAsset {
   public function scheduleSourceFileForArchiviation($userId, SourceFile $sourcefile, $values)
   {
     
+/*    $Binder=BinderPeer::retrieveByPK($values['binder_id']);
+    if(!$Binder->getIsOpen())
+    {
+      //throw new Exception('Binder invalid');
+      return false;
+    }
+*/    
     $fullpath=$sourcefile->getFullPath();
     
     $this
