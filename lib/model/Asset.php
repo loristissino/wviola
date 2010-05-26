@@ -151,13 +151,6 @@ class Asset extends BaseAsset {
   public function scheduleSourceFileForArchiviation($userId, SourceFile $sourcefile, $values)
   {
     
-/*    $Binder=BinderPeer::retrieveByPK($values['binder_id']);
-    if(!$Binder->getIsOpen())
-    {
-      //throw new Exception('Binder invalid');
-      return false;
-    }
-*/    
     $fullpath=$sourcefile->getFullPath();
     
     $this
@@ -263,13 +256,30 @@ class Asset extends BaseAsset {
             ->setLowQualityHeight(wvConfig::get('publishing_video_height'))
             ->save();
             break;
+          case 'photoalbum':
+            $photoalbumAsset = new PhotoalbumAsset();
+            $photoalbumAsset
+            ->setAssetId($this->getId())
+            ->save();
+            break;
+          case 'picture':
+            $pictureAsset = new PictureAsset();
+            $pictureAsset
+            ->setAssetId($this->getId())
+            ->save();
+            break;
+          case 'audio':
+            $audioAsset = new AudioAsset();
+            $audioAsset
+            ->setAssetId($this->getId())
+            ->save();
+            break;
         }
       }
       else
       {
-        echo "NON PUBBLICATO\n";
+        //echo "NOT PUBLISHED\n";
       }
-      print_r($info);
       
     }
     catch (Exception $e)
