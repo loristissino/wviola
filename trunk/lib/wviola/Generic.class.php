@@ -363,4 +363,17 @@ class Generic{
       );
   }
 
+
+  static public function matchesOneOf($list, $expression)
+  {
+		foreach($list as $regexp)
+		{
+			if(preg_match($regexp, $expression))
+			{
+				return true;
+			}
+    }
+		return false;
+  }
+
 }

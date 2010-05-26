@@ -99,7 +99,7 @@ class SourceFile extends BasicFile
 					$this->_gatherPictureInfo();
 					break;
 				case 'application':
-					// zip file?
+					$this->_gatherPhotoAlbumInfo();
 					break;
 			}
 		}
@@ -113,6 +113,26 @@ class SourceFile extends BasicFile
     $this->setWvInfo('source_type', self::PICTURE);
 		return;
 	}
+  
+  public function _gatherPhotoalbumInfo()
+  {
+    $this->setWvInfo('source_type', self::PHOTOALBUM);
+    
+    try
+    {
+      $info=$this->executeCommand(sprintf('zipinfo -1 "%s"', $this->getFullPath()));
+    }
+    catch (Exception $e)
+    {
+      $this->setWvInfo('file_archivable', false);
+      return;
+    }
+    
+    $this->setWvInfo('pictures_count', sizeof($info));
+    $this->setWvInfo('pictures_list', $info);
+        
+		return;
+  }
 	
 	private function _gatherVideoInfo()
 	{
@@ -231,15 +251,7 @@ class SourceFile extends BasicFile
     }
     
     // we don't skip files with the extension in the white list
-		foreach(wvConfig::get('filebrowser_white_list') as $regexp)
-		{
-			if(preg_match($regexp, $this->getBaseName()))
-			{
-				return false;
-			}
-    }
-		
-		return true;
+    return ! Generic::matchesOneOf(wvConfig::get('filebrowser_white_list'), $this->getBaseName());
 	}
   
   private function makeWvDirPathIfNeeded()

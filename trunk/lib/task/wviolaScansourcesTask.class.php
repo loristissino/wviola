@@ -44,6 +44,8 @@ EOF;
 	$this->_isLogged=true;
 //	$this->_size_limit_for_md5sum=0;
   $this->_logEvent;
+  
+//  $this->_photoAlbumItems=wvConfig::get('filebrowser_photo_album_items');
 
   }
 
@@ -131,6 +133,48 @@ EOF;
 		
 	}
 
+  protected function preparePhotoAlbums($completeDirPath)
+  {
+    $filenames=@scandir($completeDirPath);
+			
+		if (!$filenames)
+		{
+			throw new Exception("Could not read directory: $completeDirPath");
+		}
+    
+    $files=array();
+    
+    foreach($filenames as $basename)
+    {
+      if (Generic::matchesOneOf(wvConfig::get('filebrowser_photo_album_items'), $basename))
+      {
+        $file= new BasicFile($completeDirPath, $basename);
+        $files[$basename]=$file->getOwner();
+        unset($file);
+      }
+    }
+    
+    $users=array_values(array_flip(array_flip($files)));
+    
+    if (sizeof($users)>0)
+    {
+      foreach($users as $user)
+      {
+        $this->logSection('album', $user, null, 'COMMENT');
+        $photoAlbum= new PhotoAlbum($completeDirPath, $files, $user);
+        $photoAlbum->processFileList();
+        foreach($photoAlbum->getFiles() as $image)
+        {
+          $this->logSection('file-', $image, null, 'INFO');
+        }
+        $this->logSection('file+', $photoAlbum->getCompletePath());
+        unset($photoAlbum);
+      }
+    }
+    
+    
+  }
+
 
 
   protected function ScanDirectory($subdir)
@@ -139,6 +183,8 @@ EOF;
 		
 		if(is_dir($completeDirPath))
 		{
+      $this->preparePhotoAlbums($completeDirPath);
+      
 			$filenames=@scandir($completeDirPath);
 			
 			if (!$filenames)
@@ -233,6 +279,8 @@ EOF;
     
     $this->_logEvent=$taskLogEvent->getId();
 	}
+
+  echo "\n";
 
 	try
 	{
