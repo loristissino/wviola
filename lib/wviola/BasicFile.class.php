@@ -21,9 +21,22 @@ class BasicFile
 				$this->_basename=func_get_arg(1);
 				break;
 		}
-		$this->_stat = @stat($this->getFullPath());
-		
-		if (!$this->_stat)
+    
+    $list=wvConfig::get('publishing_estensions_used');
+    
+    $found=false;
+    $orig=$this->getBasename();
+    foreach($list as $ext)
+    {
+      $this->setBasename($orig . $ext);
+      if ($this->_stat = @stat($this->getFullPath()))
+      {
+        $found=true;
+        break;
+      }
+    }
+    
+		if (!$found)
 		{
 			throw new Exception(sprintf('Not a valid file: %s', $this->getFullPath()));
 		}
@@ -45,6 +58,12 @@ class BasicFile
 	public function getBasename()
 	{
 		return $this->_basename;
+	}
+  
+	public function setBasename($v)
+	{
+		$this->_basename=$v;
+		return $this;
 	}
 	
 	public function getFullPath()

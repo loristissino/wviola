@@ -173,10 +173,19 @@ class SourceFile extends BasicFile
 
 			}
 			unset($moviefile);
-			
+			unset($movie);
 		}
 		catch (Exception $e)
 		{
+      if(isset($moviefile))
+      {
+        unset($moviefile);
+      }
+      if(isset($movie))
+      {
+        unset($movie);
+      }
+      
 			throw new Exception(sprintf('Could not gather information about file %s', $this->getFullPath()));
 		}
     
@@ -396,22 +405,23 @@ class SourceFile extends BasicFile
   public function moveFileToScheduled($prefix)
   {
     $uniqid=uniqid($prefix, true);
-    
-    if (!rename(
-        $this->getFullPath(),
-        wvConfig::get('directory_scheduled') . '/' . $uniqid
-        ))
-    {
-      return false;
-    }
 
     if (!rename(
         $this->getWvInfoFilePath(),
         wvConfig::get('directory_scheduled') . '/' . $uniqid . '.yml'
         ))
     {
+      return false;
       //TODO: write to an error log file or DB table...
       // Anyway, this shouldn't happen, since we were able to write the main file...
+    }
+
+    if (!rename(
+        $this->getFullPath(),
+        wvConfig::get('directory_scheduled') . '/' . $uniqid
+        ))
+    {
+      return false;
     }
     
     return $uniqid;

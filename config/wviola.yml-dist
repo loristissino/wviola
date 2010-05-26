@@ -43,6 +43,10 @@ publishing:
   video_high_quality_command: ffmpeg -i "%source%' -f ogg "%target%"
   video_low_quality_extension: .flv
   video_high_quality_extension: .ogv
+  estensions_used: [ '', '.flv', '.ogg', '.ogv', '.mp3' ]
+  # this is useful because when we look for a file we could try with a different
+  # extension
+
 
 filebrowser:
   md5sum_limit: f

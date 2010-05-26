@@ -143,7 +143,7 @@ EOF;
     $command = "echo 'PUBLISHED'\n";
 
     $content .= $command . "\n";
-
+    
     $this->saveFile('publish_video', $content);
 
   }
