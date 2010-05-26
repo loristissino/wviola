@@ -6,12 +6,12 @@
   # ~~Aggiungere un _datepicker_ per l'input della data degli eventi~~
   # ~~Fare in modo che un raccoglitore possa essere considerato chiuso dopo un certo numero di giorni~~
   # ~~Fare in modo che l'utente possa scegliere solo tra i propri raccoglitori ancora aperti, quando deve archiviare un asset~~
+  # ~~Predisporre un task che, partendo dal file di configurazione, generi gli script bash che richiamano i comandi per l'archiviazione ad alta qualità e a bassa qualità~~
   # Scrivere un task che raccolga in ordine cronologico i raccoglitori chiusi e prepari, al raggiungimento di una certa soglia, le immagini ISO dei DVD da produrre
   # Mettere nell'immagine ISO anche un file HTML che funzioni da indice per il DVD-ROM
   # Completare lo script del task di archiviazione, che faccia il lavoro anche di produzione dei video ad alta risoluzione da mettere via
   # Creare per tutte le immagini di uno stesso utente presenti in una stessa cartella, un file zip (photoalbum) da archiviare
-  # Pensare ad un modo per presentare l'album a bassa risoluzione (equivalente al formato flash per i video). Questo dipende dalla dimensione delle foto e dell'album.
-  # Predisporre un task che, partendo dal file di configurazione, generi gli script bash che richiamano i comandi per l'archiviazione ad alta qualità e a bassa qualità
+  # Pensare ad un modo per presentare l'album a bassa risoluzione (equivalente al formato flash per i video). Questo dipende dalla dimensione delle foto e dell'album
   # Scrivere documentazione sul funzionamento del motore di ricerca integrato
   # Controllare la correttezza della documentazione sul Wiki
   # Predisporre i test funzionali
