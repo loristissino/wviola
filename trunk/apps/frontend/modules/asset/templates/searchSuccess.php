@@ -11,3 +11,4 @@
     <?php endif ?>
   <?php endif ?>
 </div>
+<?php use_javascript('searchfocus.js') ?>
