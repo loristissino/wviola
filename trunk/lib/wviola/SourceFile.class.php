@@ -405,9 +405,13 @@ class SourceFile extends BasicFile
       return false;
     }
 
-    if (!@unlink($this->getWvInfoFilePath()))
+    if (!rename(
+        $this->getWvInfoFilePath(),
+        wvConfig::get('directory_scheduled') . '/' . $uniqid . '.yml'
+        ))
     {
       //TODO: write to an error log file or DB table...
+      // Anyway, this shouldn't happen, since we were able to write the main file...
     }
     
     return $uniqid;

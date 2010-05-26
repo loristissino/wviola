@@ -88,6 +88,7 @@ EOF;
         }
         return 1;
       }
+      echo "\n";
       $this->logSection('file+', wvConfig::get('directory_published_assets') . '/' . $Asset->getUniqId(), null, 'INFO');
       $this->logSection('file+', wvConfig::get('directory_iso_cache') . '/' . $Asset->getUniqId(), null, 'INFO');
       $this->logSection('file-', wvConfig::get('directory_scheduled') . '/' . $Asset->getUniqId(), null, 'INFO');
