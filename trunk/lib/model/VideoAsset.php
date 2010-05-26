@@ -30,6 +30,36 @@ class VideoAsset extends BaseVideoAsset {
 		$this->_assetFile=new VideoFile($this->_uniqid);
 		return $this->_assetFile;
 	}
-
+  
+  
+  public function gatherInfo()
+  {
+    
+    $high_movie=new MovieFile(wvConfig::get('directory_iso_cache') . '/'. $this->getAsset()->getUniqId());
+    if (!$high_movie)
+    {
+      throw new Exception(sprintf('A problem with file «%s» occured', $this->getAsset()->getUniqId()));
+    }
+    $info_high=$high_movie->retrieveInfo('high');
+    unset($high_movie);
+    
+    $low_movie=new MovieFile(wvConfig::get('directory_published_assets') . '/'. $this->getAsset()->getUniqId());
+    if (!$low_movie)
+    {
+      throw new Exception(sprintf('A problem with file «%s» occured', $this->getAsset()->getUniqId()));
+    }
+    $info_low=$low_movie->retrieveInfo('low');
+    unset($low_movie);
+    
+    $info = array_merge($info_high, $info_low);
+    
+    foreach($info as $key=>$value)
+    {
+      $this->setByName($key, $value, BasePeer::TYPE_FIELDNAME);
+    }
+    
+    return $this;
+    
+  }
 
 } // VideoAsset

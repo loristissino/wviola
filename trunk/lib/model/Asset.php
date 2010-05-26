@@ -241,44 +241,35 @@ class Asset extends BaseAsset {
           $this->getUniqId()
           );
 
-      echo $command;
-      $info = Generic::executeCommand($command, true);
+      Generic::executeCommand($command, true);
       
-      if(chop($info)=='PUBLISHED')
+      switch($this->getAssetTypeCode())
       {
-        switch($this->getAssetTypeCode())
-        {
-          case 'video':
-            $videoAsset = new VideoAsset();
-            $videoAsset
-            ->setAssetId($this->getId())
-            ->setLowQualityWidth(wvConfig::get('publishing_video_width'))
-            ->setLowQualityHeight(wvConfig::get('publishing_video_height'))
-            ->save();
-            break;
-          case 'photoalbum':
-            $photoalbumAsset = new PhotoalbumAsset();
-            $photoalbumAsset
-            ->setAssetId($this->getId())
-            ->save();
-            break;
-          case 'picture':
-            $pictureAsset = new PictureAsset();
-            $pictureAsset
-            ->setAssetId($this->getId())
-            ->save();
-            break;
-          case 'audio':
-            $audioAsset = new AudioAsset();
-            $audioAsset
-            ->setAssetId($this->getId())
-            ->save();
-            break;
-        }
-      }
-      else
-      {
-        //echo "NOT PUBLISHED\n";
+        case 'video':
+          $videoAsset = new VideoAsset();
+          $videoAsset
+          ->setAssetId($this->getId())
+          ->gatherInfo()
+          ->save();
+          break;
+        case 'photoalbum':
+          $photoalbumAsset = new PhotoalbumAsset();
+          $photoalbumAsset
+          ->setAssetId($this->getId())
+          ->save();
+          break;
+        case 'picture':
+          $pictureAsset = new PictureAsset();
+          $pictureAsset
+          ->setAssetId($this->getId())
+          ->save();
+          break;
+        case 'audio':
+          $audioAsset = new AudioAsset();
+          $audioAsset
+          ->setAssetId($this->getId())
+          ->save();
+          break;
       }
       
     }
