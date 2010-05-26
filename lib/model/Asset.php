@@ -243,29 +243,38 @@ class Asset extends BaseAsset {
   {
     try
     {
-      $command=sprintf('publishasset %s "%s" "%s" "%s" "%s"',
+      $command=sprintf('publish_%s "%s"',
           $this->getAssetTypeCode(),
-          wvConfig::get('directory_scheduled') . '/' . $this->getUniqId(),
-          wvConfig::get('directory_published_assets') . '/'. $this->getUniqId(),
-          wvConfig::get('directory_iso_cache') . '/' . $this->getUniqId(),
-          wvConfig::get('directory_trash')
+          $this->getUniqId()
           );
 
       echo $command;
       $info = Generic::executeCommand($command, true);
       
-      $videoAsset = new VideoAsset();
-      $videoAsset
-      ->setAssetId($this->getId())
-      ->setLowQualityWidth(320)
-      ->setLowQualityHeight(240)
-      ->save();
+      if(chop($info)=='PUBLISHED')
+      {
+        switch($this->getAssetTypeCode())
+        {
+          case 'video':
+            $videoAsset = new VideoAsset();
+            $videoAsset
+            ->setAssetId($this->getId())
+            ->setLowQualityWidth(wvConfig::get('publishing_video_width'))
+            ->setLowQualityHeight(wvConfig::get('publishing_video_height'))
+            ->save();
+            break;
+        }
+      }
+      else
+      {
+        echo "NON PUBBLICATO\n";
+      }
+      print_r($info);
       
     }
     catch (Exception $e)
     {
-      //FIXME
-      return false;
+      throw $e;
     }
     
   }

@@ -14,20 +14,21 @@ class wviolaSyncusersTask extends sfBaseTask
       new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environment', 'dev'),
       new sfCommandOption('connection', null, sfCommandOption::PARAMETER_REQUIRED, 'The connection name', 'propel'),
       // add your own options here
-      new sfCommandOption('logged', null, sfCommandOption::PARAMETER_OPTIONAL, 'whether the execution will be logged in the DB', 'true'),
+      new sfCommandOption('logged', null, sfCommandOption::PARAMETER_OPTIONAL, 'Whether the execution will be logged in the DB', 'true'),
 
     ));
 
     $this->namespace        = 'wviola';
     $this->name             = 'sync-users';
-    $this->briefDescription = 'synchronizes users from an external source (LDAP)';
+    $this->briefDescription = 'Synchronizes users from an external source (LDAP)';
     $this->detailedDescription = <<<EOF
 The [wviola:sync-users|INFO] task synchronizes users from an external source.
-The source is the same LDAP server specified in app.yml for authentication,
-while the associations LDAP group => Wviola/sfGuardGroup are specified in 
+The source is the same LDAP server specified in [app.yml|COMMENT] for authentication, where
+you must also specify the associations LDAP group => Wviola/sfGuardGroup. 
+
 Call it with:
 
-  [php symfony wviola:sync-users|INFO]
+  [php symfony wviola:sync-users --env=prod --application=frontend|INFO]
 EOF;
 
     $this->_foundUsers=Array();

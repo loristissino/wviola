@@ -16,9 +16,9 @@ class wviolaScansourcesTask extends sfBaseTask
       // add your own options here
 	
       new sfCommandOption('subdir', null, sfCommandOption::PARAMETER_OPTIONAL, 'Subdirectory name', '/'),
-      new sfCommandOption('recursive', null, sfCommandOption::PARAMETER_OPTIONAL, 'whether recursion will be applied', 'false'),
+      new sfCommandOption('recursive', null, sfCommandOption::PARAMETER_OPTIONAL, 'Whether recursion will be applied', 'false'),
 //      new sfCommandOption('size-limit-for-md5sum', null, sfCommandOption::PARAMETER_OPTIONAL, 'size in bytes over which md5sums will not be computed (0 means no limit)', 0),
-	  new sfCommandOption('logged', null, sfCommandOption::PARAMETER_OPTIONAL, 'whether the execution will be logged in the DB', 'true'),
+	  new sfCommandOption('logged', null, sfCommandOption::PARAMETER_OPTIONAL, 'Whether the execution will be logged in the DB', 'true'),
 	
     ));
 
@@ -29,10 +29,10 @@ class wviolaScansourcesTask extends sfBaseTask
 The [wviola:scan-sources|INFO] task scans the source asset directory in order to find useful information and prepare thumbnails.
 Call it with:
 
-  [php symfony wviola:scan-sources|INFO]
+  [php symfony wviola:scan-sources --env=prod --application=frontend|INFO]
 
-The subdirectory name can be specified either as '/foo', 'foo/', 'foo' or '/foo/'.
-Anyway, it must exist and must be under the path specified in wviola.yml for sources.
+The subdirectory name can be specified either as '[/foo|COMMENT]', '[foo/|COMMENT]', '[foo|COMMENT]' or '[/foo/|COMMENT]'.
+Anyway, it must exist and must be under the path specified in [wviola.yml|COMMENT] for sources.
 
 The task ends with an exception if something goes wrong (e.g. when a file could not be
 read or written).
