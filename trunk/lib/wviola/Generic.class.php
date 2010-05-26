@@ -333,6 +333,15 @@ class Generic{
 		}
 	}
   
+  static public function str_replace_from_array($replacements, $source)
+  {
+    foreach($replacements as $key=>$value)
+    {
+      $source=str_replace($key, $value, $source);
+    }
+    return $source;
+  }
+  
   static public function getLuceneIndex($name)
   {
     ProjectConfiguration::registerZend();
@@ -347,8 +356,11 @@ class Generic{
  
   static public function getLuceneIndexFile($name)
   {
-    return sfConfig::get('sf_data_dir').'/' . $name . '.index';
- //   return sfConfig::get('sf_data_dir').'/' . $name . '.' .sfConfig::get('sf_environment').'.index';
+    return sprintf('%s/%s.%s.index',
+      wvConfig::get('directory_lucene_index'),
+      $name,
+      sfConfig::get('sf_environment')
+      );
   }
 
 }

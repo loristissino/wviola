@@ -1,0 +1,27 @@
+#!/bin/bash
+
+# This script was generated automatically on the base of wviola.yml config file.
+# DO NOT EDIT directly, unless you know what you are doing.
+#
+# To regenerate the scripts, run the task
+#     symfony wviola:generate-scripts
+#
+# See
+#     symfony help wviola:generate-scripts
+#  
+# for details
+
+if [[ $# -ne 1 ]]; then
+	echo $0 source
+	exit 1
+fi
+
+UNIQID="$1"
+ffmpeg -i "/var/wviola/data/filesystem/scheduled/$UNIQID" -ar 22050 -ab 32000 -f flv -s 320x240 "/var/wviola/data/filesystem/published/assets/$UNIQID.flv" || exit 2
+ffmpeg -i "/var/wviola/data/filesystem/scheduled/$UNIQID" -f ogg "/var/wviola/data/filesystem/iso_images/cache/$UNIQID.ogv" || exit 3
+
+mv -v "/var/wviola/data/filesystem/scheduled/$UNIQID" "/var/wviola/data/filesystem/trash" || exit 4
+
+
+echo 'PUBLISHED'
+

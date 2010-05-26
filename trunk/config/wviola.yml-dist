@@ -22,6 +22,12 @@ directory:
 
   executables: /var/wviola/lib/wviola/bin
   # where common utilities are to be found
+  
+  lucene_index: /var/wviola/data
+  # where Lucene index binary files will be put
+  # since different indexes may be built, we'll get different subdirectories 
+  # like /var/wviola/data/foo_prod.index/, /var/wviola/data/bar_prod.index/,
+  # and so on (the names are made up with the object indexed and the environment)
 
 thumbnail:
   number: 8
@@ -34,6 +40,7 @@ command:
   video_width: 320
   video_height: 240
   video_low_quality: ffmpeg -i "%source%" -ar 22050 -ab 32000 -f flv -s %width%x%height% "%target%"
+  video_high_quality: ffmpeg -i "%source%' -f ogv "%target%"
 
 filebrowser:
   md5sum_limit: f
