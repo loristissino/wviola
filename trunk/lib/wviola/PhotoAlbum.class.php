@@ -63,8 +63,16 @@ class PhotoAlbum
       }
     }
 //    echo $zipcommand . "\n";
-    
+
     $info=Generic::executeCommand($zipcommand);
+    
+    $chmodcommand=sprintf('sudo /bin/chown %s "%s/%s"', 
+      $this->getUsername(), 
+      $this->getDirectory(), 
+      $this->getFileName()
+      );
+    
+    $info=Generic::executeCommand($chmodcommand);
     
   }
    

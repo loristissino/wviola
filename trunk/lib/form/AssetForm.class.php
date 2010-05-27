@@ -82,16 +82,14 @@ class AssetForm extends BaseAssetForm
         $sfContext->getI18N()->__('Thumbnail %number%', array('%number%'=>$i))
       );
     }
-
+    
     $this->widgetSchema['thumbnail'] = new sfWidgetFormSelectRadio(
       array(
         'choices'=>$thumbnails,
-        'label_separator'=>'&nbsp;',
+        'label_separator'=>'&nbsp;' . 'CIAO'. $sourceFile->getThumbnailNb(). 'INODE'.$sourceFile->getStat('ino'),
         'separator'=>'',
         )
     );
-    
-    
     $this->validatorSchema['thumbnail'] = new sfValidatorInteger(array(
       'min'=>0,
       'max'=>$sourceFile->getThumbnailNb()-1,

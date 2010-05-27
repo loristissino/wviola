@@ -51,7 +51,7 @@ class SourceFolder
 		return Generic::getCompletePath($this->getBasicPath(), $this->getPath());
 	}
 		
-	public function getFolderItems()
+	public function getFolderItems($user='')
 		{
 			$fileList = scandir($this->getCompleteDirPath());
 			foreach ($fileList as $file)
@@ -64,6 +64,11 @@ class SourceFolder
 						unset($sourceFile);
 						continue;
 					}
+          elseif ($user!='' && $sourceFile->getOwner()!=$user)
+          {
+						unset($sourceFile);
+						continue;
+          }
 					else
 					{
 						$this->_folderItems[]=$sourceFile;

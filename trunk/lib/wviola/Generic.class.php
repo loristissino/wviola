@@ -376,4 +376,30 @@ class Generic{
 		return false;
   }
 
+
+  static public function logMessage($section, $content, $file='', $line='')
+  {
+    ob_start();
+    echo "\n--------- " . $section;
+    if($line || $file)
+    {
+      echo "\n > " . $file . ' (line '. $line . ')';
+    }
+    echo "\n > " . date('h:m:s') . "\n";
+    if($content)
+    {
+      print_r($content);
+    }
+    else
+    {
+      echo "[no content]";
+    }
+    
+    echo "\n";
+    $f=fopen('/var/wviola/log/wviolalog.txt', 'a');
+    fwrite($f, ob_get_contents());
+    fclose($f);
+    ob_end_clean();
+  }
+
 }

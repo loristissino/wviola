@@ -61,7 +61,7 @@
 		<?php if($item->getWvInfo('file_archivable')==true): ?>
 			<li class="sf_admin_action_archive"><?php echo link_to(
 				__('Archive'),
-				url_for('asset/new?name='. urlencode($item->getBaseName())),
+				url_for('filebrowser/archive?name='. urlencode($item->getBaseName())),
         array(
           'title'=>__('Archive asset «%filename%»', 
             array('%filename%'=>$item->getBaseName())
@@ -89,6 +89,7 @@
 </table>
 
 <?php else: ?>
-<p><?php echo __('This directory is empty.') ?></p>
+<p><?php echo __('This directory does not contain files owned by %username%.',
+  array('%username%'=>$profile->getUsername())) ?></p>
 <?php endif ?>
 

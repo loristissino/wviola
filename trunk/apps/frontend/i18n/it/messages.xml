@@ -213,8 +213,8 @@
         <target>Mostra l'originale già archiviato «%filename%»</target>
       </trans-unit>
       <trans-unit id="53">
-        <source>This directory is empty.</source>
-        <target>Questa directory è vuota.</target>
+        <source>This directory does not contain files owned by %username%.</source>
+        <target>Questa cartella non contiene file il cui proprietario è %username%.</target>
       </trans-unit>
       <trans-unit id="54">
         <source>The item has been successfully removed.</source>
@@ -247,6 +247,10 @@
       <trans-unit id="61">
         <source>Duration</source>
         <target>Durata</target>
+      </trans-unit>
+      <trans-unit id="62">
+        <source>Assigned title</source>
+        <target>Titolo assegnato</target>
       </trans-unit>
     </body>
   </file>

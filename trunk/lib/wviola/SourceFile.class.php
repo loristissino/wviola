@@ -99,7 +99,10 @@ class SourceFile extends BasicFile
 					$this->_gatherPictureInfo();
 					break;
 				case 'application':
-					$this->_gatherPhotoAlbumInfo();
+          if($subtype=='zip')
+          {
+            $this->_gatherPhotoAlbumInfo();
+          }
 					break;
 			}
 		}
@@ -128,6 +131,7 @@ class SourceFile extends BasicFile
       return;
     }
     
+    $this->setWvInfo('file_archivable', true);
     $this->setWvInfo('pictures_count', sizeof($info));
     $this->setWvInfo('pictures_list', $info);
         
@@ -323,18 +327,26 @@ class SourceFile extends BasicFile
   
   public function getThumbnailNb()
   {
-    return sizeof($this->getWvInfo('thumbnail'));
+    
+//    Generic::logMessage('TN', $this->getWvInfo('thumbnail'));
+    if($this->getWvInfo('thumbnail'))
+    {
+      return sizeof($this->getWvInfo('thumbnail'));
+    }
+    else
+    {
+      return 0;
+    }
   }
 	
 	
 	public function getThumbnail($number)
 	{
-		
 		Generic::removeLastCharIf($number, '.jpeg');
 		Generic::removeLastCharIf($number, '.png');
 		
 		$key='thumbnail_' . $number;
-		if (!$this->getHasWvInfo($key))
+		if (!$this->getHasWvInfoKey($key))
 		{
 			return false;
 		}
@@ -364,6 +376,11 @@ class SourceFile extends BasicFile
 		
 		return $this;
 	}
+  
+  public function getHasWvInfoKey($key)
+  {
+    return $this->getWvInfo($key)? true: false;
+  }
 
 	public function resetWvInfo()
 	{
