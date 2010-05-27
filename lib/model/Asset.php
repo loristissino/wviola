@@ -162,27 +162,35 @@ class Asset extends BaseAsset {
     ->setSourceLmd5Sum($sourcefile->getWvInfo('file_lmd5sum'))
     ;
     
-    $thumbnail=$sourcefile->getThumbnail($values['thumbnail']);
+    
+    $thumbnail=false;
+    if(array_key_exists('thumbnail', $values))
+    {
+      $thumbnail=$sourcefile->getThumbnail($values['thumbnail']);
+    }
 
     $uniqid = $sourcefile->moveFileToScheduled($this->getAssetTypeShortCode());
 
-    try
+    if ($thumbnail)
     {
-      $fp=fopen(wvConfig::get('directory_published_thumbnails'). '/' . $uniqid . '.jpeg', 'w');
-      $content=base64_decode($thumbnail['base64content']);
-      fwrite($fp, $content, strlen($content));
-      fclose($fp);
-      $this
-      ->setHasThumbnail(true)
-      ->setThumbnailWidth($thumbnail['width'])
-      ->setThumbnailHeight($thumbnail['height'])
-      ->setThumbnailPosition($thumbnail['position'])
-      ;
-    }
-    catch (Exception $e)
-    {
-      // TODO: what else, if a thumbnail cannot be written?
-      $this->setHasThumbnail(false);
+      try
+      {
+        $fp=fopen(wvConfig::get('directory_published_thumbnails'). '/' . $uniqid . '.jpeg', 'w');
+        $content=base64_decode($thumbnail['base64content']);
+        fwrite($fp, $content, strlen($content));
+        fclose($fp);
+        $this
+        ->setHasThumbnail(true)
+        ->setThumbnailWidth($thumbnail['width'])
+        ->setThumbnailHeight($thumbnail['height'])
+        ->setThumbnailPosition($thumbnail['position'])
+        ;
+      }
+      catch (Exception $e)
+      {
+        // TODO: what else, if a thumbnail cannot be written?
+        $this->setHasThumbnail(false);
+      }
     }
 
     if ($uniqid)

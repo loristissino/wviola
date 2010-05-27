@@ -37,6 +37,10 @@ Anyway, it must exist and must be under the path specified in [wviola.yml|COMMEN
 The task ends with an exception if something goes wrong (e.g. when a file could not be
 read or written).
 
+Please note that the user who launches this script must have sudo privileges in order 
+to create zip file for pictures collections (photoalbums) and chown them to the owner
+of the pictures collected: if this script is lauched in a cron job, you might need to specify the NOPASSWD option in your [/etc/sudoers|COMMENT] file.
+
 EOF;
 
 	$this->_isRecursive=false;
@@ -163,11 +167,11 @@ EOF;
         $this->logSection('album', $user, null, 'COMMENT');
         $photoAlbum= new PhotoAlbum($completeDirPath, $files, $user);
         $photoAlbum->processFileList();
+        $this->logSection('file+', $photoAlbum->getCompletePath());
         foreach($photoAlbum->getFiles() as $image)
         {
           $this->logSection('file-', $image, null, 'INFO');
         }
-        $this->logSection('file+', $photoAlbum->getCompletePath());
         unset($photoAlbum);
       }
     }
@@ -307,11 +311,17 @@ EOF;
 	}
   
   $notices = $taskLogEvent->retrieveUsersToSendEmailsTo();
-  foreach($notices as $user=>$number)
+  
+  if(sizeof($notices)>0)
   {
-    $profile=sfGuardUserProfilePeer::retrieveByPK($user);
-    $profile->sendSourceReadyNotice($this->getMailer(), $number);
-    $this->logSection('mail+', $profile->getEmail() . ' (' . $number . ')', null, 'INFO');
+    echo "\n";
+    $this->logSection('mail', 'Email notices sent', null, 'COMMENT');
+    foreach($notices as $user=>$number)
+    {
+      $profile=sfGuardUserProfilePeer::retrieveByPK($user);
+      $profile->sendSourceReadyNotice($this->getMailer(), $number);
+      $this->logSection('mail+', $profile->getEmail() . ' (' . $number . ')', null, 'INFO');
+    }
   }
 
 	return 0;

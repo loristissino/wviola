@@ -45,7 +45,7 @@ class filebrowserActions extends sfActions
 		
 		//$this->folder->scanSourcesInBackground($this->getContext());
 		
-		$this->folder_items=$this->folder->getFolderItems();
+		$this->folder_items=$this->folder->getFolderItems($this->profile->getUsername());
 		
 	
   }
@@ -101,6 +101,7 @@ class filebrowserActions extends sfActions
     }
     
     $this->getUser()->setAttribute('sourcefile', $this->sourcefile);
+    
     $this->forward('asset', 'new');
     
   }

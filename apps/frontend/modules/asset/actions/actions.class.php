@@ -84,12 +84,15 @@ class assetActions extends sfActions
 
   public function executeNew(sfWebRequest $request)
   {
-    
     $this->forward404Unless($this->sourcefile=$this->getUser()->getAttribute('sourcefile'));
     $this->form = new AssetForm($this->getUser()->getProfile()->getUserId());
-    $this->form->addThumbnailWidget($this->sourcefile, $this->getContext());
-    $this->form->setDefault('thumbnail', $request->getParameter('thumbnail', 0));
-    $this->form->setOption('thumbnail', true);
+    
+    if($this->sourcefile->getThumbnailNb()>0)
+    {
+      $this->form->addThumbnailWidget($this->sourcefile, $this->getContext());
+      $this->form->setDefault('thumbnail', $request->getParameter('thumbnail', 0));
+      $this->form->setOption('thumbnail', true);
+    }
     
     $this->binderform = new BinderForm();
   }
@@ -102,8 +105,12 @@ class assetActions extends sfActions
     $this->binderform = new BinderForm();
 
     $this->form = new AssetForm($this->getUser()->getProfile()->getUserId());
-    $this->form->addThumbnailWidget($this->sourcefile, $this->getContext());
-    $this->form->setOption('thumbnail', true);
+    if($this->sourcefile->getThumbnailNb()>0)
+    {
+      $this->form->addThumbnailWidget($this->sourcefile, $this->getContext());
+      $this->form->setOption('thumbnail', true);
+    }
+    
     $this->processForm($request, $this->form, $this->sourcefile);
 
     $this->setTemplate('new');

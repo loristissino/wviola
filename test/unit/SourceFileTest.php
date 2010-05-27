@@ -2,7 +2,7 @@
 
 require_once dirname(__FILE__).'/../bootstrap/FileSystem.php';
  
-$t = new lime_test(33, new lime_output_color());
+$t = new lime_test(35, new lime_output_color());
 
 $t->diag('SourceFile functions');
 
@@ -19,6 +19,9 @@ $t->is($file->getWvDirIsWriteable(), false, '->getWvDirIsWriteable() returns the
 $t->is($file->canWriteWvDir(), true, '->canWriteWvDir() returns the correct value');
 
 $t->is($file->getHasWvInfo(), false, '->getHasWvInfo() returns false if there is no information about the file');
+$t->is($file->getHasWvInfoKey('foo'), false, '->getHasWvInfoKey() returns false if the key specified is not there');
+$file->setWvInfo('foo_bar', 'baz');
+$t->is($file->getHasWvInfoKey('foo_bar'), true, '->getHasWvInfoKey() returns false if the key specified is there');
 
 unset($file);
 
@@ -132,4 +135,3 @@ $uniqid=$file->moveFileToScheduled('vid');
 $t->cmp_ok($uniqid, '!==', false, '->moveFileToScheduled() returns the uniqid of the file');
 $t->is(file_exists(wvConfig::get('directory_scheduled') . '/' . $uniqid), true, '->moveFileToScheduled() actually moves the file');
 $t->is(file_exists($file->getWvInfoFilePath()), false, '->moveFileToScheduled() deletes the wvinfo file');
-
