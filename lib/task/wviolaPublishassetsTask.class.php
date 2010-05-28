@@ -45,6 +45,7 @@ EOF;
     $connection = $databaseManager->getDatabase($options['connection'] ? $options['connection'] : null)->getConnection();
 
     // add your code here
+    
 
 	$this->_isLogged=Generic::normalizedBooleanValue($options['logged'], true);
 	$options['logged']=Generic::normalizedBooleanDescription($this->_isLogged);

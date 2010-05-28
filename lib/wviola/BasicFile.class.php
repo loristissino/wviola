@@ -22,7 +22,7 @@ class BasicFile
 				break;
 		}
     
-    $list=wvConfig::get('publishing_estensions_used');
+    $list=wvConfig::get('publishing_extensions_used');
     
     $found=false;
     $orig=$this->getBasename();
@@ -38,7 +38,7 @@ class BasicFile
     
 		if (!$found)
 		{
-			throw new Exception(sprintf('Not a valid file: %s', $this->getFullPath()));
+			throw new Exception(sprintf('Not a valid file: %s* (tried %s)', $orig, $this->getFullPath()));
 		}
 		
 		if ($this->getStat('size')<0)

@@ -75,7 +75,7 @@ EOF;
 
 		if ($file->getShouldBeSkipped())
 		{
-			$this->logSection('info', 'Skipped for file name matching.', null, 'COMMENT');
+			$this->logSection('info', 'Skipped for file name not beeing in white list.', null, 'COMMENT');
 			unset($file);
 			return;
 		}

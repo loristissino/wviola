@@ -86,7 +86,7 @@ class AssetForm extends BaseAssetForm
     $this->widgetSchema['thumbnail'] = new sfWidgetFormSelectRadio(
       array(
         'choices'=>$thumbnails,
-        'label_separator'=>'&nbsp;' . 'CIAO'. $sourceFile->getThumbnailNb(). 'INODE'.$sourceFile->getStat('ino'),
+        'label_separator'=>'&nbsp;',
         'separator'=>'',
         )
     );

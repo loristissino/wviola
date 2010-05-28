@@ -59,14 +59,14 @@ class SourceFile extends BasicFile
 	public function appendMD5Sum()
 	{
 		$this->
-		setWvInfo('file_md5sum', 
+		setWvInfo('file_lmd5sum', 
       $this->getMD5Sum(
         wvConfig::get('filebrowser_md5sum_limit'))
       );
     
     if($Asset=AssetPeer::retrieveBySourceSizeAndMd5sum(
       $this->getWvInfo('file_size'),
-      $this->getWvInfo('file_md5sum')
+      $this->getWvInfo('file_lmd5sum')
       ))
     {
       $this->setWvInfo('file_asset_id', $Asset->getId());

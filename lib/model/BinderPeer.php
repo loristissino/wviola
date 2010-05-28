@@ -26,5 +26,13 @@ class BinderPeer extends BaseBinderPeer {
     $c->add(BinderPeer::USER_ID, $user_id);
     return BinderPeer::doSelect($c);
   }
+  
+  
+  public static function retrieveByNotes($text)
+  {
+    $c = new Criteria();
+    $c->add(BinderPeer::NOTES, '%' . $text .'%', Criteria::LIKE);
+    return BinderPeer::doSelect($c);
+  }
 
 } // BinderPeer
