@@ -26,6 +26,7 @@ class VideoAsset extends BaseVideoAsset {
 
 	public function getVideoFile()
 	{
+    // returns the low quality file
 		$this->_uniqid=$this->getAsset()->getUniqid();
 		$this->_assetFile=new VideoFile($this->_uniqid);
 		return $this->_assetFile;

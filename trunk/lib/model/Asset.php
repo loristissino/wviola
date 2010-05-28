@@ -259,26 +259,35 @@ class Asset extends BaseAsset {
           ->setAssetId($this->getId())
           ->gatherInfo()
           ->save();
+          unset($videoAsset);
           break;
         case 'photoalbum':
           $photoalbumAsset = new PhotoalbumAsset();
           $photoalbumAsset
           ->setAssetId($this->getId())
           ->save();
+          unset($photoalbumAsset);
           break;
         case 'picture':
           $pictureAsset = new PictureAsset();
           $pictureAsset
           ->setAssetId($this->getId())
           ->save();
+          unset($pictureAsset);
           break;
         case 'audio':
           $audioAsset = new AudioAsset();
           $audioAsset
           ->setAssetId($this->getId())
           ->save();
+          unset($audioAsset);
           break;
       }
+      $this
+      ->setHighqualityMd5sum($this->getPublishedFile('high')->getMD5Sum())
+      ->setLowqualityMd5sum($this->getPublishedFile('low')->getMD5Sum())
+      ->setStatus(self::CACHED)
+      ->save();
       
     }
     catch (Exception $e)
@@ -288,5 +297,10 @@ class Asset extends BaseAsset {
     
   }
   
+  public function getPublishedFile($quality)
+  {
+    $file = new PublishedFile($this->getUniqId(), $quality);
+    return $file;
+  }
 
 } // Asset
