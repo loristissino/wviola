@@ -183,7 +183,7 @@ class Asset extends BaseAsset {
         ->setHasThumbnail(true)
         ->setThumbnailWidth($thumbnail['width'])
         ->setThumbnailHeight($thumbnail['height'])
-        ->setThumbnailPosition($thumbnail['position'])
+        ->setThumbnailPosition(array_key_exists('position', $thumbnail)? $thumbnail['position']: null)
         ;
       }
       catch (Exception $e)

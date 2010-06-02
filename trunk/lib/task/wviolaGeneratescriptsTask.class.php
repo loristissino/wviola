@@ -53,6 +53,13 @@ EOF;
 #  
 # for details
 
+if [[ $# -ne 1 ]]; then
+	echo $0 source
+	exit 1
+fi
+
+UNIQID="$1"
+
 EOF;
   }
   
@@ -79,33 +86,15 @@ EOF;
   
   protected function generateScripts()
   {
-    // I must generate at least:
-    
-    /*
 
-    publish_video
-    publish_photoalbum
+    // publish_video script
 
-    */
-    
     $content=$this->getStandardBaseScript();
-    
-    $content.=<<<EOF
-
-if [[ $# -ne 1 ]]; then
-	echo $0 source
-	exit 1
-fi
-
-UNIQID="$1"
-
-EOF;
 
     $command=wvConfig::get('publishing_video_low_quality_command');
     $height=wvConfig::get('publishing_video_height');
     $width=wvConfig::get('publishing_video_width');
     
-
     $command=Generic::str_replace_from_array(array(
       '%source%'=>wvConfig::get('directory_scheduled') . '/$UNIQID',
       '%width%'  =>$width,
@@ -145,6 +134,100 @@ EOF;
     $content .= $command . "\n";
     
     $this->saveFile('publish_video', $content);
+    
+    // publish_photoalbum script
+
+    $content=$this->getStandardBaseScript();
+
+    $low_height=wvConfig::get('publishing_picture_low_quality_height');
+    $low_width=wvConfig::get('publishing_picture_low_quality_width');
+    $low_quality=wvConfig::get('publishing_picture_low_quality_jpeg_quality');
+    $low_command=wvConfig::get('publishing_picture_low_quality_command');
+    
+    $high_height=wvConfig::get('publishing_picture_high_quality_height');
+    $high_width=wvConfig::get('publishing_picture_high_quality_width');
+    $high_quality=wvConfig::get('publishing_picture_high_quality_jpeg_quality');
+    $high_command=wvConfig::get('publishing_picture_high_quality_command');
+        
+    $command = <<<EOF
+
+TEMPDIR=$(mktemp -d)
+
+unzip "%source%" -d \$TEMPDIR || exit 2
+cd \$TEMPDIR
+mkdir low high
+for IMAGE in $(find . -maxdepth 1  -type f); do
+  %low_command% || exit 3
+  %high_command% || exit 4
+done
+
+EOF;
+
+    $command=Generic::str_replace_from_array(array(
+      '%source%'=>wvConfig::get('directory_scheduled') . '/$UNIQID',
+      ),
+      $command
+    );
+    $command=Generic::str_replace_from_array(array(
+      '%low_command%'=>$low_command,
+      '%width%'  =>$low_width,
+      '%height%' =>$low_height,
+      '%quality%' =>$low_quality,
+      '%source%' => '$IMAGE',
+      '%target%' => 'low/$IMAGE',
+      ),
+      $command
+    );
+    $command=Generic::str_replace_from_array(array(
+      '%high_command%'=>$high_command,
+      '%width%'  =>$high_width,
+      '%height%' =>$high_height,
+      '%quality%' =>$high_quality,
+      '%source%' => '$IMAGE',
+      '%target%' => 'high/$IMAGE',
+      ),
+      $command
+    );
+
+    $content .= $command;
+    
+    $command = 'zip "%target%" --junk-paths low/*';
+    $command=Generic::str_replace_from_array(array(
+      '%target%'=>wvConfig::get('directory_published_assets') . '/$UNIQID' . wvConfig::get('publishing_photoalbum_low_quality_extension'),
+      ),
+      $command
+    );
+
+    $content .= $command . " || exit 5\n";
+
+    $command = 'zip "%target%" --junk-paths high/*';
+    $command=Generic::str_replace_from_array(array(
+      '%target%'=>wvConfig::get('directory_iso_cache') . '/$UNIQID' . wvConfig::get('publishing_photoalbum_high_quality_extension'),
+      ),
+      $command
+    );
+
+    $content .= $command . " || exit 6\n";
+
+    $command = 'mv -v "%source%" "%target%"';
+    $command = Generic::str_replace_from_array(array(
+      '%source%'=>wvConfig::get('directory_scheduled') . '/$UNIQID',
+      '%target%'=>wvConfig::get('directory_trash'),
+      ),
+      $command
+    ); 
+
+    $content .= $command . " || exit 7\n\n\n";
+
+    $command = "echo 'PUBLISHED'\n";
+
+    $content .= $command . "\n";
+    
+    $command = "cd; rm -rf \$TEMPDIR\n";
+
+    $content .= $command . "\n";
+
+    $this->saveFile('publish_photoalbum', $content);
 
   }
   

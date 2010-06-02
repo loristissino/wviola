@@ -22,4 +22,6 @@ ffmpeg -i "/var/wviola/data/filesystem/scheduled/$UNIQID" -f ogg "/var/wviola/da
 
 mv -v "/var/wviola/data/filesystem/scheduled/$UNIQID" "/var/wviola/data/filesystem/trash" || exit 4
 
+
 echo 'PUBLISHED'
+
