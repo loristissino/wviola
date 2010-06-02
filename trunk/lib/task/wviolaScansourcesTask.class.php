@@ -150,7 +150,7 @@ EOF;
     
     foreach($filenames as $basename)
     {
-      if (Generic::matchesOneOf(wvConfig::get('filebrowser_photo_album_items'), $basename))
+      if (Generic::matchesOneOf(wvConfig::get('filebrowser_photoalbum_items'), $basename))
       {
         $file= new BasicFile($completeDirPath, $basename);
         $files[$basename]=$file->getOwner();
