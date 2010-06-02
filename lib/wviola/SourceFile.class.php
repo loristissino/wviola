@@ -53,7 +53,7 @@ class SourceFile extends BasicFile
 	
 	public function getHasMD5Sum()
 	{
-		return $this->getWvInfo('file_md5sum')!='';
+		return $this->getWvInfo('file_lmd5sum')!='';
 	}
 
 	public function appendMD5Sum()
