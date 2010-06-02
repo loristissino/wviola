@@ -43,6 +43,17 @@ publishing:
   video_high_quality_command: ffmpeg -i "%source%' -f ogg "%target%"
   video_low_quality_extension: .flv
   video_high_quality_extension: .ogv
+  picture_low_quality_width: 640
+  picture_low_quality_height: 480
+  picture_low_quality_jpeg_quality: 75
+  picture_high_quality_width: 800
+  picture_high_quality_height: 600
+  picture_high_quality_jpeg_quality: 90
+  picture_low_quality_command: convert "%source%" -scale %width%x%height% -quality %quality% "%target%"
+  picture_high_quality_command: convert "%source%" -scale %width%x%height% -quality %quality% "%target%"
+  photoalbum_low_quality_extension: .zip
+  photoalbum_high_quality_extension: .zip
+
   extensions_used: [ '', '.flv', '.ogg', '.ogv', '.mp3', '.zip' ]
   # this is useful because when we look for a file we could try with a different
   # extension
