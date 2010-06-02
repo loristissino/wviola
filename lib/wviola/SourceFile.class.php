@@ -120,10 +120,62 @@ class SourceFile extends BasicFile
   public function _gatherPhotoalbumInfo()
   {
     $this->setWvInfo('source_type', self::PHOTOALBUM);
+
+    $thumbnailsNumber=wvConfig::get('thumbnail_number', 5);
+
+		$thumbnailWidth=wvConfig::get('thumbnail_width', 60);
+		$thumbnailHeight=wvConfig::get('thumbnail_height', 45);
+
+    $i=0;
+    $count=0;
     
     try
     {
-      $info=$this->executeCommand(sprintf('zipinfo -1 "%s"', $this->getFullPath()));
+      $filelist=$this->executeCommand(sprintf('zipinfo -1 "%s"', $this->getFullPath()));
+      $tempdir=sys_get_temp_dir() . '/'. $this->getBasename() . '-' . date('Uu');
+      mkdir($tempdir);
+      $list=array();
+      foreach($filelist as $imagefile)
+      {
+        if (Generic::matchesOneOf(wvConfig::get('filebrowser_photoalbum_items'), $imagefile))
+        {
+          
+          if ($i<$thumbnailsNumber)
+          {
+            $this->executeCommand(sprintf('unzip "%s" "%s" -d "%s"',
+              $this->getFullPath(),
+              $imagefile,
+              $tempdir
+              ));
+//            Generic::logMessage('File unzipped', $imagefile);
+            
+            $thumbnail = new sfThumbnail($thumbnailWidth, $thumbnailHeight);
+            $thumbnail->loadFile($tempdir . '/'. $imagefile);
+            $thumbnail->save($tempdir . '/thumb.jpeg', 'image/jpeg');
+            
+            $position=$i;
+            
+            $content=base64_encode(file_get_contents($tempdir . '/thumb.jpeg'));
+            
+            $this->setWvInfo('thumbnail_' . $i . '_width', $thumbnail->getThumbWidth());
+            $this->setWvInfo('thumbnail_' . $i . '_height', $thumbnail->getThumbHeight());
+            $this->setWvInfo('thumbnail_' . $i . '_base64content', $content);          
+            
+            unlink($tempdir . '/thumb.jpeg');
+            unlink($tempdir . '/' . $imagefile);
+//            Generic::logMessage('File removed', $imagefile);
+            $i++;
+            unset($thumbnail);
+          }
+          $count++;
+          $list[]=$imagefile; // some files may be not images, so we exclude them
+        }
+      }
+      
+      
+      rmdir($tempdir);
+//      Generic::logMessage('Directory removed', $tempdir);
+
     }
     catch (Exception $e)
     {
@@ -132,8 +184,8 @@ class SourceFile extends BasicFile
     }
     
     $this->setWvInfo('file_archivable', true);
-    $this->setWvInfo('pictures_count', sizeof($info));
-    $this->setWvInfo('pictures_list', $info);
+    $this->setWvInfo('pictures_count', $count); // FIXME
+    $this->setWvInfo('pictures_list', $list);
         
 		return;
   }

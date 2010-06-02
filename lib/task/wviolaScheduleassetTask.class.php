@@ -21,6 +21,7 @@ class wviolaScheduleassetsTask extends sfBaseTask
       new sfCommandOption('binder', null, sfCommandOption::PARAMETER_REQUIRED, 'Binder', ''),
       new sfCommandOption('title', null, sfCommandOption::PARAMETER_REQUIRED, 'Title', ''),
       new sfCommandOption('notes', null, sfCommandOption::PARAMETER_REQUIRED, 'Notes', ''),
+      new sfCommandOption('thumbnail', null, sfCommandOption::PARAMETER_REQUIRED, 'Thumbnail', ''),
       
 	  new sfCommandOption('logged', null, sfCommandOption::PARAMETER_OPTIONAL, 'Whether the execution will be logged in the DB', 'true'),
     ));
@@ -97,6 +98,7 @@ EOF;
       'binder_id'=>$binder->getId(),
       'assigned_title'=>$options['title'],
       'notes'=>$options['notes'], 
+      'thumbnail'=>$options['thumbnail'],
     )
     ))
   {

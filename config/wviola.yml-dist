@@ -31,7 +31,7 @@ directory:
 
 thumbnail:
   number: 8
-  # number of thumbnails to prepare for each video  
+  # number of thumbnails to prepare for each asset (videos and photoalbums)  
   width: 60
   height: 45
   # the size of the thumbnail to prepare  
@@ -50,6 +50,7 @@ publishing:
 
 filebrowser:
   md5sum_limit: f
+  photoalbum_items: [ '/jpg$/', '/png$/' ]
   white_list: [ '/png$/i', '/jpg$/i', '/mov$/i', '/mpeg$/i', '/mpg$/i', '/avi$/i', '/ogv$/i' ]
   # regular expressions to use with filenames: only files matching are scanned
 
