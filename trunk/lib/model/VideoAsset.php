@@ -62,5 +62,11 @@ class VideoAsset extends BaseVideoAsset {
     return $this;
     
   }
+  
+  public function getLowQualityCorrectedWidth()
+  {
+    return floor($this->getLowQualityHeight()*$this->getHighQualityAspectRatio());
+  }
+  
 
 } // VideoAsset

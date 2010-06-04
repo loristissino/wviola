@@ -21,6 +21,7 @@ abstract class BaseBinderForm extends BaseFormPropel
       'notes'       => new sfWidgetFormTextarea(),
       'event_date'  => new sfWidgetFormDate(),
       'is_open'     => new sfWidgetFormInputCheckbox(),
+      'archive_id'  => new sfWidgetFormPropelChoice(array('model' => 'Archive', 'add_empty' => true)),
       'created_at'  => new sfWidgetFormDateTime(),
       'updated_at'  => new sfWidgetFormDateTime(),
     ));
@@ -32,6 +33,7 @@ abstract class BaseBinderForm extends BaseFormPropel
       'notes'       => new sfValidatorString(array('required' => false)),
       'event_date'  => new sfValidatorDate(array('required' => false)),
       'is_open'     => new sfValidatorBoolean(array('required' => false)),
+      'archive_id'  => new sfValidatorPropelChoice(array('model' => 'Archive', 'column' => 'id', 'required' => false)),
       'created_at'  => new sfValidatorDateTime(array('required' => false)),
       'updated_at'  => new sfValidatorDateTime(array('required' => false)),
     ));

@@ -107,6 +107,12 @@ class BasicFile
 		$command=sprintf('file --dereference --brief --mime-type "%s"', $this->getFullPath());
 		$mimeType=$this->executeCommand($command);
 		
+    if (!strpos($mimeType, '/'))
+    {
+      return null;
+      // if the file is not readable or for other problems...
+    }
+    
 		list($type, $subtype)=explode('/', $mimeType);
 		
 		if($type=='application')

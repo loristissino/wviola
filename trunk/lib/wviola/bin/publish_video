@@ -24,4 +24,3 @@ mv -v "/var/wviola/data/filesystem/scheduled/$UNIQID" "/var/wviola/data/filesyst
 
 
 echo 'PUBLISHED'
-

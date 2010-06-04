@@ -34,7 +34,6 @@ CREATE TABLE "asset"
 	"uniqid" VARCHAR(50)  NOT NULL,
 	"binder_id" INTEGER,
 	"status" INTEGER,
-	"archive_id" INTEGER,
 	"asset_type" INTEGER,
 	"assigned_title" VARCHAR(255),
 	"notes" TEXT,
@@ -43,6 +42,7 @@ CREATE TABLE "asset"
 	"source_size" INT8,
 	"source_lmd5sum" VARCHAR(34),
 	"highquality_md5sum" VARCHAR(32),
+	"highquality_size" INT8,
 	"lowquality_md5sum" VARCHAR(32),
 	"has_thumbnail" BOOLEAN,
 	"thumbnail_width" INTEGER,
@@ -63,6 +63,8 @@ SET search_path TO public;
 CREATE INDEX "asset_I_1" ON "asset" ("source_size");
 
 CREATE INDEX "asset_I_2" ON "asset" ("source_lmd5sum");
+
+CREATE INDEX "asset_I_3" ON "asset" ("highquality_size");
 
 -----------------------------------------------------------------------------
 -- video_asset
@@ -169,6 +171,7 @@ CREATE TABLE "binder"
 	"notes" TEXT,
 	"event_date" DATE,
 	"is_open" BOOLEAN default 't',
+	"archive_id" INTEGER,
 	"created_at" TIMESTAMP,
 	"updated_at" TIMESTAMP,
 	PRIMARY KEY ("id")
@@ -299,8 +302,6 @@ ALTER TABLE "sf_guard_user_profile" ADD CONSTRAINT "sf_guard_user_profile_FK_1" 
 
 ALTER TABLE "asset" ADD CONSTRAINT "asset_FK_1" FOREIGN KEY ("binder_id") REFERENCES "binder" ("id");
 
-ALTER TABLE "asset" ADD CONSTRAINT "asset_FK_2" FOREIGN KEY ("archive_id") REFERENCES "archive" ("id");
-
 ALTER TABLE "video_asset" ADD CONSTRAINT "video_asset_FK_1" FOREIGN KEY ("asset_id") REFERENCES "asset" ("id") ON UPDATE CASCADE ON DELETE CASCADE;
 
 ALTER TABLE "picture_asset" ADD CONSTRAINT "picture_asset_FK_1" FOREIGN KEY ("asset_id") REFERENCES "asset" ("id") ON UPDATE CASCADE ON DELETE CASCADE;
@@ -312,6 +313,8 @@ ALTER TABLE "audio_asset" ADD CONSTRAINT "audio_asset_FK_1" FOREIGN KEY ("asset_
 ALTER TABLE "binder" ADD CONSTRAINT "binder_FK_1" FOREIGN KEY ("user_id") REFERENCES "sf_guard_user_profile" ("user_id") ON UPDATE CASCADE ON DELETE CASCADE;
 
 ALTER TABLE "binder" ADD CONSTRAINT "binder_FK_2" FOREIGN KEY ("category_id") REFERENCES "category" ("id");
+
+ALTER TABLE "binder" ADD CONSTRAINT "binder_FK_3" FOREIGN KEY ("archive_id") REFERENCES "archive" ("id");
 
 ALTER TABLE "archive" ADD CONSTRAINT "archive_FK_1" FOREIGN KEY ("user_id") REFERENCES "sf_guard_user_profile" ("user_id") ON UPDATE CASCADE ON DELETE CASCADE;
 
