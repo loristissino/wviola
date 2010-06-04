@@ -270,6 +270,26 @@ L'estrazione avviene (vedi file _lib/wviola/bin/resettestfilesystem.sh_) con l'e
 rsync -az --delete /etc/wviola/filesystem /var/wviola/data/
 }}}
 
+=== Deleghe ===
+
+Alcuni task e/o azioni potrebbero necessitare di privilegi utenti specifici e pertanto si dovrà intervenire modificando il file di gestione delle deleghe _/etc/sudoers_.
+
+Ad esempio, per fare in modo che il task _wviola:scan-sources_ possa creare file zip che risultino di proprietà dell'utente proprietario dei file della raccolta, l'utente che lancia il task deve avere la delega per l'esecuzione del comando _chown_ nella directory dei file degli originali da archiviare.
+
+Una configurazione come la seguente dovrebbe permettere all'utente _loris_ di eseguire il comando `/bin/chown` assegnando a qualsiasi utente la proprietà di un file presente nella directory _/var/wviola/data/sources_:
+
+{{{
+...
+...
+# User alias specification
+User_Alias WVIOLA_CLIUSER=loris
+
+# Cmnd alias specification
+Cmnd_Alias WVIOLA_COMMANDS = /bin/chown * /var/wviola/data/sources/*
+
+WVIOLA_CLIUSER ALL=NOPASSWD: WVIOLA_COMMANDS
+}}}
+
 === Altre impostazioni ===
 
 Il file _wviola.yml_ contiene tutte le impostazioni che devono essere utilizzabili direttamente dal modello, anche quando l'applicazione web non è lanciata (ad esempio nei task da riga di comando o nei test di unità).
@@ -303,6 +323,12 @@ directory:
 
   executables: /var/wviola/lib/wviola/bin
   # where common utilities are to be found
+  
+  lucene_index: /var/wviola/data
+  # where Lucene index binary files will be put
+  # since different indexes may be built, we'll get different subdirectories 
+  # like /var/wviola/data/foo_prod.index/, /var/wviola/data/bar_prod.index/,
+  # and so on (the names are made up with the object indexed and the environment)
 
 thumbnail:
   number: 8
@@ -311,17 +337,34 @@ thumbnail:
   height: 45
   # the size of the thumbnail to prepare  
 
+publishing:
+  video_width: 320
+  video_height: 240
+  video_low_quality_command: ffmpeg -i "%source%" -ar 22050 -ab 32000 -f flv -s %width%x%height% "%target%"
+  video_high_quality_command: ffmpeg -i "%source%' -f ogg "%target%"
+  video_low_quality_extension: .flv
+  video_high_quality_extension: .ogv
+  estensions_used: [ '', '.flv', '.ogg', '.ogv', '.mp3' ]
+  # this is useful because when we look for a file we could try with a different
+  # extension
+
 filebrowser:
-  skipped_files: [ '/~$/', '/doc$/i', '/ppt$/i', '/txt$/i', '/odt$/i' ]
-  # regular expressions to use with filenames: files matching are skipped
+  md5sum_limit: f
+  white_list: [ '/png$/i', '/jpg$/i', '/mov$/i', '/mpeg$/i', '/mpg$/i', '/avi$/i', '/ogv$/i' ]
+  # regular expressions to use with filenames: only files matching are scanned
+
+mail:
+  bot_address: wviola@example.com
+  bot_name: WVIOLA bot
+  sourceready_template: /var/wviola/templates/email/it/sourcesready.yml
+  # configuration for sending mail out is in the apps/frontend/config/factories.yml file
 }}}
 
 === Mailer ===
 
 L'applicazione è in grado di spedire dei messaggi di posta elettronica agli utenti.
 
-È necessario però configurare, agendo sul file _/apps/frontend/config/factories.yml_, quale server di 
-posta va usato, quale strategia di spedizione, ecc.
+È necessario però configurare, agendo sul file _/apps/frontend/config/factories.yml_, quale server di posta va usato, quale strategia di spedizione, ecc.
 
 Per informazioni al riguardo, si rimanda a:
 

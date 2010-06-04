@@ -33,6 +33,8 @@ Facendo clic sul link "Archivia" gli si apre una finestra in cui gli viene chies
 
 Un asset viene inserito in un raccoglitore (_binder_) collegato all'utente: è nel raccoglitore che potranno essere inserite informazioni quali categoria, data dell'evento, ecc.
 
+Per quanto riguarda le fotografie, Matthew sa che tutte le fotografie di cui è proprietario poste nella stessa directory verranno automaticamente trasformate in un album fotografico, che verrà archiviato come un unico asset.
+
 === Ricerca e visualizzazione di un asset ===
 
 John deve visualizzare alcuni asset tra quelli precedentemente archiviati.
@@ -121,6 +123,8 @@ Il task dovrebbe essere richiamabile con il comando:
 {{{
 symfony wviola:prepare-archive --env=prod
 }}}
+
+TODO: Questa parte va rivista, considerato il fatto che si è deciso di archiviare i raccoglitori, non i singoli asset.
 
 === Predisposizione anteprime ===
 
