@@ -24,19 +24,39 @@ class PhotoalbumAsset extends BasePhotoalbumAsset {
 		$_uniqid,
 		$_assetFile;
 
-	public function getPhotoalbumFile()
+	public function getPhotoalbumFile($session='')
 	{
     // returns the low quality file
-		$this->_uniqid=$this->getAsset()->getUniqid();
-		$this->_assetFile=new PhotoalbumFile($this->_uniqid);
+    if (!$this->_assetFile)
+    {
+      $this->_uniqid=$this->getAsset()->getUniqid();
+      $this->_assetFile=new PhotoalbumFile($this->_uniqid, $session);
+    }
 		return $this->_assetFile;
 	}
-  
   
   public function gatherInfo()
   {
     $this->setPicturesCount($this->getPhotoalbumFile()->getPicturesCount());
     return $this;
+  }
+  
+  public function getPictureWidth($number, $session='')
+  {
+    // simple proxy
+    return $this->getPhotoalbumFile($session)->getPictureWidth($number);
+  }
+  
+  public function getPictureHeight($number, $session='')
+  {
+    // simple proxy
+    return $this->getPhotoalbumFile($session)->getPictureHeight($number);
+  }
+  
+  public function getFilename($number, $session='')
+  {
+    // simple proxy
+    return $this->getPhotoalbumFile($session)->getFilename($number);
   }
 
 } // PhotoalbumAsset
