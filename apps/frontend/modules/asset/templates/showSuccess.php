@@ -58,10 +58,6 @@
       <th>Highquality md5sum:</th>
       <td><?php echo $Asset->getHighqualityMd5sum() ?></td>
     </tr>
-    <tr>
-      <th>Archived in:</th>
-      <td><?php echo $Asset->getArchiveId() ?></td>
-    </tr>
   </tbody>
 </table>
 

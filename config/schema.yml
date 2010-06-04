@@ -14,7 +14,6 @@ propel:
     uniqid: { type: varchar(50), required: true, index: unique }
     binder_id: ~
     status: integer
-    archive_id: ~
     asset_type: integer
     assigned_title: varchar(255)
     notes: longvarchar
@@ -22,7 +21,8 @@ propel:
     source_file_datetime: timestamp
     source_size: { type: bigint, index: true }
     source_lmd5sum: { type: varchar(34), index: true } # see why 34 below
-    highquality_md5sum: varchar(32) 
+    highquality_md5sum: varchar(32)
+    highquality_size: { type: bigint, index: true }
     lowquality_md5sum: varchar(32)
     has_thumbnail: boolean
     thumbnail_width: integer
@@ -75,6 +75,7 @@ propel:
     notes: longvarchar
     event_date: date
     is_open: { type: boolean, default: true }
+    archive_id: ~
     created_at: ~
     updated_at: ~
 
