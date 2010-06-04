@@ -5,6 +5,9 @@ class PhotoalbumFile extends AssetFile
 
 	const
 		EXTENSION = 'zip';
+    
+  private
+    $_filelist;
 	
 	public function __construct($uniqid)
 	{
@@ -25,5 +28,28 @@ class PhotoalbumFile extends AssetFile
 	{
 		return 'application/zip';
 	}
+  
+  public function getFileList()
+  {
+    if ($this->_filelist)
+    {
+      return $this->_filelist;
+    }
+
+    try
+    {
+      $this->_filelist=$this->executeCommand(sprintf('zipinfo -1 "%s"', $this->getFullPath()));
+      return $this->_filelist;
+    }
+    catch (Exception $e)
+    {
+      throw new Exception("Could not read file " . $this->getFullPath());
+    }
+  }
+
+  public function getPicturesCount()
+  {
+    return sizeof($this->getFileList());
+  }
   
 }

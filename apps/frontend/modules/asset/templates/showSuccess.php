@@ -2,6 +2,8 @@
 
 <?php if($Asset->hasVideoAsset()): ?>
 	<?php include_partial('player', array('VideoAsset'=>$Asset->getVideoAsset())) ?>
+<?php elseif($Asset->hasPhotoalbumAsset()): ?>
+	<?php include_partial('albumviewer', array('PhotoalbumAsset'=>$Asset->getPhotoalbumAsset())) ?>
 <?php else: ?>
 	<?php include_partial('thumbnail', array('Asset'=>$Asset, 'link'=>false)) ?>
   <br />

@@ -120,7 +120,12 @@ class Asset extends BaseAsset {
 	{
 		return $this->getVideoAsset()!=null; 
 	}
-		
+
+	public function hasPhotoalbumAsset()
+	{
+		return $this->getPhotoalbumAsset()!=null; 
+	}
+
 	public function getThumbnailFile()
 	{
 		$file=new ThumbnailFile($this->getUniqid());
@@ -265,6 +270,7 @@ class Asset extends BaseAsset {
           $photoalbumAsset = new PhotoalbumAsset();
           $photoalbumAsset
           ->setAssetId($this->getId())
+          ->gatherInfo()
           ->save();
           unset($photoalbumAsset);
           break;
