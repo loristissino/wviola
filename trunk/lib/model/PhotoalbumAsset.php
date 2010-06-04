@@ -20,4 +20,23 @@ require 'lib/model/om/BasePhotoalbumAsset.php';
  */
 class PhotoalbumAsset extends BasePhotoalbumAsset {
 
+	protected
+		$_uniqid,
+		$_assetFile;
+
+	public function getPhotoalbumFile()
+	{
+    // returns the low quality file
+		$this->_uniqid=$this->getAsset()->getUniqid();
+		$this->_assetFile=new PhotoalbumFile($this->_uniqid);
+		return $this->_assetFile;
+	}
+  
+  
+  public function gatherInfo()
+  {
+    $this->setPicturesCount($this->getPhotoalbumFile()->getPicturesCount());
+    return $this;
+  }
+
 } // PhotoalbumAsset
