@@ -138,7 +138,7 @@ Tutti i task devono essere eseguiti specificando l'ambiente di esecuzione (il de
 
 Tutti i file soggetti a configurazione personalizzata vengono forniti con il suffisso _-dist_. Essi devono essere copiati con lo stesso nome, senza il suffisso, in modo che non vengano sovrascritti in occasione degli aggiornamenti.
 
-Nella directory _utilities_ c'è uno script (_fix\_dist\_files_) che mostra quali sono i file che vanno creati a partire dal file _-dist_ corrispondente.
+Nella directory _utilities_ c'è uno script (`fix_dist_files`) che mostra quali sono i file che vanno creati a partire dal file _-dist_ corrispondente.
 
 Esempio:
 
