@@ -70,6 +70,11 @@ class BasicFile
 	{
 		return Generic::getCompletePath($this->getPath(), $this->getBasename());
 	}
+  
+  public function getPathName()
+  {
+    return $this->getFullPath();
+  }
 
 	public function getStat($name)
 	{
@@ -80,6 +85,11 @@ class BasicFile
 	{
 		return $this->_stat;
 	}
+  
+  public function getSize()
+  {
+    return $this->getStat('size');
+  }
 	
 	public function getMD5Sum($limit='')
 	{
@@ -136,6 +146,12 @@ class BasicFile
 		}
 		return $mimeType;
 	}
+  
+  public function getMimeType()
+  {
+    return $this->getGuessedInternetMediaType();
+  }
+  
 	
 	public function getFileType()
 	{
@@ -161,5 +177,38 @@ class BasicFile
 		$user=$this->executeCommand($command);
 		return $user;
   }
+  
+  public function prepareDelivery(sfWebResponse $response, $attachment=true)
+  {
+		$response->setHttpHeader('Pragma', '');
+		$response->setHttpHeader('Cache-Control', '');
+		$response->setHttpHeader('Content-Length', $this->getSize());
+		$response->setHttpHeader('Content-Type', $this->getMimeType());
+    if ($attachment)
+    {
+      $response->setHttpHeader('Content-Disposition', 'attachment; filename="' . html_entity_decode($this->getDeliveryName(), ENT_QUOTES, 'UTF-8') . '"');
+    }
+
+		$tmpfile=fopen($this->getPathName(), 'r');
+
+		$response->setContent(fread($tmpfile, $this->getSize()));
+    fclose($tmpfile);
+  
+  }
+  
+  public function setDeliveryName($name)
+  {
+    $this->_deliveryName = $name;
+    return $this;
+  }
+  
+  public function getDeliveryName()
+  {
+    return $this->_deliveryName=='' ? $this->getFilename() : $this->_deliveryName;
+    
+  }
+
+
+  
 	
 }

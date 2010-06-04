@@ -79,6 +79,8 @@ class assetActions extends sfActions
     $this->Asset = AssetPeer::retrieveByPk($request->getParameter('id'));
     $this->forward404Unless($this->Asset);
     $this->editable=$this->getUser()->getProfile()->getUserId()===$this->Asset->getBinder()->getUserId();
+    $this->session=$request->getCookie('wviola');
+    $this->Asset->logAccess($this->getUser()->getProfile()->getUserId(), $this->session);
     
   }
 
@@ -159,7 +161,7 @@ class assetActions extends sfActions
   {
 
     $this->forward404Unless($Asset = AssetPeer::retrieveByPk($request->getParameter('id')), sprintf('Object Asset does not exist (%s).', $request->getParameter('id')));
-    $this->forward404Unless($Asset->getHasThumbnail());
+   // $this->forward404Unless($Asset->getHasThumbnail());
 	
 	$this->forward404Unless($file=$Asset->getThumbnailFile());
 	
@@ -171,7 +173,21 @@ class assetActions extends sfActions
 
 	$response->setContent(fread(fopen($file->getFullPath(), 'r'), $file->getStat('size')));
 	return sfView::NONE;
-  } 
+  }
+  
+  
+  public function executeShowpicture(sfWebRequest $request)
+  {
+    $this->forward404Unless($PhotoalbumAsset = PhotoalbumAssetPeer::retrieveByPk($request->getParameter('album')), sprintf('Object PhotoalbumAsset does not exist (%s).', $request->getParameter('album')));
+    
+    $this->forward404Unless($request->getParameter('number') < $PhotoalbumAsset->getPicturesCount(), sprintf('Picture does not exist (%d).', $request->getParameter('number')));
+    
+    $PhotoalbumAsset->getPhotoalbumFile($request->getCookie('wviola'))->prepareDeliveryOfFile($this->getContext()->getResponse(), $request->getParameter('number'));
+    Generic::logMessage('cookie',$request->getCookie('wviola'));
+
+    return sfView::NONE;
+    
+  }
 
   public function executeVideo(sfWebRequest $request)
   {
@@ -179,7 +195,6 @@ class assetActions extends sfActions
     $this->forward404Unless($Asset->hasVideoAsset());
     $this->forward404Unless($file=$Asset->getVideoAsset()->getVideoFile());
 
-//    $Asset->logAccess($this->getUser()->getProfile()->getUserId(), $request->getCookie('wviola'));
 	
     $response=$this->getContext()->getResponse();
     $response->setHttpHeader('Pragma', '');
