@@ -56,31 +56,20 @@ Asset:
 <?php endfor ?>
 
   asset15:
-    uniqid: picture2009_00000015
-    asset_type: 2
+    uniqid: alb_4c000000000000.00000000
+    asset_type: 3
     binder_id: binder3
-    source_filename: Evil Frank.jpeg
+    source_filename: matthew_20091012.zip
     assigned_title: Evil Frank
     notes: (c) copyright Blender Foundation | apricot.blender.org
     source_file_datetime: 11/1/2009
-    highquality_md5sum: d6d7a3b378d9fc5d7ff2806c87474a52
-    lowquality_md5sum: 3ebe026f46a19acacd30f59af95b27a9
+    highquality_md5sum: 7d67221952cf60972194563b29bbb5fb
+    lowquality_md5sum: 17e4be147c96d5da5e7b3353757dd264
     has_thumbnail: true
     thumbnail_width: 60
     thumbnail_height: 45
 
-<?php for($i=16; $i<=17; $i++): ?>
-  asset<?php echo $i ?>:
-    uniqid: picture2009_<?php echo sprintf('%08d', $i) . "\n" ?>
-    asset_type: 2
-    binder_id: binder3
-    source_filename: Picture<?php echo $i ?>.jpeg
-    assigned_title: Picture number <?php echo $i . "\n"?>
-    notes: 
-    source_file_datetime: 11/<?php echo $i ?>/2009
-<?php endfor ?>
-
-<?php for($i=18; $i<=25; $i++): ?>
+<?php for($i=16; $i<=25; $i++): ?>
   asset<?php echo $i ?>:
     uniqid: photoalbum2009_<?php echo sprintf('%08d', $i) . "\n" ?>
     asset_type: 3

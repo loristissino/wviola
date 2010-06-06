@@ -4,18 +4,21 @@ VideoAsset:
     duration: 4.41
     lowquality_width: 320
     lowquality_height: 240
+    highquality_aspect_ratio: 1.33
 
   video_asset2:
     asset_id: asset2 
     duration: 1.25
     lowquality_width: 320
     lowquality_height: 240
+    highquality_aspect_ratio: 1.33
 
   video_asset3:
     asset_id: asset3 
     duration: 1.95
     lowquality_width: 320
     lowquality_height: 240
+    highquality_aspect_ratio: 1.33
 
 <?php for($i=4; $i<15; $i++): ?>
   video_asset<?php echo $i ?>:

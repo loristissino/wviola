@@ -11,7 +11,7 @@ mv -v ~/Importanti/Wviola/$FILENAME /etc/wviola/
 ln -sf /etc/wviola/$FILENAME /etc/wviola/filesystem.tar.bz2
 
 cd /etc/wviola
-rm -rf filesystem
+sudo rm -rf /etc/wviola/filesystem
 sudo tar xpvjf filesystem.tar.bz2
 sudo cp -v ~/Importanti/Wviola/wviola.yml .
 sudo chown www-data wviola.yml

@@ -65,6 +65,10 @@ class VideoAsset extends BaseVideoAsset {
   
   public function getLowQualityCorrectedWidth()
   {
+    if (!$this->getHighQualityAspectRatio())
+    {
+      throw new Exception('Aspect Ratio is not set for Video ' . $this->getId());
+    }
     return floor($this->getLowQualityHeight()*$this->getHighQualityAspectRatio());
   }
   

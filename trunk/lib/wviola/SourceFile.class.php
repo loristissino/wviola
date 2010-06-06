@@ -131,10 +131,20 @@ class SourceFile extends BasicFile
     
     try
     {
-      $filelist=$this->executeCommand(sprintf('zipinfo -1 "%s"', $this->getFullPath()));
+      $ziplist=$this->executeCommand(sprintf('zipinfo -1 "%s"', $this->getFullPath()));
       $tempdir=sys_get_temp_dir() . '/'. $this->getBasename() . '-' . date('Uu');
       mkdir($tempdir);
       $list=array();
+      
+      if (!is_array($ziplist) && $ziplist!='')
+      {
+        $filelist[]=$ziplist;
+      }
+      else
+      {
+        $filelist=$ziplist;
+      }
+            
       foreach($filelist as $imagefile)
       {
         if (Generic::matchesOneOf(wvConfig::get('filebrowser_photoalbum_items'), $imagefile))
@@ -485,7 +495,7 @@ class SourceFile extends BasicFile
 
   public function moveFileToScheduled($prefix)
   {
-    $uniqid=uniqid($prefix, true);
+    $uniqid=uniqid($prefix . '_', true);
 
     if (!rename(
         $this->getWvInfoFilePath(),

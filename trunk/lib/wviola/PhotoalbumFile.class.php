@@ -64,7 +64,16 @@ class PhotoalbumFile extends AssetFile
 
     try
     {
-      $this->_filelist=$this->executeCommand(sprintf('zipinfo -1 "%s"', $this->getFullPath()));
+      $list=$this->executeCommand(sprintf('zipinfo -1 "%s"', $this->getFullPath()));
+      if (is_string($list) && $list!='')
+      {
+        $this->_filelist[]=$list;
+      }
+      else
+      {
+        $this->_filelist=$list;
+      }
+      
       return $this->_filelist;
     }
     catch (Exception $e)
