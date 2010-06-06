@@ -60,6 +60,8 @@ fi
 
 UNIQID="$1"
 
+IFS=$'\n'
+
 EOF;
   }
   

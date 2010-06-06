@@ -18,6 +18,9 @@ fi
 
 UNIQID="$1"
 
+IFS=$'
+'
+
 TEMPDIR=$(mktemp -d)
 
 unzip "/var/wviola/data/filesystem/scheduled/$UNIQID" -d $TEMPDIR || exit 2
