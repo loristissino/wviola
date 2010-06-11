@@ -93,6 +93,16 @@ class Archive extends BaseArchive {
     return $this->_files;
   }
   
+  protected function getFileListForCommand()
+  {
+    $list='';
+    foreach($this->getFiles() as $f)
+    {
+      $list.=sprintf(' "%s"', $f);
+    }
+    return $list;
+  }
+  
   public function getIsoImageName()
   {
     return $this->getSlug(). '.iso';
@@ -147,42 +157,60 @@ class Archive extends BaseArchive {
         $this->addFile($file->getFullPath());
       }
     }
+    
+    $conn=Propel::getConnection(ArchivePeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
+    $conn->beginTransaction();
+
     try
     {
-      $command=sprintf('genisoimage -o "%s" ', $this->getIsoImageFullPath());
-      foreach($this->getFiles() as $f)
-      {
-        $command.='"' . $f . '"';
-      }
+      $command=sprintf('genisoimage -o "%s" %s', 
+        $this->getIsoImageFullPath(),
+        $this->getFileListForCommand()
+        );
+        
       Generic::executeCommand($command);
+      
+      $this->save($conn);
+    
+      foreach($Binders as $Binder)
+      {
+        $Binder
+        ->setArchiveId($this->getId())
+        ->save($conn)
+        ;
+        foreach($Binder->getArchivableAssets() as $Asset)
+        {
+          $Asset
+          ->setState(ASSET::ISO_IMAGE)
+          ->save($conn)
+          ;
+        }
+      }
+      $conn->commit();
     }
     catch(Exception $e)
     {
-      throw new Exception('Could not generate ISO image: ' . $this->getIsoImageFullPath());
+      $conn->rollBack();
+      throw $e;
     }
     
-    //FIXME The following should be put in a transaction...
-    
-    $this->save();
-    
-    foreach($Binders as $Binder)
+    return true;
+  }
+  
+  public function removeFiles()
+  {
+    try
+    {   
+      $command=sprintf('mv %s "%s" ', 
+      $this->getFileListForCommand(),
+      wvConfig::get('directory_trash')
+      );
+      Generic::executeCommand($command);
+    }
+    catch (Exception $e)
     {
-      $Binder
-      ->setArchiveId($this->getId())
-      ->save()
-      ;
-      foreach($Binder->getArchivableAssets() as $Asset)
-      {
-        $Asset
-        ->setState(ASSET::ISO_IMAGE)
-        ->save()
-        ;
-      }
+      throw $e;
     }
-    
-    return $this->getFiles();
-    
-    // FIXME We should move archived assets to trash
   }
   
   public function saveIndexWebPage()

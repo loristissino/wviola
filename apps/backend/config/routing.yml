@@ -1,3 +1,12 @@
+binder:
+  class: sfPropelRouteCollection
+  options:
+    model:                Binder
+    module:               binder
+    prefix_path:          /binder
+    column:               id
+    with_wildcard_routes: true
+
 access_log_event:
   class: sfPropelRouteCollection
   options:

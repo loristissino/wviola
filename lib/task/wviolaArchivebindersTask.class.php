@@ -102,14 +102,13 @@ EOF;
   
   if ($Archive->getIsFull())
   {
-    $list = $Archive->prepareISOImage();
+    $this->logSection('file+', $Archive->getIsoImageFullPath(), 'INFO');
+    $Archive->removeFiles();
+    foreach($Archive->getFiles() as $file)
+    {
+      $this->logSection('file-', $file, null, 'INFO');
+    }
   }
-
-  foreach($list as $file)
-  {
-    $this->logSection('file-', $file, null, 'INFO');
-  }
-  $this->logSection('file+', $Archive->getIsoImageFullPath());
 
 	if($this->_isLogged)
 	{

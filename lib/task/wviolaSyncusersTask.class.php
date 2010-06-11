@@ -102,6 +102,7 @@ EOF;
       $profile
       ->update($firstname, $lastname, $email)
       ->setUserId($sfuser->getId())
+      ->setImportedAt(time())
       ->save();
       $this->logSection('user+', $username, null, 'INFO');
     }
@@ -160,7 +161,7 @@ EOF;
     );
 
 
-    $test=false;
+    $test=true;
     if ($test)
     {
       // USED FOR TESTS
