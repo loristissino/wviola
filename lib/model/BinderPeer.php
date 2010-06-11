@@ -34,5 +34,23 @@ class BinderPeer extends BaseBinderPeer {
     $c->add(BinderPeer::NOTES, '%' . $text .'%', Criteria::LIKE);
     return BinderPeer::doSelect($c);
   }
+  
+  public static function retrieveOpen()
+  {
+    $c = new Criteria();
+    $c->add(BinderPeer::IS_OPEN, true);
+    return BinderPeer::doSelect($c);
+  }
+  
+  public static function retrieveClosed()
+  {
+    $c = new Criteria();
+    $c->add(BinderPeer::IS_OPEN, false);
+    $c->addAscendingOrderByColumn(BinderPeer::CREATED_AT);
+    $c->addJoin(BinderPeer::ID, AssetPeer::BINDER_ID);
+    $c->add(AssetPeer::STATUS, Asset::CACHED);
+    return BinderPeer::doSelect($c);
+  }
+  
 
 } // BinderPeer

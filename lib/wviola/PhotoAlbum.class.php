@@ -86,7 +86,8 @@ class PhotoAlbum
   
   public function getFileName()
   {
-    return sprintf('%s_%s.zip',
+    return sprintf('%s_%s_%s.zip',
+      basename($this->getDirectory()),
       date('Ymd'),
       $this->getUsername()
       );

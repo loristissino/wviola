@@ -10,6 +10,7 @@ Asset:
     source_lmd5sum: c1d63fa7b9ba76582dd3903a8ae903aa
     highquality_md5sum: f42d6ad8c1fb4c29f2035131c7feb398
     lowquality_md5sum: 7d194283a0c815fa66d1aecd5d2cbe9a
+    highquality_size: 1051449
     has_thumbnail: true
     thumbnail_width: 60
     thumbnail_height: 45
@@ -24,6 +25,7 @@ Asset:
     source_file_datetime: 12/23/2009
     highquality_md5sum: 1e14867e34033234896abc98ecf8427e
     lowquality_md5sum: a725051252925d29e0322ec423db1293
+    highquality_size: 0
     has_thumbnail: true
     thumbnail_width: 60
     thumbnail_height: 45
@@ -41,6 +43,7 @@ Asset:
     source_size: 260288
     highquality_md5sum: 062f15950820a1717a23d105b934e03c
     lowquality_md5sum: 7954446d253b1b82138880c0fcc3d6ef
+    highquality_size: 83231
     has_thumbnail: true
     thumbnail_width: 60
     thumbnail_height: 45
@@ -65,6 +68,7 @@ Asset:
     source_file_datetime: 11/1/2009
     highquality_md5sum: 7d67221952cf60972194563b29bbb5fb
     lowquality_md5sum: 17e4be147c96d5da5e7b3353757dd264
+    highquality_size: 86995
     has_thumbnail: true
     thumbnail_width: 60
     thumbnail_height: 45
@@ -89,4 +93,20 @@ Asset:
     assigned_title: Photo Album number <?php echo $i . "\n"?>
     notes: 
     source_file_datetime: 11/<?php echo $i ?>/2009
+<?php endfor ?>
+
+<?php for($i=100; $i<120; $i++): ?>
+<?php foreach(array('a','b','c') as $letter): ?>
+  asset<?php echo $i . $letter ?>:
+    uniqid: photoalbum2009_<?php echo sprintf('%08d%s', $i, $letter) . "\n" ?>
+    asset_type: 3
+    status: 2
+    binder_id: binder<?php echo $i . "\n" ?>
+    source_filename: <?php echo sprintf("PhotoAlbum%d_%s.zip\n", $i, $letter) ?>
+    assigned_title: Photo Album number <?php echo $i . $letter . "\n"?>
+    notes: Fake notes for album number <?php echo $i . $letter . "\n"?>
+    highquality_size: 40000000
+    highquality_md5sum: <?php echo md5($i . $letter) . "\n" ?>
+    source_file_datetime: 11/20/2009
+<?php endforeach ?>
 <?php endfor ?>

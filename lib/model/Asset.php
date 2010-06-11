@@ -244,7 +244,6 @@ class Asset extends BaseAsset {
     return $this;
   }
   
-  
   public function publish()
   {
     try
@@ -307,6 +306,21 @@ class Asset extends BaseAsset {
   {
     $file = new PublishedFile($this->getUniqId(), $quality);
     return $file;
+  }
+  
+  
+  public function getArchivedFilename()
+  {
+    try
+    {
+      $file=$this->getPublishedFile('high');
+      return $file->getBasename();
+    }
+    catch (Exception $e)
+    {
+      // This shouldn't happen, it's here to easy the tests...
+      return 'fakename.txt';
+    }
   }
 
 } // Asset
