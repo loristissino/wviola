@@ -103,8 +103,10 @@ class Asset extends BaseAsset {
 
 	public function __toString()
 	{
-		return sprintf('%s', $this->getId()); //sprintf('%d (%s)', $this->getId(), $this->getAssignedTitle());
-	}
+		return sprintf('%d (%s)', $this->getId(), $this->getAssignedTitle());
+		return sprintf('%s', $this->getId());
+
+  }
 	
 	public function getAssetTypeCode()
 	{
