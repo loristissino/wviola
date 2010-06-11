@@ -8,6 +8,11 @@
 	)
 	?></li>
 <li><?php echo link_to(
+	__('Binders'),
+	url_for('@binder')
+	)
+	?></li>
+<li><?php echo link_to(
 	__('Assets'),
 	url_for('@asset')
 	)
