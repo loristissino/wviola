@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="it" lang="it">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title><?php echo $title ?></title>
+  </head>
+  <body>
+  <h1><?php echo $title ?></h1>
+  <p>Indice</p>
+  <ul>
+  <?php foreach($Binders as $Binder): ?>
+    <li>
+      <a href="#binder_<?php echo $Binder->getId() ?>">
+      <?php echo sprintf('Raccoglitore %d «%s»', $Binder->getId(), $Binder->getNotes()) ?>
+      </a>
+    </li>
+  <?php endforeach ?>
+  </ul>
+  <?php $md5sums='' ?>
+  <?php foreach($Binders as $Binder): ?>
+    <h2>
+    <a name="binder_<?php echo $Binder->getId() ?>"></a>
+    <?php echo sprintf('Raccoglitore %d «%s»', $Binder->getId(), $Binder->getNotes()) ?>
+    </h2>
+    <p>
+    <?php echo sprintf('Utente: %s', $Binder->getSfGuardUserProfile()->getUsername()) ?><br />
+    <?php echo sprintf('Data evento: %s', $Binder->getEventDate()) ?><br />
+    </p>
+    <h3>Asset</h3>
+    <ul>
+    <?php foreach($Binder->getArchivableAssets() as $Asset): ?>
+      <li>
+        <a href="<?php echo $Asset->getArchivedFilename() ?>">
+        <?php echo sprintf('%s (id %d)', $Asset->getAssetTypeCode(), $Asset->getId()) ?>
+        </a>
+        <ul>
+          <li><?php echo sprintf('Titolo: «%s»', $Asset->getAssignedTitle()) ?></li>
+          <li><?php echo sprintf('Note: «%s»', $Asset->getNotes()) ?></li>
+          <li><?php echo sprintf('Dimensione: %s', Generic::getHumanReadableSize($Asset->getHighQualitySize())) ?></li>
+          <li><?php echo sprintf('MD5: %s', $Asset->getHighQualityMD5Sum()) ?></li>
+          <?php $md5sums.=sprintf("%s  %s\n", $Asset->getHighQualityMD5Sum(), $Asset->getArchivedFilename()) ?>
+        </ul>
+      </li>
+    <?php endforeach ?>
+    </ul>
+  <?php endforeach ?>
+  <hr />
+  <h2>MD5Sums</h2>
+  <pre>
+<?php echo $md5sums ?>
+  </pre>
+	<div class="tagline">
+	<p>Immagine ISO generata da <a href="http://code.google.com/p/wviola">WVIOLA</a>.</p>
+	</div>
+  </body>  
+</html>

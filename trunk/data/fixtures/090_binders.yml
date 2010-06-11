@@ -4,6 +4,7 @@ Binder:
     category_id: ch
     notes: Spring
     event_date: 12/21/2009
+    created_at: 12/22/2009
   binder2:
     user_id: matthew
     category_id: ch
@@ -24,4 +25,24 @@ Binder:
     category_id: ot
     notes: Last year
     event_date: 12/20/2008
+    created_at: 12/20/2008
     is_open: false
+<?php for($i=100; $i<120; $i++): ?>
+  binder<?php echo $i ?>:
+    user_id: <?php echo ($i<=115 ? 'matthew' : 'andreas') . "\n" ?>
+    category_id: ot
+    notes: <?php echo 'Test binder ' . $i . "\n" ?>
+    event_date: 12/20/2008
+    created_at: 12/21/2008
+    is_open: false
+<?php endfor ?>
+<?php for($i=120; $i<122; $i++): ?>
+  binder<?php echo $i ?>:
+    user_id: <?php echo ($i<=115 ? 'matthew' : 'andreas') . "\n" ?>
+    category_id: ot
+    notes: <?php echo 'Test binder ' . $i . " (archived)\n" ?>
+    event_date: 12/20/2008
+    created_at: 12/21/2008
+    is_open: false
+<?php endfor ?>
+

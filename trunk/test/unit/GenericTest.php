@@ -2,7 +2,7 @@
 
 require_once dirname(__FILE__).'/../bootstrap/unit.php';
  
-$t = new lime_test(140, new lime_output_color());
+$t = new lime_test(144, new lime_output_color());
 
 $t->diag('::datetime()');
 
@@ -279,4 +279,21 @@ $t->is(Generic::normalizedBooleanDescription(false), 'false', '::normalizedBoole
 $t->is(Generic::b64_serialize('/()|~_"f@$£o\o&.'), 'czoxNzoiLygpfH5fImZAJMKjb1xvJi4iOw==', '::b64_serialize() converts a value into a string');
 
 $t->is(Generic::b64_unserialize('czoxNzoiLygpfH5fImZAJMKjb1xvJi4iOw=='), '/()|~_"f@$£o\o&.', '::b64_unserialize() converts a string back into the value');
+
+
+$t->diag('::getHumanReadableSize()');
+
+foreach(array(
+  10=>'10 B',
+  1050=>'1.03 KiB',
+  2000000=>'1.91 MiB',
+  1500000000=>'1.40 GiB',
+  ) as $key=>$value)
+{
+  $t->is(Generic::getHumanReadableSize($key), $value, '::getHumanReadableSize() converts ' . $key . ' to «' . $value . '»');
+  
+}
+
+
+
 

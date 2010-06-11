@@ -73,5 +73,47 @@ class Binder extends BaseBinder {
       $Asset->updateLuceneIndex();
     }
   }
+  
+  public function closeIfAgedOut($max_age)
+  {
+    $age = time() - $this->getCreatedAt('U');
+    if ($age > $max_age*86400)
+    {
+      $this
+      ->setIsOpen(false)
+      ->save();
+      return true;
+    }
+    return false;
+  }
+  
+  
+  public function getArchivableAssets($criteria = null, PropelPDO $con = null)
+  {
+    if ($criteria === null)
+    {
+			$criteria = new Criteria(BinderPeer::DATABASE_NAME);
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+    $c = new Criteria();
+    $c->add(AssetPeer::BINDER_ID, $this->getId());
+    $c->add(AssetPeer::STATUS, Asset::CACHED);
+    return AssetPeer::doSelect($c, $con);
+  }
+  
+  public function getTotalSize()
+  {
+    // FIXME This should be done with one raw query...
+    $s=0;
+    foreach($this->getArchivableAssets() as $Asset)
+    {
+      $s+=$Asset->getHighQualitySize();
+    }
+    return $s;
+  }
+  
 
 } // Binder

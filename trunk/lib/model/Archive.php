@@ -20,9 +20,208 @@ require 'lib/model/om/BaseArchive.php';
  */
 class Archive extends BaseArchive {
 
+
+  private
+    $_maxSize,
+    $_currentSize,
+    $_items,
+    $_files,
+    $_full;
+
   public function __toString()
   {
     return 'archive_'.$this->getId();
   }
+  
+  public function __construct()
+  {
+    parent::__construct();
+    $this->setMaxSize(wvConfig::get('archiviation_iso_image_size')*1024*1024);
+    $this->setIsFull(false);
+    $this->_files=array();
+    $this->setSlug(date('Ymd-his'));
+  }
+  
+  public function setMaxSize($v)
+  {
+    $this->_maxSize = $v;
+    return $this;
+  }
+
+  public function getMaxSize()
+  {
+    return $this->_maxSize;
+  }
+  
+  public function setIsFull($v)
+  {
+    $this->_full = $v;
+    return $this;
+  }
+
+  public function getIsFull()
+  {
+    return $this->_full;
+  }
+  
+  public function getItems()
+  {
+    return $this->_items;
+  }
+
+  public function hasPlaceForBinder(Binder $Binder)
+  {
+    return $Binder->getTotalSize() + $this->getCurrentSize() <= $this->getMaxSize();
+  }
+  
+  public function addBinder(Binder $Binder)
+  {
+    foreach($Binder->getArchivableAssets() as $Asset)
+    {
+      $this->_items[$Binder->getId()][$Asset->getId()] = $Asset->getHighQualitySize();
+      $this->incCurrentSize($Asset->getHighQualitySize());
+    }
+  }
+  
+  public function addFile($filepath)
+  {
+    $this->_files[]=$filepath;
+    return $this;
+  }
+  public function getFiles()
+  {
+    return $this->_files;
+  }
+  
+  public function getIsoImageName()
+  {
+    return $this->getSlug(). '.iso';
+  }
+  
+  public function getIsoImageFullPath()
+  {
+    return wvConfig::get('directory_iso_images') . '/'. $this->getIsoImageName();
+  }
+  
+  
+  public function incCurrentSize($v)
+  {
+    $this->_currentSize += $v;
+    return $this;
+  }
+
+  public function getCurrentSize()
+  {
+    return $this->_currentSize; 
+  }
+
+
+  public function addBinders($Binders = Array())
+  {
+    foreach ($Binders as $Binder)
+    {
+      if ($this->hasPlaceForBinder($Binder))
+      {
+        $this->addBinder($Binder);
+      }
+      else
+      {
+        $this->setIsFull(true);
+        break;
+      }
+    }
+  }
+  
+  
+  public function prepareISOImage()
+  {
+    $this->addFile($this->saveIndexWebPage());
+    
+    $binders_ids=array_keys($this->getItems());
+    $Binders=BinderPeer::retrieveByPKs($binders_ids);
+    foreach($Binders as $Binder)
+    {
+      foreach($Binder->getArchivableAssets() as $Asset)
+      {
+        $file=$Asset->getPublishedFile('high');
+        $this->addFile($file->getFullPath());
+      }
+    }
+    try
+    {
+      $command=sprintf('genisoimage -o "%s" ', $this->getIsoImageFullPath());
+      foreach($this->getFiles() as $f)
+      {
+        $command.='"' . $f . '"';
+      }
+      Generic::executeCommand($command);
+    }
+    catch(Exception $e)
+    {
+      throw new Exception('Could not generate ISO image: ' . $this->getIsoImageFullPath());
+    }
+    
+    //FIXME The following should be put in a transaction...
+    
+    $this->save();
+    
+    foreach($Binders as $Binder)
+    {
+      $Binder
+      ->setArchiveId($this->getId())
+      ->save()
+      ;
+      foreach($Binder->getArchivableAssets() as $Asset)
+      {
+        $Asset
+        ->setState(ASSET::ISO_IMAGE)
+        ->save()
+        ;
+      }
+    }
+    
+    return $this->getFiles();
+    
+    // FIXME We should move archived assets to trash
+  }
+  
+  public function saveIndexWebPage()
+  {
+    $filename=wvConfig::get('directory_iso_cache'). '/index.html';
+    $text=$this->getIndexWebPage();
+    file_put_contents($filename, $text);
+    return $filename;
+  }
+  
+  public function getIndexWebPage()
+  {
+    $filename=wvConfig::get('archiviation_index_template');
+    if (!is_readable($filename))
+    {
+      throw new Exception('Could not read template file: ' . $filename);
+    }
+    
+    ob_start();
+    
+    $title=wvConfig::get('archiviation_index_title', 'Binders archived');
+    $title=Generic::str_replace_from_array(array(
+      '%date%'=>date('d/m/Y'),
+      ),
+      $title
+      );
+    
+    $binders_ids=array_keys($this->getItems());
+    
+    $Binders=BinderPeer::retrieveByPKs($binders_ids);
+    
+    include_once($filename);
+    
+    $text = ob_get_contents();
+    ob_end_clean();
+    
+    return $text;
+  }
+
+
 
 } // Archive
