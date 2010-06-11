@@ -10,8 +10,8 @@
   # ~~Completare lo script del task di archiviazione, che faccia il lavoro anche di produzione dei video ad alta risoluzione da mettere via~~
   # ~~Creare per tutte le immagini di uno stesso utente presenti in una stessa cartella, un file zip (photoalbum) da archiviare~~
   # ~~Pensare ad un modo per presentare l'album a bassa risoluzione (equivalente al formato flash per i video). Questo dipende dalla dimensione delle foto e dell'album~~
-  # Scrivere un task che raccolga in ordine cronologico i raccoglitori chiusi e prepari, al raggiungimento di una certa soglia, le immagini ISO dei DVD da produrre
-  # Mettere nell'immagine ISO anche un file HTML che funzioni da indice per il DVD-ROM
+  # ~~Scrivere un task che raccolga in ordine cronologico i raccoglitori chiusi e prepari, al raggiungimento di una certa soglia, le immagini ISO dei DVD da produrre~~
+  # ~~Mettere nell'immagine ISO anche un file HTML che funzioni da indice per il DVD-ROM~~
   # Scrivere documentazione sul funzionamento del motore di ricerca integrato
   # Controllare la correttezza della documentazione sul Wiki
   # Predisporre i test funzionali
