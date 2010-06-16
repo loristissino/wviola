@@ -34,7 +34,7 @@ read or written).
 EOF;
 
 	$this->_isLogged=true;
-  $this->_logEvent;
+  $this->_logEvent=null;
   }
 
 

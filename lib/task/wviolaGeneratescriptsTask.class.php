@@ -33,7 +33,7 @@ you update the file you should call this task to regenerate them.
 EOF;
 
     $this->_isLogged=true;
-    $this->_logEvent;
+    $this->_logEvent=null;
     
   }
   
