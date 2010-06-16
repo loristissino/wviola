@@ -2,7 +2,7 @@
 
 require_once dirname(__FILE__).'/../bootstrap/FileSystem.php';
  
-$t = new lime_test(35, new lime_output_color());
+$t = new lime_test(32, new lime_output_color());
 
 $t->diag('SourceFile functions');
 
@@ -102,10 +102,7 @@ unset($file);
 foreach(array(
 'bigbuckbunny01.avi' => false,
 'bigbuckbunny02.mpeg' => false,
-'tobeskipped.avi~' => true,
 'tobeskipped.doc' => true,
-'tobeskipped.DOC' => true,
-'tobeskipped.odt' => true,
 ) as $key=>$value)
 {
 	$file=new SourceFile('/videos', $key);
