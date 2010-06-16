@@ -2,7 +2,7 @@
 
 require_once dirname(__FILE__).'/../bootstrap/unit.php';
  
-$t = new lime_test(9, new lime_output_color());
+$t = new lime_test(8, new lime_output_color());
 
 $t->diag('wvConfig test -- this will only pass with default values of wviola.yml');
 
@@ -16,9 +16,12 @@ $t->is(wvConfig::has('bar'), false, '::has() returns false for a non existing pa
 
 $t->is(is_array(wvConfig::getAll()), true, '::getAll() returns an array of values');
 
+/*
+This works, but since it's dependant on the config file, we can't use it for real tests...
 $t->is_deeply(wvConfig::get('filebrowser_white_list'), 
 array('/png$/i', '/jpg$/i', '/mov$/i', '/mpeg$/i', '/mpg$/i', '/avi$/i', '/ogv$/i', '/mp4$/i', '/zip$/i' ),
-'::get() returns an array of items is array is defined');
+'::get() returns an array of items if an array is defined');
+*/
 
 wvConfig::add(array('foo1'=>'bar1', 'foo2'=>'bar2'));
 $t->is(wvConfig::get('foo1'), 'bar1', '::add() merges new parameters');
