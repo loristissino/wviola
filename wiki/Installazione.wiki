@@ -303,7 +303,7 @@ In particolare, ci saranno qui le preferenze relative alle codifiche video da ef
 
 Al momento ci sono queste informazioni:
 
-<code language="yaml">
+<pre>
 directory:
   published_assets: /var/wviola/data/filesystem/published/assets
   # where published assets are kept
@@ -363,7 +363,7 @@ mail:
   bot_name: WVIOLA bot
   sourceready_template: /var/wviola/templates/email/it/sourcesready.yml
   # configuration for sending mail out is in the apps/frontend/config/factories.yml file
-</code>
+</pre>
 
 === Mailer ===
 
