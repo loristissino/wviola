@@ -33,7 +33,7 @@ The task ends with an exception if something goes wrong (e.g. when a file could 
 EOF;
 
 	$this->_isLogged=true;
-  $this->_logEvent;
+  $this->_logEvent=null;
 
 }
 

@@ -1,12 +1,46 @@
 <?php
 
+/*
+ * This file is part of the wviola package.
+ * (c) 2009-2010 Loris Tissino <loris.tissino@gmail.com>
+ * 
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+/**
+ * Base class that represents a generic file.
+ *
+ * @package    wviola
+ * @subpackage files
+ * @author     Loris Tissino <loris.tissino@gmail.com>
+ */
 class BasicFile
 {
-	protected
-		$_basename,
-		$_path,
-		$_stat;
+	/**
+	 * File's basename.
+	 * @var   string
+	 */
+	protected $_basename;
+  
+	/**
+	 * File's path.
+	 * @var   string
+	 */
+  protected $_path;
+  
+	/**
+	 * File's information, coming from the execution of stat command.
+	 * @var   array
+	 */
+  protected $_stat;
 	
+	/**
+	 * File's delivery name.
+	 * @var   string
+	 */
+  protected $_deliveryName;
+  
 	public function __construct()
 	{
 		switch(func_num_args())
@@ -50,47 +84,96 @@ class BasicFile
 		
 	}
 	
+  /**
+   * Get the [path] value.
+   * 
+   * @return     string
+   */
 	public function getPath()
 	{
 		return $this->_path;
 	}
 	
+  /**
+   * Get the [basename] value.
+   * 
+   * @return     string
+   */
 	public function getBasename()
 	{
 		return $this->_basename;
 	}
   
+	/**
+	 * Set the value of [basename].
+	 * 
+	 * @param      string $v new value
+	 * @return     BasicFile The current object (for fluent API support)
+	 */
 	public function setBasename($v)
 	{
 		$this->_basename=$v;
 		return $this;
 	}
 	
+  /**
+   * Get the [fullpath] value (path + basename).
+   * 
+   * @return     string
+   */
 	public function getFullPath()
 	{
 		return Generic::getCompletePath($this->getPath(), $this->getBasename());
 	}
   
+  /**
+   * Get the [fullpath] value (path + basename).
+   * This is just an alias for getFullPath() method.
+   * 
+   * @return     string
+   */
   public function getPathName()
   {
     return $this->getFullPath();
   }
 
+  /**
+   * Get the [stat] information about the file.
+   * 
+   * @param      string $name key of the requested value
+   * @return     array
+   */
 	public function getStat($name)
 	{
 		return $this->_stat[$name];
 	}
 	
+  /**
+   * Get the [stat] information about the file.
+   * 
+   * @return     array
+   */
 	public function getStats()
 	{
 		return $this->_stat;
 	}
   
+  /**
+   * Get the size of the file.
+   * 
+   * @return     array
+   */
   public function getSize()
   {
     return $this->getStat('size');
   }
 	
+  /**
+   * Get the md5sum of the file.
+   * 
+   * @param      string $limit an hexadecimal figure specifying the number of bytes on which compute the md5sum
+   * @return     array
+   */
 	public function getMD5Sum($limit='')
 	{
     if ($limit=='')
@@ -107,11 +190,23 @@ class BasicFile
     }
 	}
 	
+  /**
+   * Execute an external command.
+   * 
+   * @param      string $command the command to execute
+   * @param      boolean $custom whether the command is one of wviola library or not
+   * @return     mixed the lines of command's output
+   */
 	public function executeCommand($command, $custom=false)
 	{
 		return Generic::executeCommand($command, $custom);
 	}
 	
+  /**
+   * Get the Internet Media Type of the file.
+   * 
+   * @return     string
+   */
 	public function getGuessedInternetMediaType()
 	{
 		$command=sprintf('file --dereference --brief --mime-type "%s"', $this->getFullPath());
@@ -147,12 +242,23 @@ class BasicFile
 		return $mimeType;
 	}
   
+  /**
+   * Get the Internet Media Type of the file.
+   * This is just an alias for getGuessedInternetMediaType() method.
+   * 
+   * @return     string
+   */
   public function getMimeType()
   {
     return $this->getGuessedInternetMediaType();
   }
   
 	
+  /**
+   * Get the the file type.
+   * 
+   * @return     string
+   */
 	public function getFileType()
 	{
 		if (is_dir($this->getFullPath()))
@@ -171,6 +277,11 @@ class BasicFile
 
 	}
 
+  /**
+   * Get the username of the owner of the file.
+   * 
+   * @return     string
+   */
 	public function getOwner()
 	{
 		$command='stat -c %U' . sprintf(' "%s"', $this->getFullPath());
@@ -178,6 +289,13 @@ class BasicFile
 		return $user;
   }
   
+  /**
+   * Prepare the delivery of the file.
+   * 
+   * @param      sfWebResponse $response the HTTP Response object
+   * @param      boolean $attachment whether the file should be delivered as an attachment
+	 * @return     BasicFile The current object (for fluent API support)
+	 */
   public function prepareDelivery(sfWebResponse $response, $attachment=true)
   {
 		$response->setHttpHeader('Pragma', '');
@@ -193,15 +311,27 @@ class BasicFile
 
 		$response->setContent(fread($tmpfile, $this->getSize()));
     fclose($tmpfile);
+    return $this;
   
   }
   
+	/**
+	 * Set the value of [deliveryName].
+	 * 
+	 * @param      string $v new value
+	 * @return     BasicFile The current object (for fluent API support)
+	 */
   public function setDeliveryName($name)
   {
     $this->_deliveryName = $name;
     return $this;
   }
   
+  /**
+   * Get the [deliveryName] value.
+   * 
+   * @return     string
+   */
   public function getDeliveryName()
   {
     return $this->_deliveryName=='' ? $this->getFilename() : $this->_deliveryName;

@@ -47,7 +47,7 @@ EOF;
 	$this->_sourcesDirectory='';
 	$this->_isLogged=true;
 //	$this->_size_limit_for_md5sum=0;
-  $this->_logEvent;
+  $this->_logEvent=null;
   
 //  $this->_photoAlbumItems=wvConfig::get('filebrowser_photo_album_items');
 

@@ -36,7 +36,7 @@ EOF;
     $this->_guardGroups=Array();
 
     $this->_isLogged=true;
-    $this->_logEvent;
+    $this->_logEvent=null;
 
 
   }
