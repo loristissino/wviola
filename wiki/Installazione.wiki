@@ -263,8 +263,7 @@ Va prelevato il file più recente, messo nella directory _/etc/wviola_ (questa d
 <code language="sh">
 cd /etc/wviola
 wget  wget http://wviola.googlecode.com/files/filesystem2010-06-06_100108.tar.bz2
-ln -sf filesystem2010-06-06_100108.tar.bz2
- filesystem.tar.bz2
+ln -sf filesystem2010-06-06_100108.tar.bz2  filesystem.tar.bz2
 tar xvjf filesystem.tar.bz2
 </code>
 
@@ -304,7 +303,7 @@ In particolare, ci saranno qui le preferenze relative alle codifiche video da ef
 
 Al momento ci sono queste informazioni:
 
-{{{
+<code language="yaml">
 directory:
   published_assets: /var/wviola/data/filesystem/published/assets
   # where published assets are kept
@@ -364,7 +363,7 @@ mail:
   bot_name: WVIOLA bot
   sourceready_template: /var/wviola/templates/email/it/sourcesready.yml
   # configuration for sending mail out is in the apps/frontend/config/factories.yml file
-}}}
+</code>
 
 === Mailer ===
 
@@ -388,7 +387,7 @@ symfony test:all
 
 che dovrebbe portare ad un risultato simile al seguente:
 
-{{{
+<pre>
 functional/backend/accesslogActionsTest..............................ok
 functional/backend/archiveActionsTest................................ok
 functional/backend/tasklogActionsTest................................ok
@@ -408,7 +407,7 @@ unit/VideoFileTest...................................................ok
 unit/wvConfigTest....................................................ok
  All tests successful.                                                 
  Files=17, Tests=235                                                   
-}}}
+</pre>
 
 
 = Aggiornamenti =
