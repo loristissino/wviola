@@ -10,7 +10,7 @@ $user=sfGuardUserProfilePeer::getByUsername('matthew');
 
 $binders = BinderPeer::retrieveByUserId($user->getId());
 
-$t->is(sizeof($binders), 4, '::retrieveByUserId() retrieves the correct binders');
+$t->is(sizeof($binders), 20, '::retrieveByUserId() retrieves the correct binders');
 
 $binders = BinderPeer::retrieveByNotes('Spring');
 
