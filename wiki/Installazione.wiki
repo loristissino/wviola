@@ -106,7 +106,7 @@ php.ini used by PHP: /etc/php5/apache2/php.ini
   OK        php.ini has register_globals set to off
   OK        php.ini has session.auto_start set to off
   OK        PHP version is not 5.2.9
-
+}}}
 
 Controllo della versione di symfony:
 
