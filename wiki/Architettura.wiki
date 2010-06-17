@@ -95,91 +95,6 @@ Description:
 
 Di ogni esecuzione di task viene tenuta traccia nel database, a meno che non si specifichi l'opzione `--logged=false`.
 
-=== Archiviazione ===
-
-Quando un utente archivia un asset, esso viene spostato in una diversa directory, con l'attribuzione di un ID univoco (uniqid).
-
-Questa applicazione batch, per ogni asset da archiviare:
-
-  * effettua la codifica in bassa risoluzione
-  * rende disponibile l'asset per la fruizione
-  * sposta l'asset ad alta risoluzione in una directory destinata all'archiviazione off-line
-
-Il task dovrebbe essere richiamabile con il comando:
-
-{{{
-symfony wviola:publish-assets --env=prod
-}}}
-
-=== Predisposizione immagini ISO DVD-ROM ===
-
-Questa applicazione batch considererà, in ordine cronologico i file della directory destinata all'archiviazione off-line. 
-Quando l'asset N+1 porta ad una dimensione maggiore di 4,7 GB, i file da 1 a N vengono utilizzati per la creazione dell'immagine ISO di un DVD, contenente gli asset originali e un file html e/o xml contenente un indice degli stessi.
-
-All'immagine ISO del DVD-ROM viene attribuito un identificativo univoco, riportato anche nel DB.
-
-Il task dovrebbe essere richiamabile con il comando:
-
-{{{
-symfony wviola:prepare-archive --env=prod
-}}}
-
-TODO: Questa parte va rivista, considerato il fatto che si è deciso di archiviare i raccoglitori, non i singoli asset.
-
-=== Predisposizione anteprime ===
-
-Questa applicazione, per ogni file posto nella directory delle sorgenti, determina se si tratta di un asset da archiviare (ossia, se è un'immagine, un video, una registrazione video o una collezione di immagini). In caso positivo:
-
-  * predispone alcune immagini tra cui sceglire per l'anteprima (estraendo fotogrammi a campione)
-  * calcola un hash del file
-  * archivia le informazioni associate al file in un file YAML
-
-Le informazioni estratte vengono messe in una directory nascosta _.wviola_ presente nella directory in cui è presente l'asset (in questo modo non cambiano se il nome della directory viene variato) e sono associate all'i-node del file (così anche il nome del file può cambiare).
-
-La ricerca avviene basandosi sulla data di ultima modifica (partendo dalla conclusione dell'ultima esecuzione dello stesso task).
-
-Il task dovrebbe essere richiamabile con il comando:
-
-{{{
-symfony wviola:scan-sources --env=prod
-}}}
-
-È possibile specificare:
-
-  * una sottodirectory in cui lavorare (che deve essere all'interno della directory di base)
-  * se attivare o meno la ricorsione
-  * un valore limite per la dimensione del file oltre il quale non deve essere calcolato l'hash MD5
-  * se registrare nel log su DB l'esecuzione del task
-
-Queste opzioni vengono sfruttate dall'applicazione web quando un utente visualizza i file di una directory appena creata, e per la quale devono essere predisposte in fretta le anteprime e le informazioni di base, lasciando per tempi successivi il calcolo degli altri valori.
-
-Un esempio di interazione è il seguente:
-
-{{{
-$ symfony wviola:scan-sources --recursive=true --subdir=videos/stuff 
->> directory /var/wviola/data/filesystem/sources/videos/stuff
->> subdir    /videos/stuff
->> recursive true
->> logged    true
-
->> source    Opening candidate source file...
->> file      /var/wviola/data/filesystem/sour...os/stuff/bigbuckbunny01_copy.avi
->> info      Locked.
-
->> source    Opening candidate source file...
->> file      /var/wviola/data/filesystem/sources/videos/stuff/data.file
->> info      Gathering information...
->> md5sum    Computing MD5 hash...
->> info      Writing information file...
->> file+     /var/wviola/data/filesystem/sour.../videos/stuff/.wviola/394315.yml
-
->> source    Opening candidate source file...
->> file      /var/wviola/data/filesystem/sources/videos/stuff/sample.txt
->> info      Skipped for file name matching.
-
-}}}
-
-
 === Sincronizzazione utenti ===
 
 Gli utenti di Wviola vengono autenticati tramite LDAP, ma le informazioni di base su di essi devono essere inserite nel database. Sarà quindi necessario un task di sincronizzazione degli utenti, con il quale le informazioni sugli utenti nuovi vengono memorizzati nelle tabelle corrette del DB.
@@ -253,4 +168,116 @@ va interpretato in questo modo:
   * _john_ è stato inserito nel GuardGroup _asset\_viewers_
   * è stato aggiunto un nuovo utente, _sarah_, inserita nei GuardGroup _admin_ e _asset\_viewers_
   * è stato reso "non più attivo" l'utente _paul_
-  
+
+
+=== Predisposizione anteprime ===
+
+Questa applicazione, per ogni file posto nella directory delle sorgenti, determina se si tratta di un asset da archiviare (ossia, se è un'immagine, un video, una registrazione video o una collezione di immagini). In caso positivo:
+
+  * predispone alcune immagini tra cui sceglire per l'anteprima (estraendo fotogrammi a campione)
+  * calcola un hash del file
+  * archivia le informazioni associate al file in un file YAML
+
+Le informazioni estratte vengono messe in una directory nascosta _.wviola_ presente nella directory in cui è presente l'asset (in questo modo non cambiano se il nome della directory viene variato) e sono associate all'i-node del file (così anche il nome del file può cambiare).
+
+La ricerca avviene basandosi sulla data di ultima modifica (partendo dalla conclusione dell'ultima esecuzione dello stesso task).
+
+Il task dovrebbe essere richiamabile con il comando:
+
+{{{
+symfony wviola:scan-sources --application=frontend --env=prod
+}}}
+
+È possibile specificare:
+
+  * una sottodirectory in cui lavorare (che deve essere all'interno della directory di base)
+  * se attivare o meno la ricorsione
+  * un valore limite per la dimensione del file oltre il quale non deve essere calcolato l'hash MD5
+  * se registrare nel log su DB l'esecuzione del task
+
+Queste opzioni vengono sfruttate dall'applicazione web quando un utente visualizza i file di una directory appena creata, e per la quale devono essere predisposte in fretta le anteprime e le informazioni di base, lasciando per tempi successivi il calcolo degli altri valori.
+
+Un esempio di interazione è il seguente:
+
+{{{
+$ symfony wviola:scan-sources --recursive=true --subdir=videos/stuff 
+>> directory /var/wviola/data/filesystem/sources/videos/stuff
+>> subdir    /videos/stuff
+>> recursive true
+>> logged    true
+
+>> source    Opening candidate source file...
+>> file      /var/wviola/data/filesystem/sour...os/stuff/bigbuckbunny01_copy.avi
+>> info      Locked.
+
+>> source    Opening candidate source file...
+>> file      /var/wviola/data/filesystem/sources/videos/stuff/data.file
+>> info      Gathering information...
+>> md5sum    Computing MD5 hash...
+>> info      Writing information file...
+>> file+     /var/wviola/data/filesystem/sour.../videos/stuff/.wviola/394315.yml
+
+>> source    Opening candidate source file...
+>> file      /var/wviola/data/filesystem/sources/videos/stuff/sample.txt
+>> info      Skipped for file name matching.
+
+}}}
+
+
+=== Preparazione degli script per l'archiviazione ===
+
+Gli script bash che consentono di pubblicare gli asset vengono generati in base al contenuto del file _wviola.yml_. In particolare, nella sezione _publishing_ di tale file sono specificati i comandi esterni da impartire per produrre i filmati a bassa e ad alta qualità, e le immagini degli album.
+
+Ad esempio:
+
+{{{
+publishing:
+  video_width: 320
+  video_height: 240
+  video_low_quality_command: ffmpeg -i "%source%" -ar 22050 -ab 32000 -f flv -s %width%x%height% "%target%"
+  video_high_quality_command: ffmpeg -i "%source%' -f ogg "%target%"
+}}}
+
+Il task dovrebbe essere richiamabile con il comando:
+
+{{{
+symfony wviola:generate-scripts --application=frontend --env=prod
+}}}
+
+I file generati vengono messi nella directory specificata nel file di configurazione _wviola.yml_. 
+
+*Attenzione!* È importante rigenerare gli script se si cambiano le configurazioni (es. dove sono file e directory).
+
+=== Archiviazione ===
+
+Quando un utente archivia un asset, esso viene spostato in una diversa directory, con l'attribuzione di un ID univoco (uniqid).
+
+Questa applicazione batch, per ogni asset da archiviare:
+
+  * effettua la codifica in bassa risoluzione
+  * rende disponibile l'asset per la fruizione
+  * sposta l'asset ad alta risoluzione in una directory destinata all'archiviazione off-line
+
+Il task dovrebbe essere richiamabile con il comando:
+
+{{{
+symfony wviola:publish-assets --application=frontend --env=prod
+}}}
+
+
+=== Archiviazione raccoglitori (su immagini ISO DVD-ROM) ===
+
+Questa applicazione batch:
+  * chiude i raccoglitori aperti da più di un certo numero di giorni (specificato in _wviola.yml_)
+  * crea, seguendo un ordine cronologico, un'immagine ISO contenente le versioni ad alta qualità degli asset da archiviare, raggruppati per raccoglitore.
+
+Se non ci sono abbastanza asset per riempire un DVD-ROM, esce senza fare nulla. Altrimenti, crea l'immagine ISO (in cui è presente anche un file index.html contenente informazioni sintetiche sugli asset archiviati) e imposta per il raccoglitore l'id dell'immagine ISO generata.
+
+Il file index.html viene generato in base ad un template specificato nel file _wviola.yml_, che può essere personalizzato.
+
+Il task dovrebbe essere richiamabile con il comando:
+
+{{{
+symfony wviola:archive-binders --application=frontend --env=prod
+}}}
+
