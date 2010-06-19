@@ -10,4 +10,5 @@ grep -v 'apps/backend/config/factories.yml' | \
 grep -v 'plugins/\.*' | \
 grep -v 'data/filesystem*' | \
 grep -v 'isoindex.php' | \
+grep -v 'sourcesready.yml' | \
 sed 's/^?      //'

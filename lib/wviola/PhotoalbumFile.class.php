@@ -87,7 +87,7 @@ class PhotoalbumFile extends AssetFile
     return sizeof($this->getFileList());
   }
   
-  public function gatherImageInfo()
+  public function gatherImageInfo($number)
   {
     list($width, $height, $type, $attr) = getimagesize($this->getFile($number));
     $this->_widths[$number]=$width;
@@ -96,19 +96,19 @@ class PhotoalbumFile extends AssetFile
   
   public function getPictureWidth($number)
   {
-    if (!array_key_exists($number, $this->_widths))
+    if (!is_array($this->_widths) || !array_key_exists($number, $this->_widths))
     {
-      $this->gatherImageInfo();
+      $this->gatherImageInfo($number);
     }
-    return $this->widths[$number];
+    return $this->_widths[$number];
   }
   public function getPictureHeight($number)
   {
-    if (!array_key_exists($number, $this->_widths))
+    if (!is_array($this->_heights) || !array_key_exists($number, $this->_heights))
     {
-      $this->gatherImageInfo();
+      $this->gatherImageInfo($number);
     }
-    return $this->heights[$number];
+    return $this->_heights[$number];
   }
 
   public function getFilename($number)
