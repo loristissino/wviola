@@ -10,6 +10,13 @@ asset_filled_advancedsearch:
   url: /advancedsearch/query/:query
   param: { module: asset, action: advancedsearch }
 
+showpicture:
+  url: /asset/showpicture/album/:album/number/:number.:sf_format 
+  param: { module: asset, action: showpicture }
+  requirements:
+    sf_format: jpeg
+    sf_method: get
+
 sourcethumbnail:
   url:   /filebrowser/thumbnail/path/:path/basename/:basename/number/:number.:sf_format
   param: { module: filebrowser, action: thumbnail }
