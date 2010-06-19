@@ -261,11 +261,31 @@ Questa applicazione batch, per ogni asset da archiviare:
 Il task dovrebbe essere richiamabile con il comando:
 
 {{{
-symfony wviola:publish-assets --application=frontend --env=prod
+  ...
+  
+  authentication:
+    ldap_host: ldaps://ldap.example.com ldaps://ldap2.example.com
+    ldap_domain: dc=example,dc=com
+    ldap_users: ou=People
+    ldap_groups: ou=Group
+    ldap_useractive_objectclass_item: posixAccount
+    # for a user to be considered active, we check that they have this 
+    ldap_userattribute_username: uid
+    ldap_userattribute_email: mail
+    ldap_userattribute_firstname: first
+    ldap_userattribute_lastname: last
+    ldap_groupattribute_cn: cn
+    ldap_groupattribute_members: memberuid
+    guardgroup_admin: [webadmin]
+    guardgroup_asset_encoders: [alpha]
+    guardgroup_asset_viewers: [beta,gamma]
 }}}
 
+tutti gli utenti che fanno parte del gruppo beta o del gruppo gamma verranno inseriti nel GuardGroup `asset_viewers`, per cui potranno accedere alla visualizzazione degli asset.
 
-=== Archiviazione raccoglitori (su immagini ISO DVD-ROM) ===
+La voce `ldap_useractive_objectclass_item` serve a indicare quale elemento cercare tra quelli specificati come objectitem per considerare l'utente attivo.
+
+L'output del task, simile al seguente,
 
 Questa applicazione batch:
   * chiude i raccoglitori aperti da più di un certo numero di giorni (specificato in _wviola.yml_)
@@ -281,3 +301,13 @@ Il task dovrebbe essere richiamabile con il comando:
 symfony wviola:archive-binders --application=frontend --env=prod
 }}}
 
+va interpretato in questo modo:
+
+  * sono stati presi in considerazione i GuardGroup `admin`, `asset_encoders` e `asset_viewers` (per ognuno vengono visualizzati i gruppi LDAP corrispondenti)
+  * per `mark` non ci sono state modifiche
+  * `matthew` e `andreas` sono stati tolti dal GuardGroup `asset_encoders`
+  * `eloise` è stata tolta dal GuardGroup `asset_viewers`
+  * `john` è stato inserito nel GuardGroup `asset_viewers`
+  * è stato aggiunto un nuovo utente, `sarah`, inserita nei GuardGroup `admin` e `asset_viewers`
+  * è stato reso "non più attivo" l'utente `paul`
+  

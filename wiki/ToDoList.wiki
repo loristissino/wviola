@@ -15,4 +15,7 @@
   # Scrivere documentazione sul funzionamento del motore di ricerca integrato
   # Controllare la correttezza della documentazione sul Wiki
   # Predisporre i test funzionali
+  # Presentare le immagini dell'album fotografico in maniera da non dover scorrere la pagina per vederle
+  # Aggiungere un link al file dell'asset ad alta risoluzione finché è ancora disponibile, e poi un riferimento al dvd in cui è masterizzato
+  # Aggiungere nel modello la funzione che cambia lo stato degli asset quando il dvd viene masterizzato
 

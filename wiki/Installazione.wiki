@@ -4,11 +4,13 @@
 
 == Installazione dei file del progetto ==
 
-Le seguenti istruzioni sono state verificate con Ubuntu 10.04.
-
-  * installare i pacchetti _php-apc_, _php5-ffmpeg_, _php5-xsl_, _ffprobe_, _ffmpeg_, _ffmpeg2theora_, _mplayer_ (o equivalenti)
-
   * seguire le indicazioni su http://www.symfony-project.org/getting-started/1_4/en/02-Prerequisites (in particolare, sarà necessario agire sui file _/etc/php5/cli/php.ini_ e _/etc/php5/apache2/php.ini_, cambiando `short_open_tag` e `magic_quotes_gpg`)
+
+  * installare i pacchetti che servono:
+
+{{{
+sudo apt-get install subversion php-apc php5-ldap php5-ffmpeg ffprobe ffmpeg, ffmpeg2theora, mplayer
+}}}
 
   * creare una directory _var/wviola_ (o equivalente)
 
@@ -87,19 +89,18 @@ php.ini used by PHP: /etc/php5/apache2/php.ini
 
 ** Mandatory requirements **
 
-  OK        PHP version is at least 5.2.4 (5.3.2-1ubuntu4.2)
+  OK        PHP version is at least 5.2.4 (5.2.10-2ubuntu6.4)
 
 ** Optional checks **
 
   OK        PDO is installed
-  OK        PDO has some drivers installed: mysql, pgsql, sqlite, sqlite2
+  OK        PDO has some drivers installed: mysql, odbc, pgsql, sqlite, sqlite2
   OK        PHP-XML module is installed
   OK        XSL module is installed
   OK        The token_get_all() function is available
   OK        The mb_strlen() function is available
   OK        The iconv() function is available
   OK        The utf8_decode() is available
-  OK        The posix_isatty() is available
   OK        A PHP accelerator is installed
   OK        php.ini has short_open_tag set to off
   OK        php.ini has magic_quotes_gpc set to off
@@ -122,11 +123,11 @@ Conviene predisporre un link simbolico per l'esecuzione dei task, in modo da pot
 Dovrebbe essere sufficiente qualcosa come:
 
 {{{
-sudo ln -sfv /var/wviola/symfony /usr/local/bin/symfony
+sudo ln -sfv /var/schoolmesh/symfony /usr/local/bin/symfony
 }}}
 
 == Ambienti di esecuzione ==
- 
+
 Esistono tre ambienti di esecuzione in cui possono essere fatte funzionare le applicazioni:
 
   # *dev* (ambiente di sviluppo)
@@ -199,14 +200,14 @@ Creare i database (almeno quello di produzione e quello di test) con il nome pre
 
 Per la predisposizione delle tabelle c'è un task apposito:
 
-<code language="sh">
+{{{
 symfony propel:insert-sql --env=prod
 symfony propel:insert-sql --env=test
-</code> 
+}}}
 
 Si dovrebbe ottenere un output come questo:
 
-<pre>
+{{{
 >> schema    converting "/var/wviola/config/schema.yml" to XML
 >> schema    putting /var/wviola/config/generated-schema.xml
 >> schema    converting "/var/wviola/plugins/...Plugin/config/schema.yml" to XML
@@ -222,9 +223,7 @@ y
 >> propel    Running "insert-sql" phing task
 >> file-     /var/wviola/config/generated-schema.xml
 >> file-     /var/wviola/config/generated-sfGuardPlugin-schema.xml
-</pre>
-
-Nota: se si usa PostgreSQL, alla prima esecuzione questi comandi danno un errore, in quanto viene tentata la rimozione delle tabelle precedenti prima della creazione.
+}}}
 
 L'inserimento di alcuni dati di prova può avvenire con il comando
 
@@ -260,20 +259,20 @@ Per effettuare i test, è necessario avere dei file binari a disposizione (picco
 
 Va prelevato il file più recente, messo nella directory _/etc/wviola_ (questa directory, posta sotto _/etc_, può essere usata per cose che non sono sotto il controllo di subversion), creato un link simbolico, e scompattato il file, come indicato qui di seguito:
 
-<code language="sh">
+{{{
 cd /etc/wviola
-wget  wget http://wviola.googlecode.com/files/filesystem2010-06-06_100108.tar.bz2
-ln -sf filesystem2010-06-06_100108.tar.bz2  filesystem.tar.bz2
+wget http://wviola.googlecode.com/files/filesystem2010-02-18_090954.tar.bz2
+ln -sf filesystem2010-02-18_090954.tar.bz2 filesystem.tar.bz2
 tar xvjf filesystem.tar.bz2
-</code>
+}}}
 
 Quando vengono eseguiti i test, i file vengono copiati tramite rsync e posti nella directory _/var/wviola/data/filesystem_, in modo da partire da una situazione pulita.
 
 L'estrazione avviene (vedi file _lib/wviola/bin/resettestfilesystem.sh_) con l'esecuzione del comando:
 
-<code language="sh">
+{{{
 rsync -az --delete /etc/wviola/filesystem /var/wviola/data/
-</code>
+}}}
 
 === Deleghe ===
 
@@ -303,7 +302,7 @@ In particolare, ci saranno qui le preferenze relative alle codifiche video da ef
 
 Al momento ci sono queste informazioni:
 
-<pre>
+{{{
 directory:
   published_assets: /var/wviola/data/filesystem/published/assets
   # where published assets are kept
@@ -335,9 +334,10 @@ directory:
   # like /var/wviola/data/foo_prod.index/, /var/wviola/data/bar_prod.index/,
   # and so on (the names are made up with the object indexed and the environment)
 
+
 thumbnail:
   number: 8
-  # number of thumbnails to prepare for each video  
+  # number of thumbnails to prepare for each asset (videos and photoalbums)  
   width: 60
   height: 45
   # the size of the thumbnail to prepare  
@@ -345,25 +345,45 @@ thumbnail:
 publishing:
   video_width: 320
   video_height: 240
-  video_low_quality_command: ffmpeg -i "%source%" -ar 22050 -ab 32000 -f flv -s %width%x%height% "%target%"
-  video_high_quality_command: ffmpeg -i "%source%' -f ogg "%target%"
+  video_low_quality_command: ffmpeg -i "%source%" -ar 22050 -ab 32000 -f flv -s %width%x%height% "%target%" -y
+  video_high_quality_command: ffmpeg -i "%source%" -f ogg "%target%" -y
   video_low_quality_extension: .flv
   video_high_quality_extension: .ogv
-  estensions_used: [ '', '.flv', '.ogg', '.ogv', '.mp3' ]
+  picture_low_quality_width: 640
+  picture_low_quality_height: 480
+  picture_low_quality_jpeg_quality: 75
+  picture_high_quality_width: 800
+  picture_high_quality_height: 600
+  picture_high_quality_jpeg_quality: 90
+  picture_low_quality_command: convert "%source%" -scale %width%x%height% -quality %quality% "%target%"
+  picture_high_quality_command: convert "%source%" -scale %width%x%height% -quality %quality% "%target%"
+  photoalbum_low_quality_extension: .zip
+  photoalbum_high_quality_extension: .zip
+  extensions_used: [ '', '.flv', '.ogg', '.ogv', '.mp3', '.zip', '.jpg', '.png', '.jpeg' ]
   # this is useful because when we look for a file we could try with a different
   # extension
 
 filebrowser:
   md5sum_limit: f
-  white_list: [ '/png$/i', '/jpg$/i', '/mov$/i', '/mpeg$/i', '/mpg$/i', '/avi$/i', '/ogv$/i' ]
+  photoalbum_items: [ '/jpg$/', '/png$/' ]
+  white_list: [ '/png$/i', '/jpg$/i', '/mov$/i', '/mpeg$/i', '/mpg$/i', '/avi$/i', '/ogv$/i', '/mp4$/i', '/zip$/i' ]
   # regular expressions to use with filenames: only files matching are scanned
+
+archiviation:
+  binder_max_age: 0
+  # days after which a binder should be closed
+  iso_image_size: 4800
+  # iso dvd image size, in MB
+  index_template: /var/wviola/templates/isoimage/it/isoindex.php
+  index_title: Raccoglitori archiviati il %date%
 
 mail:
   bot_address: wviola@example.com
   bot_name: WVIOLA bot
   sourceready_template: /var/wviola/templates/email/it/sourcesready.yml
-  # configuration for sending mail out is in the apps/frontend/config/factories.yml file
-</pre>
+}}}
+
+*Attenzione*: è importante che vengano rigenerati gli script di pubblicazione degli asset ogni volta che vengono modificate le impostazioni di questo file.
 
 === Mailer ===
 
@@ -387,7 +407,7 @@ symfony test:all
 
 che dovrebbe portare ad un risultato simile al seguente:
 
-<pre>
+{{{
 functional/backend/accesslogActionsTest..............................ok
 functional/backend/archiveActionsTest................................ok
 functional/backend/tasklogActionsTest................................ok
@@ -407,7 +427,7 @@ unit/VideoFileTest...................................................ok
 unit/wvConfigTest....................................................ok
  All tests successful.                                                 
  Files=17, Tests=235                                                   
-</pre>
+}}}
 
 
 = Aggiornamenti =
@@ -416,15 +436,14 @@ Per gli aggiornamenti, dovrebbe essere sufficiente spostarsi nella directory _/v
 
 {{{
 svn update
+symfony cache:clear
 }}}
 
-Va però tenuto presente che, durante lo sviluppo, lo schema relazionale potrebbe venir ridefinito. Può quindi essere necessario ricreare da zero le tabelle, ricaricare i dati di prova e svuotare la cache:
+Se, durante lo sviluppo, lo schema relazionale dovesse essere ridefinito, sarà necessario ricreare da zero le tabelle, cosa che si può fare con i seguenti comandi (che *cancellano le tabelle correnti*):
 
 {{{
 symfony propel:insert-sql --env=prod
 symfony propel:insert-sql --env=test
-symfony propel:data-load --env=prod
-symfony cache:clear
 }}}
 
 Nota: i dati per l'ambiente di test vengono caricati automaticamente all'esecuzione dei test.
