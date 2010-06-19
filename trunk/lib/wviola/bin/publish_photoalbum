@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# This script was generated automatically on the base of wviola.yml config file.
+# This script has been generated automatically on the base of wviola.yml config file.
 # DO NOT EDIT directly, unless you know what you are doing.
 #
 # To regenerate the scripts, run the task
@@ -18,8 +18,7 @@ fi
 
 UNIQID="$1"
 
-IFS=$'
-'
+IFS=$'\n'
 
 TEMPDIR=$(mktemp -d)
 
@@ -30,8 +29,8 @@ for IMAGE in $(find . -maxdepth 1  -type f); do
   convert "$IMAGE" -scale 640x480 -quality 75 "low/$IMAGE" || exit 3
   convert "$IMAGE" -scale 800x600 -quality 90 "high/$IMAGE" || exit 4
 done
-zip "/var/wviola/data/filesystem/published/assets/$UNIQID.zip" --junk-paths low/* || exit 5
-zip "/var/wviola/data/filesystem/iso_images/cache/$UNIQID.zip" --junk-paths high/* || exit 6
+zip "/var/wviola/data/filesystem/published/assets/$UNIQID.zip" -j low/* || exit 5
+zip "/var/wviola/data/filesystem/iso_images/cache/$UNIQID.zip" -j high/* || exit 6
 mv -v "/var/wviola/data/filesystem/scheduled/$UNIQID" "/var/wviola/data/filesystem/trash" || exit 7
 
 

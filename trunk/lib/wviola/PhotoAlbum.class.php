@@ -52,7 +52,7 @@ class PhotoAlbum
     $this->_files=array();
     
     $zipcommand =  sprintf('cd "%s"; ', $this->getDirectory());
-    $zipcommand .= sprintf('zip --move "%s" ', $this->getFileName());
+    $zipcommand .= sprintf('zip -m "%s" ', $this->getFileName());
     
     foreach($this->getFileList() as $filename=>$user)
     {

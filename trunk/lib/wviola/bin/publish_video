@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# This script was generated automatically on the base of wviola.yml config file.
+# This script has been generated automatically on the base of wviola.yml config file.
 # DO NOT EDIT directly, unless you know what you are doing.
 #
 # To regenerate the scripts, run the task
@@ -18,8 +18,7 @@ fi
 
 UNIQID="$1"
 
-IFS=$'
-'
+IFS=$'\n'
 ffmpeg -i "/var/wviola/data/filesystem/scheduled/$UNIQID" -ar 22050 -ab 32000 -f flv -s 320x240 "/var/wviola/data/filesystem/published/assets/$UNIQID.flv" || exit 2
 ffmpeg -i "/var/wviola/data/filesystem/scheduled/$UNIQID" -f ogg "/var/wviola/data/filesystem/iso_images/cache/$UNIQID.ogv" || exit 3
 

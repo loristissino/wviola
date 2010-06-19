@@ -79,6 +79,15 @@ EOF;
   
   protected function checkUser($user)
   {
+    
+    if(!in_array(
+      sfConfig::get('app_authentication_ldap_useractive_objectclass_item'),
+      $user['objectclass']
+      ))
+    {
+      return;
+    }
+    
     $username=$user[sfConfig::get('app_authentication_ldap_userattribute_username')][0];
     $email=@$user[sfConfig::get('app_authentication_ldap_userattribute_email')][0];
     $firstname=@$user[sfConfig::get('app_authentication_ldap_userattribute_firstname')][0];

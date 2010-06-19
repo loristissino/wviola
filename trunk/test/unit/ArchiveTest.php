@@ -19,7 +19,9 @@ $t->is(sizeof($added_items), 14, '->addBinders() adds the correct number of item
 
 $t->is($Archive->getIsFull(), true, '->getIsFull() returns true for a filled up archive');
 
+/*
 if ($Archive->getIsFull())
 {
   $list = $Archive->prepareISOImage();
 }
+*/
