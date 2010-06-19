@@ -11,6 +11,8 @@ all:
 #    ldap_domain: dc=example,dc=com
 #    ldap_users: ou=People
 #    ldap_groups: ou=Group
+#    ldap_useractive_objectclass_item: posixAccount
+#    # for a user to be considered active, we check that they have this 
 #    ldap_userattribute_username: uid
 #    ldap_userattribute_email: mail
 #    ldap_userattribute_firstname: first

@@ -42,7 +42,7 @@ EOF;
     return <<<EOF
 #!/bin/bash
 
-# This script was generated automatically on the base of wviola.yml config file.
+# This script has been generated automatically on the base of wviola.yml config file.
 # DO NOT EDIT directly, unless you know what you are doing.
 #
 # To regenerate the scripts, run the task
@@ -60,7 +60,7 @@ fi
 
 UNIQID="$1"
 
-IFS=$'\n'
+IFS=$'\\n'
 
 EOF;
   }
@@ -193,7 +193,7 @@ EOF;
 
     $content .= $command;
     
-    $command = 'zip "%target%" --junk-paths low/*';
+    $command = 'zip "%target%" -j low/*';
     $command=Generic::str_replace_from_array(array(
       '%target%'=>wvConfig::get('directory_published_assets') . '/$UNIQID' . wvConfig::get('publishing_photoalbum_low_quality_extension'),
       ),
@@ -202,7 +202,7 @@ EOF;
 
     $content .= $command . " || exit 5\n";
 
-    $command = 'zip "%target%" --junk-paths high/*';
+    $command = 'zip "%target%" -j high/*';
     $command=Generic::str_replace_from_array(array(
       '%target%'=>wvConfig::get('directory_iso_cache') . '/$UNIQID' . wvConfig::get('publishing_photoalbum_high_quality_extension'),
       ),
