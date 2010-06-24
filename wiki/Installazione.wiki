@@ -4,12 +4,14 @@
 
 == Installazione dei file del progetto ==
 
+Le indicazioni seguenti sono state testate su Ubuntu 10.04 Lucid Lynx e su Debian GNU/Linux 5.0 Lenny, usando PostgreSQL come DB. Per Debian è necessario abilitare il repository [http://debian-multimedia.org debian-multimedia].
+
   * seguire le indicazioni su http://www.symfony-project.org/getting-started/1_4/en/02-Prerequisites (in particolare, sarà necessario agire sui file _/etc/php5/cli/php.ini_ e _/etc/php5/apache2/php.ini_, cambiando `short_open_tag` e `magic_quotes_gpg`)
 
   * installare i pacchetti che servono:
 
 {{{
-sudo apt-get install subversion php-apc php5-ldap php5-ffmpeg ffprobe ffmpeg, ffmpeg2theora, mplayer
+sudo apt-get install php-apc php5-ffmpeg php5-xsl ffprobe ffmpeg ffmpeg2theora mplayer subversion php5-cli php5-pgsql php5-ldap zip unzip genisoimage imagemagick
 }}}
 
   * creare una directory _var/wviola_ (o equivalente)
@@ -142,18 +144,20 @@ Tutti i task devono essere eseguiti specificando l'ambiente di esecuzione (il de
 
 Tutti i file soggetti a configurazione personalizzata vengono forniti con il suffisso _-dist_. Essi devono essere copiati con lo stesso nome, senza il suffisso, in modo che non vengano sovrascritti in occasione degli aggiornamenti.
 
-Nella directory _utilities_ c'è uno script (`fix_dist_files`) che mostra quali sono i file che vanno creati a partire dal file _-dist_ corrispondente.
+Nella directory _utilities_ c'è uno script (`checkdistfiles`) che mostra quali sono i file che vanno creati a partire dal file _-dist_ corrispondente.
 
 Esempio:
 
 {{{
-$ utilities/fix_dist_files.sh 
+$ utilities/checkdistfiles.sh 
+OK:         ./templates/isoimage/it/isoindex.php
+MISSING:    ./templates/email/it/sourcesready.yml
 OK:         ./apps/frontend/config/app.yml
-MISSING:    ./apps/frontend/config/factories.yml
-OK:         ./templates/email/sourcesready.txt
+OK:         ./apps/frontend/config/factories.yml
+OK:         ./config/wviola.yml
 OK:         ./config/app.yml
 OK:         ./config/databases.yml
-OK:         ./config/wviola.yml
+
 }}}
 
 Nota: probabilmente sarebbe meglio avere i file di configurazione sotto _/etc_, in modo da rispettare le indicazioni del [http://www.pathname.com/fhs/ Filesystem Hierarchy Standard]. Si può fare, creando poi dei link simbolici nelle posizioni corrispondenti sotto _/var_.
