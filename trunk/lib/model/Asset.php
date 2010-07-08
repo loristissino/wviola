@@ -211,7 +211,7 @@ class Asset extends BaseAsset {
       ->setStatus(self::SCHEDULED)
       ->save();
       
-      // FIXME This should be put in a transaction
+	  // FIXME This should be put in a transaction
       $Source = SourcePeer::retrieveByPathAndBasename(
         $sourcefile->getRelativePath(),
         $sourcefile->getBaseName()
@@ -222,6 +222,7 @@ class Asset extends BaseAsset {
         ->setStatus(SourcePeer::STATUS_SCHEDULED)
         ->save();
       }
+	
 
       return true;
     }
