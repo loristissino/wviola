@@ -493,29 +493,34 @@ class SourceFile extends BasicFile
 		return is_writeable($this->getPath());
 	}
 
-  public function moveFileToScheduled($prefix)
-  {
-    $uniqid=uniqid($prefix . '_', true);
+    public function moveFileToScheduled($prefix)
+    {
+      $uniqid=uniqid($prefix . '_', true);
+      
+      Generic::logMessage('sourcefile::moveFileToScheduled()', 'started');
 
-    if (!rename(
+      if (!rename(
         $this->getWvInfoFilePath(),
         wvConfig::get('directory_scheduled') . '/' . $uniqid . '.yml'
         ))
-    {
-      return false;
-      //TODO: write to an error log file or DB table...
-      // Anyway, this shouldn't happen, since we were able to write the main file...
-    }
+      {
+      Generic::logMessage('sourcefile::moveFileToScheduled()', sprintf('could not move "%s" to "%s"', $this->getWvInfoFilePath(),wvConfig::get('directory_scheduled') . '/' . $uniqid . '.yml'));
+        return false;
+      
+        //TODO: write to an error log file or DB table...
+        // Anyway, this shouldn't happen, since we were able to write the main file...
+      }
 
-    if (!rename(
-        $this->getFullPath(),
-        wvConfig::get('directory_scheduled') . '/' . $uniqid
-        ))
-    {
-      return false;
-    }
+      if (!rename(
+          $this->getFullPath(),
+          wvConfig::get('directory_scheduled') . '/' . $uniqid
+          ))
+      {
+        Generic::logMessage('sourcefile::moveFileToScheduled()', sprintf('could not move "%s" to "%s"', $this->getFullPath(), wvConfig::get('directory_scheduled') . '/' . $uniqid));
+        return false;
+      }
     
-    return $uniqid;
+      return $uniqid;
   }
 	
 }
