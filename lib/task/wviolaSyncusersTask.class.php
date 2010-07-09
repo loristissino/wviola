@@ -79,7 +79,7 @@ EOF;
   
   protected function checkUser($user)
   {
-    
+    /* FIXME This doesn't work as expected, we must check it 
     if(!in_array(
       sfConfig::get('app_authentication_ldap_useractive_objectclass_item'),
       $user['objectclass']
@@ -87,6 +87,7 @@ EOF;
     {
       return;
     }
+    */
     
     $username=$user[sfConfig::get('app_authentication_ldap_userattribute_username')][0];
     $email=@$user[sfConfig::get('app_authentication_ldap_userattribute_email')][0];
