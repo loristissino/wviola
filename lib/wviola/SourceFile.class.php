@@ -516,7 +516,10 @@ class SourceFile extends BasicFile
       {
         Generic::logMessage('sourcefile::moveFileToScheduled()', sprintf('could not move "%s" to "%s"', $this->getWvInfoFilePath(),wvConfig::get('directory_scheduled') . '/' . $uniqid . '.yml'));
         return false;
-      
+      }
+      else
+      {
+        Generic::logMessage('sourcefile::moveFileToScheduled()', sprintf('moved "%s" to "%s"', $this->getWvInfoFilePath(),wvConfig::get('directory_scheduled') . '/' . $uniqid . '.yml'));
       }
 
       if (!rename(
@@ -527,6 +530,10 @@ class SourceFile extends BasicFile
         // This shouldn't happen, since we were able to write the main file...
         Generic::logMessage('sourcefile::moveFileToScheduled()', sprintf('could not move "%s" to "%s"', $this->getFullPath(), wvConfig::get('directory_scheduled') . '/' . $uniqid));
         return false;
+      }
+      else
+      {
+        Generic::logMessage('sourcefile::moveFileToScheduled()', sprintf('moved "%s" to "%s"', $this->getFullPath(), wvConfig::get('directory_scheduled') . '/' . $uniqid));
       }
     
       return $uniqid;

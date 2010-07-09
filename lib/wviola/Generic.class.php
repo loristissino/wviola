@@ -392,7 +392,7 @@ class Generic{
     {
       echo "\n > " . $file . ' (line '. $line . ')';
     }
-    echo "\n > " . date('h:m:s') . "\n";
+    echo "\n > " . date('H:i:s') . "\n";
     if($content)
     {
       print_r($content);
@@ -403,7 +403,7 @@ class Generic{
     }
     
     echo "\n";
-    $f=fopen('/var/wviola/log/wviolalog.txt', 'a');
+    $f=fopen(wvConfig::get('directory_logs') .  '/wviolalog.txt', 'a');
     fwrite($f, ob_get_contents());
     fclose($f);
     ob_end_clean();
