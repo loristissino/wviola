@@ -68,6 +68,10 @@ filebrowser:
   photoalbum_items: [ '/jpg$/', '/png$/' ]
   white_list: [ '/png$/i', '/jpg$/i', '/mov$/i', '/mpeg$/i', '/mpg$/i', '/avi$/i', '/mp4$/i', '/ogv$/i', '/zip$/i' ]
   # regular expressions to use with filenames: only files matching are scanned
+  info_user: mark
+  info_group: www-data
+  info_perms_dir: 0770
+  info_perms_file: 0660
 
 archiviation:
   binder_max_age: 30
@@ -84,4 +88,7 @@ mail:
   sourceready_template: /var/wviola/templates/email/it/sourcesready.yml
   # configuration for sending mail out is in the apps/frontend/config/factories.yml file
   
+debug:
+  active: false
+  # if set to true, all external commands calls will be logged into log/wviolalog.txt
   

@@ -236,7 +236,7 @@ class Generic{
 				$command=wvConfig::get('directory_executables') . '/'. $command;
 			}
 			
-			$debug=false;
+			$debug=wvConfig::get('debug_active');
 			
 			$info=array();
 			$result=array();
@@ -247,14 +247,8 @@ class Generic{
 
 			if($debug)
 			{
-				ob_start();
-				echo "=========\n";
-				echo "CUSTOM? " . ($custom? 'yes': 'no') . "\n";
-				echo "---------\n";
-				echo "EXECUTING: \n";
-				echo $command . "\n";
-
-				$f=fopen('wviolalog.txt', 'a'); fwrite($f, ob_get_contents());fclose($f);ob_end_clean();
+        self::logMessage('command', $command);
+        self::logMessage('custom?', ($custom? 'yes': 'no'));
 			}
 			
 			exec($command, $result, $return_var);
@@ -266,12 +260,7 @@ class Generic{
 			
 			if($debug)
 			{
-				ob_start();
-
-				echo "RESULT: \n";
-				print_r($result);
-
-				$f=fopen('wviolalog.txt', 'a'); fwrite($f, ob_get_contents());fclose($f);ob_end_clean();
+        self::logMessage('result', $result);
 			}
 			
 			if (sizeof($result)==1)

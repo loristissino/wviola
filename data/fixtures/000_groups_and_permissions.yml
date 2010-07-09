@@ -1,0 +1,32 @@
+sfGuardPermission:
+  admin:
+    name:           admin
+    description:    Administrator permission
+  asset_encode:
+    name:           asset_encode
+    description:    Asset encoding
+  asset_view:
+    name:           asset_view
+    description:    Asset viewing 
+
+sfGuardGroup:
+  admin:
+    name:           admin
+    description:    Administrator group
+  asset_encoders:
+    name:           asset_encoders
+    description:    Asset encoders
+  asset_viewers:
+    name:           asset_viewers
+    description:    Asset Viewers
+
+sfGuardGroupPermission:
+  admin:
+    group_id:       admin
+    permission_id:  admin
+  asset_encode:
+    group_id:       asset_encoders
+    permission_id:  asset_encode
+  asset_view:
+    group_id:       asset_viewers
+    permission_id:  asset_view
