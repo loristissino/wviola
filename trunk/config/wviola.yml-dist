@@ -33,6 +33,8 @@ directory:
   # like /var/wviola/data/foo_prod.index/, /var/wviola/data/bar_prod.index/,
   # and so on (the names are made up with the object indexed and the environment)
 
+  logs: /var/wviola/log
+
 thumbnail:
   number: 8
   # number of thumbnails to prepare for each asset (videos and photoalbums)  

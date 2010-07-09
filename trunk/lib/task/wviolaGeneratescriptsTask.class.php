@@ -76,7 +76,7 @@ EOF;
     if (is_writable($this->getTargetDir()))
     {
       file_put_contents($name, $content, LOCK_EX);
-      chmod($name, 0770);
+      chmod($name, 0755);
       $this->logSection('file+', $name, null, 'INFO');
     }
     else
