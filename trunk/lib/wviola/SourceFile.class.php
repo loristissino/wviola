@@ -331,7 +331,13 @@ class SourceFile extends BasicFile
 			try
 			{
 				mkdir($this->getWvDirPath());
-        chmod($this->getWvDirPath(), 0777);
+        chmod($this->getWvDirPath(), wvConfig::get('filebrowser_info_perms_dir'));
+        Generic::executeCommand(sprintf('sudo /bin/chown %s:%s "%s"', 
+          wvConfig::get('filebrowser_info_user'),
+          wvConfig::get('filebrowser_info_group'),
+          $this->getWvDirPath())
+          ); 
+
 				//clearstatcache();
 			}
 			catch (Exception $e)
@@ -366,7 +372,11 @@ class SourceFile extends BasicFile
         fwrite($fp, $yaml, strlen($yaml));
         fclose($fp);
         @flock($fp, LOCK_UN);
-        chmod($this->getWvInfoFilePath(), 0666);
+        chmod($this->getWvInfoFilePath(), wvConfig::get('filebrowser_info_perms_file'));
+        Generic::executeCommand(sprintf('sudo /bin/chown %s:%s "%s"', 
+          wvConfig::get('filebrowser_info_user'),
+          wvConfig::get('filebrowser_info_group'),
+          $this->getWvInfoFilePath())); 
       }
       else
       {
@@ -504,11 +514,9 @@ class SourceFile extends BasicFile
         wvConfig::get('directory_scheduled') . '/' . $uniqid . '.yml'
         ))
       {
-      Generic::logMessage('sourcefile::moveFileToScheduled()', sprintf('could not move "%s" to "%s"', $this->getWvInfoFilePath(),wvConfig::get('directory_scheduled') . '/' . $uniqid . '.yml'));
+        Generic::logMessage('sourcefile::moveFileToScheduled()', sprintf('could not move "%s" to "%s"', $this->getWvInfoFilePath(),wvConfig::get('directory_scheduled') . '/' . $uniqid . '.yml'));
         return false;
       
-        //TODO: write to an error log file or DB table...
-        // Anyway, this shouldn't happen, since we were able to write the main file...
       }
 
       if (!rename(
@@ -516,6 +524,7 @@ class SourceFile extends BasicFile
           wvConfig::get('directory_scheduled') . '/' . $uniqid
           ))
       {
+        // This shouldn't happen, since we were able to write the main file...
         Generic::logMessage('sourcefile::moveFileToScheduled()', sprintf('could not move "%s" to "%s"', $this->getFullPath(), wvConfig::get('directory_scheduled') . '/' . $uniqid));
         return false;
       }
