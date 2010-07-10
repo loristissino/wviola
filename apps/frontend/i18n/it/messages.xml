@@ -300,6 +300,16 @@
         <source>File browser</source>
         <target>Gestore dei file</target>
       </trans-unit>
+      <trans-unit id="75">
+        <source>Assets List</source>
+        <target>Lista dei documenti archiviati</target>
+      </trans-unit>
+      <trans-unit id="76">
+        <source>[0]No asset found|[1]One asset found|(1,+Inf]%number% assets found</source>
+        <target>[0]Nessun documento trovato|[1]Un documento trovato|(1,+Inf]%number% documenti trovati</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
+
+

@@ -158,6 +158,8 @@ class Asset extends BaseAsset {
   public function scheduleSourceFileForArchiviation($userId, SourceFile $sourcefile, $values)
   {
     
+    Generic::logMessage('Asset->scheduleSourceFileForArchiviation()', $this->getId() . ' called');
+    
     $fullpath=$sourcefile->getFullPath();
     
     $this
@@ -177,6 +179,8 @@ class Asset extends BaseAsset {
     }
 
     $uniqid = $sourcefile->moveFileToScheduled($this->getAssetTypeShortCode());
+    
+    Generic::logMessage('Asset->scheduleSourceFileForArchiviation()', 'got uniqid: ' . $uniqid);
 
     if ($thumbnail)
     {
@@ -192,6 +196,9 @@ class Asset extends BaseAsset {
         ->setThumbnailHeight($thumbnail['height'])
         ->setThumbnailPosition(array_key_exists('position', $thumbnail)? $thumbnail['position']: null)
         ;
+        
+        Generic::logMessage('Asset->scheduleSourceFileForArchiviation()', 'saved thumbtnail: ' . wvConfig::get('directory_published_thumbnails'). '/' . $uniqid . '.jpeg');
+
       }
       catch (Exception $e)
       {
@@ -210,6 +217,9 @@ class Asset extends BaseAsset {
       ->setAssignedTitle($values['assigned_title'])
       ->setStatus(self::SCHEDULED)
       ->save();
+      
+      Generic::logMessage('Asset->scheduleSourceFileForArchiviation()', 'saved info on db');
+
       
 	  // FIXME This should be put in a transaction
       $Source = SourcePeer::retrieveByPathAndBasename(

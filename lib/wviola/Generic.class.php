@@ -235,9 +235,7 @@ class Generic{
 			{
 				$command=wvConfig::get('directory_executables') . '/'. $command;
 			}
-			
-			$debug=wvConfig::get('debug_active');
-			
+						
 			$info=array();
 			$result=array();
 			$return_var=0;
@@ -245,11 +243,7 @@ class Generic{
 			$command='LANG=it_IT.utf-8; ' . $command;
 			// FIXME: this is needed, but it should be more general than it_IT.utf8
 
-			if($debug)
-			{
-        self::logMessage('command', $command);
-        self::logMessage('custom?', ($custom? 'yes': 'no'));
-			}
+      self::logMessage('Generic::executeCommand()', $command . ($custom? ' [custom command]': ''));
 			
 			exec($command, $result, $return_var);
 
@@ -258,10 +252,7 @@ class Generic{
 				throw new Exception('Could not execute command '. $command . ' (got: '. serialize($result) . ')');
 			}
 			
-			if($debug)
-			{
-        self::logMessage('result', $result);
-			}
+      self::logMessage('Generic::executeCommand() result', $result);
 			
 			if (sizeof($result)==1)
 			{
@@ -386,6 +377,11 @@ class Generic{
 
   static public function logMessage($section, $content, $file='', $line='')
   {
+    if (!wvConfig::get('debug_active'))
+    {
+      return;
+    }
+    
     ob_start();
     echo "\n--------- " . $section;
     if($line || $file)
