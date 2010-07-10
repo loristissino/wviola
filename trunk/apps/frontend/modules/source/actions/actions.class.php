@@ -21,7 +21,7 @@ class sourceActions extends sfActions
     $this->pager->setPage($request->getParameter('page', 1));
     $this->pager->init();
   }
-
+/*
   public function executeShow(sfWebRequest $request)
   {
     $this->Source = SourcePeer::retrieveByPk($request->getParameter('id'));
@@ -81,4 +81,5 @@ class sourceActions extends sfActions
       $this->redirect('source/edit?id='.$Source->getId());
     }
   }
+*/
 }

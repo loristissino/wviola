@@ -1,6 +1,6 @@
 <?php include_partial('welcome/searchbox', array('query'=>$query)) ?>
 <?php if(sizeof($Assets)>0): ?>
-<h2>Search results</h2>
+<h2><?php echo __('Search results') ?></h2>
 <?php endif ?>
 <div id="assets">
   <?php if(sizeof($Assets)>0): ?>

@@ -106,6 +106,8 @@ class sfGuardUserProfile extends BasesfGuardUserProfile
     $c = new Criteria();
     $c->add(SourcePeer::USER_ID, $this->getUserId());
     $c->add(SourcePeer::STATUS, SourcePeer::STATUS_SCHEDULED, Criteria::LESS_THAN);
+    $c->addAscendingOrderByColumn(SourcePeer::RELATIVE_PATH);
+    $c->addAscendingOrderByColumn(SourcePeer::BASENAME);
     return $c;
   }
   

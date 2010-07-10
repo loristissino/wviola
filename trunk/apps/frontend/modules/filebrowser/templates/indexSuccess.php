@@ -1,4 +1,4 @@
-<h1>File browser</h1>
+<h1><?php echo __('File browser') ?></h1>
 
 <h2><?php echo $path ?></h2>
 
