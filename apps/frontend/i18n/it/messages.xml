@@ -89,8 +89,8 @@
         <target>Documenti archiviati</target>
       </trans-unit>
       <trans-unit id="22">
-        <source>[0]No </source>
-        <target>[0]No </target>
+        <source>[0]No source found|[1]One source found|(1,+Inf]%number% sources found</source>
+        <target>[0]Nessun originale trovato|[1]Un originale trovato|(1,+Inf]%number% originali trovati</target>
       </trans-unit>
       <trans-unit id="23">
         <source>Page &lt;strong&gt;%page%&lt;/strong&gt;/%pages%</source>
@@ -251,6 +251,54 @@
       <trans-unit id="62">
         <source>Assigned title</source>
         <target>Titolo assegnato</target>
+      </trans-unit>
+      <trans-unit id="63">
+        <source>Scanned Sources List</source>
+        <target>Lista degli originali analizzati</target>
+      </trans-unit>
+      <trans-unit id="64">
+        <source>Relative path</source>
+        <target>Percorso relativo</target>
+      </trans-unit>
+      <trans-unit id="65">
+        <source>Filename</source>
+        <target>Nome del file</target>
+      </trans-unit>
+      <trans-unit id="66">
+        <source>Status</source>
+        <target>Stato</target>
+      </trans-unit>
+      <trans-unit id="67">
+        <source>Scanned at</source>
+        <target>Analizzato il</target>
+      </trans-unit>
+      <trans-unit id="68">
+        <source>Search</source>
+        <target>Ricerca</target>
+      </trans-unit>
+      <trans-unit id="69">
+        <source>Search results</source>
+        <target>Risultati della ricerca</target>
+      </trans-unit>
+      <trans-unit id="70">
+        <source>Advanced Search</source>
+        <target>Ricerca avanzata</target>
+      </trans-unit>
+      <trans-unit id="71">
+        <source>Enter some keywords (+, -, title:…, notes:…)</source>
+        <target>Inserire alcune parole chiave (+, -, title:…,  notes:…)</target>
+      </trans-unit>
+      <trans-unit id="72">
+        <source>Ready</source>
+        <target>Pronto</target>
+      </trans-unit>
+      <trans-unit id="73">
+        <source>Email sent</source>
+        <target>Email inviata</target>
+      </trans-unit>
+      <trans-unit id="74">
+        <source>File browser</source>
+        <target>Gestore dei file</target>
       </trans-unit>
     </body>
   </file>

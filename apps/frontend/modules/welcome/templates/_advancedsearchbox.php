@@ -1,7 +1,7 @@
 <?php if($sf_user->isAuthenticated()): ?>
 <?php use_stylesheets_for_form($form) ?>
 <div class="searchbox">
-<h1>Advanced Search</h1>
+<h1><?php echo __('Advanced Search') ?></h1>
 <form action="<?php echo url_for('@asset_empty_advancedsearch') ?>" method="get" <?php $form->isMultipart() and print 'enctype="multipart/form-data" ' ?>>
 <?php echo $form['actionrequested'] ?>
   <table>

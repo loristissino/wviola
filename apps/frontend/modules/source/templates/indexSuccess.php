@@ -1,4 +1,4 @@
-<h1>Sources List</h1>
+<h1><?php echo __('Scanned Sources List') ?></h1>
 <?php include_partial('welcome/results', array('pager'=>$pager, 'action'=>'source/index', 'item_name'=>'source')) ?>
 <?php include_partial('welcome/pager', array('pager'=>$pager, 'action'=>'source/index')) ?>
 
@@ -6,20 +6,26 @@
 <table>
   <thead>
     <tr>
-      <th>Relative path</th>
-      <th>Filename</th>
-      <th>Status</th>
-      <th>Created at</th>
+      <th><?php echo __('Relative path') ?></th>
+      <th><?php echo __('Filename') ?></th>
+      <th><?php echo __('Status') ?></th>
+      <th><?php echo __('Scanned at') ?></th>
     </tr>
   </thead>
   <tbody>
+    <?php $oldpath='' ?>
     <?php foreach ($pager->getResults() as $Source): ?>
     <tr>
-      <td><?php echo link_to(
-        $Source->getRelativePath(),
-        url_for('filebrowser/opendir?code=' . Generic::b64_serialize($Source->getRelativePath()))
-        )
-        ?></td>
+      <td>
+        <?php if ($Source->getRelativePath()!=$oldpath): ?>
+          <?php echo link_to(
+          $Source->getRelativePath(),
+          url_for('filebrowser/opendir?code=' . Generic::b64_serialize($Source->getRelativePath()))
+          )
+          ?>
+          <?php $oldpath=$Source->getRelativePath() ?>
+        <?php endif ?>
+        </td>
       <td><?php echo link_to(
         $Source->getBasename(),
         url_for('filebrowser/opendir?code=' . Generic::b64_serialize($Source->getRelativePath())) . '#' . $Source->getInode()
