@@ -34,12 +34,17 @@ class BinderForm extends BaseBinderForm
       $this['archive_id']
     );
     
-    $this->widgetSchema['event_date'] = new sfWidgetFormI18nDate(array('culture'=>sfConfig::get('sf_default_culture'), 'month_format' => 'name'));
-
+    $y=date('Y');
+    $years=range(
+      $y - wvConfig::get('binders_years_before', 10), 
+      $y + wvConfig::get('binders_years_after', 2)
+      );
+    $this->widgetSchema['event_date'] = new sfWidgetFormI18nDate(array('culture'=>sfConfig::get('sf_default_culture'), 'month_format' => 'name', 'years'=>array_combine($years, $years), 'default'=>'now'));
     
     $this->widgetSchema['embedded'] = new sfWidgetFormInputHidden(array(), array('name' => 'embedded'));
 
     $this->setDefault('embedded', $this->_embedded);
+
     
     $this->validatorSchema['embedded'] = new sfValidatorPass();
 

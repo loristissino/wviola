@@ -45,10 +45,8 @@ class binderActions extends sfActions
       || preg_match('/filebrowser\/archive/', $request->getReferer());
     
     $this->form = new BinderForm(null, array('embedded'=>$embedded));
-    if($embedded)
-    {
-      $this->setLayout('popup');
-    }
+
+
   }
 
   public function executeCreate(sfWebRequest $request)
