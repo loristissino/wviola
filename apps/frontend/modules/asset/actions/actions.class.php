@@ -132,6 +132,9 @@ class assetActions extends sfActions
     ;
     
     $this->form->setOption('thumbnail', false);
+    
+    $this->binderform = new BinderForm(null, array('embedded'=>true));
+
   }
 
   public function executeUpdate(sfWebRequest $request)

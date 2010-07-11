@@ -340,8 +340,20 @@
         <source>Binder information was not correctly filled and could not be saved.</source>
         <target>Le informazioni sul raccoglitore sono incomplete e non possono essere salvate.</target>
       </trans-unit>
+      <trans-unit id="85">
+        <source>Edit Asset</source>
+        <target>Modifica documento</target>
+      </trans-unit>
+      <trans-unit id="86">
+        <source>[0]There are no pictures in this album.|[1]There is one picture in this album.|(1,+Inf]There are %number% pictures in this album.</source>
+        <target>[0]Non ci sono immagini in questo album.|[1]C'è una immagine in questo album.|(1,+Inf]Ci sono  %number% immagini in questo album.</target>
+      </trans-unit>
+      <trans-unit id="87">
+        <source>Picture number %number%, original file name %name%</source>
+        <target>Immagine numero %number%, nome file originale %name%
+</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
-
 
