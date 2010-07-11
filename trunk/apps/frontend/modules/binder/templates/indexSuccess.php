@@ -1,4 +1,4 @@
-<h1>Binders List</h1>
+<h1><?php echo __('Binders List') ?></h1>
 <?php include_partial('welcome/results', array('pager'=>$pager, 'action'=>'binder/index', 'item_name'=>'binder')) ?>
 <?php include_partial('welcome/pager', array('pager'=>$pager, 'action'=>'binder/index')) ?>
 
@@ -6,12 +6,12 @@
 <table>
   <thead>
     <tr>
-      <th>Id</th>
-      <th>User</th>
-      <th>Category</th>
-      <th>Notes</th>
-      <th>Event date</th>
-      <th>Assets count</th>
+      <th><?php echo __('Id') ?></th>
+      <th><?php echo __('User') ?></th>
+      <th><?php echo __('Category') ?></th>
+      <th><?php echo __('Notes') ?></th>
+      <th><?php echo __('Event date') ?></th>
+      <th><?php echo __('Assets count') ?></th>
     </tr>
   </thead>
   <tbody>

@@ -308,6 +308,38 @@
         <source>[0]No asset found|[1]One asset found|(1,+Inf]%number% assets found</source>
         <target>[0]Nessun documento trovato|[1]Un documento trovato|(1,+Inf]%number% documenti trovati</target>
       </trans-unit>
+      <trans-unit id="77">
+        <source>Category</source>
+        <target>Categoria</target>
+      </trans-unit>
+      <trans-unit id="78">
+        <source>Event date</source>
+        <target>Data evento</target>
+      </trans-unit>
+      <trans-unit id="79">
+        <source>User</source>
+        <target>Utente</target>
+      </trans-unit>
+      <trans-unit id="80">
+        <source>Assets count</source>
+        <target>Numero documenti</target>
+      </trans-unit>
+      <trans-unit id="81">
+        <source>[0]No binder found|[1]One binder found|(1,+Inf]%number% binders found</source>
+        <target>[0]Nessun raccoglitore trovato|[1]Un raccoglitore trovato|(1,+Inf]%number% raccoglitori trovati</target>
+      </trans-unit>
+      <trans-unit id="82">
+        <source>Binders List</source>
+        <target>Lista dei raccoglitori</target>
+      </trans-unit>
+      <trans-unit id="83">
+        <source>Close this window</source>
+        <target>Chiudi questa finestra</target>
+      </trans-unit>
+      <trans-unit id="84">
+        <source>Binder information was not correctly filled and could not be saved.</source>
+        <target>Le informazioni sul raccoglitore sono incomplete e non possono essere salvate.</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

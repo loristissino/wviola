@@ -58,15 +58,18 @@ class binderActions extends sfActions
     $embedded = $request->getParameter('embedded');
 
     $this->form = new BinderForm(null, array('embedded'=>$embedded));
-
+    
     $this->processForm($request, $this->form, $embedded);
 
-    $this->setTemplate('new');
-
-    if($embedded)
+    if(!$embedded)
     {
-      $this->setLayout('popup');
-    }    
+      $this->setTemplate('new');
+    }
+    else
+    {
+      $this->forward('binder', 'embedded');
+    }
+  
   }
 
   public function executeEdit(sfWebRequest $request)
@@ -77,10 +80,6 @@ class binderActions extends sfActions
     
     $this->form = new BinderForm($Binder, $embedded);
     
-    if($embedded)
-    {
-      $this->setLayout('popup');
-    }    
   }
 
   public function executeUpdate(sfWebRequest $request)
@@ -114,6 +113,13 @@ class binderActions extends sfActions
 
     $this->redirect('binder/index');
   }
+  
+  public function executeEmbedded(sfWebRequest $request)
+  {
+    $this->Binders=$this->getUser()->getProfile()->getOpenBinders();
+    $this->selected=$this->getUser()->getAttribute('selected_binder');
+    $this->BinderValues=$this->getUser()->getAttribute('binder_values');
+  }
 
   protected function processForm(sfWebRequest $request, sfForm $form, $embedded = false)
   {
@@ -133,8 +139,20 @@ class binderActions extends sfActions
         $form->getValues()
         )
       ->save();
+            
+      if ($embedded)
+      {
+        $this->getUser()->setAttribute('selected_binder', $Binder->getId());
+        $this->getUser()->setAttribute('binder_values', null);
+        $this->forward('binder', 'embedded');
+      }
       
       $this->redirect('binder/edit?id='.$Binder->getId() . ($embedded? '&embedded=true':''));
+    }
+    else
+    {
+      $this->getUser()->setAttribute('binder_values', $form->getTaintedValues());
+      $this->getUser()->setAttribute('selected_binder', null);
     }
   }
 }

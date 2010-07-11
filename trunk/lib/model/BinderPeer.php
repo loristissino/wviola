@@ -52,5 +52,16 @@ class BinderPeer extends BaseBinderPeer {
     return BinderPeer::doSelect($c);
   }
   
+  public static function getCriteriaForUser($userId, $onlyOpen=false)
+  {
+    $c = new Criteria();
+    $c->add(BinderPeer::USER_ID, $userId);
+    if ($onlyOpen)
+    {
+      $c->add(BinderPeer::IS_OPEN, true);
+    }
+    return $c;
+  }
+
 
 } // BinderPeer

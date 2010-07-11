@@ -44,9 +44,7 @@ class AssetForm extends BaseAssetForm
         $this->validatorSchema['notes']
       );
             
-      $c = new Criteria();
-      $c->add(BinderPeer::USER_ID, $this->_userId);
-      $c->add(BinderPeer::IS_OPEN, true);
+      $c = BinderPeer::getCriteriaForUser($this->_userId, true);
       
       $this->widgetSchema['binder_id'] = new sfWidgetFormPropelChoice(array('model' => 'Binder', 'add_empty' => true, 'criteria' => $c));
       

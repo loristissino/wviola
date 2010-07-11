@@ -86,11 +86,15 @@ class sfGuardUserProfile extends BasesfGuardUserProfile
 		return $this->getSfGuardUser()->getUsername();
 	}
   
-  public function getBinderCriteria()
+  public function getBinderCriteria($onlyOpen=false)
   {
-    $c = new Criteria();
-    $c->add(BinderPeer::USER_ID, $this->getUserId());
-    return $c;
+    return BinderPeer::getCriteriaForUser($this->getUserId(), $onlyOpen);
+  }
+  
+  public function getOpenBinders()
+  {
+    $c = $this->getBinderCriteria(true);
+    return BinderPeer::doSelect($c);
   }
   
   public function getAssetCriteria()

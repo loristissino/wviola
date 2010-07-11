@@ -4,8 +4,17 @@
 <?php use_javascript('jquery-ui-1.8.custom.min.js') ?>
 <?php use_javascript('datepicker') ?>
 <?php use_javascript('jquery.ui.datepicker-' . sfConfig::get('sf_default_culture') . '.js') ?>
+<?php use_helper('jQuery') ?>
 
-<form action="<?php echo url_for('binder/'.($form->getObject()->isNew() ? 'create' : 'update').(!$form->getObject()->isNew() ? '?id='.$form->getObject()->getId() : '')) ?>" method="post" <?php $form->isMultipart() and print 'enctype="multipart/form-data" ' ?>>
+<?php if ($form['embedded']->getValue()): ?>
+  <?php echo jq_form_remote_tag(array(
+      'update'   => 'binderchoice',
+      'url'      => 'binder/create',
+      'complete' => "$('#newbinderform').hide();",
+  )) ?>
+<?php else: ?>
+  <form action="<?php echo url_for('binder/'.($form->getObject()->isNew() ? 'create' : 'update').(!$form->getObject()->isNew() ? '?id='.$form->getObject()->getId() : '')) ?>" method="post" <?php $form->isMultipart() and print 'enctype="multipart/form-data" ' ?>>
+<?php endif ?>
 <?php if (!$form->getObject()->isNew()): ?>
 <input type="hidden" name="sf_method" value="put" />
 <?php endif; ?>
@@ -30,15 +39,6 @@
     </tfoot>
     <tbody>
       <?php echo $form->renderGlobalErrors() ?>
-<?php /*
-      <tr>
-        <th><?php echo $form['user_id']->renderLabel() ?></th>
-        <td>
-          <?php echo $form['user_id']->renderError() ?>
-          <?php echo $form['user_id'] ?>
-        </td>
-      </tr>
-*/ ?>
       <tr>
         <th><?php echo $form['category_id']->renderLabel() ?></th>
         <td>
@@ -60,23 +60,12 @@
           <?php echo $form['event_date'] ?>
         </td>
       </tr>
-<?php
-/*      <tr>
-        <th><?php echo $form['created_at']->renderLabel() ?></th>
-        <td>
-          <?php echo $form['created_at']->renderError() ?>
-          <?php echo $form['created_at'] ?>
-        </td>
-      </tr>
 
-      <tr>
-        <th><?php echo $form['updated_at']->renderLabel() ?></th>
-        <td>
-          <?php echo $form['updated_at']->renderError() ?>
-          <?php echo $form['updated_at'] ?>
-        </td>
-      </tr>
-*/?>
     </tbody>
   </table>
 </form>
+<?php if($form['embedded']->getValue()): ?>
+  <?php echo jq_link_to_function(__('Close this window'),
+    jq_visual_effect('fadeOut', '#newbinderform')
+    ) ?>
+<?php endif ?>

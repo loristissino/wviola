@@ -29,8 +29,13 @@ class BinderForm extends BaseBinderForm
     unset(
       $this['user_id'],
       $this['created_at'],
-      $this['updated_at']
+      $this['updated_at'],
+      $this['is_open'],
+      $this['archive_id']
     );
+    
+    $this->widgetSchema['event_date'] = new sfWidgetFormI18nDate(array('culture'=>sfConfig::get('sf_default_culture'), 'month_format' => 'name'));
+
     
     $this->widgetSchema['embedded'] = new sfWidgetFormInputHidden(array(), array('name' => 'embedded'));
 

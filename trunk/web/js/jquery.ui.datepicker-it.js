@@ -1,5 +1,6 @@
 /* Italian initialisation for the jQuery UI date picker plugin. */
 /* Written by Antonello Pasella (antonello.pasella@gmail.com). */
+/* Changed dateFormat: to 'mm/dd/yy' by Loris Tissino (loris.tissino@gmail.com). */
 jQuery(function($){
 	$.datepicker.regional['it'] = {
 		closeText: 'Chiudi',
@@ -14,7 +15,7 @@ jQuery(function($){
 		dayNamesShort: ['Dom','Lun','Mar','Mer','Gio','Ven','Sab'],
 		dayNamesMin: ['Do','Lu','Ma','Me','Gi','Ve','Sa'],
 		weekHeader: 'Sm',
-		dateFormat: 'dd/mm/yy',
+		dateFormat: 'mm/dd/yy',
 		firstDay: 1,
 		isRTL: false,
 		showMonthAfterYear: false,
