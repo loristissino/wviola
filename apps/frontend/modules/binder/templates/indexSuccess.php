@@ -28,10 +28,10 @@
   </tbody>
 </table>
 <?php endif ?>
-
-  <?php echo link_to(
+<ul class="sf_admin_actions">
+  <li class="sf_admin_action_new"><?php echo link_to(
     __('New binder'),
     url_for('binder/new')
     )
-  ?>
-  
+  ?></li>
+</ul>  
