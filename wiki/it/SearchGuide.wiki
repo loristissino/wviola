@@ -1,0 +1,70 @@
+#summary Guida alle funzioni di ricerca - Breve introduzione all'uso del motore di ricerca Lucene in Wviola
+
+= Come cercare i documenti multimediali archiviati in Wviola =
+
+== Introduzione ==
+
+Quando i documenti multimediali vengono archiviati, vengono posti in un raccoglitore. È possibile cercare un documento specificando parole associate al documento stesso, oppure al suo raccoglitore.
+
+Il linguaggio per le interrogazioni e sia potente sia semplice da usare. Quella che segue è solo una breve introduzione. Ulteriori informazioni possono essere trovate nella guida in linea nel [http://zendframework.com/manual/en/zend.search.lucene.query-language.html sito web dedicato a Zend Lucene].
+
+== Terminologia ==
+
+I *termini* sono le cose di cui si compone un'interrogazione. Possono essere parole semplici, frasi (gruppi di parole racchiuse tra virgolette doppie) oppure sottointerrogazioni (interrogazioni racchiuse tra parentesi tonde).
+
+{{{
+Il mio cane Pluto
+}}}
+
+cercerà tutti i documenti che hanno le parole _il_ oppure _mio_ oppure _cane_ oppure _pluto_ nel titolo, nelle note, ecc.
+
+{{{
+"Il mio cane Pluto"
+}}}
+
+cercherà invece tutti i documenti che contengono esattamente la frase _il mio cane pluto_.
+
+I *campi* sono modi per essere più specifici nell'effettuare una ricerca, indicando dove guardare esattamente. Ad esempio, è possibile cercare una parola solo nel titolo di un documento, oppure solo nelle note del raccoglitore associato.
+
+{{{
+title:Pluto
+}}}
+
+Gli *intervalli* servono a specificare dei limiti al cui interno cercare qualcosa.
+
+{{{
+date:[20090101 TO 20100531]
+}}}
+
+cercheà tutti i documenti contenuti in raccoglitori per i quali la data dell'evento è compresa tra il 1 gennaio 2009 e il 31 maggio 2010, estremi inclusi (usando le parentesi graffe si sarebbero esclusi gli estremi).
+
+== Operatori booleani ==
+
+Gli *operatori booleani* consentono di combinare i termini di ricerca.
+
+{{{
+notes:"Il mio cane" AND title:Pluto
+}}}
+
+cercherà i documenti con _il mio cane_ nelle note *e* _Pluto_ nel titolo, mentre
+
+{{{
+notes:"My dog" OR title:Billy
+}}}
+
+cercherà quelli con una delle due corrispondenze (o entrambe).
+
+È possibile anche specificare l'operatore NOT, come in
+
+{{{
+autunno AND NOT Pluto
+}}}
+
+Gli operatori booleani possono essere espressi anche in minuscolo, oppure sostituiti da `&&` (and) `||` (or) e '!` (not).
+
+È possibile anche usare `+` e `-`, come in
+
+{{{
++autumn -billy
+}}}
+
