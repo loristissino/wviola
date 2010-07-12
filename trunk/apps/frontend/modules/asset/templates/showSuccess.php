@@ -13,62 +13,73 @@
 <table>
   <tbody>
     <tr>
-      <th>Id:</th>
+      <th><?php echo __('Id') ?></th>
       <td><?php echo $Asset->getId() ?></td>
     </tr>
     <tr>
-      <th>Status:</th>
+      <th><?php echo __('Status') ?></th>
       <td><?php echo $Asset->getStatus() ?></td>
     </tr>
     <tr>
-      <th>UniqId:</th>
+      <th><?php echo __('UniqId') ?></th>
       <td><?php echo $Asset->getUniqid() ?></td>
     </tr>
     <tr>
-      <th>Asset type:</th>
+      <th><?php echo __('Asset Type') ?></th>
       <td><?php echo $Asset->getAssetTypeCode() ?></td>
     </tr>
     <tr>
-      <th>Assigned title:</th>
+      <th><?php echo __('Assigned title') ?></th>
       <td><?php echo $Asset->getAssignedTitle() ?></td>
     </tr>
     <tr>
-      <th>Binder:</th>
+      <th><?php echo __('Binder') ?></th>
       <td>
       <?php echo link_to(
-        $Asset->getBinderId(),
+        $Asset->getBinder(),
         url_for('binder/show?id=' . $Asset->getBinderId())
         ) ?>
         &nbsp;
-      <?php echo $Asset->getBinder() ?>
+      (<?php echo $Asset->getBinderId() ?>)
       </td>
     </tr>
     <tr>
-      <th>Notes:</th>
+      <th><?php echo __('Notes') ?></th>
       <td><?php echo $Asset->getNotes() ?></td>
     </tr>
     <tr>
     <tr>
-      <th>Source filename:</th>
+      <th><?php echo __('Source filename') ?></th>
       <td><?php echo $Asset->getSourceFilename() ?></td>
     </tr>
     <tr>
-      <th>Source file date:</th>
+      <th><?php echo __('Source file date') ?></th>
       <td><?php echo $Asset->getSourceFileDatetime() ?></td>
     </tr>
     <tr>
-      <th>Highquality md5sum:</th>
+      <th><?php echo __('Highquality md5sum') ?></th>
       <td><?php echo $Asset->getHighqualityMd5sum() ?></td>
+    </tr>
+    <tr>
+      <th><?php echo __('Highquality file size') ?></th>
+      <td><?php echo Generic::getHumanReadableSize($Asset->getPublishedFile('high')->getSize()) ?></td>
     </tr>
   </tbody>
 </table>
 
-<?php if($editable): ?>
 <ul class="sf_admin_td_actions">
+<?php if($Asset->getIsEditable()): ?>
 <li class="sf_admin_action_edit"><?php echo link_to(
   __('Edit'),
   url_for('asset/edit?id='.$Asset->getId())
   )
 ?></li>
-</ul>
 <?php endif ?>
+<?php if($Asset->getIsDownloadable()): ?>
+<li class="sf_admin_action_download"><?php echo link_to(
+  __('Download'),
+  url_for('asset/download?id='.$Asset->getId())
+  )
+?></li>
+<?php endif ?>
+</ul>

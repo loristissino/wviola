@@ -30,6 +30,7 @@ class Asset extends BaseAsset {
 		4=> 'aud',
 		);
 
+    private $_editable=false;
 
   public function save(PropelPDO $con = null)
   {
@@ -334,6 +335,22 @@ class Asset extends BaseAsset {
       // This shouldn't happen, it's here to easy the tests...
       return 'fakename.txt';
     }
+  }
+
+  public function setIsEditable($userId)
+  {
+    // info about the asset are editable only by the owner of the binder in which the asset is put
+    $this->_editable = $userId === $this->getBinder()->getUserId();
+  }
+  
+  public function getIsEditable()
+  {
+    return $this->_editable;
+  }
+  
+  public function getIsDownloadable()
+  {
+    return $this->getStatus()===self::CACHED;
   }
 
 } // Asset
