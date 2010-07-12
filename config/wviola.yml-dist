@@ -40,7 +40,10 @@ thumbnail:
   # number of thumbnails to prepare for each asset (videos and photoalbums)  
   width: 60
   height: 45
-  # the size of the thumbnail to prepare  
+  # the size of the thumbnail to prepare 
+    
+  photoalbum_reduction: 5
+  # photoalbum pictures previews will be shown reduced by this factor
 
 publishing:
   video_width: 320

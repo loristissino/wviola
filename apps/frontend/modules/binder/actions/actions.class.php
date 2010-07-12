@@ -137,6 +137,7 @@ class binderActions extends sfActions
         $form->getValues()
         )
       ->save();
+      $this->getUser()->setAttribute('last_binder', $Binder->getId());
             
       if ($embedded)
       {

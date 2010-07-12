@@ -353,6 +353,18 @@
         <target>Immagine numero %number%, nome file originale %name%
 </target>
       </trans-unit>
+      <trans-unit id="88">
+        <source>Edit Binder</source>
+        <target>Modifica raccoglitore</target>
+      </trans-unit>
+      <trans-unit id="89">
+        <source>Delete</source>
+        <target>Elimina</target>
+      </trans-unit>
+      <trans-unit id="90">
+        <source>Are you sure?</source>
+        <target>Sei sicuro/a?</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
