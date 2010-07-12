@@ -11,7 +11,7 @@
   <?php echo link_to(
     '<img src="' . url_for(
       'asset/showpicture?album='. $PhotoalbumAsset->getAssetId() . 
-      '&number='. $i) . '" width="' . $PhotoalbumAsset->getPictureWidth($i, $session)/5 . '" height="' . $PhotoalbumAsset->getPictureHeight($i, $session)/5 . '">',
+      '&number='. $i) . '" width="' . $PhotoalbumAsset->getReducedPictureWidth($i, $session) . '" height="' . $PhotoalbumAsset->getReducedPictureHeight($i, $session) . '">',
     url_for(
     'asset/showpicture?album='. $PhotoalbumAsset->getAssetId() . 
     '&number='. $i

@@ -30,7 +30,7 @@
             url_for('binder/index'))
           ?>
           <?php if (!$form->getObject()->isNew()): ?>
-            &nbsp;<?php echo link_to('Delete', 'binder/delete?id='.$form->getObject()->getId(), array('method' => 'delete', 'confirm' => 'Are you sure?')) ?>
+            &nbsp;<?php echo link_to(__('Delete'), 'binder/delete?id='.$form->getObject()->getId(), array('method' => 'delete', 'confirm' => __('Are you sure?'))) ?>
           <?php endif; ?>
           <?php endif ?>
           <input type="submit" value="<?php echo __('Save') ?>" />

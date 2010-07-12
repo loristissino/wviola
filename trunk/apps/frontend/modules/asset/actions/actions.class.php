@@ -96,6 +96,13 @@ class assetActions extends sfActions
       $this->form->setOption('thumbnail', true);
     }
     
+    if ($this->getUser()->hasAttribute('last_binder'))
+    {
+      $this->form->setDefault('binder_id', $this->getUser()->getAttribute('last_binder'));
+      Generic::logMessage('binder', $this->getUser()->getAttribute('last_binder'));
+    }
+
+    
     $this->binderform = new BinderForm(null, array('embedded'=>true));
   }
 
@@ -237,10 +244,11 @@ class assetActions extends sfActions
           ))
         {
           $this->getUser()->setFlash('notice', $this->getContext()->getI18N()->__('Source file «%filename%» correctly scheduled for archiviation.', array('%filename%'=>$filename)));
+          $this->getUser()->setAttribute('last_binder', $Asset->getBinderId());
         }
         else
         {
-          $this->getUser()->setFlash('error', 'Something went wrong with scheduling.');
+          $this->getUser()->setFlash('error', $this->getContext()->getI18N()->__('Something went wrong with scheduling.'));
         }
           
         $this->redirect('filebrowser/index');
@@ -251,6 +259,7 @@ class assetActions extends sfActions
         {
           $this->Asset->updateValuesFromForm($form->getValues());
           $this->getUser()->setFlash('notice', $this->getContext()->getI18N()->__('Data updated'));
+          $this->getUser()->setAttribute('last_binder', $Asset->getBinderId());
         }
         catch (Exception $e)
         {

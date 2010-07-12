@@ -47,12 +47,22 @@ class PhotoalbumAsset extends BasePhotoalbumAsset {
     return $this->getPhotoalbumFile($session)->getPictureWidth($number);
   }
   
+  public function getReducedPictureWidth($number, $session='')
+  {
+    return round($this->getPictureWidth($number, $session)/wvConfig::get('thumbnail_photoalbum_reduction', 4));
+  }
+  
   public function getPictureHeight($number, $session='')
   {
     // simple proxy
     return $this->getPhotoalbumFile($session)->getPictureHeight($number);
   }
   
+  public function getReducedPictureHeight($number, $session='')
+  {
+    return round($this->getPictureHeight($number, $session)/wvConfig::get('thumbnail_photoalbum_reduction', 4));
+  }
+
   public function getFilename($number, $session='')
   {
     // simple proxy
