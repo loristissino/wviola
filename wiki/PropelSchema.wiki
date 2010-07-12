@@ -1,0 +1,11 @@
+#summary Informazioni in forma grafica relative a Wviola
+
+*This should be translated into English*
+
+= Schemi e diagrammi =
+
+== Schema del database ==
+
+Questo schema è stato generato automaticamente tramite graphviz: 
+
+http://wviola.googlecode.com/svn/wiki/propel.schema.png
