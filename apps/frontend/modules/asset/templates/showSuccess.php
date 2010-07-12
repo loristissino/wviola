@@ -18,7 +18,7 @@
     </tr>
     <tr>
       <th><?php echo __('Status') ?></th>
-      <td><?php echo $Asset->getStatus() ?></td>
+      <td><?php include_partial('asset/status', array('status'=>$Asset->getStatus())) ?></td>
     </tr>
     <tr>
       <th><?php echo __('UniqId') ?></th>
@@ -56,14 +56,18 @@
       <th><?php echo __('Source file date') ?></th>
       <td><?php echo $Asset->getSourceFileDatetime() ?></td>
     </tr>
+    <?php if($Asset->getStatus() > Asset::SCHEDULED): ?>
     <tr>
       <th><?php echo __('Highquality md5sum') ?></th>
       <td><?php echo $Asset->getHighqualityMd5sum() ?></td>
     </tr>
+    <?php endif ?>
+    <?php if($Asset->getIsDownloadable()): ?>
     <tr>
       <th><?php echo __('Highquality file size') ?></th>
-      <td><?php echo Generic::getHumanReadableSize($Asset->getPublishedFile('high')->getSize()) ?></td>
+      <td><?php echo $Asset->getHighQualityFileSize() ?></td>
     </tr>
+    <?php endif ?>
   </tbody>
 </table>
 

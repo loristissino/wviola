@@ -352,5 +352,17 @@ class Asset extends BaseAsset {
   {
     return $this->getStatus()===self::CACHED;
   }
+  
+  public function getHighQualityFileSize()
+  {
+    if ($this->getIsDownloadable())
+    {
+      return Generic::getHumanReadableSize($this->getPublishedFile('high')->getSize());
+    }
+    else
+    {
+      return false;
+    }
+  }
 
 } // Asset

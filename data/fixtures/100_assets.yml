@@ -14,6 +14,7 @@ Asset:
     has_thumbnail: true
     thumbnail_width: 60
     thumbnail_height: 45
+    status: 3
 
   asset2:
     uniqid: vid_4ab00000000000.20000000
@@ -30,6 +31,7 @@ Asset:
     thumbnail_width: 60
     thumbnail_height: 45
 # For this video the high_quality md5sum is wrong, so that we can use it for tests
+    status: 4
 
   asset3:
     uniqid: vid_4ab00000000000.30000000
@@ -47,6 +49,7 @@ Asset:
     has_thumbnail: true
     thumbnail_width: 60
     thumbnail_height: 45
+    status: 4
 
 <?php for($i=4; $i<15; $i++): ?>
   asset<?php echo $i ?>:
@@ -56,6 +59,8 @@ Asset:
     source_filename: video<?php echo $i ?>.mpg
     assigned_title: Video number <?php echo $i . "\n"?>
     source_file_datetime: 11/<?php echo $i ?>/2009
+    status: 4
+
 <?php endfor ?>
 
   asset15:
@@ -72,6 +77,7 @@ Asset:
     has_thumbnail: true
     thumbnail_width: 60
     thumbnail_height: 45
+    status: 4
 
 <?php for($i=16; $i<=25; $i++): ?>
   asset<?php echo $i ?>:
@@ -82,6 +88,7 @@ Asset:
     assigned_title: Photo Album number <?php echo $i . "\n"?>
     notes: 
     source_file_datetime: 11/<?php echo $i ?>/2009
+    status: 4
 <?php endfor ?>
 
 <?php for($i=26; $i<=30; $i++): ?>
@@ -93,6 +100,7 @@ Asset:
     assigned_title: Photo Album number <?php echo $i . "\n"?>
     notes: 
     source_file_datetime: 11/<?php echo $i ?>/2009
+    status: 4
 <?php endfor ?>
 
 <?php for($i=100; $i<120; $i++): ?>

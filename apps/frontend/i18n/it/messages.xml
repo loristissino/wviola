@@ -118,7 +118,7 @@
       </trans-unit>
       <trans-unit id="29">
         <source>Source file «%filename%» correctly scheduled for archiviation.</source>
-        <target>Originale «%filename%» predisposto per l'archiviazione.</target>
+        <target>Originale «%filename%» contrassegnato per l'archiviazione.</target>
       </trans-unit>
       <trans-unit id="30">
         <source>Save</source>
@@ -254,7 +254,7 @@
       </trans-unit>
       <trans-unit id="63">
         <source>Scanned Sources List</source>
-        <target>Lista degli originali analizzati</target>
+        <target>Lista degli originali pronti per l'archiviazione</target>
       </trans-unit>
       <trans-unit id="64">
         <source>Relative path</source>
@@ -388,6 +388,26 @@
       <trans-unit id="96">
         <source>Highquality file size</source>
         <target>Dimensione del file ad alta risoluzione</target>
+      </trans-unit>
+      <trans-unit id="97">
+        <source>Scheduled for archiviation</source>
+        <target>Contrassegnato per l'archiviazione</target>
+      </trans-unit>
+      <trans-unit id="98">
+        <source>Archived and still available on line</source>
+        <target>Archiviato e ancora disponibile in linea</target>
+      </trans-unit>
+      <trans-unit id="99">
+        <source>Archived, ready for masterization</source>
+        <target>Archiviato, pronto per la masterizzazione</target>
+      </trans-unit>
+      <trans-unit id="100">
+        <source>Archived, masterized</source>
+        <target>Archiviato, masterizzato</target>
+      </trans-unit>
+      <trans-unit id="101">
+        <source>Data updated.</source>
+        <target>Modifiche ai dati apportate.</target>
       </trans-unit>
      </body>
   </file>

@@ -60,6 +60,7 @@ class BasicFile
     
     $found=false;
     $orig=$this->getBasename();
+    $tries=array();
     foreach($list as $ext)
     {
       $this->setBasename($orig . $ext);
@@ -68,11 +69,12 @@ class BasicFile
         $found=true;
         break;
       }
+      $tries[]=$ext;
     }
     
 		if (!$found)
 		{
-			throw new Exception(sprintf('Not a valid file: %s* (tried %s)', $orig, $this->getFullPath()));
+			throw new Exception(sprintf('Not a valid file: %s* (tried %s{%s})', $orig, $this->getFullPath(), implode(',', $tries)));
 		}
 		
 		if ($this->getStat('size')<0)
@@ -334,11 +336,8 @@ class BasicFile
    */
   public function getDeliveryName()
   {
-    return $this->_deliveryName=='' ? $this->getFilename() : $this->_deliveryName;
+    return $this->_deliveryName=='' ? $this->getBasename() : $this->_deliveryName;
     
   }
 
-
-  
-	
 }
