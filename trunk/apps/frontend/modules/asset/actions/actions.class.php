@@ -91,7 +91,7 @@ class assetActions extends sfActions
     $this->forward404Unless($this->Asset->getIsDownloadable());
     
     $file=$this->Asset->getPublishedFile('high');
-    $file->setDeliveryName($this->Asset->getId());
+//    $file->setDeliveryName($this->Asset->getId());
     $file->prepareDelivery($this->getContext()->getResponse());
     return sfView::NONE;
     
@@ -167,6 +167,7 @@ class assetActions extends sfActions
     $this->form = new AssetForm($this->getUser()->getProfile()->getUserId());
 
     $this->processForm($request, $this->form);
+    $this->binderform = new BinderForm(null, array('embedded'=>true));
 
     $this->setTemplate('edit');
   }
@@ -273,8 +274,8 @@ class assetActions extends sfActions
         try
         {
           $this->Asset->updateValuesFromForm($form->getValues());
-          $this->getUser()->setFlash('notice', $this->getContext()->getI18N()->__('Data updated'));
-          $this->getUser()->setAttribute('last_binder', $Asset->getBinderId());
+          $this->getUser()->setFlash('notice', $this->getContext()->getI18N()->__('Data updated.'));
+          $this->getUser()->setAttribute('last_binder', $this->Asset->getBinderId());
         }
         catch (Exception $e)
         {
