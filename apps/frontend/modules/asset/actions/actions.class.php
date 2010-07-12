@@ -78,11 +78,26 @@ class assetActions extends sfActions
   {
     $this->Asset = AssetPeer::retrieveByPk($request->getParameter('id'));
     $this->forward404Unless($this->Asset);
-    $this->editable=$this->getUser()->getProfile()->getUserId()===$this->Asset->getBinder()->getUserId();
+    $this->Asset->setIsEditable($this->getUser()->getProfile()->getUserId());
     $this->session=$request->getCookie('wviola');
     $this->Asset->logAccess($this->getUser()->getProfile()->getUserId(), $this->session);
     
   }
+
+  public function executeDownload(sfWebRequest $request)
+  {
+    $this->Asset = AssetPeer::retrieveByPk($request->getParameter('id'));
+    $this->forward404Unless($this->Asset);
+    $this->forward404Unless($this->Asset->getIsDownloadable());
+    
+    $file=$this->Asset->getPublishedFile('high');
+    $file->setDeliveryName($this->Asset->getId());
+    $file->prepareDelivery($this->getContext()->getResponse());
+    return sfView::NONE;
+    
+    
+  }
+
 
   public function executeNew(sfWebRequest $request)
   {

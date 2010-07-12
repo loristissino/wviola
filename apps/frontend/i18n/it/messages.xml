@@ -365,7 +365,31 @@
         <source>Are you sure?</source>
         <target>Sei sicuro/a?</target>
       </trans-unit>
-    </body>
+      <trans-unit id="91">
+        <source>Asset Type</source>
+        <target>Tipo di documento</target>
+      </trans-unit>
+      <trans-unit id="92">
+        <source>Source filename</source>
+        <target>Nome del file originale</target>
+      </trans-unit>
+      <trans-unit id="93">
+        <source>Source file date</source>
+        <target>Data del file originale</target>
+      </trans-unit>
+      <trans-unit id="94">
+        <source>Highquality md5sum</source>
+        <target>Md5sum del file ad alta risoluzione</target>
+      </trans-unit>
+      <trans-unit id="95">
+        <source>Download</source>
+        <target>Scarica</target>
+      </trans-unit>
+      <trans-unit id="96">
+        <source>Highquality file size</source>
+        <target>Dimensione del file ad alta risoluzione</target>
+      </trans-unit>
+     </body>
   </file>
 </xliff>
 
