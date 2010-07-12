@@ -1,7 +1,5 @@
 #summary Elenco delle cose che rimangono da fare
 
-= This list is in Italian only =
-
 = Lista delle cose ancora da fare =
 
   # ~~Completare il task di sincronizzazione utenti da server LDAP~~
