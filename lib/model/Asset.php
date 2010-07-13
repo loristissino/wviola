@@ -75,13 +75,6 @@ class Asset extends BaseAsset {
     {
       $index->delete($hit->id);
     }
-    /*
-    // don't index expired and non-activated jobs
-    if ($this->isExpired() || !$this->getIsActivated())
-    {
-      return;
-    }
-    */
    
     $doc = new Zend_Search_Lucene_Document();
    
@@ -94,7 +87,7 @@ class Asset extends BaseAsset {
     $doc->addField(Zend_Search_Lucene_Field::UnStored('binder', $this->getBinder()->getNotes(), 'utf-8'));
     $doc->addField(Zend_Search_Lucene_Field::Unstored('date', $this->getBinder()->getEventDate('%Y%m%d'), 'utf-8'));
     $doc->addField(Zend_Search_Lucene_Field::Unstored('type', $this->getAssetTypeCode(), 'utf-8'));
-    $doc->addField(Zend_Search_Lucene_Field::Unstored('category', $this->getBinder()->getCategoryId(), 'utf-8'));
+    $doc->addField(Zend_Search_Lucene_Field::Unstored('category', $this->getBinder()->getCategory(), 'utf-8'));
     
     // add asset to the index
     $index->addDocument($doc);

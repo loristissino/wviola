@@ -77,16 +77,16 @@
         <target>Ricerca</target>
       </trans-unit>
       <trans-unit id="19">
-        <source>My sources</source>
-        <target>Originali</target>
+        <source>Sources to archive</source>
+        <target>Originali da archiviare</target>
       </trans-unit>
       <trans-unit id="20">
-        <source>My binders</source>
-        <target>Raccoglitori</target>
+        <source>Binders I manage</source>
+        <target>Raccoglitori che gestisco</target>
       </trans-unit>
       <trans-unit id="21">
-        <source>My assets</source>
-        <target>Documenti archiviati</target>
+        <source>Assets I archived</source>
+        <target>Documenti multimediali che ho archiviato</target>
       </trans-unit>
       <trans-unit id="22">
         <source>[0]No source found|[1]One source found|(1,+Inf]%number% sources found</source>

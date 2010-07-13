@@ -21,7 +21,16 @@ class assetActions extends sfActions
         $query.=sprintf('%s:"%s"', $field, $values[$field]);
       }
     }
-      return $query;
+    
+    if(array_key_exists('category_id', $values))
+    {
+      if($category = CategoryPeer::retrieveByPK($values['category_id']))
+      {
+        $query.=sprintf('%s:"%s"', 'category', $category);
+      }
+    }
+    
+    return $query;
   }
   
   
