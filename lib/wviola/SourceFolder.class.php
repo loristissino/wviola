@@ -59,6 +59,12 @@ class SourceFolder
 				if (substr($file, 0, 1)!='.')
 				{
 					$sourceFile=new SourceFile($this->getPath(), $file);
+          if ($sourceFile->getFileType()=='directory')
+          {
+            $this->_folderItems[]=$sourceFile;
+            continue;
+          }
+
 					if ($sourceFile->getShouldBeSkipped())
 					{
 						unset($sourceFile);

@@ -99,7 +99,11 @@ mail:
   bot_name: WVIOLA bot
   sourceready_template: /var/wviola/templates/email/it/sourcesready.yml
   # configuration for sending mail out is in the apps/frontend/config/factories.yml file
-  
+
+search:
+  max_results: 30
+  # the maximum number of results for lucene query searches
+
 debug:
   active: false
   # if set to true, all external commands calls will be logged into log/wviolalog.txt
