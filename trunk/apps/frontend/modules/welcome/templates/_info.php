@@ -2,9 +2,9 @@
   <hr />
   <ul class="sf_admin_actions">
     <li class="sf_admin_action_search"><?php echo link_to(__('Search'), '@asset_search') ?></li>
-    <li class="sf_admin_action_sources"><?php echo link_to(__('My sources'), 'source/index') ?></li>
-    <li class="sf_admin_action_binders"><?php echo link_to(__('My binders'), 'binder/index') ?></li>
-    <li class="sf_admin_action_assets"><?php echo link_to(__('My assets'), 'asset/index') ?></li>
+    <li class="sf_admin_action_sources"><?php echo link_to(__('Sources to archive'), 'source/index') ?></li>
+    <li class="sf_admin_action_binders"><?php echo link_to(__('Binders I manage'), 'binder/index') ?></li>
+    <li class="sf_admin_action_assets"><?php echo link_to(__('Assets I archived'), 'asset/index') ?></li>
   </ul>
 <?php endif ?>
   <hr />
