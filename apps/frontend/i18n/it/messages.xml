@@ -409,7 +409,20 @@
         <source>Data updated.</source>
         <target>Modifiche ai dati apportate.</target>
       </trans-unit>
+      <trans-unit id="102">
+        <source>Show help page about search queries</source>
+        <target>Mostra la guida sulle interrogazioni di ricerca</target>
+      </trans-unit>
+      <trans-unit id="103">
+        <source>opens in a popup window</source>
+        <target>si apre in una finestra popup</target>
+      </trans-unit>
+      <trans-unit id="104">
+        <source>On line help</source>
+        <target>Guida in linea</target>
+      </trans-unit>
      </body>
   </file>
 </xliff>
+
 
