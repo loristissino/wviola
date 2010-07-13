@@ -10,7 +10,19 @@
     url_for($query ? '@asset_filled_advancedsearch?query=' . $query : '@asset_empty_advancedsearch')
   )?>
   <div class="searchhelp">
-<?php echo __('Enter some keywords (+, -, title:…, notes:…)') ?>
+<?php echo __('Enter some keywords (+, -, title:…, notes:…)') ?><br />
+<ul class="sf_admin_td_actions">
+  <li class="sf_admin_action_help">
+  <?php $popup_options="left=100,top=10,width=650,height=375,location=no,scrollbars =yes,resizable=yes,directories=no,status=no,toolbar=no,menubar=no" ?>
+  <?php echo link_to(
+    __('On line help'),
+    "http://code.google.com/p/wviola/wiki/SearchGuide",
+    array(
+      'popup'=>array('help', $popup_options),
+      'title'=>__('Show help page about search queries') . ' (' . __('opens in a popup window') . ')',
+    )) ?>
+  </li>
+</ul>
   </div>
 </form>
 </div>
