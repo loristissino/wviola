@@ -20,6 +20,8 @@ require 'lib/model/om/BaseBinder.php';
  */
 class Binder extends BaseBinder {
 
+  private $_editable=false;
+
   public function __toString()
   {
     return $this->getEventDate() . ' ' . $this->getNotes();
@@ -114,6 +116,17 @@ class Binder extends BaseBinder {
     }
     return $s;
   }
+
+  public function setIsEditable($userId)
+  {
+    $this->_editable = $userId === $this->getUserId();
+  }
   
+  public function getIsEditable()
+  {
+    return $this->_editable;
+  }
+
+
 
 } // Binder

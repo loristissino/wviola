@@ -25,6 +25,8 @@ class binderActions extends sfActions
   public function executeShow(sfWebRequest $request)
   {
     $this->Binder = BinderPeer::retrieveByPk($request->getParameter('id'));
+    $this->Binder->setIsEditable($this->getUser()->getProfile()->getUserId());
+
     $this->forward404Unless($this->Binder);
     
     $this->pager = new sfPropelPager(
@@ -73,7 +75,10 @@ class binderActions extends sfActions
   public function executeEdit(sfWebRequest $request)
   {
     $this->forward404Unless($Binder = BinderPeer::retrieveByPk($request->getParameter('id')), sprintf('Object Binder does not exist (%s).', $request->getParameter('id')));
-    
+
+    $Binder->setIsEditable($this->getUser()->getProfile()->getUserId());
+    $this->forward404Unless($Binder->getIsEditable());
+
     $embedded = $request->getParameter('embedded');
     
     $this->form = new BinderForm($Binder, $embedded);

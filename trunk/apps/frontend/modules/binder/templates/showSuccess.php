@@ -29,7 +29,9 @@
 
 <hr />
 <ul class="sf_admin_actions">
+  <?php if($Binder->getIsEditable()): ?>
   <li class="sf_admin_action_edit">
   <?php echo link_to(__('Edit'), url_for('binder/edit?id='.$Binder->getId())) ?>
   </li>
+  <?php endif ?>
 </ul>

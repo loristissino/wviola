@@ -82,7 +82,7 @@ class AssetPeer extends BaseAssetPeer {
    
     $c = new Criteria();
     $c->add(self::ID, $pks, Criteria::IN);
-    $c->setLimit(20);
+    $c->setLimit(wvConfig::get('search_max_results', 20));
    
     return self::doSelect($c);
   }
