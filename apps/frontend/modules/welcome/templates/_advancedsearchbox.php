@@ -16,10 +16,10 @@
     <tbody>
       <?php echo $form->renderGlobalErrors() ?>
       <tr>
-        <th><?php echo $form['title']->renderLabel() ?></th>
+        <th><?php echo $form['binder']->renderLabel() ?></th>
         <td>
-          <?php echo $form['title']->renderError() ?>
-          <?php echo $form['title'] ?>
+          <?php echo $form['binder']->renderError() ?>
+          <?php echo $form['binder'] ?>
         </td>
       </tr>
       <tr>
@@ -27,13 +27,6 @@
         <td>
           <?php echo $form['notes']->renderError() ?>
           <?php echo $form['notes'] ?>
-        </td>
-      </tr>
-      <tr>
-        <th><?php echo $form['binder']->renderLabel() ?></th>
-        <td>
-          <?php echo $form['binder']->renderError() ?>
-          <?php echo $form['binder'] ?>
         </td>
       </tr>
       <tr>

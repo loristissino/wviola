@@ -25,21 +25,21 @@ class AdvancedSearchForm extends BaseForm
   public function configure()
   {
     $this->setWidgets(array(
-      'title'    => new sfWidgetFormInputText(),
       'binder'   => new sfWidgetFormInputText(),
       'notes'    => new sfWidgetFormInputText(),
       'date'     => new sfWidgetFormInputText(),
       'category_id' => new sfWidgetFormPropelChoice(array('model' => 'Category', 'add_empty' => true)),
       'actionrequested'   => new sfWidgetFormInputHidden(array(), array('name' => 'actionrequested', 'value'=>'search'))
       ));
-        
+    
+    $this->widgetSchema['date']->setLabel('Date (yyyymmdd)');
+    
 //    $this->setDefault('assigned_title', $query->getField('title'));
     $this->widgetSchema->setNameFormat('query[%s]');
 
     $this->setValidators(array(
-      'title'    => new sfValidatorString(array('required' => false)),
       'binder'   => new sfValidatorString(array('required' => false)),
-      'notes'    => new sfValidatorString(array('required' => false, 'min_length'=>4)),
+      'notes'    => new sfValidatorString(array('required' => false, 'min_length'=>3)),
       'date'    => new sfValidatorString(array('required' => false)),
       'category_id' => new sfValidatorPropelChoice(array('model' => 'Category', 'column' => 'id', 'required' => false)),
     ));

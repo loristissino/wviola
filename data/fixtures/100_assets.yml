@@ -4,8 +4,7 @@ Asset:
     asset_type: 1
     binder_id: binder1
     source_filename: Outdoor Meeting.mpeg
-    assigned_title: Outdoor meeting
-    notes: (c) copyright Blender Foundation | www.blender.org
+    notes: Outdoor meeting (c) copyright Blender Foundation | www.blender.org
     source_file_datetime: 12/21/2009
     source_lmd5sum: c1d63fa7b9ba76582dd3903a8ae903aa
     highquality_md5sum: f42d6ad8c1fb4c29f2035131c7feb398
@@ -21,8 +20,7 @@ Asset:
     asset_type: 1
     binder_id: binder1
     source_filename: Big Buck Bunny 2.mpg
-    assigned_title: Hidden
-    notes: (c) copyright Blender Foundation | www.blender.org
+    notes: Hidden (c) copyright Blender Foundation | www.blender.org
     source_file_datetime: 12/23/2009
     highquality_md5sum: 1e14867e34033234896abc98ecf8427e
     lowquality_md5sum: a725051252925d29e0322ec423db1293
@@ -38,8 +36,7 @@ Asset:
     asset_type: 1
     binder_id: binder2
     source_filename: Big Buck Bunny and the apple.mpg
-    assigned_title: Apple
-    notes: (c) copyright Blender Foundation | www.blender.org
+    notes: Apple (c) copyright Blender Foundation | www.blender.org
     source_file_datetime: 12/23/2009
     source_lmd5sum: 8df3f37d4cb351d5129b92d251985455:f
     source_size: 260288
@@ -57,7 +54,7 @@ Asset:
     binder_id: binder3
     asset_type: 1
     source_filename: video<?php echo $i ?>.mpg
-    assigned_title: Video number <?php echo $i . "\n"?>
+    notes: Video number <?php echo $i . "\n"?>
     source_file_datetime: 11/<?php echo $i ?>/2009
     status: 4
 
@@ -68,8 +65,7 @@ Asset:
     asset_type: 3
     binder_id: binder3
     source_filename: matthew_20091012.zip
-    assigned_title: Evil Frank
-    notes: (c) copyright Blender Foundation | apricot.blender.org
+    notes: Evil Frank (c) copyright Blender Foundation | apricot.blender.org
     source_file_datetime: 11/1/2009
     highquality_md5sum: 7d67221952cf60972194563b29bbb5fb
     lowquality_md5sum: 17e4be147c96d5da5e7b3353757dd264
@@ -85,8 +81,7 @@ Asset:
     asset_type: 3
     binder_id: binder3
     source_filename: PhotoAlbum<?php echo $i ?>.zip
-    assigned_title: Photo Album number <?php echo $i . "\n"?>
-    notes: 
+    notes: Photo Album number <?php echo $i . "\n"?>
     source_file_datetime: 11/<?php echo $i ?>/2009
     status: 4
 <?php endfor ?>
@@ -97,8 +92,7 @@ Asset:
     asset_type: 3
     binder_id: binder4
     source_filename: PhotoAlbum<?php echo $i ?>.zip
-    assigned_title: Photo Album number <?php echo $i . "\n"?>
-    notes: 
+    notes: Photo Album number <?php echo $i . "\n"?>
     source_file_datetime: 11/<?php echo $i ?>/2009
     status: 4
 <?php endfor ?>
@@ -111,8 +105,7 @@ Asset:
     status: 2
     binder_id: binder<?php echo $i . "\n" ?>
     source_filename: <?php echo sprintf("PhotoAlbum%d_%s.zip\n", $i, $letter) ?>
-    assigned_title: Photo Album number <?php echo $i . $letter . "\n"?>
-    notes: Fake notes for album number <?php echo $i . $letter . "\n"?>
+    notes: Photo Album number <?php echo $i . $letter ?> Fake notes for album number <?php echo $i . $letter . "\n"?>
     highquality_size: 40000000
     highquality_md5sum: <?php echo md5($i . $letter) . "\n" ?>
     source_file_datetime: 11/20/2009

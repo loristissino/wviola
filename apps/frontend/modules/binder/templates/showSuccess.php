@@ -15,7 +15,7 @@
     </tr>
     <tr>
       <th><?php echo __('Notes') ?></th>
-      <td><?php echo $Binder->getNotes() ?></td>
+      <td><?php echo $Binder->getTitle() ?></td>
     </tr>
     <tr>
       <th><?php echo __('Event date') ?></th>

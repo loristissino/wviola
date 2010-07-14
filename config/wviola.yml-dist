@@ -34,6 +34,10 @@ directory:
   # and so on (the names are made up with the object indexed and the environment)
 
   logs: /var/wviola/log
+  
+#  tmp: /tmp/wviola
+  # leave this commented if you want to use your system standard tmp directory
+
 
 thumbnail:
   number: 8

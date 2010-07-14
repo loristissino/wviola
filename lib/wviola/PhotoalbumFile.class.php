@@ -15,8 +15,8 @@ class PhotoalbumFile extends AssetFile
 	public function __construct($uniqid, $session='')
 	{
 		parent::__construct($uniqid, self::EXTENSION);
-    
-    $this->setTempdir(sys_get_temp_dir() . '/photoalbum-'. $this->getBasename() . '-' . ($session? $session : time('Uu')));
+        
+    $this->setTempdir(wvConfig::get('directory_tmp', sys_get_temp_dir()) . '/photoalbum-'. $this->getBasename() . '-' . ($session? $session : time('Uu')));
     if (!is_dir($this->getTempdir()))
     {
       mkdir($this->getTempdir());

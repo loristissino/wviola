@@ -43,13 +43,6 @@
         </td>
       </tr>
       <tr>
-        <th><?php echo $form['assigned_title']->renderLabel() ?></th>
-        <td>
-          <?php echo $form['assigned_title']->renderError() ?>
-          <?php echo $form['assigned_title'] ?>
-        </td>
-      </tr>
-      <tr>
         <th><?php echo $form['notes']->renderLabel() ?></th>
         <td>
           <?php echo $form['notes']->renderError() ?>

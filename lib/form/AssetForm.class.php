@@ -40,20 +40,15 @@ class AssetForm extends BaseAssetForm
       );
       
       unset(
-        $this->validatorSchema['assigned_title'],
         $this->validatorSchema['notes']
       );
-            
+                  
       $c = BinderPeer::getCriteriaForUser($this->_userId, true);
       
       $this->widgetSchema['binder_id'] = new sfWidgetFormPropelChoice(array('model' => 'Binder', 'add_empty' => true, 'criteria' => $c));
       
       $this->validatorSchema['binder_id'] = new sfValidatorPropelChoice(array('model' => 'Binder', 'column' => 'id', 'required' => true, 'criteria'=>$c));
-      
-      $this->validatorSchema['assigned_title'] = new sfValidatorString(array(
-        'required' => true,
-      ));
-      
+            
       $this->validatorSchema['notes'] = new sfValidatorString(array(
         'required' => true,
       ));

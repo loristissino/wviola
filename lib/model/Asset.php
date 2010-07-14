@@ -83,8 +83,7 @@ class Asset extends BaseAsset {
    
     // index asset fields
     $doc->addField(Zend_Search_Lucene_Field::UnStored('notes', $this->getNotes(), 'utf-8'));
-    $doc->addField(Zend_Search_Lucene_Field::UnStored('title', $this->getAssignedTitle(), 'utf-8'));
-    $doc->addField(Zend_Search_Lucene_Field::UnStored('binder', $this->getBinder()->getNotes(), 'utf-8'));
+    $doc->addField(Zend_Search_Lucene_Field::UnStored('binder', $this->getBinder()->getTitle(), 'utf-8'));
     $doc->addField(Zend_Search_Lucene_Field::Unstored('date', $this->getBinder()->getEventDate('%Y%m%d'), 'utf-8'));
     $doc->addField(Zend_Search_Lucene_Field::Unstored('type', $this->getAssetTypeCode(), 'utf-8'));
     $doc->addField(Zend_Search_Lucene_Field::Unstored('category', $this->getBinder()->getCategory(), 'utf-8'));
@@ -97,9 +96,7 @@ class Asset extends BaseAsset {
 
 	public function __toString()
 	{
-		return sprintf('%d (%s)', $this->getId(), $this->getAssignedTitle());
-		return sprintf('%s', $this->getId());
-
+		return sprintf('%d (%s)', $this->getId(), $this->getNotes());
   }
 	
 	public function getAssetTypeCode()
@@ -208,7 +205,6 @@ class Asset extends BaseAsset {
       ->setUniqid($uniqid)
       ->setBinderId($values['binder_id'])
       ->setNotes($values['notes'])
-      ->setAssignedTitle($values['assigned_title'])
       ->setStatus(self::SCHEDULED)
       ->save();
       
@@ -245,7 +241,6 @@ class Asset extends BaseAsset {
     $this
     ->setBinderId($values['binder_id'])
     ->setNotes($values['notes'])
-    ->setAssignedTitle($values['assigned_title'])
     ->save();
     
     return $this;

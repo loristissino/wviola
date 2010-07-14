@@ -2,28 +2,28 @@ Binder:
   binder1:
     user_id: matthew
     category_id: ch
-    notes: Spring
+    title: Spring
     event_date: 12/21/2009
     created_at: 12/22/2009
   binder2:
     user_id: matthew
     category_id: ch
-    notes: Summer
+    title: Summer
     event_date: 12/22/2009
   binder3:
     user_id: matthew
     category_id: ot
-    notes: Autumn
+    title: Autumn
     event_date: 12/23/2009
   binder4:
     user_id: andreas
     category_id: op
-    notes: Winter
+    title: Winter
     event_date: 12/24/2009
   binder5:
     user_id: matthew
     category_id: ot
-    notes: Last year
+    title: Last year
     event_date: 12/20/2008
     created_at: 12/20/2008
     is_open: false
@@ -31,7 +31,7 @@ Binder:
   binder<?php echo $i ?>:
     user_id: <?php echo ($i<=115 ? 'matthew' : 'andreas') . "\n" ?>
     category_id: ot
-    notes: <?php echo 'Test binder ' . $i . "\n" ?>
+    title: <?php echo 'Test binder ' . $i . "\n" ?>
     event_date: 12/20/2008
     created_at: 12/21/2008
     is_open: false
@@ -40,7 +40,7 @@ Binder:
   binder<?php echo $i ?>:
     user_id: <?php echo ($i<=115 ? 'matthew' : 'andreas') . "\n" ?>
     category_id: ot
-    notes: <?php echo 'Test binder ' . $i . " (archived)\n" ?>
+    title: <?php echo 'Test binder ' . $i . " (archived)\n" ?>
     event_date: 12/20/2008
     created_at: 12/21/2008
     is_open: false

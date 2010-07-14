@@ -12,10 +12,10 @@ $binders = BinderPeer::retrieveByUserId($user->getId());
 
 $t->is(sizeof($binders), 20, '::retrieveByUserId() retrieves the correct binders');
 
-$binders = BinderPeer::retrieveByNotes('Spring');
+$binders = BinderPeer::retrieveByTitle('Spring');
 
-$t->is($binders[0]->getEventDate('Y-m-d'), '2009-12-21', '::retrieveByNotes() retrieves the correct binders');
+$t->is($binders[0]->getEventDate('Y-m-d'), '2009-12-21', '::retrieveByTitle() retrieves the correct binders');
 
-$binders = BinderPeer::retrieveByNotes('S');
+$binders = BinderPeer::retrieveByTitle('S');
 
-$t->is(sizeof($binders), 2, '::retrieveByNotes() works with LIKE criteria');
+$t->is(sizeof($binders), 2, '::retrieveByTitle() works with LIKE criteria');

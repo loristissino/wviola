@@ -24,7 +24,7 @@ class Binder extends BaseBinder {
 
   public function __toString()
   {
-    return $this->getEventDate() . ' ' . $this->getNotes();
+    return $this->getEventDate() . ' ' . $this->getTitle();
   }
   
   public function setFromForm($user_id, $values)
@@ -32,7 +32,7 @@ class Binder extends BaseBinder {
     $this
     ->setUserId($user_id)
     ->setCategoryId($values['category_id'])
-    ->setNotes($values['notes'])
+    ->setTitle($values['title'])
     ->setEventDate($values['event_date'])
     ;
     
