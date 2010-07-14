@@ -11,7 +11,7 @@
   <?php foreach($Binders as $Binder): ?>
     <li>
       <a href="#binder_<?php echo $Binder->getId() ?>">
-      <?php echo sprintf('Raccoglitore %d «%s»', $Binder->getId(), $Binder->getNotes()) ?>
+      <?php echo sprintf('Raccoglitore %d «%s»', $Binder->getId(), $Binder->getTitle()) ?>
       </a>
     </li>
   <?php endforeach ?>
@@ -20,7 +20,7 @@
   <?php foreach($Binders as $Binder): ?>
     <h2>
     <a name="binder_<?php echo $Binder->getId() ?>"></a>
-    <?php echo sprintf('Raccoglitore %d «%s»', $Binder->getId(), $Binder->getNotes()) ?>
+    <?php echo sprintf('Raccoglitore %d «%s»', $Binder->getId(), $Binder->getTitle()) ?>
     </h2>
     <p>
     <?php echo sprintf('Utente: %s', $Binder->getSfGuardUserProfile()->getUsername()) ?><br />
@@ -34,7 +34,6 @@
         <?php echo sprintf('%s (id %d)', $Asset->getAssetTypeCode(), $Asset->getId()) ?>
         </a>
         <ul>
-          <li><?php echo sprintf('Titolo: «%s»', $Asset->getAssignedTitle()) ?></li>
           <li><?php echo sprintf('Note: «%s»', $Asset->getNotes()) ?></li>
           <li><?php echo sprintf('Dimensione: %s', Generic::getHumanReadableSize($Asset->getHighQualitySize())) ?></li>
           <li><?php echo sprintf('MD5: %s', $Asset->getHighQualityMD5Sum()) ?></li>
