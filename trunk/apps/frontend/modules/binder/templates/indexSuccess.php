@@ -9,7 +9,7 @@
       <th><?php echo __('Id') ?></th>
       <th><?php echo __('User') ?></th>
       <th><?php echo __('Category') ?></th>
-      <th><?php echo __('Notes') ?></th>
+      <th><?php echo __('Title') ?></th>
       <th><?php echo __('Event date') ?></th>
       <th><?php echo __('Assets count') ?></th>
     </tr>
@@ -20,7 +20,7 @@
       <td><a href="<?php echo url_for('binder/show?id='.$Binder->getId()) ?>"><?php echo $Binder->getId() ?></a></td>
       <td><?php echo $Binder->getsfGuardUserProfile() ?></td>
       <td><?php echo $Binder->getCategory() ?></td>
-      <td><?php echo $Binder->getNotes() ?></td>
+      <td><?php echo $Binder->getTitle() ?></td>
       <td><?php echo $Binder->getEventDate() ?></td>
       <td><?php echo $Binder->countAssets() ?></td>
     </tr>

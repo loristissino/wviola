@@ -13,12 +13,12 @@ class assetActions extends sfActions
   
   protected function luceneBuildQuery($values)
   {
-    $query='';
-    foreach(array('title', 'notes', 'binder', 'date') as $field)
+    $query=array();
+    foreach(array('binder', 'notes', 'date') as $field)
     {
       if(array_key_exists($field, $values) && $values[$field]!='')
       {
-        $query.=sprintf('%s:"%s"', $field, $values[$field]);
+        $query[]=sprintf('%s:"%s"', $field, $values[$field]);
       }
     }
     
@@ -26,11 +26,11 @@ class assetActions extends sfActions
     {
       if($category = CategoryPeer::retrieveByPK($values['category_id']))
       {
-        $query.=sprintf('%s:"%s"', 'category', $category);
+        $query[]=sprintf('%s:"%s"', 'category', $category);
       }
     }
     
-    return $query;
+    return implode(' AND ', $query);
   }
   
   
@@ -158,7 +158,6 @@ class assetActions extends sfActions
     $this->form
     ->setDefault('id', $Asset->getId())
     ->setDefault('binder_id', $Asset->getBinderId())
-    ->setDefault('assigned_title', $Asset->getAssignedTitle())
     ->setDefault('notes', $Asset->getNotes())
     ;
     

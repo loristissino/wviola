@@ -9,8 +9,8 @@ $t->diag('AssetPeer');
 $uniqid='vid_4ab00000000000.10000000';
 
 $Asset=AssetPeer::retrieveByUniqid($uniqid);
-$t->is($Asset->getAssignedTitle(), 'Outdoor meeting', '::retrieveByUniqid() retrieves the correct object');
+$t->is($Asset->getNotes(), 'Outdoor meeting (c) copyright Blender Foundation | www.blender.org', '::retrieveByUniqid() retrieves the correct object');
 unset($Asset);
 
 $Asset=AssetPeer::retrieveBySourceSizeAndMd5sum(260288, '8df3f37d4cb351d5129b92d251985455:f');
-$t->is($Asset->getAssignedTitle(), 'Apple', '::retrieveBySourceSizeAndMd5sum() retrieves the correct asset');
+$t->is($Asset->getNotes(), 'Apple (c) copyright Blender Foundation | www.blender.org', '::retrieveBySourceSizeAndMd5sum() retrieves the correct asset');

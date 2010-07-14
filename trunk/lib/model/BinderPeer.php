@@ -28,10 +28,10 @@ class BinderPeer extends BaseBinderPeer {
   }
   
   
-  public static function retrieveByNotes($text)
+  public static function retrieveByTitle($text)
   {
     $c = new Criteria();
-    $c->add(BinderPeer::NOTES, '%' . $text .'%', Criteria::LIKE);
+    $c->add(BinderPeer::TITLE, '%' . $text .'%', Criteria::LIKE);
     return BinderPeer::doSelect($c);
   }
   

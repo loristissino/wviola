@@ -34,6 +34,8 @@ class BinderForm extends BaseBinderForm
       $this['archive_id']
     );
     
+    $this->widgetSchema['title']->setAttribute('size', 70);
+    
     $y=date('Y');
     $years=range(
       $y - wvConfig::get('binders_years_before', 10), 
@@ -48,8 +50,10 @@ class BinderForm extends BaseBinderForm
     
     $this->validatorSchema['embedded'] = new sfValidatorPass();
 
-    $this->validatorSchema['notes'] = new sfValidatorString(array(
+    $this->validatorSchema['title'] = new sfValidatorString(array(
       'required' => true,
+      'min_length'=>3,
+      'max_length'=>255,
     ));
 
     $this->validatorSchema['category_id'] = new sfValidatorPropelChoice(array('model' => 'Category', 'column' => 'id', 'required' => true));

@@ -421,8 +421,23 @@
         <source>On line help</source>
         <target>Guida in linea</target>
       </trans-unit>
+      <trans-unit id="105">
+        <source>Required.</source>
+        <target>Richiesto.</target>
+      </trans-unit>
+      <trans-unit id="106">
+        <source>"%value%" is too short (%min_length% characters min).</source>
+        <target>"%value%" é troppo corto (sono necessari almeno %min_length% caratteri).</target>
+      </trans-unit>
+      <trans-unit id="107">
+        <source>"%value%" is too long (%max_length% characters max).</source>
+        <target>"%value%" é troppo lungo (sono ammessi al massimo %max_length% caratteri).</target>
+      </trans-unit>
+      <trans-unit id="108">
+        <source>Date (yyyymmdd)</source>
+        <target>Data (aaaammgg)</target>
+      </trans-unit>
      </body>
   </file>
 </xliff>
-
 

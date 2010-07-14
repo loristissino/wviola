@@ -3,7 +3,6 @@
     <tr>
       <th><?php echo __('Type') ?></th>
       <th><?php echo __('Thumbnail') ?></th>
-      <th><?php echo __('Title') ?></th>
       <th><?php echo __('Binder') ?></th>
       <th><?php echo __('Notes') ?></th>
       <th><?php echo __('Duration') ?></th>
@@ -19,10 +18,8 @@
 	  <td>
       	<?php include_partial('asset/thumbnail', array('Asset'=>$Asset, 'link'=>true)) ?>
 	  </td>
-      <td>
-        <?php echo $Asset->getAssignedTitle() ?></td>
-	  <td>
-		<?php include_partial('asset/binder', array('Binder'=>$Asset->getBinder())) ?>
+    <td>
+      <?php include_partial('asset/binder', array('Binder'=>$Asset->getBinder())) ?>
 	  </td>
       <td><?php echo $Asset->getNotes() ?></td>
       <td>

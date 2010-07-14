@@ -2,7 +2,7 @@
 	<?php $image_tag=image_tag(url_for('asset/thumbnail?id=' . $Asset->getId() .'&sf_format=jpeg'),
 		array(
 		'size'=>sprintf('%dx%d', $Asset->getThumbnailWidth(), $Asset->getThumbnailHeight()),
-		'alt'=>$Asset->getAssignedTitle(),
+		'alt'=>$Asset->getNotes(),
 		))
 	?>
 <?php else: ?>
@@ -16,7 +16,7 @@
     $image_tag,
     url_for('asset/show?id='.$Asset->getId()),
     array(
-      'title'=>__('Show the asset «%title%»', array('%title%'=>$Asset->getAssignedTitle()))
+      'title'=>__('Show the asset «%title%»', array('%title%'=>$Asset->getNotes()))
       )
     );
   }

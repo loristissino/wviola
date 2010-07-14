@@ -47,10 +47,10 @@
         </td>
       </tr>
       <tr>
-        <th><?php echo $form['notes']->renderLabel() ?></th>
+        <th><?php echo $form['title']->renderLabel() ?></th>
         <td>
-          <?php echo $form['notes']->renderError() ?>
-          <?php echo $form['notes'] ?>
+          <?php echo $form['title']->renderError() ?>
+          <?php echo $form['title'] ?>
         </td>
       </tr>
       <tr>

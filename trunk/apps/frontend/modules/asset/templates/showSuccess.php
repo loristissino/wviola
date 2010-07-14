@@ -29,10 +29,6 @@
       <td><?php echo $Asset->getAssetTypeCode() ?></td>
     </tr>
     <tr>
-      <th><?php echo __('Assigned title') ?></th>
-      <td><?php echo $Asset->getAssignedTitle() ?></td>
-    </tr>
-    <tr>
       <th><?php echo __('Binder') ?></th>
       <td>
       <?php echo link_to(
