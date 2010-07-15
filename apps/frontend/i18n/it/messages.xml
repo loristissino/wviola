@@ -437,6 +437,30 @@
         <source>Date (yyyymmdd)</source>
         <target>Data (aaaammgg)</target>
       </trans-unit>
+      <trans-unit id="109">
+        <source>Id</source>
+        <target>Id</target>
+      </trans-unit>
+      <trans-unit id="110">
+        <source>UniqId</source>
+        <target>UniqId</target>
+      </trans-unit>
+      <trans-unit id="111">
+        <source>Something went wrong with scheduling.</source>
+        <target>Si è verificato qualche problema con la richiesta di archiviazione.</target>
+      </trans-unit>
+      <trans-unit id="112">
+        <source>Unknown</source>
+        <target>Sconosciuto</target>
+      </trans-unit>
+      <trans-unit id="113">
+        <source>Sign in</source>
+        <target>Accedi</target>
+      </trans-unit>
+      <trans-unit id="114">
+        <source>Remember</source>
+        <target>Ricordami</target>
+      </trans-unit>
      </body>
   </file>
 </xliff>

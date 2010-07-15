@@ -4,7 +4,7 @@
 	<table>
     <?php echo $form ?>
   </table>
-  <input type="submit" value="sign in" />
+  <input type="submit" value="<?php echo __('Sign in') ?>" />
 </form>
 
 <?php use_javascript('signin.js') ?>

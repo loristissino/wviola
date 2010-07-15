@@ -2,6 +2,9 @@ all:
   config:
     organization: My Organization Name
     website: http://www.example.com
+  help:
+    search_guide: http://code.google.com/p/wviola/wiki/SearchGuide
+
 
 #  sf_guard_plugin:
 #    check_password_callable: [Authentication, checkLdapPassword]
