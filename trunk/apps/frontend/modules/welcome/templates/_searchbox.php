@@ -16,7 +16,7 @@
   <?php $popup_options="left=100,top=10,width=650,height=375,location=no,scrollbars =yes,resizable=yes,directories=no,status=no,toolbar=no,menubar=no" ?>
   <?php echo link_to(
     __('On line help'),
-    "http://code.google.com/p/wviola/wiki/SearchGuide",
+    sfConfig::get('app_help_search_guide', "http://code.google.com/p/wviola/wiki/SearchGuide"),
     array(
       'popup'=>array('help', $popup_options),
       'title'=>__('Show help page about search queries') . ' (' . __('opens in a popup window') . ')',
