@@ -75,7 +75,7 @@
   )
 ?></li>
 <?php endif ?>
-<?php if($Asset->getIsDownloadable()): ?>
+<?php if($Asset->getIsDownloadable() && $sf_user->hasCredential('admin')): ?>
 <li class="sf_admin_action_download"><?php echo link_to(
   __('Download'),
   url_for('asset/download?id='.$Asset->getId())

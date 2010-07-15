@@ -1,6 +1,8 @@
 new:
   credentials: asset_encode
 search:
-  credentials: asset_view
+  credentials: [[ asset_view, admin ]]
 show:
-  credentials: asset_view
+  credentials: [[ asset_view, admin ]]
+download:
+  credentials: admin
