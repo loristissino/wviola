@@ -37,7 +37,7 @@
       <td><a name="<?php echo $item->getStat('ino') ?>"></a><?php echo $item->getBaseName() ?></td>
       <td>
 	<?php if ($item->getFileType()!='directory'): ?>
-		<?php echo $item->getStat('size') ?>
+		<?php echo Generic::getHumanReadableSize($item->getStat('size')) ?>
 	<?php endif ?>
 	</td>
       <td><?php echo Generic::datetime($item->getStat('mtime'), $sf_context) ?></td>
@@ -70,7 +70,7 @@
 			?>
 		<?php endif ?>
 		<?php if($item->getWvInfo('file_asset_id')!=null): ?>
-			<li class="sf_admin_action_playvideo"><?php echo link_to(
+			<li class="sf_admin_action_show"><?php echo link_to(
 				__('Show'),
 				url_for('asset/show?id='. $item->getWvInfo('file_asset_id')),
         array(

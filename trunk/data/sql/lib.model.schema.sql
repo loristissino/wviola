@@ -168,6 +168,7 @@ CREATE TABLE "binder"
 	"user_id" INTEGER  NOT NULL,
 	"category_id" INTEGER,
 	"title" VARCHAR(255),
+	"code" VARCHAR(25),
 	"event_date" DATE,
 	"is_open" BOOLEAN default 't',
 	"archive_id" INTEGER,

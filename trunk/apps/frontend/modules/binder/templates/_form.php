@@ -54,6 +54,13 @@
         </td>
       </tr>
       <tr>
+        <th><?php echo $form['code']->renderLabel() ?></th>
+        <td>
+          <?php echo $form['code']->renderError() ?>
+          <?php echo $form['code'] ?>
+        </td>
+      </tr>
+      <tr>
         <th><?php echo $form['event_date']->renderLabel() ?></th>
         <td>
           <?php echo $form['event_date']->renderError() ?>

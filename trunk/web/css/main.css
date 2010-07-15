@@ -32,9 +32,9 @@ color: blue;
   background: url(../images/archive.png) no-repeat 0 0;
 }
 
-#sf_admin_container ul li.sf_admin_action_playvideo a
+#sf_admin_container ul li.sf_admin_action_show a
 {
-  background: url(../images/asset_playvideo.png) no-repeat 0 0;
+  background: url(../images/asset_show.png) no-repeat 0 0;
 }
 
 #sf_admin_container ul li.sf_admin_action_search a

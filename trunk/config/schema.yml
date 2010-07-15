@@ -72,6 +72,7 @@ propel:
     user_id:  { type: integer, foreignTable: sf_guard_user_profile, foreignReference: user_id, required: true, onUpdate: cascade, onDelete: cascade}
     category_id: ~
     title: varchar(255)
+    code: varchar(25)
     event_date: date
     is_open: { type: boolean, default: true }
     archive_id: ~

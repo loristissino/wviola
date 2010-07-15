@@ -14,7 +14,7 @@ class assetActions extends sfActions
   protected function luceneBuildQuery($values)
   {
     $query=array();
-    foreach(array('binder', 'notes', 'date') as $field)
+    foreach(array('binder', 'code', 'notes', 'date') as $field)
     {
       if(array_key_exists($field, $values) && $values[$field]!='')
       {

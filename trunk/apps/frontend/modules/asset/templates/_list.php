@@ -7,6 +7,7 @@
       <th><?php echo __('Notes') ?></th>
       <th><?php echo __('Duration') ?></th>
       <th><?php echo __('Date') ?></th>
+      <th><?php echo __('Actions') ?></th>
     </tr>
   </thead>
   <tbody>
@@ -26,6 +27,16 @@
 		<?php include_partial('asset/duration', array('Asset'=>$Asset)) ?>
 	  </td>
       <td><?php echo $Asset->getBinder()->getEventDate() ?></td>
+      <td>
+      <ul class="sf_admin_actions">
+        <li class="sf_admin_action_show"><?php echo link_to(
+          __('Show'),
+          url_for('asset/show?id='.$Asset->getId()),
+          array('title'=>__('Show the asset «%title%»', array('%title%'=>$Asset->getNotes())))
+          )
+        ?></li>
+      </ul>
+      </td>
     </tr>
     <?php endforeach; ?>
   </tbody>

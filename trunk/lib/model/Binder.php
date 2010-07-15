@@ -33,6 +33,7 @@ class Binder extends BaseBinder {
     ->setUserId($user_id)
     ->setCategoryId($values['category_id'])
     ->setTitle($values['title'])
+    ->setCode($values['code'])
     ->setEventDate($values['event_date'])
     ;
     
@@ -131,6 +132,10 @@ class Binder extends BaseBinder {
     return $this->_editable;
   }
 
+  public function getIsClosed()
+  {
+    return !$this->getIsOpen();
+  }
 
 
 } // Binder

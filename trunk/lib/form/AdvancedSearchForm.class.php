@@ -26,6 +26,7 @@ class AdvancedSearchForm extends BaseForm
   {
     $this->setWidgets(array(
       'binder'   => new sfWidgetFormInputText(),
+      'code'     => new sfWidgetFormInputText(),
       'notes'    => new sfWidgetFormInputText(),
       'date'     => new sfWidgetFormInputText(),
       'category_id' => new sfWidgetFormPropelChoice(array('model' => 'Category', 'add_empty' => true)),
@@ -39,6 +40,7 @@ class AdvancedSearchForm extends BaseForm
 
     $this->setValidators(array(
       'binder'   => new sfValidatorString(array('required' => false)),
+      'code'     => new sfValidatorString(array('required' => false)),
       'notes'    => new sfValidatorString(array('required' => false, 'min_length'=>3)),
       'date'    => new sfValidatorString(array('required' => false)),
       'category_id' => new sfValidatorPropelChoice(array('model' => 'Category', 'column' => 'id', 'required' => false)),
