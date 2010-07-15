@@ -14,8 +14,12 @@
       <td><?php echo $Binder->getCategory() ?></td>
     </tr>
     <tr>
-      <th><?php echo __('Notes') ?></th>
+      <th><?php echo __('Title') ?></th>
       <td><?php echo $Binder->getTitle() ?></td>
+    </tr>
+    <tr>
+      <th><?php echo __('Code') ?></th>
+      <td><?php echo $Binder->getCode() ?></td>
     </tr>
     <tr>
       <th><?php echo __('Event date') ?></th>
@@ -31,7 +35,7 @@
 <ul class="sf_admin_actions">
   <?php if($Binder->getIsEditable()): ?>
   <li class="sf_admin_action_edit">
-  <?php echo link_to(__('Edit'), url_for('binder/edit?id='.$Binder->getId())) ?>
+  <?php echo link_to(__('Edit Binder'), url_for('binder/edit?id='.$Binder->getId())) ?>
   </li>
   <?php endif ?>
 </ul>

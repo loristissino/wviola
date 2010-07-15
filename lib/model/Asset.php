@@ -84,6 +84,7 @@ class Asset extends BaseAsset {
     // index asset fields
     $doc->addField(Zend_Search_Lucene_Field::UnStored('notes', $this->getNotes(), 'utf-8'));
     $doc->addField(Zend_Search_Lucene_Field::UnStored('binder', $this->getBinder()->getTitle(), 'utf-8'));
+    $doc->addField(Zend_Search_Lucene_Field::UnStored('code', $this->getBinder()->getCode(), 'utf-8'));
     $doc->addField(Zend_Search_Lucene_Field::Unstored('date', $this->getBinder()->getEventDate('%Y%m%d'), 'utf-8'));
     $doc->addField(Zend_Search_Lucene_Field::Unstored('type', $this->getAssetTypeCode(), 'utf-8'));
     $doc->addField(Zend_Search_Lucene_Field::Unstored('category', $this->getBinder()->getCategory(), 'utf-8'));

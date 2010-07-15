@@ -23,6 +23,13 @@
         </td>
       </tr>
       <tr>
+        <th><?php echo $form['code']->renderLabel() ?></th>
+        <td>
+          <?php echo $form['code']->renderError() ?>
+          <?php echo $form['code'] ?>
+        </td>
+      </tr>
+      <tr>
         <th><?php echo $form['notes']->renderLabel() ?></th>
         <td>
           <?php echo $form['notes']->renderError() ?>

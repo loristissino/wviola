@@ -67,10 +67,10 @@
   </tbody>
 </table>
 
-<ul class="sf_admin_td_actions">
+<ul class="sf_admin_actions">
 <?php if($Asset->getIsEditable()): ?>
 <li class="sf_admin_action_edit"><?php echo link_to(
-  __('Edit'),
+  __('Edit Asset'),
   url_for('asset/edit?id='.$Asset->getId())
   )
 ?></li>

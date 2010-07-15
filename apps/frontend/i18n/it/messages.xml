@@ -461,6 +461,18 @@
         <source>Remember</source>
         <target>Ricordami</target>
       </trans-unit>
+      <trans-unit id="115">
+        <source>Code</source>
+        <target>Codice</target>
+      </trans-unit>
+      <trans-unit id="116">
+        <source>Open binder</source>
+        <target>Raccoglitore aperto</target>
+      </trans-unit>
+      <trans-unit id="117">
+        <source>Closed binder</source>
+        <target>Raccoglitore chiuso</target>
+      </trans-unit>
      </body>
   </file>
 </xliff>

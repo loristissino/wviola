@@ -78,7 +78,7 @@ class sfGuardUserProfile extends BasesfGuardUserProfile
   
 	public function __toString()
 	{
-		return $this->getUsername() . '=>' . $this->getFirstName() . ' ' . $this->getLastName();
+		return $this->getUsername();
 	}
 	
 	public function getUsername()
