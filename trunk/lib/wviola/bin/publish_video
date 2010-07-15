@@ -11,12 +11,21 @@
 #  
 # for details
 
-if [[ $# -ne 1 ]]; then
+if [[ $# -lt 1 ]]; then
 	echo $0 source
 	exit 1
 fi
 
 UNIQID="$1"
+ARTIST="$2"
+TITLE="$3"
+DATE="$4"
+LOCATION="$5"
+ORGANIZATION="$6"
+COPYRIGHT="$7"
+LICENSE="$8"
+CONTACT="$9"
+# these items come from the documentation of ffmpeg2theora
 
 IFS=$'\n'
 ffmpeg -i "/var/wviola/data/filesystem/scheduled/$UNIQID" -ar 22050 -ab 32000 -f flv -s 320x240 "/var/wviola/data/filesystem/published/assets/$UNIQID.flv" -y || exit 2

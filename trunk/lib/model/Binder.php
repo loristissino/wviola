@@ -124,6 +124,10 @@ class Binder extends BaseBinder {
   
   public function getIsEditable()
   {
+    if ($this->getIsClosed())
+    {
+      return false;
+    }
     return $this->_editable;
   }
 
