@@ -50,6 +50,20 @@ thumbnail:
   # photoalbum pictures previews will be shown reduced by this factor
 
 publishing:
+# available placeholders are:
+#   %source%
+#   %target%
+#   %width%
+#   %height%
+#   %artist%
+#   %title%
+#   %date%
+#   %location%
+#   %organization%
+#   %copyright%
+#   %license%
+#   %contact%
+
   video_width: 320
   video_height: 240
   video_low_quality_command: ffmpeg -i "%source%" -ar 22050 -ab 32000 -f flv -s %width%x%height% "%target%" -y
@@ -70,6 +84,8 @@ publishing:
   extensions_used: [ '', '.flv', '.ogg', '.ogv', '.mp3', '.zip' ]
   # this is useful because when we look for a file we could try with a different
   # extension
+
+
 
 
 filebrowser:
@@ -97,6 +113,11 @@ archiviation:
   index_template: /var/wviola/templates/isoimage/it/isoindex.php
   index_title: Raccoglitori archiviati il %date%
 
+  location: Nowhere
+  organization: Example Organization
+  copyright: Nobody
+  license: Creative Commons Attribution 2.5 Generic http://creativecommons.org/licenses/by/2.5/
+  contact: wviola@example.com
 
 mail:
   bot_address: wviola@example.com

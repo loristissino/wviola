@@ -53,12 +53,21 @@ EOF;
 #  
 # for details
 
-if [[ $# -ne 1 ]]; then
+if [[ $# -lt 1 ]]; then
 	echo $0 source
 	exit 1
 fi
 
 UNIQID="$1"
+ARTIST="$2"
+TITLE="$3"
+DATE="$4"
+LOCATION="$5"
+ORGANIZATION="$6"
+COPYRIGHT="$7"
+LICENSE="$8"
+CONTACT="$9"
+# these items come from the documentation of ffmpeg2theora
 
 IFS=$'\\n'
 
@@ -115,6 +124,14 @@ EOF;
     $command=Generic::str_replace_from_array(array(
       '%source%'=>wvConfig::get('directory_scheduled') . '/$UNIQID',
       '%target%'=>wvConfig::get('directory_iso_cache') . '/$UNIQID' . wvConfig::get('publishing_video_high_quality_extension'),
+      '%artist%'=>'$ARTIST',
+      '%title%'=>'$TITLE',
+      '%date%'=>'$DATE',
+      '%location%'=>'$LOCATION',
+      '%organization%'=>'$ORGANIZATON',
+      '%copyright%'=>'$COPYRIGHT',
+      '%license%'=>'$LICENSE',
+      '%contact%'=>'$CONTACT',
       ),
       $command
     );
