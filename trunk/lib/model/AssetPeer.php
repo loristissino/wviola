@@ -62,7 +62,7 @@ class AssetPeer extends BaseAssetPeer {
     return Generic::getLuceneIndex('asset');
   }
   
-  static public function getForLuceneQuery($query)
+  static public function getForLuceneQuery($query, $max_results, $page)
   {
     try
     {
@@ -71,9 +71,9 @@ class AssetPeer extends BaseAssetPeer {
     }
     catch (Exception $e)
     {
-      return array();
+      return new sfPropelPager('Asset');
     }
-    
+
     $pks = array();
     foreach ($hits as $hit)
     {
@@ -82,9 +82,19 @@ class AssetPeer extends BaseAssetPeer {
    
     $c = new Criteria();
     $c->add(self::ID, $pks, Criteria::IN);
-    $c->setLimit(wvConfig::get('search_max_results', 20));
-   
-    return self::doSelect($c);
+//    $c->setLimit(wvConfig::get('search_max_results', 20));
+    
+    $pager = new sfPropelPager(
+      'Asset',
+      $max_results
+    );
+    
+    $pager->setCriteria($c);
+    $pager->setPage($page);
+    $pager->init();
+    
+    return $pager;
   }
 
 } // AssetPeer
+

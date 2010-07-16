@@ -285,8 +285,8 @@
         <target>Ricerca avanzata</target>
       </trans-unit>
       <trans-unit id="71">
-        <source>Enter some keywords (+, -, title:…, notes:…)</source>
-        <target>Inserire alcune parole chiave (+, -, title:…,  notes:…)</target>
+        <source>Enter some keywords (+, -, binder:…, code:…, notes:…)</source>
+        <target>Inserire alcune parole chiave (+, -, binder:…, code:…, notes:…)</target>
       </trans-unit>
       <trans-unit id="72">
         <source>Ready</source>

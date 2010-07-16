@@ -54,17 +54,27 @@ class assetActions extends sfActions
   {
     $this->query = $request->getParameter('query');
     
-    $this->Assets = AssetPeer::getForLuceneQuery($this->query);
+    $this->pager = AssetPeer::getForLuceneQuery(
+      $this->query,
+      sfConfig::get('app_max_results_per_page', 10),
+      $request->getParameter('page', 1)
+    );
     
     if ($request->isXmlHttpRequest())
     {
-      if ('*' == $this->query || !$this->Assets)
+      if ('*' == $this->query || $this->pager->getNbResults()==0)
       {
         return $this->renderPartial('asset/noresults');
       }
-
-      return $this->renderPartial('asset/list', array('Assets' => $this->Assets));
+      
+      return $this->renderPartial('asset/assetpager', array(
+        'pager' => $this->pager, 
+        'params'=>'query=' . $this->query,
+        'action'=>'asset/search'
+        ));
     }
+    
+
 
   }
 

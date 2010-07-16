@@ -10,7 +10,7 @@
     url_for($query ? '@asset_filled_advancedsearch?query=' . $query : '@asset_empty_advancedsearch')
   )?>
   <div class="searchhelp">
-<?php echo __('Enter some keywords (+, -, title:…, notes:…)') ?><br />
+<?php echo __('Enter some keywords (+, -, binder:…, code:…, notes:…)') ?><br />
 <ul class="sf_admin_td_actions">
   <li class="sf_admin_action_help">
   <?php $popup_options="left=100,top=10,width=650,height=375,location=no,scrollbars =yes,resizable=yes,directories=no,status=no,toolbar=no,menubar=no" ?>
