@@ -29,7 +29,7 @@
 </table>
 
 <h2><?php echo __('Assets List') ?></h2>
-<?php include_partial('asset/assetpager', array('pager'=>$pager, 'action'=>url_for('binder/show?id=' . $Binder->getId()), 'item_name'=>'asset')) ?>
+<?php include_partial('asset/assetpager', array('pager'=>$pager, 'action'=>url_for('binder/show?id=' . $Binder->getId()), 'item_name'=>'asset', 'params'=>'')) ?>
 
 <hr />
 <ul class="sf_admin_actions">

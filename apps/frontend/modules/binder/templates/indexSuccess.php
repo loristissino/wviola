@@ -1,6 +1,6 @@
 <h1><?php echo __('Binders List') ?></h1>
 <?php include_partial('welcome/results', array('pager'=>$pager, 'action'=>'binder/index', 'item_name'=>'binder')) ?>
-<?php include_partial('welcome/pager', array('pager'=>$pager, 'action'=>'binder/index')) ?>
+<?php include_partial('welcome/pager', array('pager'=>$pager, 'action'=>'binder/index', 'params'=>'')) ?>
 
 <?php if ($pager->getNbResults()>0): ?>
 <table>

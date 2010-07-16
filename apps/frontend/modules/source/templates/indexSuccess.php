@@ -1,6 +1,6 @@
 <h1><?php echo __('Scanned Sources List') ?></h1>
 <?php include_partial('welcome/results', array('pager'=>$pager, 'action'=>'source/index', 'item_name'=>'source')) ?>
-<?php include_partial('welcome/pager', array('pager'=>$pager, 'action'=>'source/index')) ?>
+<?php include_partial('welcome/pager', array('pager'=>$pager, 'action'=>'source/index', 'params'=>'')) ?>
 
 <?php if ($pager->getNbResults()>0): ?>
 <table>

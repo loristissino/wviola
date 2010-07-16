@@ -2,7 +2,7 @@
   <div class="pagination">
     <?php echo link_to(
       image_tag('sfPropelPlugin/first'),
-      url_for($action . '?page=1'),
+      url_for($action . '?page=1') . ($params!=''? '&' .$params:''),
       array(
         'title'=>__('First page'),
         )
@@ -10,7 +10,7 @@
     ?>
     <?php echo link_to(
       image_tag('sfPropelPlugin/previous'),
-      url_for($action . '?page=' . $pager->getPreviousPage()),
+      url_for($action . '?page=' . $pager->getPreviousPage()) . ($params!=''?'&' .$params:''),
       array(
         'title'=>__('Previous page'),
         )
@@ -22,7 +22,7 @@
       <?php else: ?>
          <?php echo link_to(
           $page,
-          url_for($action . '?page=' . $page),
+          url_for($action . '?page=' . $page) . ($params!=''?'&' .$params:''),
           array(
             'title'=>__('Go to page %page%', array('%page%'=>$page)),
             )
@@ -32,7 +32,7 @@
     <?php endforeach; ?>
     <?php echo link_to(
       image_tag('sfPropelPlugin/last'),
-      url_for($action . '?page=' . $pager->getNextPage()),
+      url_for($action . '?page=' . $pager->getNextPage()) . ($params!=''?'&' .$params:''),
       array(
         'title'=>__('Next page'),
         )
@@ -40,7 +40,7 @@
     ?>
     <?php echo link_to(
       image_tag('sfPropelPlugin/last'),
-      url_for($action . '?page=' . $pager->getLastPage()),
+      url_for($action . '?page=' . $pager->getLastPage()) . ($params!=''?'&' .$params:''),
       array(
         'title'=>__('Last page'),
         )
