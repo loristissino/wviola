@@ -124,6 +124,10 @@ mail:
   bot_name: WVIOLA bot
   sourceready_template: /var/wviola/templates/email/it/sourcesready.yml
   # configuration for sending mail out is in the apps/frontend/config/factories.yml file
+  
+web:
+  frontend_url: http://wviola.example.com/index.php
+  backend_url: http://wviola.example.com/backend.php
 
 search:
   max_results: 30

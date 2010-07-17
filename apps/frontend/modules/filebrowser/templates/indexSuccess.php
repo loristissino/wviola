@@ -1,3 +1,4 @@
+<?php use_helper('Wviola') ?>
 <h1><?php echo __('File browser') ?></h1>
 
 <h2><?php echo $path ?></h2>
@@ -37,7 +38,7 @@
       <td><a name="<?php echo $item->getStat('ino') ?>"></a><?php echo $item->getBaseName() ?></td>
       <td>
 	<?php if ($item->getFileType()!='directory'): ?>
-		<?php echo Generic::getHumanReadableSize($item->getStat('size')) ?>
+		<?php echo human_readable_size($item->getStat('size')) ?>
 	<?php endif ?>
 	</td>
       <td><?php echo Generic::datetime($item->getStat('mtime'), $sf_context) ?></td>
