@@ -66,3 +66,8 @@ color: blue;
 {
   background: url(../images/help.png) no-repeat 0 0;
 }
+
+#sf_admin_container ul li.sf_admin_action_close a
+{
+  background: url(../images/close.png) no-repeat 0 0;
+}

@@ -72,7 +72,10 @@
   </table>
 </form>
 <?php if($form['embedded']->getValue()): ?>
-  <?php echo jq_link_to_function(__('Close this window'),
+<ul class="sf_admin_actions">
+  <li class="sf_admin_action_close"><?php echo jq_link_to_function(__('Close this window'),
     jq_visual_effect('fadeOut', '#newbinderform')
     ) ?>
+  </li>
+</ul>
 <?php endif ?>
