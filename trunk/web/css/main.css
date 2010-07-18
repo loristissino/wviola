@@ -71,3 +71,8 @@ color: blue;
 {
   background: url(../images/close.png) no-repeat 0 0;
 }
+
+#sf_admin_container ul li.sf_admin_action_viewlogs a
+{
+  background: url(../images/viewlogs.png) no-repeat 0 0;
+}
