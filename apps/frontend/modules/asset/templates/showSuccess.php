@@ -1,3 +1,4 @@
+<?php use_helper('Wviola') ?>
 <h1><?php echo $Asset ?></h1>
 
 <?php if($Asset->hasVideoAsset()): ?>
@@ -79,6 +80,13 @@
 <li class="sf_admin_action_download"><?php echo link_to(
   __('Download'),
   url_for('asset/download?id='.$Asset->getId())
+  )
+?></li>
+<?php endif ?>
+<?php if($sf_user->hasCredential('admin')): ?>
+<li class="sf_admin_action_viewlogs"><?php echo link_to(
+  __('View access logs'),
+  url_for_backend('access_log_assetfilter', array('id'=>$Asset->getId()))
   )
 ?></li>
 <?php endif ?>

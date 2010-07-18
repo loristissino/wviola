@@ -1,3 +1,7 @@
+asset_show:
+  url: /asset/show/id/:id
+  param: { module: asset, action: show }
+
 asset_search:
   url: /search
   param: { module: asset, action: search }

@@ -7,6 +7,12 @@ binder:
     column:               id
     with_wildcard_routes: true
 
+access_log_assetfilter:
+  url:                  /accesslog/assetfilter/:id
+  param:
+    module:               accesslog
+    action:               assetfilter
+
 access_log_event:
   class: sfPropelRouteCollection
   options:
