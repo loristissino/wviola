@@ -78,12 +78,14 @@ class filebrowserActions extends sfActions
       $error=true;
     }
 
-    if (($this->thumbnail!='') && !$this->sourcefile->getThumbnail($this->thumbnail))
+
+
+    if (!$error && ($this->thumbnail!='') && !$this->sourcefile->getThumbnail($this->thumbnail))
     {
       $this->forward404();
     }
 
-    if(true !== $this->sourcefile->getWvInfo('file_archivable'))
+    if(!$error && true !== $this->sourcefile->getWvInfo('file_archivable'))
     {
       $error=true;
     }
