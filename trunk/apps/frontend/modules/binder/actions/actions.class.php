@@ -25,10 +25,10 @@ class binderActions extends sfActions
   public function executeShow(sfWebRequest $request)
   {
     $this->Binder = BinderPeer::retrieveByPk($request->getParameter('id'));
-    $this->Binder->setIsEditable($this->getUser()->getProfile()->getUserId());
-
     $this->forward404Unless($this->Binder);
     
+    $this->Binder->setIsEditable($this->getUser()->getProfile()->getUserId());
+
     $this->pager = new sfPropelPager(
       'Asset',
       sfConfig::get('app_max_assets_per_page')
