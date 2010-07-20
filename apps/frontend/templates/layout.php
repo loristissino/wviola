@@ -3,7 +3,11 @@
   <head>
     <?php include_http_metas() ?>
     <?php include_metas() ?>
-    <?php include_title() ?>
+    <title>WVIOLA
+    <?php if (has_slot('subtitle')): ?>
+       - <?php include_slot('subtitle') ?>
+    <?php endif ?>
+    </title>
     <link rel="shortcut icon" href="<?php echo sfConfig::get('app_config_website')?>/images/favicon.ico" />
     <?php use_javascript('search.js') ?>
     <?php use_helper('jQuery') ?>
@@ -24,7 +28,17 @@
 	  <?php include_component('welcome', 'info') ?>
 	</div>
 	<div class="tagline">
-	<p><a href="http://code.google.com/p/wviola">WVIOLA</a></p>
+	<p>
+  <a href="http://code.google.com/p/wviola"><?php echo image_tag('wviola', array('alt'=>'WVIOLA logo', 'size'=>'16x16')) ?>&nbsp;WVIOLA (Web-based Video and Images On Line Archiver)</a><br />
+  Copyright &copy 2009-2010 Loris Tissino<br />
+  <?php echo __('Free software released under the %license%', array(
+      '%license%'=>link_to(
+        __('GNU General Public License v3'),
+        'http://www.gnu.org/licenses/gpl.html'
+        )
+      )
+      ) ?>
+  </p>
 	</div>
   </body>  
 </html>

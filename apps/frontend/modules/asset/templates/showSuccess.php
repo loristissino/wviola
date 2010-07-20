@@ -1,5 +1,5 @@
+<?php include_partial('welcome/title', array('title'=>__('Asset %asset%', array('%asset%'=>$Asset)))) ?>
 <?php use_helper('Wviola') ?>
-<h1><?php echo $Asset ?></h1>
 
 <?php if($Asset->hasVideoAsset()): ?>
 	<?php include_partial('player', array('VideoAsset'=>$Asset->getVideoAsset())) ?>

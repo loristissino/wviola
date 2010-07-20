@@ -1,3 +1,4 @@
+<?php use_helper('Wviola') ?>
 <?php if($sf_user->isAuthenticated()): ?>
   <hr />
   <ul class="sf_admin_actions">
@@ -25,5 +26,12 @@
  <?php endif ?>
 &nbsp;-&nbsp;
 <?php echo link_to(__('Home'), '@homepage') ?>
+<?php if ($sf_user->hasCredential('admin')): ?>
+&nbsp;&nbsp;-&nbsp;
+  <?php echo link_to(
+    __('Back end'),
+    url_for_backend('homepage', array())
+    )?>
+<?php endif ?>
 	</p>
 </div>

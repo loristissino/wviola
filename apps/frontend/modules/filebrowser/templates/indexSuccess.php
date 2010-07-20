@@ -1,6 +1,5 @@
 <?php use_helper('Wviola') ?>
-<h1><?php echo __('File browser') ?></h1>
-
+<?php include_partial('welcome/title', array('title'=>__('File browser'))) ?>
 <h2><?php echo $path ?></h2>
 
 <?php if($path!='/'): ?>

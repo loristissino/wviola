@@ -1,4 +1,4 @@
-<h1><?php echo __('Welcome to WVIOLA') ?></h1>
+<?php include_partial('welcome/title', array('title'=>__('Welcome to WVIOLA'))) ?>
 
 
 

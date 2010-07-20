@@ -16,6 +16,15 @@ color: blue;
 	font-style:italic;
 }
 
+.tagline
+{
+  text-align: center;	
+}
+
+.tagline a
+{
+	text-decoration: none;
+}
 
 #sf_admin_container ul li.sf_admin_action_opendir a
 {
