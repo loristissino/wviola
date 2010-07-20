@@ -1,4 +1,4 @@
-<h1><?php echo __('Archive asset «%filename%»', array('%filename%'=>$sourcefile->getBaseName())) ?></h1>
+<?php include_partial('welcome/title', array('title'=>__('Archive asset «%filename%»', array('%filename%'=>$sourcefile->getBaseName())))) ?>
 
 <h2><?php echo __('Basic information') ?></h2>
 

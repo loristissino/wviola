@@ -1,3 +1,2 @@
-<h1><?php echo __('Edit Binder') ?></h1>
-
+<?php include_partial('welcome/title', array('title'=>__('Edit Binder'))) ?>
 <?php include_partial('form', array('form' => $form)) ?>

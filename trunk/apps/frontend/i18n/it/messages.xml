@@ -473,7 +473,22 @@
         <source>Closed binder</source>
         <target>Raccoglitore chiuso</target>
       </trans-unit>
+      <trans-unit id="118">
+        <source>Free software released under the %license%</source>
+        <target>Software libero rilasciato sotto licenza %license%</target>
+      </trans-unit>
+      <trans-unit id="119">
+        <source>GNU General Public License v3</source>
+        <target>GNU General Public License v3</target>
+      </trans-unit>
+      <trans-unit id="120">
+        <source>Asset %asset%</source>
+        <target>Documento multimediale %asset%</target>
+      </trans-unit>
+      <trans-unit id="121">
+        <source>Binder %binder%</source>
+        <target>Raccoglitore %binder%</target>
+      </trans-unit>
      </body>
   </file>
 </xliff>
-

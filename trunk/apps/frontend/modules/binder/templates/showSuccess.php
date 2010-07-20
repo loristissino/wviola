@@ -1,4 +1,4 @@
-<h1><?php echo __('Binder') ?></h1>
+<?php include_partial('welcome/title', array('title'=>__('Binder %binder%', array('%binder%'=>$Binder)))) ?>
 <table>
   <tbody>
     <tr>
