@@ -145,6 +145,11 @@ class Archive extends BaseArchive {
   
   public function prepareISOImage()
   {
+    if (!$this->getItems())
+    {
+      return false;
+    }
+    
     $this->addFile($this->saveIndexWebPage());
     
     $binders_ids=array_keys($this->getItems());
@@ -199,18 +204,24 @@ class Archive extends BaseArchive {
   
   public function removeFiles()
   {
-    try
-    {   
-      $command=sprintf('mv %s "%s" ', 
-      $this->getFileListForCommand(),
-      wvConfig::get('directory_trash')
-      );
-      Generic::executeCommand($command);
-    }
-    catch (Exception $e)
+    $filelist=$this->getFileListForCommand();
+    
+    if ($filelist)
     {
-      throw $e;
+      try
+      {   
+        $command=sprintf('mv %s "%s" ', 
+        $this->getFileListForCommand(),
+        wvConfig::get('directory_trash')
+        );
+        Generic::executeCommand($command);
+      }
+      catch (Exception $e)
+      {
+        throw $e;
+      }
     }
+    
   }
   
   public function saveIndexWebPage()

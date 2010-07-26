@@ -49,7 +49,20 @@ class BinderPeer extends BaseBinderPeer {
     $c->addAscendingOrderByColumn(BinderPeer::CREATED_AT);
     $c->addJoin(BinderPeer::ID, AssetPeer::BINDER_ID);
     $c->add(AssetPeer::STATUS, Asset::CACHED);
-    return BinderPeer::doSelect($c);
+    $Binders = BinderPeer::doSelect($c);
+    
+    // FIXME I must find out how to select properly Binders... this is not a way to go :-(
+    $old=-1;
+    $Returned = array();
+    foreach($Binders as $Binder)
+    {
+      if ($Binder->getId()!=$old)
+      {
+        $Returned[]=$Binder;
+        $old=$Binder->getId();
+      }
+    }
+    return $Returned;
   }
   
   public static function getCriteriaForUser($userId, $onlyOpen=false)

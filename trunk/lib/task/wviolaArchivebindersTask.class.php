@@ -76,10 +76,13 @@ EOF;
   {
     foreach($Binders as $Binder)
     {
-      $this->logSection('binder', $Binder->getId(), null, 'COMMENT');
       if ($Binder->closeIfAgedOut($this->_binderMaxAge))
       {
-        $this->logSection('binder#', 'closed', null, 'INFO');
+        $this->logSection('binder', $Binder->getId() .' closed', null, 'INFO');
+      }
+      else
+      {
+        $this->logSection('binder', $Binder->getId() .' kept open', null, 'COMMENT');
       }
     }
   }
@@ -99,15 +102,26 @@ EOF;
   $Binders=BinderPeer::retrieveClosed();
   
   $Archive->addBinders($Binders);
-  
+
   if ($Archive->getIsFull())
   {
-    $this->logSection('file+', $Archive->getIsoImageFullPath(), 'INFO');
-    $Archive->removeFiles();
-    foreach($Archive->getFiles() as $file)
+    if ($Archive->prepareISOImage())
     {
-      $this->logSection('file-', $file, null, 'INFO');
+      $this->logSection('file+', $Archive->getIsoImageFullPath(), null, 'INFO');
+      $Archive->removeFiles();
+      foreach($Archive->getFiles() as $file)
+      {
+        $this->logSection('file-', $file, null, 'INFO');
+      }
     }
+    else
+    {
+      $this->logSection('archive', 'Something got wrong while preparing ISO image', null, 'ERROR');
+    }
+  }
+  else
+  {
+    $this->logSection('binders', 'Not enough binders to make an ISO image', null, 'COMMENT');
   }
 
 	if($this->_isLogged)
