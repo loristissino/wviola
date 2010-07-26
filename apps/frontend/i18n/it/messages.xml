@@ -489,6 +489,14 @@
         <source>Binder %binder%</source>
         <target>Raccoglitore %binder%</target>
       </trans-unit>
+      <trans-unit id="122">
+        <source>Retrieve data from external database</source>
+        <target>Recupera dati da base di dati esterna</target>
+      </trans-unit>
+      <trans-unit id="123">
+        <source>Code "%value%" was not found in the external database.</source>
+        <target>Il codice "%value%" non è stato trovato nella base di dati esterna.</target>
+      </trans-unit>
      </body>
   </file>
 </xliff>

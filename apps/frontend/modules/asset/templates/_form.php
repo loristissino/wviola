@@ -16,7 +16,7 @@
   <table>
     <tfoot>
       <tr>
-        <td colspan="3">
+        <td colspan="2">
           <?php echo $form->renderHiddenFields(false) ?>
           
           <?php if (!$form->getObject()->isNew()): ?>
@@ -33,8 +33,6 @@
         <td>
           <?php echo $form['binder_id']->renderError() ?>
           <span id="binderchoice"><?php echo $form['binder_id'] ?></span>
-        </td>
-        <td>
           <ul class="sf_admin_actions">
           <li class="sf_admin_action_new"><?php echo jq_link_to_function(__('New binder'),
             jq_visual_effect('fadeIn', '#newbinderform')
@@ -45,7 +43,7 @@
       </tr>
       <tr>
         <th><?php echo $form['notes']->renderLabel() ?></th>
-        <td colspan="2">
+        <td>
           <?php echo $form['notes']->renderError() ?>
           <?php echo $form['notes'] ?>
         </td>
@@ -53,7 +51,7 @@
       <?php if($form->getOption('thumbnail')): ?>
         <tr>
           <th><?php echo $form['thumbnail']->renderLabel() ?></th>
-          <td colspan="2">
+          <td>
             <?php echo $form['thumbnail']->renderError() ?>
             <?php echo $form['thumbnail'] ?>
           </td>

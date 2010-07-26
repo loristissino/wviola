@@ -85,3 +85,8 @@ color: blue;
 {
   background: url(../images/viewlogs.png) no-repeat 0 0;
 }
+
+#sf_admin_container ul li.sf_admin_action_retrieve a
+{
+  background: url(../images/retrieve.png) no-repeat 0 0;
+}
