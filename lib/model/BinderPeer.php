@@ -63,9 +63,9 @@ class BinderPeer extends BaseBinderPeer {
     return $c;
   }
   
-  protected static function executeDataRetrievalFromCodeCommand($code)
+  protected static function executeDataRetrievalFromExternalDB($fields)
   {
-    $command=wvConfig::get('binders_code2data_command', '');
+    $command=wvConfig::get('binders_externaldbdatasource_command', '');
     
     $valid = FALSE;
 
@@ -73,7 +73,11 @@ class BinderPeer extends BaseBinderPeer {
     {
       $valid = TRUE;
       $command = Generic::str_replace_from_array(array(
-        '%code%' => $code
+        '%code%' => $fields['code'],
+        '%year%' => $fields['year'],
+        '%month%' => $fields['month'],
+        '%day%' => $fields['day'],
+        '%user%' => $fields['user'],
         ), $command);
 
       try
@@ -97,15 +101,21 @@ class BinderPeer extends BaseBinderPeer {
     
   }
 
-  public static function retrieveDataFromCode($code)
+  public static function retrieveDataFromExternalDB($fields=array())
   {
-    $data = self::executeDataRetrievalFromCodeCommand($code);
+    $data = self::executeDataRetrievalFromExternalDB($fields);
     return $data;
   }
   
   public static function getCodeIsValid($code)
   {
-    $data = self::executeDataRetrievalFromCodeCommand($code);
+    $data = self::executeDataRetrievalFromExternalDB(array(
+      'code'=>$code,
+      'year'=>null,
+      'month'=>null,
+      'day'=>null,
+      'user'=>null,
+      ));
     return FALSE!==$data;
   }
 

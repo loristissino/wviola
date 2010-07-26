@@ -126,7 +126,14 @@ class binderActions extends sfActions
   
   public function executeRetrieve(sfWebRequest $request)
   {
-    $this->value=BinderPeer::retrieveDataFromCode($request->getParameter('code'));
+    $this->forward404Unless($this->getRequest()->isXmlHttpRequest());
+    $this->value=BinderPeer::retrieveDataFromExternalDB(array(
+      'code'   =>  $request->getParameter('code'),
+      'year'   =>  $request->getParameter('year'),
+      'month'  =>  $request->getParameter('month'),
+      'day'    =>  $request->getParameter('day'),
+      'user'   =>  $this->getUser()->getUsername(),
+      ));
   }
 
   protected function processForm(sfWebRequest $request, sfForm $form, $embedded = false)

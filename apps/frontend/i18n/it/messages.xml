@@ -490,12 +490,16 @@
         <target>Raccoglitore %binder%</target>
       </trans-unit>
       <trans-unit id="122">
-        <source>Retrieve data from external database</source>
-        <target>Recupera dati da base di dati esterna</target>
+        <source>Retrieve title hint from external database</source>
+        <target>Recupera suggerimento per il titolo da base di dati esterna</target>
       </trans-unit>
       <trans-unit id="123">
         <source>Code "%value%" was not found in the external database.</source>
         <target>Il codice "%value%" non è stato trovato nella base di dati esterna.</target>
+      </trans-unit>
+      <trans-unit id="124">
+        <source>No hints available.</source>
+        <target>Nessun suggerimento disponibile.</target>
       </trans-unit>
      </body>
   </file>
