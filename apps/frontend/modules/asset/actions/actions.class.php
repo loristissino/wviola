@@ -145,7 +145,7 @@ class assetActions extends sfActions
     $this->forward404Unless($request->isMethod(sfRequest::POST));
     $this->forward404Unless($this->sourcefile=$this->getUser()->getAttribute('sourcefile'));
 
-    $this->binderform = new BinderForm();
+    $this->binderform = new BinderForm(null, array('embedded'=>true));
 
     $this->form = new AssetForm($this->getUser()->getProfile()->getUserId());
     if($this->sourcefile->getThumbnailNb()>0)
