@@ -62,6 +62,53 @@ class BinderPeer extends BaseBinderPeer {
     }
     return $c;
   }
+  
+  protected static function executeDataRetrievalFromCodeCommand($code)
+  {
+    $command=wvConfig::get('binders_code2data_command', '');
+    
+    $valid = FALSE;
+
+    if ($command!='')
+    {
+      $valid = TRUE;
+      $command = Generic::str_replace_from_array(array(
+        '%code%' => $code
+        ), $command);
+
+      try
+      {
+        $info=Generic::executeCommand($command);
+      }
+      catch (Exception $e)
+      {
+        $valid = FALSE;
+      }
+
+      if (!$valid)
+      {
+        return FALSE;
+      }
+      else
+      {
+        return $info;
+      }
+    }
+    
+  }
+
+  public static function retrieveDataFromCode($code)
+  {
+    $data = self::executeDataRetrievalFromCodeCommand($code);
+    return $data;
+  }
+  
+  public static function getCodeIsValid($code)
+  {
+    $data = self::executeDataRetrievalFromCodeCommand($code);
+    return FALSE!==$data;
+  }
+
 
 
 } // BinderPeer

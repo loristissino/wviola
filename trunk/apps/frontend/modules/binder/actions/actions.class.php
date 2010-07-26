@@ -123,6 +123,11 @@ class binderActions extends sfActions
     $this->selected=$this->getUser()->getAttribute('selected_binder');
     $this->BinderValues=$this->getUser()->getAttribute('binder_values');
   }
+  
+  public function executeRetrieve(sfWebRequest $request)
+  {
+    $this->value=BinderPeer::retrieveDataFromCode($request->getParameter('code'));
+  }
 
   protected function processForm(sfWebRequest $request, sfForm $form, $embedded = false)
   {

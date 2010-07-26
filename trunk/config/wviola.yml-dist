@@ -104,6 +104,18 @@ filebrowser:
 binders:
   years_before: 5
   years_after: 0
+  code2data_command: /etc/wviola/checkcode.sh "%code%"
+  # this must be an external program or script that outputs the title to the standard output,
+  # or exits with non zero status if the code is not found
+  # example:
+  # #!/bin/bash
+  # CODE="$1"
+  # if [ $CODE -eq 123 ]; then
+  #   echo "Title example for code $CODE"
+  #   exit 0
+  # else
+  #   exit 1
+  # fi
 
 archiviation:
   binder_max_age: 30
