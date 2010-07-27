@@ -59,7 +59,6 @@ class MovieFile extends BasicFile
 
 	}
   
-  
   public function retrieveInfo($type)
   {
     // this is used after publishing, to check what we produced and save
@@ -77,7 +76,8 @@ class MovieFile extends BasicFile
         $info['highquality_height']=$movie->getFrameHeight();
         $info['highquality_video_codec']=$movie->getVideoCodec();
         $info['highquality_audio_codec']=$movie->getAudioCodec();
-        $info['highquality_aspect_ratio']=$this->getExplicitAspectRatio();
+        $ar = $this->getExplicitAspectRatio();
+        $info['highquality_aspect_ratio']= $ar ? $ar : $movie->getFrameWidth() / $movie->getFrameHeight();
         return $info;
       case 'low':
         $info['lowquality_width']=$movie->getFrameWidth();
