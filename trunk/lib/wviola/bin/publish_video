@@ -29,7 +29,7 @@ CONTACT="$9"
 
 IFS=$'\n'
 ffmpeg -y -i "/var/wviola/data/filesystem/scheduled/$UNIQID" -ar 22050 -ab 32000 -f flv -s 320x240 "/var/wviola/data/filesystem/published/assets/$UNIQID.flv" -y || exit 2
-ffmpeg -y -i "/var/wviola/data/filesystem/scheduled/$UNIQID" -f ogg -s 800x600 "/var/wviola/data/filesystem/iso_images/cache/$UNIQID.ogv" || exit 3
+ffmpeg2theora --videoquality 8 -o "/var/wviola/data/filesystem/iso_images/cache/$UNIQID.ogv" "/var/wviola/data/filesystem/scheduled/$UNIQID" || exit 3
 
 mv -v "/var/wviola/data/filesystem/scheduled/$UNIQID" "/var/wviola/data/filesystem/trash" || exit 4
 
