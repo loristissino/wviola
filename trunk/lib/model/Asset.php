@@ -326,6 +326,74 @@ CONTACT="$9"
     
   }
   
+  public function republish()
+  {
+
+    try
+    {
+      $command=sprintf('republish_%s "%s" "%s" "%s" "%s" "%s" "%s" "%s" "%s" "%s"',
+          $this->getAssetTypeCode(),
+          $this->getUniqId(),
+          $this->getArtist(),
+          $this->getTitle(),
+          $this->getDate(),
+          $this->getLocation(),
+          $this->getOrganization(),
+          $this->getCopyright(),
+          $this->getLicense(),
+          $this->getContact()
+          );
+
+      Generic::executeCommand($command, true);
+      
+      switch($this->getAssetTypeCode())
+      {
+        case 'video':
+          $videoAsset = $this->getVideoAsset();
+          $videoAsset
+          ->setAssetId($this->getId())
+          ->gatherInfo()
+          ->save();
+          unset($videoAsset);
+          break;
+        case 'photoalbum':
+          $photoalbumAsset = $this->getPhotoalbumAsset();
+          $photoalbumAsset
+          ->setAssetId($this->getId())
+          ->gatherInfo()
+          ->save();
+          unset($photoalbumAsset);
+          break;
+        case 'picture':
+          $pictureAsset = $this->getPictureAsset();
+          $pictureAsset
+          ->setAssetId($this->getId())
+          ->save();
+          unset($pictureAsset);
+          break;
+        case 'audio':
+          $audioAsset = $this->getAudioAsset();
+          $audioAsset
+          ->setAssetId($this->getId())
+          ->save();
+          unset($audioAsset);
+          break;
+      }
+      $this
+      ->setHighqualityMd5sum($this->getPublishedFile('high')->getMD5Sum())
+      ->setLowqualityMd5sum($this->getPublishedFile('low')->getMD5Sum())
+      ->setStatus(self::CACHED)
+      ->save();
+      
+    }
+    catch (Exception $e)
+    {
+      throw $e;
+    }
+    
+  }
+  
+  
   public function getPublishedFile($quality)
   {
     $file = new PublishedFile($this->getUniqId(), $quality);
