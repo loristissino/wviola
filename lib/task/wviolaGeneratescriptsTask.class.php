@@ -154,6 +154,52 @@ EOF;
     
     $this->saveFile('publish_video', $content);
     
+    // republish_video script
+
+    $content=$this->getStandardBaseScript();
+
+    $command=wvConfig::get('publishing_video_low_quality_command');
+    $height=wvConfig::get('publishing_video_height');
+    $width=wvConfig::get('publishing_video_width');
+    
+    $command=Generic::str_replace_from_array(array(
+      '%source%'=>wvConfig::get('directory_trash') . '/$UNIQID',
+      '%width%'  =>$width,
+      '%height%' =>$height,
+      '%target%'=>wvConfig::get('directory_published_assets') . '/$UNIQID' . wvConfig::get('publishing_video_low_quality_extension'),
+      ),
+      $command
+    );
+
+    $content .= $command . " || exit 2\n"; 
+//    mv "$SOURCE" "$TRASH_DIR"
+    
+
+    $command=wvConfig::get('publishing_video_high_quality_command');
+
+    $command=Generic::str_replace_from_array(array(
+      '%source%'=>wvConfig::get('directory_trash') . '/$UNIQID',
+      '%target%'=>wvConfig::get('directory_iso_cache') . '/$UNIQID' . wvConfig::get('publishing_video_high_quality_extension'),
+      '%artist%'=>'$ARTIST',
+      '%title%'=>'$TITLE',
+      '%date%'=>'$DATE',
+      '%location%'=>'$LOCATION',
+      '%organization%'=>'$ORGANIZATON',
+      '%copyright%'=>'$COPYRIGHT',
+      '%license%'=>'$LICENSE',
+      '%contact%'=>'$CONTACT',
+      ),
+      $command
+    );
+
+    $content .= $command . " || exit 3\n\n"; 
+
+    $command = "echo 'PUBLISHED'\n";
+
+    $content .= $command . "\n";
+    
+    $this->saveFile('republish_video', $content);
+
     // publish_photoalbum script
 
     $content=$this->getStandardBaseScript();
@@ -248,6 +294,90 @@ EOF;
 
     $this->saveFile('publish_photoalbum', $content);
 
+    // republish_photoalbum script
+
+    $content=$this->getStandardBaseScript();
+
+    $low_height=wvConfig::get('publishing_picture_low_quality_height');
+    $low_width=wvConfig::get('publishing_picture_low_quality_width');
+    $low_quality=wvConfig::get('publishing_picture_low_quality_jpeg_quality');
+    $low_command=wvConfig::get('publishing_picture_low_quality_command');
+    
+    $high_height=wvConfig::get('publishing_picture_high_quality_height');
+    $high_width=wvConfig::get('publishing_picture_high_quality_width');
+    $high_quality=wvConfig::get('publishing_picture_high_quality_jpeg_quality');
+    $high_command=wvConfig::get('publishing_picture_high_quality_command');
+        
+    $command = <<<EOF
+
+TEMPDIR=$(mktemp -d)
+
+unzip "%source%" -d \$TEMPDIR || exit 2
+cd \$TEMPDIR
+mkdir low high
+for IMAGE in $(find . -maxdepth 1  -type f); do
+  %low_command% || exit 3
+  %high_command% || exit 4
+done
+
+EOF;
+
+    $command=Generic::str_replace_from_array(array(
+      '%source%'=>wvConfig::get('directory_trash') . '/$UNIQID',
+      ),
+      $command
+    );
+    $command=Generic::str_replace_from_array(array(
+      '%low_command%'=>$low_command,
+      '%width%'  =>$low_width,
+      '%height%' =>$low_height,
+      '%quality%' =>$low_quality,
+      '%source%' => '$IMAGE',
+      '%target%' => 'low/$IMAGE',
+      ),
+      $command
+    );
+    $command=Generic::str_replace_from_array(array(
+      '%high_command%'=>$high_command,
+      '%width%'  =>$high_width,
+      '%height%' =>$high_height,
+      '%quality%' =>$high_quality,
+      '%source%' => '$IMAGE',
+      '%target%' => 'high/$IMAGE',
+      ),
+      $command
+    );
+
+    $content .= $command;
+    
+    $command = 'zip "%target%" -j low/*';
+    $command=Generic::str_replace_from_array(array(
+      '%target%'=>wvConfig::get('directory_published_assets') . '/$UNIQID' . wvConfig::get('publishing_photoalbum_low_quality_extension'),
+      ),
+      $command
+    );
+
+    $content .= $command . " || exit 5\n";
+
+    $command = 'zip "%target%" -j high/*';
+    $command=Generic::str_replace_from_array(array(
+      '%target%'=>wvConfig::get('directory_iso_cache') . '/$UNIQID' . wvConfig::get('publishing_photoalbum_high_quality_extension'),
+      ),
+      $command
+    );
+
+    $content .= $command . " || exit 6\n";
+
+    $command = "echo 'PUBLISHED'\n";
+
+    $content .= $command . "\n";
+    
+    $command = "cd; rm -rf \$TEMPDIR\n";
+
+    $content .= $command . "\n";
+
+    $this->saveFile('republish_photoalbum', $content);
+    
   }
   
   

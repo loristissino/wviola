@@ -28,11 +28,19 @@ CONTACT="$9"
 # these items come from the documentation of ffmpeg2theora
 
 IFS=$'\n'
-ffmpeg -y -i "/var/wviola/data/filesystem/scheduled/$UNIQID" -ar 22050 -ab 32000 -f flv -s 320x240 "/var/wviola/data/filesystem/published/assets/$UNIQID.flv" -y || exit 2
-ffmpeg -y -i "/var/wviola/data/filesystem/scheduled/$UNIQID" -f ogg -s 800x600 "/var/wviola/data/filesystem/iso_images/cache/$UNIQID.ogv" || exit 3
 
-mv -v "/var/wviola/data/filesystem/scheduled/$UNIQID" "/var/wviola/data/filesystem/trash" || exit 4
+TEMPDIR=$(mktemp -d)
 
-
+unzip "/var/wviola/data/filesystem/trash/$UNIQID" -d $TEMPDIR || exit 2
+cd $TEMPDIR
+mkdir low high
+for IMAGE in $(find . -maxdepth 1  -type f); do
+  convert "$IMAGE" -scale 640x480 -quality 75 "low/$IMAGE" || exit 3
+  convert "$IMAGE" -scale 800x600 -quality 90 "high/$IMAGE" || exit 4
+done
+zip "/var/wviola/data/filesystem/published/assets/$UNIQID.zip" -j low/* || exit 5
+zip "/var/wviola/data/filesystem/iso_images/cache/$UNIQID.zip" -j high/* || exit 6
 echo 'PUBLISHED'
+
+cd; rm -rf $TEMPDIR
 

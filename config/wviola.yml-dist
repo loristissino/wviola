@@ -66,8 +66,8 @@ publishing:
 
   video_width: 320
   video_height: 240
-  video_low_quality_command: ffmpeg -i "%source%" -ar 22050 -ab 32000 -f flv -s %width%x%height% "%target%" -y
-  video_high_quality_command: ffmpeg -i "%source%" -f ogg "%target%" -y
+  video_low_quality_command: ffmpeg -y -i "%source%" -ar 22050 -ab 32000 -f flv -s %width%x%height% "%target%"
+  video_high_quality_command: ffmpeg -y -i "%source%" -f ogg "%target%"
   video_low_quality_extension: .flv
   video_high_quality_extension: .ogv
   picture_low_quality_width: 640
