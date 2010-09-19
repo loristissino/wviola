@@ -30,7 +30,6 @@ class BinderForm extends BaseBinderForm
       $this['user_id'],
       $this['created_at'],
       $this['updated_at'],
-      $this['is_open'],
       $this['archive_id']
     );
     

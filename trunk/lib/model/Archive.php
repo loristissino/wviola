@@ -80,6 +80,7 @@ class Archive extends BaseArchive {
     {
       $this->_items[$Binder->getId()][$Asset->getId()] = $Asset->getHighQualitySize();
       $this->incCurrentSize($Asset->getHighQualitySize());
+      Generic::logMessage('asset ' . $Asset->getId(), 'added asset');
     }
   }
   
@@ -128,15 +129,19 @@ class Archive extends BaseArchive {
 
   public function addBinders($Binders = Array())
   {
+    Generic::logMessage('archive ' . $this->getId(), 'adding binders...');
+
     foreach ($Binders as $Binder)
     {
       if ($this->hasPlaceForBinder($Binder))
       {
+        Generic::logMessage('binder ' . $Binder->getId(), 'added');
         $this->addBinder($Binder);
       }
       else
       {
         $this->setIsFull(true);
+        Generic::logMessage('binder ' . $Binder->getId(), 'not added (archive full)');
         break;
       }
     }
@@ -168,7 +173,7 @@ class Archive extends BaseArchive {
 
     try
     {
-      $command=sprintf('genisoimage -o "%s" %s', 
+      $command=sprintf('genisoimage -iso-level 3 -J -R -o "%s" %s', 
         $this->getIsoImageFullPath(),
         $this->getFileListForCommand()
         );
@@ -186,7 +191,7 @@ class Archive extends BaseArchive {
         foreach($Binder->getArchivableAssets() as $Asset)
         {
           $Asset
-          ->setState(ASSET::ISO_IMAGE)
+          ->setStatus(ASSET::ISO_IMAGE)
           ->save($conn)
           ;
         }
