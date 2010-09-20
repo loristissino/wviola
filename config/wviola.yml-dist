@@ -114,7 +114,7 @@ binders:
 # USER="$3"
 # 
 # # Please note that this script is used both for data retrieval and for code validation,
-# # but when it is called for validation only the code is actually passed as parameter,
+# # but, when it is called for validation, only the code is actually passed as parameter,
 # 
 # if [ $CODE -eq 123 ]; then
 #   echo "Title hint for code $CODE, date=$DATE, user=$USER"
@@ -126,7 +126,7 @@ binders:
 archiviation:
   binder_max_age: 30
   # days after which a binder should be closed
-  iso_image_size: 4800
+  iso_image_size: 1700
   # iso dvd image size, in MB
   index_template: /var/wviola/templates/isoimage/it/isoindex.php
   index_title: Raccoglitori archiviati il %date%

@@ -104,6 +104,9 @@ class SourceFile extends BasicFile
             $this->_gatherPhotoAlbumInfo();
           }
 					break;
+        case 'audio':
+          $this->_gatherAudioInfo();
+          break;
 			}
 		}
 		
@@ -224,10 +227,17 @@ class SourceFile extends BasicFile
 			
 			if(!$sourceAspectRatio)
 			{
-				$sourceAspectRatio=$movie->getFrameWidth()/$movie->getFrameHeight();
+        if ($movie->getFrameHeight())
+        // for some streams we don't have video at all, so we should avoid
+        // divisions by zero...
+        {
+          $sourceAspectRatio=$movie->getFrameWidth()/$movie->getFrameHeight();
+        }
+        else
+        {
+          $sourceAspectRatio=1;
+        }
 			}
-
-
 
 			$this->setWvInfo('video_aspect_ratio', $sourceAspectRatio);
 		
@@ -272,14 +282,38 @@ class SourceFile extends BasicFile
         unset($movie);
       }
       
-			throw new Exception(sprintf('Could not gather information about file %s', $this->getFullPath()));
+			//throw new Exception(sprintf('Could not gather information about file %s', $this->getFullPath()));
+      $this->setWvInfo('file_archivable', false);
+      
 		}
     
     $this->setWvInfo('file_archivable', true);
     
 	}
 	
-	public function loadWvInfoFile()
+	private function _gatherAudioInfo()
+	{
+    $this->setWvInfo('source_type', self::AUDIO);
+    
+    try
+    {
+      $command=sprintf('ffprobe "%s" 2>&1 | grep "  Duration:" | head -1 | sed -e "s/.*Duration: //" -e "s/,.*//"', $this->getFullPath());
+      $duration=$this->executeCommand($command);
+      list($secs, $dec) = explode('.', $duration);
+      list($hours, $minutes, $seconds) = explode(':', $secs);
+      
+      $this->setWvInfo('audio_duration', $seconds + $minutes*60 + $hours*3600 + $dec/100);
+    }
+    catch (Exception $e)
+    {
+      $this->setWvInfo('file_archivable', false);
+    }
+    
+    $this->setWvInfo('file_archivable', true);
+	}
+
+
+  public function loadWvInfoFile()
 	{
 		$this->setWvInfoChanged(false);
 		if ($this->_fileInfo)
