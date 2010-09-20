@@ -71,6 +71,7 @@ class Archive extends BaseArchive {
 
   public function hasPlaceForBinder(Binder $Binder)
   {
+    Generic::logMessage('binder ' . $Binder->getId(), 'evaluting place. Size: ' . $Binder->getTotalSize());
     return $Binder->getTotalSize() + $this->getCurrentSize() <= $this->getMaxSize();
   }
   
@@ -135,13 +136,13 @@ class Archive extends BaseArchive {
     {
       if ($this->hasPlaceForBinder($Binder))
       {
-        Generic::logMessage('binder ' . $Binder->getId(), 'added');
+        Generic::logMessage('binder ' . $Binder->getId(), 'added. Current size: ' . $this->getCurrentSize());
         $this->addBinder($Binder);
       }
       else
       {
         $this->setIsFull(true);
-        Generic::logMessage('binder ' . $Binder->getId(), 'not added (archive full)');
+        Generic::logMessage('binder ' . $Binder->getId(), 'not added. Current size: ' . $this->getCurrentSize());
         break;
       }
     }

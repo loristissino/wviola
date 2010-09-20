@@ -229,19 +229,32 @@ class BasicFile
 			$description=$this->executeCommand($command);
 			if (preg_match('/MPEG sequence/', $description))
 			{
-				return 'video/mpeg';
+				$type='video'; $subtype='mpeg';
 			}
 			if (preg_match('/Theora video/', $description))
 			{
-				return 'video/ogg';
+				$type='video'; $subtype='ogg';
 			}
 			if ($subtype=='ogg')
 			{
 				// FIXME This is likely not always true...
-				return 'video/ogg';
+				$type='video'; $subtype='ogg';
 			}
 		}
-		return $mimeType;
+    
+    if($type=='video')
+    {
+			// we need this because sometimes mpeg videos do not have a Video stream
+			$command=sprintf('ffprobe "%s" 2>&1 | grep "Stream.*Video" | cat', $this->getFullPath());
+			$description=$this->executeCommand($command);
+      if (is_array($description) && sizeof($description)==0)
+      {
+        $type='audio';
+        // subtype remains the same, or not?
+      }
+    }
+    
+ 	return $type . '/' . $subtype;
 	}
   
   /**
