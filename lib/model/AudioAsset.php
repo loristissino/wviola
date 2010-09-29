@@ -20,4 +20,17 @@ require 'lib/model/om/BaseAudioAsset.php';
  */
 class AudioAsset extends BaseAudioAsset {
 
+	protected
+		$_uniqid,
+		$_assetFile;
+
+	public function getAudioFile()
+	{
+    // returns the low quality file
+		$this->_uniqid=$this->getAsset()->getUniqid();
+		$this->_assetFile=new AudioFile($this->_uniqid);
+		return $this->_assetFile;
+	}
+
+
 } // AudioAsset

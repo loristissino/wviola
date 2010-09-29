@@ -257,6 +257,29 @@ class assetActions extends sfActions
 
   } 
 
+  public function executeAudio(sfWebRequest $request)
+  {
+    $this->forward404Unless($Asset = AssetPeer::retrieveByPk($request->getParameter('id')), sprintf('Object Asset does not exist (%s).', $request->getParameter('id')));
+    $this->forward404Unless($Asset->hasAudioAsset());
+    $this->forward404Unless($file=$Asset->getAudioAsset()->getAudioFile());
+
+	
+    $response=$this->getContext()->getResponse();
+    $response->setHttpHeader('Pragma', '');
+    $response->setHttpHeader('Cache-Control', '');
+    $response->setHttpHeader('Content-Length', $file->getStat('size'));
+    $response->setHttpHeader('Content-Type', $file->getMimeType());
+
+  //	$response->setContent(fread(fopen($file->getFullPath(), 'r'), $file->getStat('size')));
+
+    /* For big files, not to be read in memory, this should be better:
+       see http://forum.symfony-project.org/index.php/m/63030/
+    */
+    $response->sendHttpHeaders();
+    readfile($file->getFullPath());
+    return sfView::NONE;
+
+  } 
 
 
   protected function processForm(sfWebRequest $request, sfForm $form, SourceFile $sourcefile=null)

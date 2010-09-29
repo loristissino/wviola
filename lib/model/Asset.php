@@ -12,22 +12,29 @@ class Asset extends BaseAsset {
   // see http://code.google.com/p/wviola/wiki/Asset for details
 
     const
-      SCHEDULED = 1,
-      CACHED = 2,
-      ISO_IMAGE = 3,
-      DVDROM = 4;
+      SCHEDULED  = 1,
+      CACHED     = 2,
+      ISO_IMAGE  = 3,
+      DVDROM     = 4;
+      
+    const
+      VIDEO      = 1,
+      PICTURE    = 2,
+      PHOTOALBUM = 3,
+      AUDIO      = 4;
+
 
     private $_AssetTypeCodes=Array(
-		1=> 'video',
-		2=> 'picture',
-		3=> 'photoalbum',
-		4=> 'audio',
+      self::VIDEO      => 'video',
+      self::PICTURE    => 'picture',
+      self::PHOTOALBUM => 'photoalbum',
+      self::AUDIO      => 'audio',
 		);
     private $_AssetTypeShortCodes=Array(
-		1=> 'vid',
-		2=> 'pic',
-		3=> 'alb',
-		4=> 'aud',
+      self::VIDEO      => 'vid',
+      self::PICTURE    => 'pic',
+      self::PHOTOALBUM => 'alb',
+      self::AUDIO      => 'aud',
 		);
 
     private $_editable=false;
@@ -115,6 +122,11 @@ class Asset extends BaseAsset {
 		return $this->getVideoAsset()!=null; 
 	}
 
+	public function hasAudioAsset()
+	{
+		return $this->getAudioAsset()!=null; 
+	}
+  
 	public function hasPhotoalbumAsset()
 	{
 		return $this->getPhotoalbumAsset()!=null; 
@@ -315,6 +327,7 @@ CONTACT="$9"
       $this
       ->setHighqualityMd5sum($this->getPublishedFile('high')->getMD5Sum())
       ->setLowqualityMd5sum($this->getPublishedFile('low')->getMD5Sum())
+      ->setHighqualitySize($this->getPublishedFile('high')->getStat('size'))
       ->setStatus(self::CACHED)
       ->save();
       

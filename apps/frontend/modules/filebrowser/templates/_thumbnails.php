@@ -3,3 +3,6 @@
 		<?php include_partial('thumbnail', array('file'=>$file, 'number'=>$i, 'link'=>$links)) ?>
 	<?php endfor ?>
 <?php endif ?>
+<?php if ($is_audio): ?>
+  <?php echo $filepath ?>
+<?php endif ?>

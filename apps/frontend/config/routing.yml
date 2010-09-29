@@ -35,6 +35,14 @@ thumbnail:
     sf_format: jpeg
     sf_method: get
 
+audiomp3:
+  url:  /asset/audio/:id.:sf_format
+  param: { module: asset, action: audio }
+  requirements:
+    sf_format: mp3
+    sf_method: get
+  
+
 sf_guard_signin:
   url:   /login
   param: { module: sfGuardAuth, action: signin }
