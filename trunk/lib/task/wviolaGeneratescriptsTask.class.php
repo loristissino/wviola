@@ -378,6 +378,124 @@ EOF;
 
     $this->saveFile('republish_photoalbum', $content);
     
+
+    // publish_audio script
+
+    $content=$this->getStandardBaseScript();
+    
+    $content .= 'TEMPFILE=`mktemp` && rm $TEMPFILE && mkfifo $TEMPFILE || exit "error"' . "\n\n";
+
+    $precommand=wvConfig::get('publishing_audio_preexecution_command');
+    
+    $precommand=Generic::str_replace_from_array(array(
+      '%source%'=>wvConfig::get('directory_scheduled') . '/$UNIQID',
+      '%target%'=>wvConfig::get('directory_published_assets') . '/$UNIQID' . wvConfig::get('publishing_audio_low_quality_extension'),
+      ),
+      $precommand
+    );
+
+    $content .= $precommand . "\n"; 
+
+
+    $command=wvConfig::get('publishing_audio_low_quality_command');
+    
+    $command=Generic::str_replace_from_array(array(
+      '%source%'=>wvConfig::get('directory_scheduled') . '/$UNIQID',
+      '%target%'=>wvConfig::get('directory_published_assets') . '/$UNIQID' . wvConfig::get('publishing_audio_low_quality_extension'),
+      ),
+      $command
+    );
+
+    $content .= $command . " || exit 2\n"; 
+//    mv "$SOURCE" "$TRASH_DIR"
+    
+
+    $content .= $precommand . "\n"; 
+
+    $command=wvConfig::get('publishing_audio_high_quality_command');
+
+    $command=Generic::str_replace_from_array(array(
+      '%source%'=>wvConfig::get('directory_scheduled') . '/$UNIQID',
+      '%target%'=>wvConfig::get('directory_iso_cache') . '/$UNIQID' . wvConfig::get('publishing_audio_high_quality_extension'),
+      '%artist%'=>'$ARTIST',
+      '%title%'=>'$TITLE',
+      '%date%'=>'$DATE',
+      '%location%'=>'$LOCATION',
+      '%organization%'=>'$ORGANIZATON',
+      '%copyright%'=>'$COPYRIGHT',
+      '%license%'=>'$LICENSE',
+      '%contact%'=>'$CONTACT',
+      ),
+      $command
+    );
+
+    $content .= $command . " || exit 3\n\n"; 
+
+    $command = 'mv -v "%source%" "%target%"';
+    $command = Generic::str_replace_from_array(array(
+      '%source%'=>wvConfig::get('directory_scheduled') . '/$UNIQID',
+      '%target%'=>wvConfig::get('directory_trash'),
+      ),
+      $command
+    ); 
+
+    $content .= $command . " || exit 4\n\n\n";
+    
+    $command = "echo 'PUBLISHED'\n";
+
+    $content .= $command . "\n";
+    
+    $content .= 'rm "$TEMPFILE"';
+    
+    $this->saveFile('publish_audio', $content);
+
+
+    // republish_audio script
+
+    $content=$this->getStandardBaseScript();
+
+    $content .= 'TEMPFILE=`mktemp` && rm $TEMPFILE && mkfifo $TEMPFILE || exit "error"' . "\n\n"  ;
+
+    $command=wvConfig::get('publishing_audio_low_quality_command');
+    
+    $command=Generic::str_replace_from_array(array(
+      '%source%'=>wvConfig::get('directory_trash') . '/$UNIQID',
+      '%target%'=>wvConfig::get('directory_published_assets') . '/$UNIQID' . wvConfig::get('publishing_audio_low_quality_extension'),
+      ),
+      $command
+    );
+
+    $content .= $command . " || exit 2\n"; 
+//    mv "$SOURCE" "$TRASH_DIR"
+    
+
+    $command=wvConfig::get('publishing_audio_high_quality_command');
+
+    $command=Generic::str_replace_from_array(array(
+      '%source%'=>wvConfig::get('directory_trash') . '/$UNIQID',
+      '%target%'=>wvConfig::get('directory_iso_cache') . '/$UNIQID' . wvConfig::get('publishing_audio_high_quality_extension'),
+      '%artist%'=>'$ARTIST',
+      '%title%'=>'$TITLE',
+      '%date%'=>'$DATE',
+      '%location%'=>'$LOCATION',
+      '%organization%'=>'$ORGANIZATON',
+      '%copyright%'=>'$COPYRIGHT',
+      '%license%'=>'$LICENSE',
+      '%contact%'=>'$CONTACT',
+      ),
+      $command
+    );
+
+    $content .= $command . " || exit 3\n\n"; 
+    
+    $command = "echo 'PUBLISHED'\n";
+
+    $content .= $command . "\n";
+    
+    $content .= 'rm "$TEMPFILE"';
+
+    $this->saveFile('republish_audio', $content);
+
   }
   
   

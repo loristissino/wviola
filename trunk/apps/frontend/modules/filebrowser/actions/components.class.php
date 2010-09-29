@@ -24,8 +24,10 @@ class filebrowserComponents extends sfComponents
   }
   public function executeThumbnails(sfWebRequest $request)
   {
-	$this->has_thumbnails=$this->file->getHasThumbnails();  
-  $this->links=$this->file->getWvInfo('file_asset_id')==null;
+    $this->has_thumbnails=$this->file->getHasThumbnails();  
+    $this->links=$this->file->getWvInfo('file_asset_id')==null;
+    $this->is_audio=$this->file->getWvInfo('source_type')==Asset::AUDIO;
+    $this->filepath=$this->file->getAdaptedFullPath(wvConfig::get('filebrowser_path_replacements'));//$this->file->getFilePath();
   }
   
 }

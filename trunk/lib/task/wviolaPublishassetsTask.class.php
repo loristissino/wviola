@@ -101,22 +101,7 @@ EOF;
     $this->logSection('info', 'No scheduled assets.', null, 'COMMENT');
   }
 
-/*
-	try
-	{
-	}
-	catch (Exception $e)
-	{
-		$this->log($this->formatter->format($e->getMessage(), 'ERROR'));
-    if ($taskLogEvent)
-    {
-      $taskLogEvent->
-      setTaskException($e->getMessage())->
-      save();
-    }
-		return 1;
-	}
-*/	
+	
 	if($this->_isLogged)
 	{
 		$taskLogEvent->

@@ -291,6 +291,18 @@ class BasicFile
 		return 'unknown';
 
 	}
+  
+  public function getAdaptedFullPath($replacements)
+  {
+    if (is_array($replacements))
+    {
+      return preg_replace(array_keys($replacements), $replacements, $this->getFullPath());
+    }
+    else
+    {
+      return $this->getFullPath();  
+    }
+  }
 
   /**
    * Get the username of the owner of the file.

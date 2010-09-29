@@ -501,6 +501,10 @@
         <source>No hints available.</source>
         <target>Nessun suggerimento disponibile.</target>
       </trans-unit>
+      <trans-unit id="125">
+        <source>Full path</source>
+        <target>Percorso completo</target>
+      </trans-unit>
      </body>
   </file>
 </xliff>

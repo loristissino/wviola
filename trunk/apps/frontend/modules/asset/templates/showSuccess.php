@@ -2,7 +2,9 @@
 <?php use_helper('Wviola') ?>
 
 <?php if($Asset->hasVideoAsset()): ?>
-	<?php include_partial('player', array('VideoAsset'=>$Asset->getVideoAsset())) ?>
+	<?php include_partial('videoplayer', array('VideoAsset'=>$Asset->getVideoAsset())) ?>
+<?php elseif($Asset->hasAudioAsset()): ?>
+	<?php include_partial('audioplayer', array('AudioAsset'=>$Asset->getAudioAsset())) ?>
 <?php elseif($Asset->hasPhotoalbumAsset()): ?>
 	<?php include_partial('albumviewer', array('PhotoalbumAsset'=>$Asset->getPhotoalbumAsset(), 'session'=>$session)) ?>
 <?php else: ?>

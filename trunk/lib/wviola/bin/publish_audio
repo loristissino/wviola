@@ -1,0 +1,43 @@
+#!/bin/bash
+
+# This script has been generated automatically on the base of wviola.yml config file.
+# DO NOT EDIT directly, unless you know what you are doing.
+#
+# To regenerate the scripts, run the task
+#     symfony wviola:generate-scripts
+#
+# See
+#     symfony help wviola:generate-scripts
+#  
+# for details
+
+if [[ $# -lt 1 ]]; then
+	echo $0 source
+	exit 1
+fi
+
+UNIQID="$1"
+ARTIST="$2"
+TITLE="$3"
+DATE="$4"
+LOCATION="$5"
+ORGANIZATION="$6"
+COPYRIGHT="$7"
+LICENSE="$8"
+CONTACT="$9"
+# these items come from the documentation of ffmpeg2theora
+
+IFS=$'\n'
+TEMPFILE=`mktemp` && rm $TEMPFILE && mkfifo $TEMPFILE || exit "error"
+
+mplayer "/var/wviola/data/filesystem/scheduled/$UNIQID" -ao pcm:file="$TEMPFILE" -vc dummy -vo null &
+lame -q 2 -V 4 "$TEMPFILE" "/var/wviola/data/filesystem/published/assets/$UNIQID.mp3" || exit 2
+mplayer "/var/wviola/data/filesystem/scheduled/$UNIQID" -ao pcm:file="$TEMPFILE" -vc dummy -vo null &
+oggenc -q 5 -b 256 "$TEMPFILE" -o "/var/wviola/data/filesystem/iso_images/cache/$UNIQID.ogg" || exit 3
+
+mv -v "/var/wviola/data/filesystem/scheduled/$UNIQID" "/var/wviola/data/filesystem/trash" || exit 4
+
+
+echo 'PUBLISHED'
+
+rm "$TEMPFILE"
