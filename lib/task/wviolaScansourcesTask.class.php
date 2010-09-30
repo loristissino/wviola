@@ -310,17 +310,20 @@ EOF;
 		// we update the record
 	}
   
-  $notices = $taskLogEvent->retrieveUsersToSendEmailsTo();
-  
-  if(sizeof($notices)>0)
+  if($this->_isLogged)
   {
-    echo "\n";
-    $this->logSection('mail', 'Email notices sent', null, 'COMMENT');
-    foreach($notices as $user=>$number)
+    $notices = $taskLogEvent->retrieveUsersToSendEmailsTo();
+    
+    if(sizeof($notices)>0)
     {
-      $profile=sfGuardUserProfilePeer::retrieveByPK($user);
-      $profile->sendSourceReadyNotice($this->getMailer(), $number);
-      $this->logSection('mail+', $profile->getEmail() . ' (' . $number . ')', null, 'INFO');
+      echo "\n";
+      $this->logSection('mail', 'Email notices sent', null, 'COMMENT');
+      foreach($notices as $user=>$number)
+      {
+        $profile=sfGuardUserProfilePeer::retrieveByPK($user);
+        $profile->sendSourceReadyNotice($this->getMailer(), $number);
+        $this->logSection('mail+', $profile->getEmail() . ' (' . $number . ')', null, 'INFO');
+      }
     }
   }
 
