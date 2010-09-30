@@ -39,10 +39,16 @@ class AssetPeer extends BaseAssetPeer {
 
 	public static function retrieveBySourceSizeAndMd5sum($size, $md5sum)
 	{
+    
 		$c=new Criteria();
-		$c->add(AssetPeer::SOURCE_SIZE, $size);
+    if ($size < 1073741824)
+      {
+        /* if the size is over 1 GB the query fails on some systems */
+        $c->add(AssetPeer::SOURCE_SIZE, $size);
+      }
 		$c->add(AssetPeer::SOURCE_LMD5SUM, $md5sum);
 		return AssetPeer::doSelectOne($c);
+
 	}
   
   public static function doDeleteAll($con = null)
