@@ -27,6 +27,23 @@ Binder:
     event_date: 12/20/2008
     created_at: 12/20/2008
     is_open: false
+    archive_id: archive1
+  binder6:
+    user_id: matthew
+    category_id: ot
+    title: Last year 2
+    event_date: 12/20/2008
+    created_at: 12/20/2008
+    is_open: false
+    archive_id: archive1
+  binder7:
+    user_id: matthew
+    category_id: ot
+    title: Last year 3
+    event_date: 12/20/2008
+    created_at: 12/20/2008
+    is_open: false
+    archive_id: archive1
 <?php for($i=100; $i<120; $i++): ?>
   binder<?php echo $i ?>:
     user_id: <?php echo ($i<=115 ? 'matthew' : 'andreas') . "\n" ?>

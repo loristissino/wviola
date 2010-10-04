@@ -97,6 +97,21 @@ Asset:
     status: 4
 <?php endfor ?>
 
+<?php for($i=5; $i<=7; $i++): ?>
+<?php foreach(array('a','b','c') as $letter): ?>
+  assetb<?php echo $i?>_<?php echo $letter ?>:
+    uniqid: photoalbum2009_<?php echo sprintf('b%d%s', $i, $letter) . "\n" ?>
+    asset_type: 3
+    status: 4
+    binder_id: binder<?php echo $i . "\n" ?>
+    source_filename: <?php echo sprintf("PhotoAlbum%d%s.zip\n", $i, $letter) ?>
+    notes: Photo Album number <?php echo $letter ?> Fake notes for album number <?php echo $letter . "\n"?>
+    highquality_size: 40000000
+    highquality_md5sum: <?php echo md5($letter) . "\n" ?>
+    source_file_datetime: 11/20/2009
+<?php endforeach ?>
+<?php endfor ?>
+
 <?php for($i=100; $i<120; $i++): ?>
 <?php foreach(array('a','b','c') as $letter): ?>
   asset<?php echo $i . $letter ?>:

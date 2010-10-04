@@ -505,6 +505,44 @@
         <source>Full path</source>
         <target>Percorso completo</target>
       </trans-unit>
+      <trans-unit id="126">
+        <source>Mark as burned</source>
+        <target>Segna come masterizzato</target>
+      </trans-unit>
+      <trans-unit id="127">
+        <source>Get info</source>
+        <target>Visualizza informazioni</target>
+      </trans-unit>
+      <trans-unit id="128">
+        <source>Burned at</source>
+        <target>Data masterizzazione</target>
+      </trans-unit>
+      <trans-unit id="129">
+        <source>Created at</source>
+        <target>Data creazione</target>
+      </trans-unit>
+      <trans-unit id="130">
+        <source>You are marking the archive «%name%» as burned.</source>
+        <target>Stai contrassegnando l'archivio «%name%» come masterizzato.</target>
+      </trans-unit>
+      <trans-unit id="131">
+        <source>This operation will set all its contents as not available anymore online in high quality.</source>
+        <target>Con questa operazione, tutti i suoi contenuti verranno impostati come non più disponibili in linea ad alta qualità.</target>
+      </trans-unit>
+      <trans-unit id="132">
+        <source>Do you want to proceed?</source>
+        <target>Vuoi procedere?</target>
+      </trans-unit>
+      <trans-unit id="133">
+        <source>The archive has been successfully marked as burned.</source>
+        <target>L'archivio è stato correttamente contrassegnato come masterizzato.</target>
+      </trans-unit>
+      <trans-unit id="134">
+        <source>The archive could not be marked as burned.</source>
+        <target>Vuoi procedere?</target>
+      </trans-unit>
      </body>
   </file>
 </xliff>
+
+

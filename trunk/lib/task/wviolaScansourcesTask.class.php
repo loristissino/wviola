@@ -322,7 +322,7 @@ EOF;
       {
         $profile=sfGuardUserProfilePeer::retrieveByPK($user);
         $profile->sendSourceReadyNotice($this->getMailer(), $number);
-        $this->logSection('mail+', $profile->getEmail() . ' (' . $number . ')', null, 'INFO');
+        $this->logSection('mail@', $profile->getEmail() . ' (' . $number . ')', null, 'INFO');
       }
     }
   }
