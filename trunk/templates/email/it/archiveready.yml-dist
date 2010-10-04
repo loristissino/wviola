@@ -1,0 +1,6 @@
+message:
+  subject: Archivio %slug% pronto per la masterizzazione
+  body: |
+    È stato predisposta l'immagine ISO dell'archivio %slug%, che può adesso essere masterizzata.
+
+                  The Wviola Bot
