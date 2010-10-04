@@ -11,4 +11,5 @@ grep -v 'plugins/\.*' | \
 grep -v 'data/filesystem*' | \
 grep -v 'isoindex.php' | \
 grep -v 'sourcesready.yml' | \
+grep -v 'archiveready.yml' | \
 sed 's/^?      //'
