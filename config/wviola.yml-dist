@@ -139,17 +139,24 @@ archiviation:
   # iso dvd image size, in MB
   index_template: /var/wviola/templates/isoimage/it/isoindex.php
   index_title: Raccoglitori archiviati il %date%
+  extra_files: [ /var/wviola/templates/isoimage/it/autorun.inf ]
 
   location: Nowhere
   organization: Example Organization
   copyright: Nobody
   license: Creative Commons Attribution 2.5 Generic http://creativecommons.org/licenses/by/2.5/
   contact: wviola@example.com
+  notice_to: mark
+  
+  folder_name_schema: binder%d
+  # %d is replaced by the id of the folder
+  # be sure to change the index_template accordingly
 
 mail:
   bot_address: wviola@example.com
   bot_name: WVIOLA bot
   sourceready_template: /var/wviola/templates/email/it/sourcesready.yml
+  archiveready_template: /var/wviola/templates/email/it/archiveready.yml
   # configuration for sending mail out is in the apps/frontend/config/factories.yml file
   
 web:
@@ -164,3 +171,4 @@ debug:
   active: false
   # if set to true, all external commands calls will be logged into log/wviolalog.txt
   
+

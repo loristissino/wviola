@@ -26,6 +26,7 @@ class Archive extends BaseArchive {
     $_currentSize,
     $_items,
     $_files,
+    $_isopaths,
     $_full;
 
   public function __toString()
@@ -39,7 +40,8 @@ class Archive extends BaseArchive {
     $this->setMaxSize(wvConfig::get('archiviation_iso_image_size')*1024*1024);
     $this->setIsFull(false);
     $this->_files=array();
-    $this->setSlug(date('Ymd-his'));
+    $this->_isopaths=array();
+    $this->setSlug(date('Ymd-His'));
   }
   
   public function setMaxSize($v)
@@ -71,7 +73,7 @@ class Archive extends BaseArchive {
 
   public function hasPlaceForBinder(Binder $Binder)
   {
-    Generic::logMessage('binder ' . $Binder->getId(), 'evaluting place. Size: ' . $Binder->getTotalSize());
+    Generic::logMessage('binder ' . $Binder->getId(), 'evaluating place. Size: ' . $Binder->getTotalSize());
     return $Binder->getTotalSize() + $this->getCurrentSize() <= $this->getMaxSize();
   }
   
@@ -85,14 +87,32 @@ class Archive extends BaseArchive {
     }
   }
   
-  public function addFile($filepath)
+  public function addFile($filepath, $folder='', $remove=true)
   {
-    $this->_files[]=$filepath;
+    $this->_isopaths[]=sprintf('%s/=%s', $folder, $filepath);
+    if($remove)
+    {
+      $this->_files[]=$filepath;
+    }
     return $this;
+  }
+  public function getIsopaths()
+  {
+    return $this->_isopaths;
   }
   public function getFiles()
   {
     return $this->_files;
+  }
+  
+  protected function getIsopathListForCommand()
+  {
+    $list='';
+    foreach($this->getIsopaths() as $f)
+    {
+      $list.=sprintf(' "%s"', $f);
+    }
+    return $list;
   }
   
   protected function getFileListForCommand()
@@ -104,6 +124,7 @@ class Archive extends BaseArchive {
     }
     return $list;
   }
+
   
   public function getIsoImageName()
   {
@@ -155,8 +176,17 @@ class Archive extends BaseArchive {
     {
       return false;
     }
-    
+
     $this->addFile($this->saveIndexWebPage());
+    
+    $extrafiles=wvConfig::get('archiviation_extra_files');
+    if(is_array($extrafiles))
+    {
+      foreach($extrafiles as $extrafile)
+      {
+        $this->addFile($extrafile, '', false);
+      }
+    }
     
     $binders_ids=array_keys($this->getItems());
     $Binders=BinderPeer::retrieveByPKs($binders_ids);
@@ -165,7 +195,7 @@ class Archive extends BaseArchive {
       foreach($Binder->getArchivableAssets() as $Asset)
       {
         $file=$Asset->getPublishedFile('high');
-        $this->addFile($file->getFullPath());
+        $this->addFile($file->getFullPath(), sprintf(wvConfig::get('archiviation_folder_name_schema'), $Binder->getId()));
       }
     }
     
@@ -174,12 +204,15 @@ class Archive extends BaseArchive {
 
     try
     {
-      $command=sprintf('genisoimage -iso-level 3 -J -R -o "%s" %s', 
+      $command=sprintf('genisoimage -iso-level 3 -J -R -o "%s" -graft-points %s', 
         $this->getIsoImageFullPath(),
-        $this->getFileListForCommand()
+        $this->getIsopathListForCommand()
         );
         
       Generic::executeCommand($command);
+      
+      $isofile = new BasicFile($this->getIsoImageFullPath());
+      $this->setMD5Sum($isofile->getMD5Sum());
       
       $this->save($conn);
     
@@ -204,7 +237,6 @@ class Archive extends BaseArchive {
       $conn->rollBack();
       throw $e;
     }
-    
     return true;
   }
   
@@ -266,7 +298,39 @@ class Archive extends BaseArchive {
     
     return $text;
   }
-
+  
+  
+  public function markAsBurned($user_id)
+  {
+    $con = Propel::getConnection(ArchivePeer::DATABASE_NAME);
+    try
+    {
+      $con->beginTransaction();
+      $this
+      ->setBurnedAt(time())
+      ->setUserId($user_id)
+      ->save($con);
+      
+      foreach($this->getBinders() as $Binder)
+      {
+        foreach($Binder->getAssets() as $Asset)
+        {
+          Generic::logMessage('Asset DVDROM', $Asset->getId());
+          $Asset
+          ->setStatus(Asset::DVDROM)
+          ->save($con);
+        }
+      }
+      
+      $con->commit();
+      return true;
+    } catch (PropelException $e)
+    {
+      $con->rollback();
+      return false;
+    }
+    
+  }
 
 
 } // Archive

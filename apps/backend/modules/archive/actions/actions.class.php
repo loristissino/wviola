@@ -13,4 +13,31 @@ require_once dirname(__FILE__).'/../lib/archiveGeneratorHelper.class.php';
  */
 class archiveActions extends autoArchiveActions
 {
+  
+  public function executeListMarkAsBurned()
+  {
+    $Archive = $this->getRoute()->getObject();
+    
+    $result = $Archive->markAsBurned($this->getUser()->getProfile()->getUserId());
+ 
+    if ($result)
+    {
+      $this->getUser()->setFlash('notice', $this->getContext()->getI18N()->__('The archive has been successfully marked as burned.'));
+    }
+    else
+    {
+      $this->getUser()->setFlash('error', $this->getContext()->getI18N()->__('The archive could not be marked as burned.'));
+    }
+ 
+    $this->redirect('archive');
+  }
+
+  public function executeListGetInfo()
+  {
+    $this->Archive = $this->getRoute()->getObject();
+    
+  }
+
+
+
 }

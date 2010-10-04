@@ -90,3 +90,13 @@ color: blue;
 {
   background: url(../images/retrieve.png) no-repeat 0 0;
 }
+
+#sf_admin_container ul li.sf_admin_action_mark_as_burned a
+{
+  background: url(../images/burned.png) no-repeat 0 0;
+}
+
+#sf_admin_container ul li.sf_admin_action_get_info a
+{
+  background: url(../images/info.png) no-repeat 0 0;
+}

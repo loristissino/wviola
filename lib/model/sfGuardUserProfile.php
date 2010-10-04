@@ -153,5 +153,27 @@ class sfGuardUserProfile extends BasesfGuardUserProfile
     
   }
   
+  public function sendArchiveReadyNotice(sfMailer $mailer, Archive $Archive)
+  {
+    if (!$this->getEmail())
+    {
+      return;
+    }
+   
+    $message=$this->_composeEmail('mail_archiveready_template');
+   
+    $subject=str_replace('%slug%', $Archive->getSlug(), $message['subject']);
+    $body=str_replace('%slug%', $Archive->getSlug(), $message['body']);
+    
+    $message = $mailer->compose(
+      array(wvConfig::get('mail_bot_address') => wvConfig::get('mail_bot_address')),
+      $this->getEmail(),
+      $subject,
+      $body);
+ 
+    $mailer->send($message);
+    return $this;
+    
+  }
   
 }

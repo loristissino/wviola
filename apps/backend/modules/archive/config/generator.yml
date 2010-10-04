@@ -14,7 +14,12 @@ generator:
     config:
       actions: ~
       fields:  ~
-      list:    ~
+      list:
+        display: [ id, slug, created_at, burned_at ]
+        object_actions:
+          _edit:           ~
+          mark_as_burned:  ~
+          get_info:        ~
       filter:  ~
       form:    ~
       edit:    ~
