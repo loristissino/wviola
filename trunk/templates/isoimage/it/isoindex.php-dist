@@ -30,14 +30,14 @@
     <ul>
     <?php foreach($Binder->getArchivableAssets() as $Asset): ?>
       <li>
-        <a href="<?php echo $Asset->getArchivedFilename() ?>">
+        <a href="<?php echo sprintf('binder%d/%s', $Binder->getId(), $Asset->getArchivedFilename()) ?>">
         <?php echo sprintf('%s (id %d)', $Asset->getAssetTypeCode(), $Asset->getId()) ?>
         </a>
         <ul>
           <li><?php echo sprintf('Note: «%s»', $Asset->getNotes()) ?></li>
           <li><?php echo sprintf('Dimensione: %s', Generic::getHumanReadableSize($Asset->getHighQualitySize())) ?></li>
           <li><?php echo sprintf('MD5: %s', $Asset->getHighQualityMD5Sum()) ?></li>
-          <?php $md5sums.=sprintf("%s  %s\n", $Asset->getHighQualityMD5Sum(), $Asset->getArchivedFilename()) ?>
+          <?php $md5sums.=sprintf("%s  binder%d/%s\n", $Asset->getHighQualityMD5Sum(), $Binder->getId(), $Asset->getArchivedFilename()) ?>
         </ul>
       </li>
     <?php endforeach ?>
