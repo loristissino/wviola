@@ -541,6 +541,34 @@
         <source>The archive could not be marked as burned.</source>
         <target>Vuoi procedere?</target>
       </trans-unit>
+      <trans-unit id="135">
+        <source>Available in archive %id% «%slug%»</source>
+        <target>Disponibile nell'archivio %id% «%slug%»</target>
+      </trans-unit>
+      <trans-unit id="136">
+        <source>Archive List</source>
+        <target>Lista archivi</target>
+      </trans-unit>
+      <trans-unit id="137">
+        <source>Binder List</source>
+        <target>Lista raccoglitori</target>
+      </trans-unit>
+      <trans-unit id="138">
+        <source>Is open</source>
+        <target>Aperto?</target>
+      </trans-unit>
+      <trans-unit id="139">
+        <source>Created at</source>
+        <target>Data creazione</target>
+      </trans-unit>
+      <trans-unit id="140">
+        <source>Updated at</source>
+        <target>Aggiornamento</target>
+      </trans-unit>
+      <trans-unit id="141">
+        <source>Archive Id</source>
+        <target>Archivio</target>
+      </trans-unit>
      </body>
   </file>
 </xliff>

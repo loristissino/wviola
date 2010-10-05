@@ -13,8 +13,7 @@ generator:
 
     config:
       actions: ~
-      fields:  ~
-      list:    ~
+      fields:
       filter:  ~
       form:    ~
       edit:    ~

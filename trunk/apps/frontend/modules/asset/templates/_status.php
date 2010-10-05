@@ -6,6 +6,9 @@
   <?php echo __('Archived, ready for masterization') ?>
 <?php elseif($status==Asset::DVDROM): ?>
   <?php echo __('Archived, masterized') ?>
+  <?php if($Archive):?>
+    - <?php echo __('Available in archive %id% «%slug%»', array('%id%'=>$Archive->getId(), '%slug%'=>$Archive->getslug())) ?>
+  <?php endif ?>
 <?php else: ?>
   <?php echo __('Unknown') ?>
 <?php endif ?>

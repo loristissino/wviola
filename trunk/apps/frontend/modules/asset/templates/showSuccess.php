@@ -21,7 +21,7 @@
     </tr>
     <tr>
       <th><?php echo __('Status') ?></th>
-      <td><?php include_partial('asset/status', array('status'=>$Asset->getStatus())) ?></td>
+      <td><?php include_partial('asset/status', array('status'=>$Asset->getStatus(), 'Archive'=>$Asset->getBinder()->getArchive())) ?></td>
     </tr>
     <tr>
       <th><?php echo __('UniqId') ?></th>
