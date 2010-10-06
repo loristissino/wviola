@@ -2,7 +2,6 @@
 
 require 'lib/model/om/BaseBinder.php';
 
-
 /**
  * Skeleton subclass for representing a row from the 'binder' table.
  *

@@ -4,13 +4,21 @@
   <head>
     <?php include_http_metas() ?>
     <?php include_metas() ?>
-    <?php include_title() ?>
+    <title>WVIOLA <?php echo __('back end') ?>
+    <?php if (has_slot('subtitle')): ?>
+       - <?php include_slot('subtitle') ?>
+    <?php endif ?>
+    </title>
     <link rel="shortcut icon" href="<?php echo sfConfig::get('app_config_website')?>/images/favicon.ico" />
     <?php include_stylesheets() ?>
+    <?php use_helper('jQuery') ?>
     <?php include_javascripts() ?>
   </head>
   <body>
+    <div id="header"><?php echo sfConfig::get('app_config_organization') ?></div>
+    <div id="sf_admin_container">
     <?php echo $sf_content ?>
+    </div>
 	<hr />
 	<?php echo link_to(__('Back end home'), '@homepage') ?>
   &nbsp;-&nbsp;
@@ -18,5 +26,10 @@
     __('Front end'),
     url_for_frontend('homepage', array())
     )?>
+  <?php if($sf_user->isAuthenticated()): ?>
+    &nbsp;-&nbsp;
+    <?php echo link_to(__('Backend Logout'), '@sf_guard_signout') ?>
+  <?php endif ?>
+  
   </body>
 </html>
