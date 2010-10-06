@@ -1,4 +1,4 @@
-<h1><?php echo __('Backend administration') ?></h1>
+<h1><?php echo __('Back end administration') ?></h1>
 
 <h2><?php echo __('Media') ?></h2>
 <ul>

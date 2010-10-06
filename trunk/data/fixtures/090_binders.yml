@@ -24,6 +24,7 @@ Binder:
     user_id: matthew
     category_id: ot
     title: Last year
+    code: 3456
     event_date: 12/20/2008
     created_at: 12/20/2008
     is_open: false

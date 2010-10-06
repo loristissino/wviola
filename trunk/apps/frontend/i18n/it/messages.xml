@@ -569,8 +569,118 @@
         <source>Archive Id</source>
         <target>Archivio</target>
       </trans-unit>
+      <trans-unit id="142">
+        <source>Archive %id% (%slug%)</source>
+        <target>Archivio %id% (%slug%)</target>
+      </trans-unit>
+      <trans-unit id="143">
+        <source>Index</source>
+        <target>Indice</target>
+      </trans-unit>
+      <trans-unit id="144">
+        <source>Binder «%title%»</source>
+        <target>Raccoglitore «%title%»</target>
+      </trans-unit>
+      <trans-unit id="145">
+        <source>Binder id: %id%</source>
+        <target>Id raccoglitore: %id%</target>
+      </trans-unit>
+      <trans-unit id="146">
+        <source>User: %username%</source>
+        <target>Utente: %username%</target>
+      </trans-unit>
+      <trans-unit id="147">
+        <source>Event date: %date%</source>
+        <target>Data dell'evento: %date%</target>
+      </trans-unit>
+      <trans-unit id="148">
+        <source>Code: %code%</source>
+        <target>Codice: %code%</target>
+      </trans-unit>
+      <trans-unit id="149">
+        <source>Category: %category_shortcut% (%category_name%)</source>
+        <target>Categoria: %category_shortcut% (%category_name%)</target>
+      </trans-unit>
+      <trans-unit id="150">
+        <source>Show binder</source>
+        <target>Mostra raccoglitore</target>
+      </trans-unit>
+      <trans-unit id="151">
+        <source>Assets</source>
+        <target>Documenti multimediali</target>
+      </trans-unit>
+      <trans-unit id="152">
+        <source>Notes: %notes%</source>
+        <target>Note: %notes%</target>
+      </trans-unit>
+      <trans-unit id="153">
+        <source>Uniqid: %uniqid%</source>
+        <target>Identificativo univoco: %uniqid%</target>
+      </trans-unit>
+      <trans-unit id="154">
+        <source>Size: %size%</source>
+        <target>Dimensione: %size%</target>
+      </trans-unit>
+      <trans-unit id="155">
+        <source>MD5: %md5%</source>
+        <target>MD5: %md5%</target>
+      </trans-unit>
+      <trans-unit id="156">
+        <source>Logs</source>
+        <target>Log</target>
+      </trans-unit>
+      <trans-unit id="157">
+        <source>Access log</source>
+        <target>Log degli accessi</target>
+      </trans-unit>
+      <trans-unit id="158">
+        <source>Task log</source>
+        <target>Log dei task</target>
+      </trans-unit>
+      <trans-unit id="159">
+        <source>General configuration</source>
+        <target>Configurazione generale</target>
+      </trans-unit>
+      <trans-unit id="158">
+        <source>Categories</source>
+        <target>Categorie</target>
+      </trans-unit>
+      <trans-unit id="158">
+        <source>Users</source>
+        <target>Utenti</target>
+      </trans-unit>
+      <trans-unit id="159">
+        <source>Back end administration</source>
+        <target>Amministrazione di back end</target>
+      </trans-unit>
+      <trans-unit id="160">
+        <source>Binders</source>
+        <target>Raccoglitori</target>
+      </trans-unit>
+      <trans-unit id="161">
+        <source>Asset List</source>
+        <target>Lista Documenti multimediali</target>
+      </trans-unit>
+      <trans-unit id="162">
+        <source>Shortcut</source>
+        <target>Abbreviazione</target>
+      </trans-unit>
+      <trans-unit id="163">
+        <source>is empty</source>
+        <target>è vuoto</target>
+      </trans-unit>
+      <trans-unit id="164">
+        <source>Category List</source>
+        <target>Lista Categorie</target>
+      </trans-unit>
+      <trans-unit id="165">
+        <source>Sf guard user profile List</source>
+        <target>Lista Profili utente</target>
+      </trans-unit>
+      <trans-unit id="166">
+        <source>Imported at</source>
+        <target>Data importazione</target>
+      </trans-unit>
      </body>
   </file>
 </xliff>
-
-

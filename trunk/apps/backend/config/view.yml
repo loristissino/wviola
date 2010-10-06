@@ -1,0 +1,5 @@
+default:
+  metas:
+    title:   WVIOLA back end
+
+  stylesheets:    [main.css, flowplayer.css, /sfPropelPlugin/css/global.css, /sfPropelPlugin/css/default.css, backend.css ]
