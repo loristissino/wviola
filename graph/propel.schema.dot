@@ -5,7 +5,7 @@ nodevideo_asset [label="{<table>video_asset|<cols>asset_id (INTEGER) [FK]\ldurat
 nodepicture_asset [label="{<table>picture_asset|<cols>asset_id (INTEGER) [FK]\lhighquality_width (INTEGER)\lhighquality_height (INTEGER)\lhighquality_picture_format (VARCHAR)\llowquality_width (INTEGER)\llowquality_height (INTEGER)\llowquality_picture_format (VARCHAR)\l}", shape=record];
 nodephotoalbum_asset [label="{<table>photoalbum_asset|<cols>asset_id (INTEGER) [FK]\lpictures_count (INTEGER)\l}", shape=record];
 nodeaudio_asset [label="{<table>audio_asset|<cols>asset_id (INTEGER) [FK]\lduration (FLOAT)\lhighquality_audio_codec (VARCHAR)\llowquality_audio_codec (VARCHAR)\l}", shape=record];
-nodebinder [label="{<table>binder|<cols>id (INTEGER) [PK]\luser_id (INTEGER) [FK]\lcategory_id (INTEGER) [FK]\ltitle (VARCHAR)\levent_date (DATE)\lis_open (BOOLEAN)\larchive_id (INTEGER) [FK]\lcreated_at (TIMESTAMP)\lupdated_at (TIMESTAMP)\l}", shape=record];
+nodebinder [label="{<table>binder|<cols>id (INTEGER) [PK]\luser_id (INTEGER) [FK]\lcategory_id (INTEGER) [FK]\ltitle (VARCHAR)\lcode (VARCHAR)\levent_date (DATE)\lis_open (BOOLEAN)\larchive_id (INTEGER) [FK]\lcreated_at (TIMESTAMP)\lupdated_at (TIMESTAMP)\l}", shape=record];
 nodearchive [label="{<table>archive|<cols>id (INTEGER) [PK]\lslug (VARCHAR)\lcreated_at (TIMESTAMP)\lburned_at (TIMESTAMP)\luser_id (INTEGER) [FK]\lmd5sum (VARCHAR)\l}", shape=record];
 nodecategory [label="{<table>category|<cols>id (INTEGER) [PK]\lshortcut (VARCHAR)\lname (VARCHAR)\l}", shape=record];
 nodeaccess_log_event [label="{<table>access_log_event|<cols>id (INTEGER) [PK]\lasset_id (INTEGER) [FK]\luser_id (INTEGER) [FK]\lsession (VARCHAR)\lcreated_at (TIMESTAMP)\l}", shape=record];

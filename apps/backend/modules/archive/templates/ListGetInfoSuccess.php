@@ -1,12 +1,13 @@
 <?php use_helper('Wviola') ?>
 <h1><?php echo __('Archive %id% (%slug%)', array('%id%'=>$Archive->getId(), '%slug%'=>$Archive->getSlug())) ?></h1>
 <p><?php echo __('Index') ?></p>
-<ul>
+<ul class="sf_admin_actions">
 <?php foreach($Archive->getBinders() as $Binder): ?>
-  <li>
+  <li class="sf_admin_action_below">
     <a href="#binder_<?php echo $Binder->getId() ?>">
     <?php echo __('Binder %id% «%title%»', array('%id%'=>$Binder->getId(), '%title%'=>$Binder->getTitle())) ?>
     </a>
+    <br />
   </li>
 <?php endforeach ?>
 </ul>

@@ -117,6 +117,10 @@ class sfGuardUserProfile extends BasesfGuardUserProfile
   
   private function _composeEmail($template_code)
   {
+    if (!$template_code)
+    {
+      throw new Exception('Template name not set in wviola.yml: ', $template_code);
+    }
     $filename=wvConfig::get($template_code);
     if (!is_readable($filename))
     {
@@ -157,7 +161,7 @@ class sfGuardUserProfile extends BasesfGuardUserProfile
   {
     if (!$this->getEmail())
     {
-      return;
+      return false;
     }
    
     $message=$this->_composeEmail('mail_archiveready_template');
@@ -171,8 +175,14 @@ class sfGuardUserProfile extends BasesfGuardUserProfile
       $subject,
       $body);
  
-    $mailer->send($message);
-    return $this;
+    if ($mailer->send($message))
+    {
+      return $this;
+    }
+    else
+    {
+      return false;
+    }
     
   }
   
