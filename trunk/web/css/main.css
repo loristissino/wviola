@@ -100,3 +100,8 @@ color: blue;
 {
   background: url(../images/info.png) no-repeat 0 0;
 }
+
+#sf_admin_container ul li.sf_admin_action_below a
+{
+  background: url(../images/below.png) no-repeat 0 0;
+}

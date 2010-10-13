@@ -143,9 +143,12 @@ EOF;
       if ($user)
       {
         $profile = $user->getProfile();
-        $this->logSection('mail', 'Email notice sent', null, 'COMMENT');
-        $profile->sendArchiveReadyNotice($this->getMailer(), $Archive);
-        $this->logSection('mail@', $profile->getEmail(), null, 'INFO');
+        if ($profile->sendArchiveReadyNotice($this->getMailer(), $Archive))
+        {
+          $this->logSection('mail', 'Email notice sent', null, 'COMMENT');
+          $this->logSection('mail@', $profile->getEmail(), null, 'INFO');
+        }
+        
       }
     }
     

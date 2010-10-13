@@ -134,9 +134,11 @@ binders:
 
 archiviation:
   binder_max_age: 30
-  # days after which a binder should be closed
-  iso_image_size: 1700
-  # iso dvd image size, in MB
+  # days after which a binder should be automatically closed
+  iso_image_size: 4480
+  # iso dvd image size, in MiB
+  # please notice that the files listed in the extra_files field (below) are NOT
+  # taken into account (so you should subtract their size from the value above)
   index_template: /var/wviola/templates/isoimage/it/isoindex.php
   index_title: Raccoglitori archiviati il %date%
   extra_files: [ /var/wviola/templates/isoimage/it/autorun.inf ]
