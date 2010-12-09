@@ -192,14 +192,16 @@ class Asset extends BaseAsset {
       {
         $fp=fopen(wvConfig::get('directory_published_thumbnails'). '/' . $uniqid . '.jpeg', 'w');
         $content=base64_decode($thumbnail['base64content']);
-        fwrite($fp, $content, strlen($content));
+        $content_size=strlen($content);
+        fwrite($fp, $content, $content_size);
         fclose($fp);
         $this
         ->setHasThumbnail(true)
         ->setThumbnailWidth($thumbnail['width'])
         ->setThumbnailHeight($thumbnail['height'])
         ->setThumbnailPosition(array_key_exists('position', $thumbnail)? $thumbnail['position']: null)
-        ;
+        ->setThumbnailSize($content_size);
+        
         
         Generic::logMessage('Asset->scheduleSourceFileForArchiviation()', 'saved thumbtnail: ' . wvConfig::get('directory_published_thumbnails'). '/' . $uniqid . '.jpeg');
 
