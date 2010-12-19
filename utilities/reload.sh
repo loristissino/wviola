@@ -20,3 +20,8 @@ touch /var/wviola/data/filesystem/iso_images/cache/photoalbum2009_00000103a.zip
 touch /var/wviola/data/filesystem/iso_images/cache/photoalbum2009_00000103b.zip
 touch /var/wviola/data/filesystem/iso_images/cache/photoalbum2009_00000103c.zip
 
+mkdir /var/wviola/data/filesystem/sources/pictures/lnf
+sudo chown www-data /var/wviola/data/filesystem/sources/pictures/lnf
+sudo chmod 777 /var/wviola/data/filesystem/sources/pictures/lnf
+sudo cp /etc/wviola/IMG*JPG /var/wviola/data/filesystem/sources/pictures/lnf
+sudo chown matthew /var/wviola/data/filesystem/sources/pictures/lnf/*JPG
