@@ -19,8 +19,7 @@ class filebrowserActions extends sfActions
 		$this->folder= new SourceFolder(wvConfig::get('directory_sources'), $this->path);
 		if (!$this->folder->getPathExists())
 		{
-			$this->getUser()->setAttribute('path', $this->getUser()->getAttribute('oldpath', '/'));
-			$this->forward404();
+      $this->_changeDirectory('/');
 		}
 		$this->getUser()->setAttribute('oldpath', $this->path);
 		
