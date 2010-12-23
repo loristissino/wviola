@@ -3,6 +3,7 @@ Asset:
     uniqid: vid_4ab00000000000.10000000
     asset_type: 1
     binder_id: binder1
+    archive_id: archive3
     source_filename: Outdoor Meeting.mpeg
     notes: Outdoor meeting (c) copyright Blender Foundation | www.blender.org
     source_file_datetime: 12/21/2009
@@ -19,6 +20,7 @@ Asset:
     uniqid: vid_4ab00000000000.20000000
     asset_type: 1
     binder_id: binder1
+    archive_id: archive3
     source_filename: Big Buck Bunny 2.mpg
     notes: Hidden (c) copyright Blender Foundation | www.blender.org
     source_file_datetime: 12/23/2009
@@ -58,6 +60,8 @@ Asset:
     source_file_datetime: 11/<?php echo $i ?>/2009
     status: 4
 
+<?php touch('/var/wviola/data/filesystem/published/assets/video2009_'.sprintf('%08d', $i)) ?> 
+<?php touch('/var/wviola/data/filesystem/published/thumbnails/video2009_'.sprintf('%08d', $i)) ?> 
 <?php endfor ?>
 
   asset15:
@@ -84,6 +88,8 @@ Asset:
     notes: Photo Album number <?php echo $i . "\n"?>
     source_file_datetime: 11/<?php echo $i ?>/2009
     status: 4
+<?php touch('/var/wviola/data/filesystem/published/assets/photoalbum2009__'.sprintf('%08d', $i)) ?> 
+<?php touch('/var/wviola/data/filesystem/published/thumbnails/photoalbum2009__'.sprintf('%08d', $i)) ?> 
 <?php endfor ?>
 
 <?php for($i=26; $i<=30; $i++): ?>
@@ -95,6 +101,8 @@ Asset:
     notes: Photo Album number <?php echo $i . "\n"?>
     source_file_datetime: 11/<?php echo $i ?>/2009
     status: 4
+<?php touch('/var/wviola/data/filesystem/published/assets/photoalbum2009__'.sprintf('%08d', $i)) ?> 
+<?php touch('/var/wviola/data/filesystem/published/thumbnails/photoalbum2009__'.sprintf('%08d', $i)) ?>
 <?php endfor ?>
 
 <?php for($i=5; $i<=7; $i++): ?>
@@ -109,6 +117,8 @@ Asset:
     highquality_size: 40000000
     highquality_md5sum: <?php echo md5($letter) . "\n" ?>
     source_file_datetime: 11/20/2009
+<?php touch('/var/wviola/data/filesystem/published/assets/photoalbum2009__'.sprintf('b%d%s', $i, $letter)) ?> 
+<?php touch('/var/wviola/data/filesystem/published/thumbnails/photoalbum2009__'.sprintf('b%d%s', $i, $letter))?>
 <?php endforeach ?>
 <?php endfor ?>
 
@@ -124,5 +134,7 @@ Asset:
     highquality_size: 40000000
     highquality_md5sum: <?php echo md5($i . $letter) . "\n" ?>
     source_file_datetime: 11/20/2009
+<?php touch('/var/wviola/data/filesystem/published/assets/photoalbum2009__'.sprintf('b%d%s', $i, $letter)) ?> 
+<?php touch('/var/wviola/data/filesystem/published/thumbnails/photoalbum2009__'.sprintf('b%d%s', $i, $letter)) ?>
 <?php endforeach ?>
 <?php endfor ?>

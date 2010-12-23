@@ -13,6 +13,7 @@ propel:
     id: ~
     uniqid: { type: varchar(50), required: true, index: unique }
     binder_id: ~
+    archive_id: ~   # where low_quality files are stored for backup purposes
     status: integer
     asset_type: integer
     notes: longvarchar
@@ -75,13 +76,15 @@ propel:
     code: varchar(25)
     event_date: date
     is_open: { type: boolean, default: true }
-    archive_id: ~
+    archive_id: ~  # where high_quality files are stored for backup purposes
     created_at: ~
     updated_at: ~
 
   archive:
     id:  ~
     slug: varchar(50)
+    archive_type: integer
+    position: integer
     created_at: ~
     burned_at: timestamp
     user_id:  { type: integer, foreignTable: sf_guard_user_profile, foreignReference: user_id, required: false, onUpdate: cascade, onDelete: cascade}

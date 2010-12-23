@@ -34,16 +34,27 @@ class Archive extends BaseArchive {
     return 'archive_'.$this->getId();
   }
   
-  public function __construct()
+  public function __construct($type=ArchivePeer::HIGH_QUALITY_ARCHIVE)
   {
     parent::__construct();
     $this->setMaxSize(wvConfig::get('archiviation_iso_image_size')*1024*1024);
     $this->setIsFull(false);
     $this->_files=array();
     $this->_isopaths=array();
-    $this->setSlug(date('Ymd-His'));
+    $this->setGeneralAttributes($type);
   }
-  
+
+  public function setGeneralAttributes($type)
+  {
+    $this->setArchiveType($type);
+    $this->setPosition(ArchivePeer::getMaxByType($type)+1);
+    $this->setSlug(date('Ymd-His').'_'.
+      ArchivePeer::getTypeDescription($type).'_'.
+      $this->getPosition()
+      );
+  }
+
+
   public function setMaxSize($v)
   {
     $this->_maxSize = $v;
@@ -76,7 +87,15 @@ class Archive extends BaseArchive {
     Generic::logMessage('binder ' . $Binder->getId(), 'evaluating place. Size: ' . $Binder->getTotalSize());
     return $Binder->getTotalSize() + $this->getCurrentSize() <= $this->getMaxSize();
   }
-  
+
+  public function hasPlaceForAsset(Asset $Asset)
+  {
+    Generic::logMessage('asset ' . $Asset->getId(), 'evaluating place. Size: ' . $Asset->getTotalSize());
+    return $Asset->getTotalSize() + $this->getCurrentSize() <= $this->getMaxSize();
+  }
+
+
+
   public function addBinder(Binder $Binder)
   {
     foreach($Binder->getArchivableAssets() as $Asset)
@@ -86,6 +105,15 @@ class Archive extends BaseArchive {
       Generic::logMessage('asset ' . $Asset->getId(), 'added asset');
     }
   }
+  
+  public function addAsset(Asset $Asset)
+  {
+    $this->_items[$Asset->getId()][0] = $Asset->getTotalSize();
+    $this->incCurrentSize($Asset->getTotalSize());
+    Generic::logMessage('asset ' . $Asset->getId(), 'added asset');
+  }
+
+
   
   public function addFile($filepath, $folder='', $remove=true)
   {
@@ -169,6 +197,27 @@ class Archive extends BaseArchive {
     }
   }
   
+  public function addAssets($Assets = Array())
+  {
+    Generic::logMessage('archive ' . $this->getId(), 'adding assets...');
+
+    foreach ($Assets as $Asset)
+    {
+      if ($this->hasPlaceForAsset($Asset))
+      {
+        Generic::logMessage('asset ' . $Asset->getId(), 'added. Current size: ' . $this->getCurrentSize());
+        $this->addAsset($Asset);
+      }
+      else
+      {
+        $this->setIsFull(true);
+        Generic::logMessage('asset ' . $Asset->getId(), 'not added. Current size: ' . $this->getCurrentSize());
+        break;
+      }
+    }
+  }
+  
+  
   
   public function prepareISOImage()
   {
@@ -177,27 +226,46 @@ class Archive extends BaseArchive {
       return false;
     }
 
-    $this->addFile($this->saveIndexWebPage());
-    
-    $extrafiles=wvConfig::get('archiviation_extra_files');
-    if(is_array($extrafiles))
+    switch($this->getArchiveType())
     {
-      foreach($extrafiles as $extrafile)
-      {
-        $this->addFile($extrafile, '', false);
-      }
+      case ArchivePeer::HIGH_QUALITY_ARCHIVE:
+        $this->addFile($this->saveIndexWebPage());
+        $extrafiles=wvConfig::get('archiviation_extra_files');
+        if(is_array($extrafiles))
+        {
+          foreach($extrafiles as $extrafile)
+          {
+            $this->addFile($extrafile, '', false);
+          }
+        }
+        $binders_ids=array_keys($this->getItems());
+        $Binders=BinderPeer::retrieveByPKs($binders_ids);
+        foreach($Binders as $Binder)
+        {
+          foreach($Binder->getArchivableAssets() as $Asset)
+          {
+            $file=$Asset->getPublishedFile('high');
+            $this->addFile($file->getFullPath(), sprintf(wvConfig::get('archiviation_folder_name_schema'), $Binder->getId()));
+          }
+        };
+        break;
+      case ArchivePeer::LOW_QUALITY_ARCHIVE:
+        $assets_ids=array_keys($this->getItems());
+        $Assets=AssetPeer::retrieveByPKs($assets_ids);
+        foreach($Assets as $Asset)
+        {
+          $file=$Asset->getPublishedFile('low');
+          $this->addFile($file->getFullPath(), '', false);
+          unset($file);
+          $file=$Asset->getThumbnailFile();
+          $this->addFile($file->getFullPath(), '', false);
+          unset($file);
+        };
+        break;
+        
     }
     
-    $binders_ids=array_keys($this->getItems());
-    $Binders=BinderPeer::retrieveByPKs($binders_ids);
-    foreach($Binders as $Binder)
-    {
-      foreach($Binder->getArchivableAssets() as $Asset)
-      {
-        $file=$Asset->getPublishedFile('high');
-        $this->addFile($file->getFullPath(), sprintf(wvConfig::get('archiviation_folder_name_schema'), $Binder->getId()));
-      }
-    }
+    
     
     $conn=Propel::getConnection(ArchivePeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
     $conn->beginTransaction();
@@ -215,22 +283,37 @@ class Archive extends BaseArchive {
       $this->setMD5Sum($isofile->getMD5Sum());
       
       $this->save($conn);
-    
-      foreach($Binders as $Binder)
+
+      switch($this->getArchiveType())
       {
-        $Binder
-        ->setArchiveId($this->getId())
-        ->save($conn)
-        ;
-        foreach($Binder->getArchivableAssets() as $Asset)
-        {
-          $Asset
-          ->setStatus(ASSET::ISO_IMAGE)
-          ->save($conn)
-          ;
-        }
+        case ArchivePeer::HIGH_QUALITY_ARCHIVE:
+          foreach($Binders as $Binder)
+          {
+            $Binder
+            ->setArchiveId($this->getId())
+            ->save($conn)
+            ;
+            foreach($Binder->getArchivableAssets() as $Asset)
+            {
+              $Asset
+              ->setStatus(ASSET::ISO_IMAGE)
+              ->save($conn)
+              ;
+            }
+          }
+          break;
+        case ArchivePeer::LOW_QUALITY_ARCHIVE:
+          foreach($Assets as $Asset)
+          {
+            $Asset
+            ->setArchiveId($this->getId())
+            ->save($conn)
+            ;
+          }
+        break;
       }
       $conn->commit();
+
     }
     catch(Exception $e)
     {
@@ -261,7 +344,8 @@ class Archive extends BaseArchive {
     }
     
   }
-  
+
+
   public function saveIndexWebPage()
   {
     $filename=wvConfig::get('directory_iso_cache'). '/index.html';

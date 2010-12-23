@@ -10,7 +10,11 @@
       <?php echo link_to(__('Mark as burned', array(), 'messages'), 'archive/ListMarkAsBurned?id='.$Archive->getId(), array('confirm' => 
         __('You are marking the archive «%name%» as burned.', array('%name%'=>$Archive->getSlug()))
         . ' '
-        . __('This operation will set all its contents as not available anymore online in high quality.')
+        . ($Archive->getArchiveType()==ArchivePeer::HIGH_QUALITY_ARCHIVE?
+          __('This operation will set all its contents as not available anymore online in high quality.')
+          :
+          ''
+          )
         . ' '
         . __('Do you want to proceed?')
 )) ?>

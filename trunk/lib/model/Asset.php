@@ -104,6 +104,11 @@ class Asset extends BaseAsset {
 
 	public function __toString()
 	{
+    return sprintf('%d', $this->getId());
+  }
+  
+  public function getAssetTitle()
+  {
 		return sprintf('%d (%s)', $this->getId(), $this->getNotes());
   }
 	
@@ -460,7 +465,9 @@ CONTACT="$9"
     try
     {
       $file=$this->getPublishedFile('high');
-      return $file->getBasename();
+      $filename=$file->getBasename();
+      unset($file);
+      return $filename;
     }
     catch (Exception $e)
     {
@@ -468,6 +475,61 @@ CONTACT="$9"
       return 'fakename.txt';
     }
   }
+  
+  public function getLowQualityFilename()
+  {
+    try
+    {
+      $file=$this->getPublishedFile('low');
+      $filename=$file->getBasename();
+      unset($file);
+      return $filename;
+    }
+    catch (Exception $e)
+    {
+      // This shouldn't happen, it's here to easy the tests...
+      return 'fakename.txt';
+    }
+  }
+
+  public function getThumbnailFilename()
+  {
+    try
+    {
+      $file=$this->getThumbnailFile();
+      $filename=$file->getBasename();
+      unset($file);
+      return $filename;
+    }
+    catch (Exception $e)
+    {
+      // This shouldn't happen, it's here to easy the tests...
+      return 'fakename.txt';
+    }
+  }
+  
+  public function getTotalSize()
+  {
+    try
+    {
+      $file=$this->getPublishedFile('low');
+      $filesize=$file->getSize();
+      unset($file);
+      
+      $file=$this->getThumbnailFile();
+      $filesize+=$file->getSize();
+      unset($file);
+      
+      return $filesize;
+      
+    }
+    catch (Exception $e)
+    {
+      // This shouldn't happen, it's here to easy the tests...
+      return 0;
+    }
+  }
+
 
   public function setIsEditable($userId)
   {

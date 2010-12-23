@@ -19,5 +19,31 @@
  * @package    lib.model
  */
 class ArchivePeer extends BaseArchivePeer {
+  
+  const
+    HIGH_QUALITY_ARCHIVE=1,
+    LOW_QUALITY_ARCHIVE=2;
+    
+  static public function getMaxByType($type)
+  {
+    
+    $con = Propel::getConnection(self::DATABASE_NAME);
+    $sql = 'SELECT MAX('.self::POSITION.') AS max FROM '.self::TABLE_NAME. ' WHERE '. self::ARCHIVE_TYPE . '='. $type; 
+    $stmt = $con->prepare($sql);
+    $stmt->execute();
+
+    $row = $stmt->fetch();
+    return $row['max'];
+
+  }
+  
+  public static function getTypeDescription($type)
+  {
+    $descriptions=array(
+      1=>'high',
+      2=>'low',
+      );
+    return $descriptions[$type];
+  }
 
 } // ArchivePeer

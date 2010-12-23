@@ -25,7 +25,7 @@ test:
 all:
   .settings:
     # Form security secret (CSRF protection)
-    csrf_secret:            284f183a5782a47eb2c97f27749f73750824bf46
+    csrf_secret: mySuperSeKret     # Unique secret to enable CSRF protection or false to disable
 
     # Output escaping settings
     escaping_strategy:      true

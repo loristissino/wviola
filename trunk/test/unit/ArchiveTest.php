@@ -2,11 +2,13 @@
 
 require_once dirname(__FILE__).'/../bootstrap/Propel.php';
  
-$t = new lime_test(3, new lime_output_color());
+$t = new lime_test(4, new lime_output_color());
 
 $t->diag('Archive');
 
-$Archive = new Archive();
+$Archive = new Archive(1);
+
+$t->is($Archive->getSlug(), date('Ymd-His').'_high_3', '->getSlug() returns the correct slug');
 
 $t->is($Archive->getIsoImageName(), $Archive->getSlug() . '.iso', '->getIsoImageName() returns the correct name');
 
