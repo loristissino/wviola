@@ -2,7 +2,7 @@
 
 = Architettura generale =
 
-Nota terminologica: visto che si possono archiviare diversi tipi di elementi (video, immagini, collezioni di immagini, registrazioni audio), qui di seguito userò il termine generico _asset_ per riferirmi ad una di queste risorse. (Se viene in mente un altro termine, ditemelo).
+Nota terminologica: visto che si possono archiviare diversi tipi di elementi (video, immagini, collezioni di immagini, registrazioni audio), qui di seguito userò il termine generico _asset_ per riferirmi ad una di queste risorse. (Nella traduzione dell'interfaccia uso il termine "Documento multimediale").
 
 Wviola si basa su tre componenti:
 
@@ -43,7 +43,7 @@ Accede all'applicazione Wviola con il proprio browser, effettua il login, scegli
 
 Per ogni asset è presente una piccola anteprima (un fotogramma di un video, un'immagine rimpicciolita di una collezione, ecc.). Facendo clic sul link "Visualizza" gli viene mostrato l'asset (a bassa risoluzione), nonché un link per rintracciare l'asset archiviato ad alta risoluzione.
 
-Le operazioni di visualizzazione vengono registrate in un file di log.
+Le operazioni di visualizzazione vengono registrate in un'apposita tabella della base di dati.
 
 === Modifica informazioni errate per gli asset archiviati ===
 
@@ -94,6 +94,35 @@ Description:
 }}}
 
 Di ogni esecuzione di task viene tenuta traccia nel database, a meno che non si specifichi l'opzione `--logged=false`.
+
+È opportuno che i task non vengano eseguiti in accavallamento. Ad esempio, l'esecuzione del task di predisposizione delle miniature potrebbe impiegare in alcuni casi 45 minuti (ovviamente dipende dal numero di file), e se viene lanciato da _cron_ ogni 30 minuti, un'esecuzione si accavallerebbe con un'altra. Per ora la gestione di eventuali meccanismi 	di lock è affidata all'amministratore di sistema.
+
+Un'implementazione possibile è data da questo script della shell, che viene lanciato da _cron_ e che richiama un task:
+
+{{{
+#!/bin/sh
+
+# simple lock
+if [ -f "/tmp/wviola.cron.hourly.lock" ]; then
+	wvpid=$(cat /tmp/wviola.cron.hourly.lock)
+	if [ -d "/proc/$wvpid" ]; then
+		exit 0
+	else
+		rm -f "/tmp/wviola.cron.hourly.lock"
+	fi
+fi
+echo $$ > /tmp/wviola.cron.hourly.lock
+
+# before scanning sources, it is a good idea to sync LDAP users:
+/usr/local/bin/symfony wviola:sync-users --application=frontend --env=prod > /dev/null
+
+# now I will scan the sources
+/usr/local/bin/symfony wviola:scan-sources --application=frontend --env=prod --recursive=true > /dev/null
+
+# everything fine, I can remove the lock
+rm -f "/tmp/wviola.cron.hourly.lock"
+exit 0
+}}}
 
 === Sincronizzazione utenti ===
 
@@ -169,12 +198,15 @@ va interpretato in questo modo:
   * è stato aggiunto un nuovo utente, _sarah_, inserita nei GuardGroup _admin_ e _asset\_viewers_
   * è stato reso "non più attivo" l'utente _paul_
 
+=== Predisposizione miniature ===
 
-=== Predisposizione anteprime ===
+Questa applicazione, per ogni file posto nella directory delle sorgenti, determina se si tratta di un asset da archiviare (ossia, se è un video, una registrazione video o una collezione di immagini).
 
-Questa applicazione, per ogni file posto nella directory delle sorgenti, determina se si tratta di un asset da archiviare (ossia, se è un'immagine, un video, una registrazione video o una collezione di immagini). In caso positivo:
+Le collezioni di immagini vengono automaticamente create (come file zip) in base al principio che tutti i file di tipo immagine appartenenti allo stesso utente e poste nella stessa directory costituiscono una collezione. I file che confluiscono in una collezione vengono automaticamente rimossi.
 
-  * predispone alcune immagini tra cui sceglire per l'anteprima (estraendo fotogrammi a campione)
+Per gli asset da archiviare, il task:
+
+  * predispone alcune immagini tra cui sceglierne una che figurerà come miniatura (estraendo fotogrammi a campione)
   * calcola un hash del file
   * archivia le informazioni associate al file in un file YAML
 
@@ -194,8 +226,6 @@ symfony wviola:scan-sources --application=frontend --env=prod
   * se attivare o meno la ricorsione
   * un valore limite per la dimensione del file oltre il quale non deve essere calcolato l'hash MD5
   * se registrare nel log su DB l'esecuzione del task
-
-Queste opzioni vengono sfruttate dall'applicazione web quando un utente visualizza i file di una directory appena creata, e per la quale devono essere predisposte in fretta le anteprime e le informazioni di base, lasciando per tempi successivi il calcolo degli altri valori.
 
 Un esempio di interazione è il seguente:
 
@@ -223,7 +253,6 @@ $ symfony wviola:scan-sources --recursive=true --subdir=videos/stuff
 
 }}}
 
-
 === Preparazione degli script per l'archiviazione ===
 
 Gli script bash che consentono di pubblicare gli asset vengono generati in base al contenuto del file _wviola.yml_. In particolare, nella sezione _publishing_ di tale file sono specificati i comandi esterni da impartire per produrre i filmati a bassa e ad alta qualità, e le immagini degli album.
@@ -248,7 +277,7 @@ I file generati vengono messi nella directory specificata nel file di configuraz
 
 *Attenzione!* È importante rigenerare gli script se si cambiano le configurazioni (es. dove sono file e directory).
 
-=== Archiviazione ===
+=== Pubblicazione ===
 
 Quando un utente archivia un asset, esso viene spostato in una diversa directory, con l'attribuzione di un ID univoco (uniqid).
 
@@ -261,33 +290,12 @@ Questa applicazione batch, per ogni asset da archiviare:
 Il task dovrebbe essere richiamabile con il comando:
 
 {{{
-  ...
-  
-  authentication:
-    ldap_host: ldaps://ldap.example.com ldaps://ldap2.example.com
-    ldap_domain: dc=example,dc=com
-    ldap_users: ou=People
-    ldap_groups: ou=Group
-    ldap_useractive_objectclass_item: posixAccount
-    # for a user to be considered active, we check that they have this 
-    ldap_userattribute_username: uid
-    ldap_userattribute_email: mail
-    ldap_userattribute_firstname: first
-    ldap_userattribute_lastname: last
-    ldap_groupattribute_cn: cn
-    ldap_groupattribute_members: memberuid
-    guardgroup_admin: [webadmin]
-    guardgroup_asset_encoders: [alpha]
-    guardgroup_asset_viewers: [beta,gamma]
+symfony wviola:publish-assets --application=frontend --env=prod
 }}}
 
-tutti gli utenti che fanno parte del gruppo beta o del gruppo gamma verranno inseriti nel GuardGroup `asset_viewers`, per cui potranno accedere alla visualizzazione degli asset.
+=== Archiviazione file ad alta qualità ===
 
-La voce `ldap_useractive_objectclass_item` serve a indicare quale elemento cercare tra quelli specificati come objectitem per considerare l'utente attivo.
-
-L'output del task, simile al seguente,
-
-Questa applicazione batch:
+Questo task:
   * chiude i raccoglitori aperti da più di un certo numero di giorni (specificato in _wviola.yml_)
   * crea, seguendo un ordine cronologico, un'immagine ISO contenente le versioni ad alta qualità degli asset da archiviare, raggruppati per raccoglitore.
 
@@ -301,13 +309,18 @@ Il task dovrebbe essere richiamabile con il comando:
 symfony wviola:archive-binders --application=frontend --env=prod
 }}}
 
-va interpretato in questo modo:
+=== Archiviazione file a bassa qualità ===
 
-  * sono stati presi in considerazione i GuardGroup `admin`, `asset_encoders` e `asset_viewers` (per ognuno vengono visualizzati i gruppi LDAP corrispondenti)
-  * per `mark` non ci sono state modifiche
-  * `matthew` e `andreas` sono stati tolti dal GuardGroup `asset_encoders`
-  * `eloise` è stata tolta dal GuardGroup `asset_viewers`
-  * `john` è stato inserito nel GuardGroup `asset_viewers`
-  * è stato aggiunto un nuovo utente, `sarah`, inserita nei GuardGroup `admin` e `asset_viewers`
-  * è stato reso "non più attivo" l'utente `paul`
-  
+Questo task:
+  * crea, seguendo un ordine cronologico, un'immagine ISO contenente le versioni a bassa  risoluzione degli asset (e le relative miniature)
+  * contrassegna gli asset considerati come "messi in sicurezza"
+
+Scopo del task è di fornire un modo per fare copie di backup degli asset codificati a bassa risoluzione. È possibile richiamare il task con il comando:
+
+{{{
+symfony wviola:backup-assets --application=frontend --env=prod
+}}}
+
+Se si desidera ottenere solo un elenco dei file di cui non è ancora stata fatta una copia su DVD-ROM, si può richiamare il task con l'opzione `--list-only=true` (i file di cui non è ancora stata fatta una copia di backup su DVD-ROM dovrebbero essere messi in sicurezza in altro modo, ad esempio tramite _rsync_).
+
+
