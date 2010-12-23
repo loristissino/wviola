@@ -15,6 +15,7 @@ abstract class BaseAssetFormFilter extends BaseFormFilterPropel
     $this->setWidgets(array(
       'uniqid'               => new sfWidgetFormFilterInput(array('with_empty' => false)),
       'binder_id'            => new sfWidgetFormPropelChoice(array('model' => 'Binder', 'add_empty' => true)),
+      'archive_id'           => new sfWidgetFormPropelChoice(array('model' => 'Archive', 'add_empty' => true)),
       'status'               => new sfWidgetFormFilterInput(),
       'asset_type'           => new sfWidgetFormFilterInput(),
       'notes'                => new sfWidgetFormFilterInput(),
@@ -37,6 +38,7 @@ abstract class BaseAssetFormFilter extends BaseFormFilterPropel
     $this->setValidators(array(
       'uniqid'               => new sfValidatorPass(array('required' => false)),
       'binder_id'            => new sfValidatorPropelChoice(array('required' => false, 'model' => 'Binder', 'column' => 'id')),
+      'archive_id'           => new sfValidatorPropelChoice(array('required' => false, 'model' => 'Archive', 'column' => 'id')),
       'status'               => new sfValidatorSchemaFilter('text', new sfValidatorInteger(array('required' => false))),
       'asset_type'           => new sfValidatorSchemaFilter('text', new sfValidatorInteger(array('required' => false))),
       'notes'                => new sfValidatorPass(array('required' => false)),
@@ -74,6 +76,7 @@ abstract class BaseAssetFormFilter extends BaseFormFilterPropel
       'id'                   => 'Number',
       'uniqid'               => 'Text',
       'binder_id'            => 'ForeignKey',
+      'archive_id'           => 'ForeignKey',
       'status'               => 'Number',
       'asset_type'           => 'Number',
       'notes'                => 'Text',

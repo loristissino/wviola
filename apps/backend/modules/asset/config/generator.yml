@@ -13,9 +13,13 @@ generator:
 
     config:
       actions: ~
-      fields:  ~
-      list:    ~
+      fields:
+      list:
+        fields:
+          archive_id: {label: Archived in}
       filter:  ~
-      form:    ~
+      form:
+        fields:
+          archive_id: {label: Archived in}
       edit:    ~
       new:     ~

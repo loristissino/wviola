@@ -681,6 +681,10 @@
         <source>Imported at</source>
         <target>Data importazione</target>
       </trans-unit>
+      <trans-unit id="167">
+        <source>Archived in</source>
+        <target>Archiviato in</target>
+      </trans-unit>
      </body>
   </file>
 </xliff>

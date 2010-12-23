@@ -11,5 +11,10 @@
 class AssetBackendForm extends BaseAssetForm
 {
   
+  public function configure()
+  {
+    $this->validatorSchema->setOption('allow_extra_fields', true);
+  }
+  
 }
 

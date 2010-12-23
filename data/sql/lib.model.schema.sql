@@ -33,6 +33,7 @@ CREATE TABLE "asset"
 	"id" serial  NOT NULL,
 	"uniqid" VARCHAR(50)  NOT NULL,
 	"binder_id" INTEGER,
+	"archive_id" INTEGER,
 	"status" INTEGER,
 	"asset_type" INTEGER,
 	"notes" TEXT,
@@ -192,6 +193,8 @@ CREATE TABLE "archive"
 (
 	"id" serial  NOT NULL,
 	"slug" VARCHAR(50),
+	"archive_type" INTEGER,
+	"position" INTEGER,
 	"created_at" TIMESTAMP,
 	"burned_at" TIMESTAMP,
 	"user_id" INTEGER,
@@ -301,6 +304,8 @@ CREATE INDEX "pb" ON "source" ("relative_path","basename");
 ALTER TABLE "sf_guard_user_profile" ADD CONSTRAINT "sf_guard_user_profile_FK_1" FOREIGN KEY ("user_id") REFERENCES "sf_guard_user" ("id") ON UPDATE CASCADE ON DELETE CASCADE;
 
 ALTER TABLE "asset" ADD CONSTRAINT "asset_FK_1" FOREIGN KEY ("binder_id") REFERENCES "binder" ("id");
+
+ALTER TABLE "asset" ADD CONSTRAINT "asset_FK_2" FOREIGN KEY ("archive_id") REFERENCES "archive" ("id");
 
 ALTER TABLE "video_asset" ADD CONSTRAINT "video_asset_FK_1" FOREIGN KEY ("asset_id") REFERENCES "asset" ("id") ON UPDATE CASCADE ON DELETE CASCADE;
 

@@ -1,4 +1,3 @@
-<?php Generic::logMessage('template', 'passato'); ?>
 <?php use_helper('I18N', 'Date') ?>
 <?php include_partial('asset/assets') ?>
 

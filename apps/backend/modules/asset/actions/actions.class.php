@@ -13,11 +13,20 @@ require_once dirname(__FILE__).'/../lib/assetGeneratorHelper.class.php';
  */
 class assetActions extends autoAssetActions
 {
-    public function executeEdit(sfWebRequest $request)
+  public function executeEdit(sfWebRequest $request)
   {
     $this->Asset = AssetPeer::retrieveByPK($request->getParameter('id'));//$this->getRoute()->getObject();
     $this->form = new AssetBackendForm($this->Asset);
-    Generic::logMessage('exeEdit', 'passato');
   }
 
+  public function executeUpdate(sfWebRequest $request)
+  {
+    $this->Asset = AssetPeer::retrieveByPK($request->getParameter('id'));//$this->getRoute()->getObject();
+    $this->form = new AssetBackendForm($this->Asset);
+
+    $this->processForm($request, $this->form);
+
+    $this->setTemplate('edit');
+  }
+  
 }

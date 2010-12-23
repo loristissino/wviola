@@ -101,6 +101,15 @@ class AssetPeer extends BaseAssetPeer {
     
     return $pager;
   }
+  
+  
+  public static function retrieveAssetsNotBackedUp()
+  {
+    $c=new Criteria();
+    $c->add(self::ARCHIVE_ID, null);
+    $c->add(self::STATUS, Asset::SCHEDULED, Criteria::GREATER_THAN);
+    return self::doSelect($c);
+  }
 
 } // AssetPeer
 
