@@ -385,6 +385,23 @@ mail:
   bot_address: wviola@example.com
   bot_name: WVIOLA bot
   sourceready_template: /var/wviola/templates/email/it/sourcesready.yml
+
+web:
+  frontend_url: http://www.example.com/frontend_dev.php
+  backend_url: http://www.example.com/backend_dev.php
+  
+search:
+  max_results: 20
+  # the maximum number of results for lucene query searches
+
+debug:
+  active: true
+  # if set to true, all external commands calls will be logged into log/wviolalog.txt
+  
+tasks:
+  list_delimiter: "\t"
+  # delimiter used in list-binders and list-assets task
+
 }}}
 
 *Attenzione*: è importante che vengano rigenerati gli script di pubblicazione degli asset ogni volta che vengono modificate le impostazioni di questo file.

@@ -323,4 +323,27 @@ symfony wviola:backup-assets --application=frontend --env=prod
 
 Se si desidera ottenere solo un elenco dei file di cui non è ancora stata fatta una copia su DVD-ROM, si può richiamare il task con l'opzione `--list-only=true` (i file di cui non è ancora stata fatta una copia di backup su DVD-ROM dovrebbero essere messi in sicurezza in altro modo, ad esempio tramite _rsync_).
 
+=== Lista dei documenti multimediali ===
+
+Questo task elenca in forma tabellare i dati degli asset, una riga per ogni asset, con i campi separati da un tabulatore (ma è possibile specificare un diverso delimitatore in _wviola.yml_).
+
+L'output di questo task è utilizzabile per elaborazioni personalizzate (ad esempio, predisposizione di statistiche) con altri strumenti.
+
+È possibile richiamare il task con il comando:
+
+{{{
+symfony wviola:list-assets --application=frontend --env=prod
+}}}
+
+=== Lista dei raccoglitori ===
+
+Questo task elenca in forma tabellare i dati relativi ai documenti multimediali, una riga per ognuno di essi, con i campi separati da un tabulatore (ma è possibile specificare un diverso delimitatore in _wviola.yml_).
+
+L'output di questo task è utilizzabile per elaborazioni personalizzate (ad esempio, predisposizione di statistiche) con altri strumenti.
+
+È possibile richiamare il task con il comando:
+
+{{{
+symfony wviola:list-assets --application=frontend --env=prod
+}}}
 
