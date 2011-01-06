@@ -603,5 +603,40 @@ CONTACT="$9"
   {
     return wvConfig::get('archiviation_contact', '');
   }
+  
+  public function updateData()
+  {
+    $changes=0;
+    if (!$this->getLowqualitySize())
+      try
+      {
+        $file=$this->getPublishedFile('low');
+        $this->setLowqualitySize($file->getSize());
+        unset($file);
+        $changes+=1;
+      }
+      catch (Exception $e)
+      {
+        // this shouldn't happen
+      }
+    if (!$this->getThumbnailSize())
+      try
+      {
+        $file=$this->getThumbnailFile('low');
+        $this->setThumbnailSize($file->getSize());
+        unset($file);
+        $changes+=1;
+      }
+      catch (Exception $e)
+      {
+        // this shouldn't happen
+      }
+      
+    if($changes>0)
+    {
+      $this->save();
+    }
+
+  }
 
 } // Asset

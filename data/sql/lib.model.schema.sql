@@ -44,6 +44,7 @@ CREATE TABLE "asset"
 	"highquality_md5sum" VARCHAR(32),
 	"highquality_size" INT8,
 	"lowquality_md5sum" VARCHAR(32),
+	"lowquality_size" INT8,
 	"has_thumbnail" BOOLEAN,
 	"thumbnail_width" INTEGER,
 	"thumbnail_height" INTEGER,
@@ -65,6 +66,8 @@ CREATE INDEX "asset_I_1" ON "asset" ("source_size");
 CREATE INDEX "asset_I_2" ON "asset" ("source_lmd5sum");
 
 CREATE INDEX "asset_I_3" ON "asset" ("highquality_size");
+
+CREATE INDEX "asset_I_4" ON "asset" ("lowquality_size");
 
 -----------------------------------------------------------------------------
 -- video_asset

@@ -24,6 +24,7 @@ propel:
     highquality_md5sum: varchar(32)
     highquality_size: { type: bigint, index: true }
     lowquality_md5sum: varchar(32)
+    lowquality_size: { type: bigint, index: true }
     has_thumbnail: boolean
     thumbnail_width: integer
     thumbnail_height: integer
