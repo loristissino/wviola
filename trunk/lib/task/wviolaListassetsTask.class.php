@@ -1,6 +1,6 @@
 <?php
 
-class wviolaListbindersTask extends sfBaseTask
+class wviolaListassetsTask extends sfBaseTask
 {
   protected function configure()
   {
@@ -19,14 +19,14 @@ class wviolaListbindersTask extends sfBaseTask
     ));
 
     $this->namespace        = 'wviola';
-    $this->name             = 'list-binders';
-    $this->briefDescription = 'List binders';
+    $this->name             = 'list-assets';
+    $this->briefDescription = 'List assets';
     $this->detailedDescription = <<<EOF
-The [wviola:list-binders|INFO] task lists all open binders. It may be useful to check if codes match some rules defined elsewhere (with some external program).
+The [wviola:list-assets|INFO] task lists all assets.
 
 Call it with:
 
-  [php symfony wviola:list-binders|INFO]
+  [php symfony wviola:list-assets|INFO]
 
 EOF;
 
@@ -61,37 +61,44 @@ EOF;
     $this->_logEvent=$taskLogEvent->getId();
 	}
 
-  $Binders=BinderPeer::retrieveOpen();
+  $Assets=AssetPeer::doSelect(new Criteria());
   
-  if (sizeof($Binders)>0)
+  if (sizeof($Assets)>0)
   {    
     $d=stripcslashes(wvConfig::get('tasks_list_delimiter', "\n"));
     
     echo implode($d, array(
-      'user',
-      'title',
-      'code',
-      'event_date',
+      'id',
+      'binder_id',
+      'status',
+      'asset_type',
+      'source_size',
+      'highquality_size',
+      'lowquality_size',
       'created_at',
-      'updated_at',
-      'assets_count'
+      'updated_at'
       )) . "\n";
-    foreach($Binders as $Binder)
-    {      
+    foreach($Assets as $Asset)
+    { 
+      $Asset->updateData();
+      // this is here only because we needed to update data from filesize
+      
       echo implode($d, array(
-        $Binder->getSfGuardUserProfile()->getUsername(),
-        $Binder->getTitle(),
-        $Binder->getCode(),
-        $Binder->getEventDate('Y/m/d'),
-        $Binder->getCreatedAt('U'),
-        $Binder->getUpdatedAt('U'),
-        $Binder->countAssets()
+        $Asset->getId(),
+        $Asset->getBinderId(),
+        $Asset->getStatus(),
+        $Asset->getAssetType(),
+        $Asset->getSourceSize(),
+        $Asset->getHighQualitySize(),
+        $Asset->getLowQualitySize(),
+        $Asset->getCreatedAt('U'),
+        $Asset->getUpdatedAt('U'),
         )) . "\n";
     }
   }
   else
   {
-    $this->logSection('info', 'No open binders.', null, 'COMMENT');
+    $this->logSection('info', 'No assets.', null, 'COMMENT');
   }
   
   unset($Binders);
