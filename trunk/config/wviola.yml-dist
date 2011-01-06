@@ -173,4 +173,5 @@ debug:
   active: false
   # if set to true, all external commands calls will be logged into log/wviolalog.txt
   
-
+tasks:
+  list_delimiter: ":"
