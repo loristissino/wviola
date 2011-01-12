@@ -89,6 +89,7 @@ EOF;
         setTaskException($taskLogEvent->getTaskException() . "\n" . $e->getMessage())->
         save();
       }
+      $check=false;
       // return 1;
     }
     $this->logSection('file+', wvConfig::get('directory_published_assets') . '/' . $Asset->getUniqId(), null, 'INFO');

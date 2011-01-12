@@ -87,6 +87,7 @@ EOF;
           setTaskException($taskLogEvent->getTaskException() . "\n" . $e->getMessage())->
           save();
         }
+        $check=false;
         //return 1;
       }
       
