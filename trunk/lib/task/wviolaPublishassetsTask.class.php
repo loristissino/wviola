@@ -84,10 +84,10 @@ EOF;
         if ($taskLogEvent)
         {
           $taskLogEvent->
-          setTaskException($e->getMessage())->
+          setTaskException($taskLogEvent->getTaskException() . "\n" . $e->getMessage())->
           save();
         }
-        return 1;
+        //return 1;
       }
       
       if($check)

@@ -86,10 +86,10 @@ EOF;
       if ($taskLogEvent)
       {
         $taskLogEvent->
-        setTaskException($e->getMessage())->
+        setTaskException($taskLogEvent->getTaskException() . "\n" . $e->getMessage())->
         save();
       }
-      return 1;
+      // return 1;
     }
     $this->logSection('file+', wvConfig::get('directory_published_assets') . '/' . $Asset->getUniqId(), null, 'INFO');
     $this->logSection('file+', wvConfig::get('directory_iso_cache') . '/' . $Asset->getUniqId(), null, 'INFO');
