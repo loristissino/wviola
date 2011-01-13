@@ -409,6 +409,10 @@ CONTACT="$9"
       {
         case 'video':
           $videoAsset = $this->getVideoAsset();
+          if (!$videoAsset)
+          {
+            break;
+          }
           $videoAsset
           ->setAssetId($this->getId())
           ->gatherInfo()
@@ -417,6 +421,10 @@ CONTACT="$9"
           break;
         case 'photoalbum':
           $photoalbumAsset = $this->getPhotoalbumAsset();
+          if (!$photoalbumAsset)
+          {
+            break;
+          }
           $photoalbumAsset
           ->setAssetId($this->getId())
           ->gatherInfo()
@@ -425,6 +433,10 @@ CONTACT="$9"
           break;
         case 'picture':
           $pictureAsset = $this->getPictureAsset();
+          if (!$pictureAsset)
+          {
+            break;
+          }
           $pictureAsset
           ->setAssetId($this->getId())
           ->save();
@@ -432,6 +444,10 @@ CONTACT="$9"
           break;
         case 'audio':
           $audioAsset = $this->getAudioAsset();
+          if (!$audioAsset)
+          {
+            break;
+          }
           $audioAsset
           ->setAssetId($this->getId())
           ->save();
