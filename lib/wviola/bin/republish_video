@@ -28,7 +28,7 @@ CONTACT="$9"
 # these items come from the documentation of ffmpeg2theora
 
 IFS=$'\n'
-ffmpeg -y -i "/var/wviola/data/filesystem/trash/$UNIQID" -ar 22050 -ab 32000 -f flv -s 320x240 "/var/wviola/data/filesystem/published/assets/$UNIQID.flv" -y || exit 2
+ffmpeg -y -i "/var/wviola/data/filesystem/trash/$UNIQID" -ar 22050 -ab 32000 -f flv -s 320x240 "/tmp/littledir/$UNIQID.flv" -y || exit 2
 ffmpeg2theora --videoquality 8 -o "/var/wviola/data/filesystem/iso_images/cache/$UNIQID.ogv" "/var/wviola/data/filesystem/trash/$UNIQID" || exit 3
 
 echo 'PUBLISHED'
