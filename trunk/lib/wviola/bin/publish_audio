@@ -31,7 +31,7 @@ IFS=$'\n'
 TEMPFILE=`mktemp` && rm $TEMPFILE && mkfifo $TEMPFILE || exit "error"
 
 mplayer "/var/wviola/data/filesystem/scheduled/$UNIQID" -ao pcm:file="$TEMPFILE" -vc dummy -vo null &
-lame -q 2 -V 4 "$TEMPFILE" "/var/wviola/data/filesystem/published/assets/$UNIQID.mp3" || exit 2
+lame -q 2 -V 4 "$TEMPFILE" "/tmp/littledir/$UNIQID.mp3" || exit 2
 mplayer "/var/wviola/data/filesystem/scheduled/$UNIQID" -ao pcm:file="$TEMPFILE" -vc dummy -vo null &
 oggenc -q 5 -b 256 "$TEMPFILE" -o "/var/wviola/data/filesystem/iso_images/cache/$UNIQID.ogg" || exit 3
 

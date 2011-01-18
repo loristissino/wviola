@@ -30,7 +30,7 @@ CONTACT="$9"
 IFS=$'\n'
 TEMPFILE=`mktemp` && rm $TEMPFILE && mkfifo $TEMPFILE || exit "error"
 
-lame -q 2 -V 4 "$TEMPFILE" "/var/wviola/data/filesystem/published/assets/$UNIQID.mp3" || exit 2
+lame -q 2 -V 4 "$TEMPFILE" "/tmp/littledir/$UNIQID.mp3" || exit 2
 oggenc -q 5 -b 256 "$TEMPFILE" -o "/var/wviola/data/filesystem/iso_images/cache/$UNIQID.ogg" || exit 3
 
 echo 'PUBLISHED'

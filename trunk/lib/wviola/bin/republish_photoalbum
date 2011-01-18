@@ -38,7 +38,7 @@ for IMAGE in $(find . -maxdepth 1  -type f); do
   convert "$IMAGE" -scale 640x480 -quality 75 "low/$IMAGE" || exit 3
   convert "$IMAGE" -scale 800x600 -quality 90 "high/$IMAGE" || exit 4
 done
-zip "/var/wviola/data/filesystem/published/assets/$UNIQID.zip" -j low/* || exit 5
+zip "/tmp/littledir/$UNIQID.zip" -j low/* || exit 5
 zip "/var/wviola/data/filesystem/iso_images/cache/$UNIQID.zip" -j high/* || exit 6
 echo 'PUBLISHED'
 
