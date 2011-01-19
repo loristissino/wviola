@@ -16,7 +16,16 @@ generator:
       fields:  ~
       list:    
         display:           [Asset, sfGuardUserProfile, Created_at]
+        sort:   [created_at, desc] 
       filter:  ~
       form:    ~
       edit:    ~
       new:     ~
+
+# One other thing to remember is that the sort order is stored within 
+# the session once you visit the list page. So if you are changing the 
+# sort order and refresh the page you will find that nothing happens. 
+# Clearing the Symfony cache won't help and you must either delete the 
+# Symfony cookie or reload the browser to see any new sort option changes 
+# that you make.
+# http://www.flameweb.net/setting_sort_in_symfony
