@@ -56,7 +56,7 @@ class filebrowserActions extends sfActions
 			$current='';
 		}
 		
-		$this->_changeDirectory($current. '/' . $request->getParameter('name'));
+		$this->_changeDirectory($current. '/' . Generic::standardizePath($request->getParameter('name')));
 		
   }
 
@@ -70,7 +70,10 @@ class filebrowserActions extends sfActions
     
 		try
     {
-      $this->sourcefile= new SourceFile($this->folder, $this->filename);
+      $this->sourcefile= new SourceFile(
+        Generic::standardizePath($this->folder), 
+        Generic::standardizePath($this->filename)
+        );
     }
     catch (Exception $e)
     {

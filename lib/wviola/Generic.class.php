@@ -340,6 +340,14 @@ class Generic{
     return $source;
   }
   
+  static public function standardizePath($path)
+  {
+    return self::str_replace_from_array(array(
+      '&#039;'=>"'",
+      ),
+      $path);
+  }
+  
   static public function getLuceneIndex($name)
   {
     ProjectConfiguration::registerZend();
