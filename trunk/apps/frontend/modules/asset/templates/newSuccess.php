@@ -1,4 +1,4 @@
-<?php include_partial('welcome/title', array('title'=>__('Archive asset «%filename%»', array('%filename%'=>$sourcefile->getBaseName())))) ?>
+<?php include_partial('welcome/title', array('title'=>__('Archive asset «%filename%»', array('%filename%'=>Generic::standardizePath($sourcefile->getBaseName()))))) ?>
 
 <h2><?php echo __('Basic information') ?></h2>
 

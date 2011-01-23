@@ -2,8 +2,8 @@
   $image_tag=image_tag(url_for(
 		sprintf(
 			'filebrowser/thumbnail?path=%s&basename=%s&number=%d.jpeg',
-			Generic::b64_serialize($file->getRelativePath()),
-			Generic::b64_serialize($file->getBasename()),
+			Generic::b64_serialize(Generic::standardizePath($file->getRelativePath())),
+			Generic::b64_serialize(Generic::standardizePath($file->getBasename())),
 			$number)
 		)
 		,
