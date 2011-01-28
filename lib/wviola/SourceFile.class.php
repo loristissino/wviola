@@ -18,6 +18,11 @@ class SourceFile extends BasicFile
 
 	public function __construct($relativePath, $basename)
 	{
+    
+    if(strpos($basename, '"')>0)
+    {
+      throw new BadNameException(sprintf('Filename "%s/%s" invalid.', $relativePath, $basename));
+    }
 		$this->_basicPath=wvConfig::get('directory_sources');
 		parent::__construct($this->getBasicPath() . $relativePath, $basename);
 		$this->setRelativePath($relativePath);

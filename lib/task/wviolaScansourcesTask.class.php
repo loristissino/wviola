@@ -67,7 +67,15 @@ EOF;
 	{
 		$this->log('');
 
-		$file=new SourceFile($subdir, $basename);
+    try
+    {
+      $file=new SourceFile($subdir, $basename);
+    }
+    catch (BadNameException $e)
+    {
+      $this->logSection('file', $e->getMessage(), null, 'ERROR');
+      return;
+    }
 		
 		$this->logSection('source', 'Opening candidate source file...', null, 'COMMENT');
 		
@@ -202,7 +210,7 @@ EOF;
 				{
 					continue;
 				}
-				
+        
 				$newsubdir=Generic::getCompletePath($subdir, $basename);
 				$totalpath=Generic::getCompletePath($this->_sourcesDirectory, $newsubdir);
 				
