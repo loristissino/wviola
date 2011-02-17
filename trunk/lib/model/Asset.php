@@ -230,6 +230,10 @@ class Asset extends BaseAsset {
         $this->setHasThumbnail(false);
       }
     }
+    else
+    {
+      $this->setHasThumbnail(false);
+    }
 
     if ($uniqid)
     {
@@ -535,9 +539,12 @@ CONTACT="$9"
       $filesize=$file->getSize();
       unset($file);
       
-      $file=$this->getThumbnailFile();
-      $filesize+=$file->getSize();
-      unset($file);
+      if($this->getHasThumbnailFile())
+      {
+        $file=$this->getThumbnailFile();
+        $filesize+=$file->getSize();
+        unset($file);
+      }
       
       return $filesize;
       
