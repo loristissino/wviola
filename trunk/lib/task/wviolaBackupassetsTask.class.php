@@ -126,6 +126,27 @@ EOF;
 		// we update the record
 	}
   
+  if ($jobdone)
+  {
+    if($username=wvConfig::get('archiviation_notice_to'))
+    {
+      echo "\n";
+      $user=sfGuardUserProfilePeer::getByUsername($username);
+      if ($user)
+      {
+        $profile = $user->getProfile();
+        if ($profile->sendArchiveReadyNotice($this->getMailer(), $Archive))
+        {
+          $this->logSection('mail', 'Email notice sent', null, 'COMMENT');
+          $this->logSection('mail@', $profile->getEmail(), null, 'INFO');
+        }
+        
+      }
+    }
+    
+  }
+
+  
 	return 0;
 	
   }
