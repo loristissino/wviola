@@ -248,14 +248,16 @@ class Archive extends BaseArchive {
           $file=$Asset->getPublishedFile('low');
           $this->addFile($file->getFullPath(), 'assets', false);
           unset($file);
-          $file=$Asset->getThumbnailFile();
-          $this->addFile($file->getFullPath(), 'thumbnails', false);
-          unset($file);
+          if ($Asset->getHasThumbnailFile())
+          {
+            $file=$Asset->getThumbnailFile();
+            $this->addFile($file->getFullPath(), 'thumbnails', false);
+            unset($file);
+          }
         };
         break;
         
     }
-    
     
     
     $conn=Propel::getConnection(ArchivePeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
