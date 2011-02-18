@@ -408,6 +408,25 @@ class Archive extends BaseArchive {
     }
     
   }
+  
+  public function sendArchiveReadyNotice(sfBaseTask $task, sfMailer $mailer)
+  {
+    if($username=wvConfig::get('archiviation_notice_to'))
+    {
+      echo "\n";
+      $user=sfGuardUserProfilePeer::getByUsername($username);
+      if ($user)
+      {
+        $profile = $user->getProfile();
+        if ($profile->sendArchiveReadyNotice($mailer, $this))
+        {
+          $task->logSection('mail', 'Email notice sent', null, 'COMMENT');
+          $task->logSection('mail@', $profile->getEmail(), null, 'INFO');
+        }
+        
+      }
+    }
+  }
 
 
 } // Archive
