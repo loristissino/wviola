@@ -1,2 +1,7 @@
-For some weird reason, Loader.php and Exception.php are not retrieved
-with svn.
+# It is not possible to retrieve single files via svn when they come from a repository
+# which differs from the main one.
+# You'll need to download the following files directly:
+
+wget http://framework.zend.com/svn/framework/standard/trunk/library/Zend/Loader.php
+wget http://framework.zend.com/svn/framework/standard/trunk/library/Zend/Exception.php
+
