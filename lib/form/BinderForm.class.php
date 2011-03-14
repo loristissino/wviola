@@ -55,9 +55,16 @@ class BinderForm extends BaseBinderForm
       'max_length'=>255,
     ));
 
-    $this->validatorSchema['code'] = new sfValidatorBinderCode(array(
-      'required' => true,
-    ));
+    $this->validatorSchema['code'] = new sfValidatorAnd(
+      array(
+        new sfValidatorBinderCode(array(
+          'required' => true,
+          )),
+        new sfValidatorString(array(
+          'max_length'=>25,
+          ))
+        )
+      );
 
     $this->validatorSchema['category_id'] = new sfValidatorPropelChoice(array('model' => 'Category', 'column' => 'id', 'required' => true));
     
