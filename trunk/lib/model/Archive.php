@@ -75,13 +75,13 @@ class Archive extends BaseArchive {
 
   public function hasPlaceForBinder(Binder $Binder)
   {
-    Generic::logMessage('binder ' . $Binder->getId(), 'evaluating place. Size: ' . $Binder->getTotalSize());
+    Generic::logMessage('binder ' . $Binder->getId(), 'evaluating place. Binder size: ' . $Binder->getTotalSize());
     return $Binder->getTotalSize() + $this->getCurrentSize() <= $this->getMaxSize();
   }
 
   public function hasPlaceForAsset(Asset $Asset)
   {
-    Generic::logMessage('asset ' . $Asset->getId(), 'evaluating place. Size: ' . $Asset->getTotalSize());
+    Generic::logMessage('asset ' . $Asset->getId(), 'evaluating place. Asset size: ' . $Asset->getTotalSize());
     return $Asset->getTotalSize() + $this->getCurrentSize() <= $this->getMaxSize();
   }
 
@@ -93,7 +93,6 @@ class Archive extends BaseArchive {
     {
       $this->_items[$Binder->getId()][$Asset->getId()] = $Asset->getHighQualitySize();
       $this->incCurrentSize($Asset->getHighQualitySize());
-      Generic::logMessage('asset ' . $Asset->getId(), 'added asset');
     }
   }
   
@@ -101,11 +100,9 @@ class Archive extends BaseArchive {
   {
     $this->_items[$Asset->getId()][0] = $Asset->getTotalSize();
     $this->incCurrentSize($Asset->getTotalSize());
-    Generic::logMessage('asset ' . $Asset->getId(), 'added asset');
+    Generic::logMessage('asset ' . $Asset->getId(), 'added asset. Current Archive size: '. $this->getCurrentSize());
   }
 
-
-  
   public function addFile($filepath, $folder='', $remove=true)
   {
     $this->_isopaths[]=sprintf('%s/=%s', $folder, $filepath);
@@ -115,6 +112,7 @@ class Archive extends BaseArchive {
     }
     return $this;
   }
+  
   public function getIsopaths()
   {
     return $this->_isopaths;
@@ -176,8 +174,8 @@ class Archive extends BaseArchive {
     {
       if ($this->hasPlaceForBinder($Binder))
       {
-        Generic::logMessage('binder ' . $Binder->getId(), 'added. Current size: ' . $this->getCurrentSize());
         $this->addBinder($Binder);
+        Generic::logMessage('binder ' . $Binder->getId(), 'added. Current size: ' . $this->getCurrentSize());
       }
       else
       {
