@@ -15,7 +15,8 @@ class wviolaArchivebindersTask extends sfBaseTask
       new sfCommandOption('connection', null, sfCommandOption::PARAMETER_REQUIRED, 'The connection name', 'propel'),
       // add your own options here
 	
-	  new sfCommandOption('logged', null, sfCommandOption::PARAMETER_OPTIONAL, 'whether the execution will be logged in the DB', 'true'),
+      new sfCommandOption('logged', null, sfCommandOption::PARAMETER_OPTIONAL, 'whether the execution will be logged in the DB', 'true'),
+      new sfCommandOption('dry-run', null, sfCommandOption::PARAMETER_NONE, 'whether the DB and the files will be left unchanged'),
     ));
 
     $this->namespace        = 'wviola';
@@ -48,8 +49,11 @@ EOF;
 
 	$this->_isLogged=Generic::normalizedBooleanValue($options['logged'], true);
 	$options['logged']=Generic::normalizedBooleanDescription($this->_isLogged);
-  	
-	$this->_cacheDirectory=wvConfig::get('directory_iso_cache');
+  
+  $this->_dryRun=Generic::normalizedBooleanValue($options['dry-run'], false);
+	$options['dry-run']=Generic::normalizedBooleanDescription($this->_dryRun);
+
+  $this->_cacheDirectory=wvConfig::get('directory_iso_cache');
 	$this->_imagesDirectory=wvConfig::get('directory_iso_images');
   
 	$this->_binderMaxAge=wvConfig::get('archiviation_binder_max_age');
@@ -68,34 +72,35 @@ EOF;
 	}
 
   echo "\n";
-  $this->logSection('binders', 'Closing aged out binders...', null, 'COMMENT');
-
-  $Binders=BinderPeer::retrieveOpen();
   
-  if (sizeof($Binders)>0)
+  if(!$this->_dryRun)
   {
-    foreach($Binders as $Binder)
+    $this->logSection('binders', 'Closing aged out binders...', null, 'COMMENT');
+    $Binders=BinderPeer::retrieveOpen();
+  
+    if (sizeof($Binders)>0)
     {
-      if ($Binder->closeIfAgedOut($this->_binderMaxAge))
+      foreach($Binders as $Binder)
       {
-        $this->logSection('binder', $Binder->getId() .' closed', null, 'INFO');
-      }
-      else
-      {
-        $this->logSection('binder', $Binder->getId() .' kept open', null, 'COMMENT');
+        if ($Binder->closeIfAgedOut($this->_binderMaxAge))
+        {
+          $this->logSection('binder', $Binder->getId() .' closed', null, 'INFO');
+        }
+        else
+        {
+          $this->logSection('binder', $Binder->getId() .' kept open', null, 'COMMENT');
+        }
       }
     }
+    else
+    {
+      $this->logSection('info', 'No open binders.', null, 'COMMENT');
+    }
+    unset($Binders);
   }
-  else
-  {
-    $this->logSection('info', 'No open binders.', null, 'COMMENT');
-  }
-  
-  unset($Binders);
 
   echo "\n";
   $this->logSection('binders', 'Finding archivable binders...', null, 'COMMENT');
-
 
   $Archive = new Archive();
   $jobdone = false;
@@ -106,13 +111,16 @@ EOF;
 
   if ($Archive->getIsFull())
   {
-    if ($Archive->prepareISOImage())
+    if ($Archive->prepareISOImage($this->_dryRun))
     {
       $this->logSection('file+', $Archive->getIsoImageFullPath(), null, 'INFO');
-      $Archive->removeFiles();
-      foreach($Archive->getFiles() as $file)
+      if(!$this->_dryRun)
       {
-        $this->logSection('file-', $file, null, 'INFO');
+        $Archive->removeFiles();
+        foreach($Archive->getFiles() as $file)
+        {
+          $this->logSection('file-', $file, null, 'INFO');
+        }
       }
       $jobdone=true;
     }

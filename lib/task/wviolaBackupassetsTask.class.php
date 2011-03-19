@@ -73,13 +73,16 @@ EOF;
     
     $this->_logEvent=$taskLogEvent->getId();
 	}
-  
+
+  $jobdone = false;
+
   $Assets=AssetPeer::retrieveAssetsNotBackedUp();
   
   if($this->_listOnly)
   {
     foreach($Assets as $Asset)
     {
+      echo $Asset->getId() . "\n";
       echo Generic::getCompletePath(
         $this->_publishedAssetsDirectory,
         $Asset->getLowQualityFilename()
@@ -95,7 +98,6 @@ EOF;
   else
   {
     $Archive = new Archive(ArchivePeer::LOW_QUALITY_ARCHIVE);
-    $jobdone = false;
     
     $Archive->addAssets($Assets);
 

@@ -208,7 +208,7 @@ class Archive extends BaseArchive {
   
   
   
-  public function prepareISOImage()
+  public function prepareISOImage($dryrun=false)
   {
     if (!$this->getItems())
     {
@@ -271,38 +271,42 @@ class Archive extends BaseArchive {
       Generic::executeCommand($command);
       
       $isofile = new BasicFile($this->getIsoImageFullPath());
-      $this->setMD5Sum($isofile->getMD5Sum());
       
-      $this->save($conn);
-
-      switch($this->getArchiveType())
+      if(!$dryrun)
       {
-        case ArchivePeer::HIGH_QUALITY_ARCHIVE:
-          foreach($Binders as $Binder)
-          {
-            $Binder
-            ->setArchiveId($this->getId())
-            ->save($conn)
-            ;
-            foreach($Binder->getArchivableAssets() as $Asset)
+        $this->setMD5Sum($isofile->getMD5Sum());
+        $this->save($conn);
+
+        switch($this->getArchiveType())
+        {
+          case ArchivePeer::HIGH_QUALITY_ARCHIVE:
+            foreach($Binders as $Binder)
+            {
+              $Binder
+              ->setArchiveId($this->getId())
+              ->save($conn)
+              ;
+              foreach($Binder->getArchivableAssets() as $Asset)
+              {
+                $Asset
+                ->setStatus(ASSET::ISO_IMAGE)
+                ->save($conn)
+                ;
+              }
+            }
+            break;
+          case ArchivePeer::LOW_QUALITY_ARCHIVE:
+            foreach($Assets as $Asset)
             {
               $Asset
-              ->setStatus(ASSET::ISO_IMAGE)
+              ->setArchiveId($this->getId())
               ->save($conn)
               ;
             }
-          }
           break;
-        case ArchivePeer::LOW_QUALITY_ARCHIVE:
-          foreach($Assets as $Asset)
-          {
-            $Asset
-            ->setArchiveId($this->getId())
-            ->save($conn)
-            ;
-          }
-        break;
+        }
       }
+
       $conn->commit();
 
     }
