@@ -31,6 +31,12 @@ task_log_event:
     column:               id
     with_wildcard_routes: true
 
+changethumbnail:
+  url:   /asset/changethumbnail/id/:id
+  param:
+    module:  asset
+    action:  changethumbnail
+
 asset:
   class: sfPropelRouteCollection
   options:

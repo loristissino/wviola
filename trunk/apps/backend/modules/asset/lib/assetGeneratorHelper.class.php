@@ -10,4 +10,14 @@
  */
 class assetGeneratorHelper extends BaseAssetGeneratorHelper
 {
+  public function linkToChangeThumbnail($object, $params)
+  {
+    /*
+    return '<li class="sf_admin_action_changethumbnail">'.link_to(__($params['changethumbnail'], array(), 'sf_admin'), $this->getUrlForAction('edit'), $object).'</li>';
+    */
+    
+    return '<li class="sf_admin_action_changethumbnail">'.link_to(__('Change thumbnail'), 'asset/changethumbnail?id=' . $object->getId()).'</li>';
+    
+  }
+  
 }

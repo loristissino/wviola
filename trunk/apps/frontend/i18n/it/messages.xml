@@ -685,6 +685,47 @@
         <source>Archived in</source>
         <target>Archiviato in</target>
       </trans-unit>
+      <trans-unit id="168">
+        <source>Change thumbnail</source>
+        <target>Cambia miniatura</target>
+      </trans-unit>
+      <trans-unit id="169">
+        <source>Current thumbnail</source>
+        <target>Miniatura corrente</target>
+      </trans-unit>
+      <trans-unit id="170">
+        <source>Width and height</source>
+        <target>Larghezza e altezza</target>
+      </trans-unit>
+      <trans-unit id="171">
+        <source>Thumbnail position</source>
+        <target>Posizione miniatura</target>
+      </trans-unit>
+      <trans-unit id="172">
+        <source>Thumbnail for asset %asset_id%</source>
+        <target>Miniatura per il documento %asset_id%</target>
+      </trans-unit>
+      <trans-unit id="173">
+        <source>Upload</source>
+        <target>Carica</target>
+      </trans-unit>
+      <trans-unit id="174">
+        <source>Thumbnail updated.</source>
+        <target>Miniatura caricata.</target>
+      </trans-unit>
+      <trans-unit id="175">
+        <source>Thumbnail updated.</source>
+        <target>Miniatura caricata.</target>
+      </trans-unit>
+      <trans-unit id="176">
+        <source>Thumbnail not updated.</source>
+        <target>Miniatura non caricata.</target>
+      </trans-unit>
+      <trans-unit id="177">
+        <source>See logs for details.</source>
+        <target>Vedi i log per i dettagli.</target>
+      </trans-unit>
      </body>
   </file>
 </xliff>
+
