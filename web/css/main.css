@@ -105,3 +105,8 @@ color: blue;
 {
   background: url(../images/below.png) no-repeat 0 0;
 }
+
+#sf_admin_container ul li.sf_admin_action_changethumbnail a
+{
+  background: url(../images/thumbnail.png) no-repeat 0 0;
+}

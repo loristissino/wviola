@@ -17,7 +17,6 @@ class accesslogActions extends autoAccesslogActions
   {
     $this->forward404Unless($Asset=AssetPeer::retrieveByPK($request->getParameter('id')));
     $this->setFilters(array('asset_id'=>$Asset->getId()));
-    Generic::logMessage('assetfilter', 'set: ' . $Asset->getId());
     $this->redirect('@access_log_event');
   }
 

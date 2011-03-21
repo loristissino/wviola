@@ -664,5 +664,46 @@ CONTACT="$9"
     }
 
   }
+  
+  public function getThumbnailFilepath()
+  {
+    return sprintf('%s/%s.jpeg',
+      wvConfig::get('directory_published_thumbnails'),
+      $this->getUniqId()
+      );
+  }
+  
+  public function changeThumbnail(sfValidatedFile $thumbnail, $position)
+  {
+    $file=new UploadedThumbnailFile($thumbnail);
+    if ($file->getMimeType()=='image/jpeg' and $file->getWidth())
+    {
+      if(rename(
+        $thumbnail->getTempName(),
+        $this->getThumbnailFilepath()
+        ))
+      {
+        $this
+        ->setThumbnailWidth($file->getWidth())
+        ->setThumbnailHeight($file->getHeight())
+        ->setThumbnailSize($file->getStat('size'))
+        ->setThumbnailPosition($position)
+        ->setHasThumbnail(true)
+        ->save()
+        ;
+        return true;
+      }
+      else
+      {
+        Generic::logMessage('thumbnail', 'could not rename file to ' . $this->getThumbnailFilepath());
+        return false;
+      }
+    }
+    else
+    {
+      Generic::logMessage('thumbnail', 'not a jpeg file: ' . $thumbnail->getOriginalName());
+      return false;
+    }
+  }
 
 } // Asset

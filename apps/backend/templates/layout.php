@@ -17,6 +17,13 @@
   <body>
     <div id="header"><?php echo sfConfig::get('app_config_organization') ?></div>
     <div id="sf_admin_container">
+    <?php if ($sf_user->hasFlash('notice')): ?>
+      <div class="notice"><?php echo $sf_user->getFlash('notice')?></div>
+    <?php endif; ?>
+    <?php if ($sf_user->hasFlash('error')): ?>
+      <div class="error"><?php echo $sf_user->getFlash('error')?></div>
+    <?php endif; ?>
+
     <?php echo $sf_content ?>
     </div>
 	<hr />

@@ -28,5 +28,32 @@ class assetActions extends autoAssetActions
 
     $this->setTemplate('edit');
   }
-  
+
+  public function executeChangethumbnail(sfWebRequest $request)
+  {
+    $this->Asset = AssetPeer::retrieveByPK($request->getParameter('id'));//$this->getRoute()->getObject();
+    $this->form = new AssetThumbnailForm($this->Asset);
+    
+    if ($request->isMethod('post'))
+    {
+      $this->form->bind($request->getParameter($this->form->getName()), $request->getFiles($this->form->getName()));
+      if ($this->form->isValid())
+      {
+        $thumbnail=$this->form->getValue('thumbnail');
+        
+        if($this->Asset->changeThumbnail($thumbnail, $this->form->getValue('thumbnail_position')))
+        {
+          $this->getUser()->setFlash('notice', $this->getContext()->getI18N()->__('Thumbnail updated.'));
+        }
+        else
+        {
+          $this->getUser()->setFlash('error', $this->getContext()->getI18N()->__('Thumbnail not updated.'). ' ' . $this->getContext()->getI18N()->__('See logs for details.'));
+        }
+        $this->redirect('@changethumbnail?id=' . $this->Asset->getId());
+      }
+    }
+    
+  }
+
+
 }

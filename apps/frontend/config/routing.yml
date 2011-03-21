@@ -20,7 +20,6 @@ binder_show:
     module:  binder
     action:  show
 
-
 showpicture:
   url: /asset/showpicture/album/:album/number/:number.:sf_format 
   param: { module: asset, action: showpicture }
