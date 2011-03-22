@@ -577,6 +577,28 @@ class SourceFile extends BasicFile
     
       return $uniqid;
   }
+  
+  public function getIsBeingCopied()
+  {
+    // we need to check if the file is being copied right now.
+    // we'll check the size after few seconds
+    $waittime=wvConfig::get('filebrowser_file_being_copied_check_waittime', 10);
+    $showinfo=wvConfig::get('filebrowser_file_being_copied_check_showinfo', false);
+    $originalsize=$this->getStat('size');
+    if($showinfo)
+    {
+      echo 't0 size: ' . $originalsize . "\n";
+      echo sprintf('Waiting %d second(s) before checking size again... ', $waittime) . "\n";
+    }
+    sleep($waittime);
+    $this->retrieveStat();
+    $currentsize=$this->getStat('size');
+    if($showinfo)
+    {
+      echo 't' . $waittime . ' size: ' . $currentsize . "\n";
+    }
+    return $originalsize!=$currentsize;
+  }
 	
 }
 

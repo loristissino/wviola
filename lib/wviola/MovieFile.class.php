@@ -9,15 +9,27 @@ class MovieFile extends BasicFile
 	{
 		$cropW=round($cropW);
 		$cropH=round($cropH);
+    
+    $makethumbnailcommand=wvConfig::get('filebrowser_makethumbnail_command', false);
+    if(!$makethumbnailcommand)
+    {
+      $makethumbnailcommand='makethumbnail';
+      $wviola_provided=true;
+    }
+    else
+    {
+      $wviola_provided=false;
+    }
 		
-		$command=sprintf('makethumbnail "%s" %f %s %s %s',
+		$command=sprintf('%s "%s" %f %s %s %s',
+        $makethumbnailcommand,
 				$this->getFullPath(),
 				$position,
 				$cropW . ':' . $cropH,
 				$thumbnailWidth . ':' . $thumbnailHeight,
 				$format
 				);
-		$result=$this->executeCommand($command, true);
+		$result=$this->executeCommand($command, $wviola_provided);
 		
 		list($key, $value)=explode('=', $result);
 		
