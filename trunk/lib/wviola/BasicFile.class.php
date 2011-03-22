@@ -64,7 +64,7 @@ class BasicFile
     foreach($list as $ext)
     {
       $this->setBasename($orig . $ext);
-      if ($this->_stat = @stat($this->getFullPath()))
+      if ($this->retrieveStat())
       {
         $found=true;
         break;
@@ -77,14 +77,20 @@ class BasicFile
 			throw new Exception(sprintf('Not a valid file: %s* (tried %s{%s})', $orig, $this->getFullPath(), implode(',', $tries)));
 		}
 		
-		if ($this->getStat('size')<0)
+	}
+  
+  public function retrieveStat()
+  {
+    $this->_stat = @stat($this->getFullPath());
+    if ($this->getStat('size')<0)
 		{
 			/* for big files, stat gets wrong results... */
 			$command='stat --dereference --format "%s" "' . $this->getFullPath() . '"';
 			$this->_stat['size']=(float) $this->executeCommand($command); 
 		}
-		
-	}
+
+    return $this->_stat;
+  }
 	
   /**
    * Get the [path] value.

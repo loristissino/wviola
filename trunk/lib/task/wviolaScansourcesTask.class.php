@@ -88,6 +88,12 @@ EOF;
 			return;
 		}
 		
+		if ($file->getIsBeingCopied())
+		{
+			$this->logSection('info', 'Skipped for file beeing copied right now.', null, 'COMMENT');
+			unset($file);
+			return;
+		}
 				
 		if (!$file->getHasWvInfo())
 		{

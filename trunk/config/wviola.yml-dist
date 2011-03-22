@@ -110,6 +110,16 @@ filebrowser:
     '/\/var\/wviola\/data\/filesystem/': '//myserver/myshare'
     '/\//': '\'
 
+  file_being_copied_check_waittime: 2
+  # the number of seconds to wait before checking if the file size is different
+  file_being_copied_check_showinfo: true
+  # whether you want information being displayed during scan-sources task
+  
+  makethumbnail_command: false # /usr/local/bin/makethumbnail
+  # the script you want to use to extract thumbnails from video sources
+  # leave commented or set to false if you want to use the provided one
+  # WARNING: avoid spaces in the path of the command
+
 binders:
   years_before: 5
   years_after: 0
