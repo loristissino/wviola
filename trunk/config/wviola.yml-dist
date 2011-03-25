@@ -164,6 +164,10 @@ archiviation:
   # %d is replaced by the id of the folder
   # be sure to change the index_template accordingly
 
+  post_iso_generation_command: dvdisaster -mRS02 -n dvd -c -i %isoimage%
+  # the command to execute after iso generation
+  # set to false if you do not want anything to be executed
+
 mail:
   bot_address: wviola@example.com
   bot_name: WVIOLA bot

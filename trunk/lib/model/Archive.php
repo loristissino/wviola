@@ -270,6 +270,12 @@ class Archive extends BaseArchive {
         
       Generic::executeCommand($command);
       
+      if ($command=wvConfig::get('archiviation_post_iso_generation_command', false))
+      {
+        $command=str_replace('%isoimage%', $this->getIsoImageFullPath(), $command);
+        Generic::executeCommand($command);
+      }
+      
       $isofile = new BasicFile($this->getIsoImageFullPath());
       
       if(!$dryrun)
