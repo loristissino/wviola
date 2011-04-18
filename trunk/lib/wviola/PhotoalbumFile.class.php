@@ -20,7 +20,7 @@ class PhotoalbumFile extends AssetFile
     if (!is_dir($this->getTempdir()))
     {
       mkdir($this->getTempdir());
-      $this->executeCommand(sprintf('unzip "%s" -d "%s"',
+      $this->executeCommand(sprintf('unzip -u "%s" -d "%s"',
         $this->getFullPath(),
         $this->getTempdir()
       ));
