@@ -351,3 +351,22 @@ L'output di questo task è utilizzabile per elaborazioni personalizzate (ad esem
 symfony wviola:list-assets --application=frontend --env=prod
 }}}
 
+=== Ricostruzione degli indici ===
+
+La ricerca dei documenti multimediali avviene sfruttando un indicizzatore chiamato _Lucene_.
+
+I documenti vengono automaticamente indicizzati ogni volta che vengono modificati i relativi dati nel database. Può capitare però che sia necessario rigenerare gli indici di _Lucene_ (ad esempio, dopo un ripristino del database).
+
+Per procedere:
+
+* eliminare completamente la directory `asset_prod_index`, presente nella directory specificata nel file _wviola.yml_, alla voce `directory_lucene_index`
+* lanciare il task (vedi sotto)
+* assicurarsi che per la directory generata il server web abbia permessi di lettura, scrittura ed esecuzione
+
+Il task va richiamato con il comando:
+
+{{{
+symfony wviola:rebuild-lucene-index --application=frontend --env=prod
+}}}
+
+
