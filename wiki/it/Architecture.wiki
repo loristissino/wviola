@@ -359,9 +359,9 @@ I documenti vengono automaticamente indicizzati ogni volta che vengono modificat
 
 Per procedere:
 
-* eliminare completamente la directory `asset_prod_index`, presente nella directory specificata nel file _wviola.yml_, alla voce `directory_lucene_index`
-* lanciare il task (vedi sotto)
-* assicurarsi che per la directory generata il server web abbia permessi di lettura, scrittura ed esecuzione
+  * eliminare completamente la directory `asset_prod_index`, presente nella directory specificata nel file _wviola.yml_, alla voce `directory_lucene_index`
+  * lanciare il task (vedi sotto)
+  * assicurarsi che per la directory generata il server web abbia permessi di lettura, scrittura ed esecuzione
 
 Il task va richiamato con il comando:
 
