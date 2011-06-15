@@ -13,7 +13,6 @@ class filebrowserActions extends sfActions
 
   public function preExecute()
 	{
-    
 		$this->profile=$this->getUser()->getProfile();
 		$this->path = $this->getUser()->getAttribute('path', '/');
 		$this->folder= new SourceFolder(wvConfig::get('directory_sources'), $this->path);
@@ -41,9 +40,7 @@ class filebrowserActions extends sfActions
   {
 	
 		$this->path=$this->folder->getPath();
-		
 		//$this->folder->scanSourcesInBackground($this->getContext());
-		
 		$this->folder_items=$this->folder->getFolderItems($this->profile->getUsername());
 		
 	
@@ -133,7 +130,7 @@ class filebrowserActions extends sfActions
 	{
 		$this->getUser()->setAttribute('path', $newpath);
 		$this->getUser()->setFlash('notice', $this->getContext()->getI18N()->__('Directory changed to %directoryname%.', array('%directoryname%'=>$newpath)));
-		$this->redirect('filebrowser/index');
+		$this->forward('filebrowser', 'index');
 		
 	}
 
