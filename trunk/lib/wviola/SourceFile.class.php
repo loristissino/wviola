@@ -566,7 +566,7 @@ class SourceFile extends BasicFile
           wvConfig::get('directory_scheduled') . '/' . $uniqid
           ))
       {
-        // This shouldn't happen, since we were able to write the main file...
+        // This shouldn't happen, since we were able to write the yml info file...
         Generic::logMessage('sourcefile::moveFileToScheduled()', sprintf('could not move "%s" to "%s"', $this->getFullPath(), wvConfig::get('directory_scheduled') . '/' . $uniqid));
         return false;
       }

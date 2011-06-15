@@ -19,6 +19,8 @@ Save.
 Run
     svn ci -m 'added external plugin'
     svn update
+    symfony plugin:publish-assets sfJqueryReloadedPlugin
     
+
 You're done.
 
