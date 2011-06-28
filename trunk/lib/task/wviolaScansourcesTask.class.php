@@ -17,7 +17,7 @@ class wviolaScansourcesTask extends sfBaseTask
 	
       new sfCommandOption('subdir', null, sfCommandOption::PARAMETER_OPTIONAL, 'Subdirectory name', '/'),
       new sfCommandOption('recursive', null, sfCommandOption::PARAMETER_OPTIONAL, 'Whether recursion will be applied', 'false'),
-      new sfCommandOption('ignore-scanned-files', null, sfCommandOption::PARAMETER_NONE, 'Whether files for which the yml file is already present are ignored'),
+      new sfCommandOption('ignore-scanned-files', null, sfCommandOption::PARAMETER_NONE, 'Ignores files for which the yml file is already present'),
 
 //      new sfCommandOption('size-limit-for-md5sum', null, sfCommandOption::PARAMETER_OPTIONAL, 'size in bytes over which md5sums will not be computed (0 means no limit)', 0),
 	  new sfCommandOption('logged', null, sfCommandOption::PARAMETER_OPTIONAL, 'Whether the execution will be logged in the DB', 'true'),
