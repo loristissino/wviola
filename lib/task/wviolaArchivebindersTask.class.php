@@ -15,8 +15,8 @@ class wviolaArchivebindersTask extends sfBaseTask
       new sfCommandOption('connection', null, sfCommandOption::PARAMETER_REQUIRED, 'The connection name', 'propel'),
       // add your own options here
 	
-      new sfCommandOption('logged', null, sfCommandOption::PARAMETER_OPTIONAL, 'whether the execution will be logged in the DB', 'true'),
-      new sfCommandOption('dry-run', null, sfCommandOption::PARAMETER_NONE, 'whether the DB and the files will be left unchanged'),
+      new sfCommandOption('logged', null, sfCommandOption::PARAMETER_OPTIONAL, 'Whether the execution will be logged in the DB', 'true'),
+      new sfCommandOption('dry-run', null, sfCommandOption::PARAMETER_NONE, 'Operates leaving the DB and the files unchanged'),
     ));
 
     $this->namespace        = 'wviola';
