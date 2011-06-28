@@ -17,6 +17,8 @@ class wviolaScansourcesTask extends sfBaseTask
 	
       new sfCommandOption('subdir', null, sfCommandOption::PARAMETER_OPTIONAL, 'Subdirectory name', '/'),
       new sfCommandOption('recursive', null, sfCommandOption::PARAMETER_OPTIONAL, 'Whether recursion will be applied', 'false'),
+      new sfCommandOption('ignore-scanned-files', null, sfCommandOption::PARAMETER_NONE, 'Whether files for which the yml file is already present are ignored'),
+
 //      new sfCommandOption('size-limit-for-md5sum', null, sfCommandOption::PARAMETER_OPTIONAL, 'size in bytes over which md5sums will not be computed (0 means no limit)', 0),
 	  new sfCommandOption('logged', null, sfCommandOption::PARAMETER_OPTIONAL, 'Whether the execution will be logged in the DB', 'true'),
 	
@@ -87,6 +89,13 @@ EOF;
 			unset($file);
 			return;
 		}
+    
+    if ($this->_ignoreScannedFiles and $file->getHasWvInfo())
+    {
+			$this->logSection('info', 'Skipped because already scanned', null, 'COMMENT');
+			unset($file);
+			return;
+    }
 		
 		if ($file->getIsBeingCopied())
 		{
@@ -257,6 +266,9 @@ EOF;
 	
 	$this->_isRecursive=Generic::normalizedBooleanValue($options['recursive'], false); 
 	$options['recursive']=Generic::normalizedBooleanDescription($this->_isRecursive);
+  
+  $this->_ignoreScannedFiles=Generic::normalizedBooleanValue($options['ignore-scanned-files'], false);
+	$options['ignore-scanned-files']=Generic::normalizedBooleanDescription($this->_ignoreScannedFiles);
 		
 	$subdir=$options['subdir'];
 	Generic::normalizeDirName($subdir, '/');
