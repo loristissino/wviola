@@ -1,7 +1,8 @@
 # It is not possible to retrieve single files via svn when they come from a repository
 # which differs from the main one.
-# You'll need to download the following files directly:
+# To update singular files, you might need to download them directly:
 
-wget http://framework.zend.com/svn/framework/standard/trunk/library/Zend/Loader.php
-wget http://framework.zend.com/svn/framework/standard/trunk/library/Zend/Exception.php
+wget http://framework.zend.com/svn/framework/standard/trunk/library/Zend/Loader.php -O Loader.php
+wget http://framework.zend.com/svn/framework/standard/trunk/library/Zend/Exception.php -O Exception.php
+
 
