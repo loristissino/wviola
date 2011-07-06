@@ -11,7 +11,13 @@ Le indicazioni seguenti sono state testate su Ubuntu 10.04 Lucid Lynx e su Debia
   * installare i pacchetti che servono:
 
 {{{
-sudo apt-get install php-apc php5-ffmpeg php5-xsl ffprobe ffmpeg ffmpeg2theora mplayer subversion php5-cli php5-pgsql php5-ldap zip unzip genisoimage imagemagick
+sudo apt-get install php-apc php5-ffmpeg php5-xsl ffmpeg ffmpeg2theora mplayer subversion php5-cli php5-pgsql php5-ldap zip unzip genisoimage imagemagick lame vorbis-tools dvdisaster
+}}}
+
+  * su Ubuntu, installare anche il pacchetto `ffprobe`:
+
+{{{
+sudo apt-get install ffprobe
 }}}
 
   * creare una directory _var/wviola_ (o equivalente)
@@ -120,13 +126,16 @@ symfony version 1.4.0 (/var/wviola/lib/vendor/symfony/lib)
 
 == Link per il comando _symfony_ ==
 
-Conviene predisporre un link simbolico per l'esecuzione dei task, in modo da poterli richiamare senza cambiare directory.
+Conviene predisporre un link simbolico per l'esecuzione dei task, in modo da poterli richiamare senza cambiare directory. È bene anche assicurarsi che il file disponga dei diritti di esecuzione.
 
 Dovrebbe essere sufficiente qualcosa come:
 
 {{{
-sudo ln -sfv /var/schoolmesh/symfony /usr/local/bin/symfony
+sudo chmod 755 /var/wiola/symfony
+sudo ln -sfv /var/wviola/symfony /usr/local/bin/symfony
 }}}
+
+
 
 == Ambienti di esecuzione ==
 
@@ -149,7 +158,7 @@ Nella directory _utilities_ c'è uno script (`checkdistfiles`) che mostra quali 
 Esempio:
 
 {{{
-$ utilities/checkdistfiles.sh 
+$ utilities/checkdistfiles.sh /var/wviola
 OK:         ./templates/isoimage/it/isoindex.php
 MISSING:    ./templates/email/it/sourcesready.yml
 OK:         ./apps/frontend/config/app.yml
@@ -405,6 +414,8 @@ tasks:
 }}}
 
 *Attenzione*: è importante che vengano rigenerati gli script di pubblicazione degli asset ogni volta che vengono modificate le impostazioni di questo file.
+
+*Attenzione*: è raccomandato che la directory "scheduled" e la directory "sources" siano nello stesso file system, in modo che l'operazione di spostamento file non richieda la copia fisica dello stesso.
 
 === Mailer ===
 

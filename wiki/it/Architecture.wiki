@@ -226,6 +226,7 @@ symfony wviola:scan-sources --application=frontend --env=prod
   * se attivare o meno la ricorsione
   * un valore limite per la dimensione del file oltre il quale non deve essere calcolato l'hash MD5
   * se registrare nel log su DB l'esecuzione del task
+  * se ignorare i file per cui esiste già un file informativo .yml
 
 Un esempio di interazione è il seguente:
 
