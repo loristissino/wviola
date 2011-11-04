@@ -122,7 +122,7 @@ Asset:
     
 <?php Generic::executeCommand(sprintf('/etc/wviola/generatefile.sh %s %s', $uniqid . '.zip', '115343360')) ?>
 <?php // @link('/etc/wviola/highquality.zip', '/var/wviola/data/filesystem/published/assets/' . $uniqid . '.zip') ?> 
-<?php @link('/etc/wviola/thumbnail.jpeg','/var/wviola/data/filesystem/published/thumbnails/' . $uniqid . '.jpeg')?>
+<?php // @link('/etc/wviola/thumbnail.jpeg','/var/wviola/data/filesystem/published/thumbnails/' . $uniqid . '.jpeg')?>
 <?php endforeach ?>
 <?php endfor ?>
 
@@ -142,6 +142,6 @@ Asset:
     source_file_datetime: 11/20/2009
 <?php Generic::executeCommand(sprintf('/etc/wviola/generatefile.sh %s %s', $uniqid . '.zip', '115343360')) ?>
 <?php //@link('/etc/wviola/highquality.zip', '/var/wviola/data/filesystem/published/assets/' . $uniqid . '.zip') ?> 
-<?php @link('/etc/wviola/thumbnail.jpeg','/var/wviola/data/filesystem/published/thumbnails/ ' . $uniqid . '.jpeg') ?>
+<?php // @link('/etc/wviola/thumbnail.jpeg','/var/wviola/data/filesystem/published/thumbnails/ ' . $uniqid . '.jpeg') ?>
 <?php endforeach ?>
 <?php endfor ?>
