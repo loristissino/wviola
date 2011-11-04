@@ -115,6 +115,16 @@ class sfGuardUserProfile extends BasesfGuardUserProfile
     return $c;
   }
   
+  public function getJustScannedSources()
+  {
+    $c = new Criteria();
+    $c->add(SourcePeer::USER_ID, $this->getUserId());
+    $c->add(SourcePeer::STATUS, SourcePeer::STATUS_READY);
+    $c->addAscendingOrderByColumn(SourcePeer::RELATIVE_PATH);
+    $c->addAscendingOrderByColumn(SourcePeer::BASENAME);
+    return SourcePeer::doSelect($c);
+  }
+  
   private function _composeEmail($template_code)
   {
     if (!$template_code)
@@ -141,10 +151,25 @@ class sfGuardUserProfile extends BasesfGuardUserProfile
       return;
     }
    
+    
+    $Sources=$this->getJustScannedSources();
+    $links='';
+    $count=0;
+    foreach($Sources as $Source)
+    {
+      $links.=++$count . '. ' . $Source->getBasename().":\n";
+      $links.=wvConfig::get('web_frontend_url').'/filebrowser/opendir?code=' . Generic::b64_serialize($Source->getRelativePath()) . '#' . $Source->getInode()."\n\n";
+      $Source
+      ->setStatus(SourcePeer::STATUS_EMAILSENT)
+      ->save()
+      ;
+    }   
+   
     $message=$this->_composeEmail('mail_sourceready_template');
    
     $subject=str_replace('%number%', $number, $message['subject']);
     $body=str_replace('%number%', $number, $message['body']);
+    $body=str_replace('%sourceslist%', $links, $body);
     
     $message = $mailer->compose(
       array(wvConfig::get('mail_bot_address') => wvConfig::get('mail_bot_address')),
