@@ -35,6 +35,7 @@ abstract class BaseAssetForm extends BaseFormPropel
       'thumbnail_height'     => new sfWidgetFormInputText(),
       'thumbnail_size'       => new sfWidgetFormInputText(),
       'thumbnail_position'   => new sfWidgetFormInputText(),
+      'inode'                => new sfWidgetFormInputText(),
       'created_at'           => new sfWidgetFormDateTime(),
       'updated_at'           => new sfWidgetFormDateTime(),
     ));
@@ -60,6 +61,7 @@ abstract class BaseAssetForm extends BaseFormPropel
       'thumbnail_height'     => new sfValidatorInteger(array('min' => -2147483648, 'max' => 2147483647, 'required' => false)),
       'thumbnail_size'       => new sfValidatorInteger(array('min' => -2147483648, 'max' => 2147483647, 'required' => false)),
       'thumbnail_position'   => new sfValidatorNumber(array('required' => false)),
+      'inode'                => new sfValidatorInteger(array('min' => -9.2233720368548E+18, 'max' => 9.2233720368548E+18, 'required' => false)),
       'created_at'           => new sfValidatorDateTime(array('required' => false)),
       'updated_at'           => new sfValidatorDateTime(array('required' => false)),
     ));

@@ -191,6 +191,7 @@ class Asset extends BaseAsset {
     ->setSourceFileDatetime($sourcefile->getStat('mtime'))
     ->setSourceSize($sourcefile->getStat('size'))
     ->setSourceLmd5Sum($sourcefile->getWvInfo('file_lmd5sum'))
+    ->setInode($sourcefile->getStat('ino'))
     ;
     
     
@@ -381,6 +382,8 @@ CONTACT="$9"
       ->setHighqualitySize($this->getPublishedFile('high')->getStat('size'))
       ->setStatus(self::CACHED)
       ->save();
+      
+      SourcePeer::markAsPublished($this->getInode());
       
     }
     catch (Exception $e)

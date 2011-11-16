@@ -32,6 +32,7 @@ abstract class BaseAssetFormFilter extends BaseFormFilterPropel
       'thumbnail_height'     => new sfWidgetFormFilterInput(),
       'thumbnail_size'       => new sfWidgetFormFilterInput(),
       'thumbnail_position'   => new sfWidgetFormFilterInput(),
+      'inode'                => new sfWidgetFormFilterInput(),
       'created_at'           => new sfWidgetFormFilterDate(array('from_date' => new sfWidgetFormDate(), 'to_date' => new sfWidgetFormDate())),
       'updated_at'           => new sfWidgetFormFilterDate(array('from_date' => new sfWidgetFormDate(), 'to_date' => new sfWidgetFormDate())),
     ));
@@ -56,6 +57,7 @@ abstract class BaseAssetFormFilter extends BaseFormFilterPropel
       'thumbnail_height'     => new sfValidatorSchemaFilter('text', new sfValidatorInteger(array('required' => false))),
       'thumbnail_size'       => new sfValidatorSchemaFilter('text', new sfValidatorInteger(array('required' => false))),
       'thumbnail_position'   => new sfValidatorSchemaFilter('text', new sfValidatorNumber(array('required' => false))),
+      'inode'                => new sfValidatorSchemaFilter('text', new sfValidatorInteger(array('required' => false))),
       'created_at'           => new sfValidatorDateRange(array('required' => false, 'from_date' => new sfValidatorDate(array('required' => false)), 'to_date' => new sfValidatorDate(array('required' => false)))),
       'updated_at'           => new sfValidatorDateRange(array('required' => false, 'from_date' => new sfValidatorDate(array('required' => false)), 'to_date' => new sfValidatorDate(array('required' => false)))),
     ));
@@ -95,6 +97,7 @@ abstract class BaseAssetFormFilter extends BaseFormFilterPropel
       'thumbnail_height'     => 'Number',
       'thumbnail_size'       => 'Number',
       'thumbnail_position'   => 'Number',
+      'inode'                => 'Number',
       'created_at'           => 'Date',
       'updated_at'           => 'Date',
     );
