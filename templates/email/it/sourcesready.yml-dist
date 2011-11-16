@@ -1,9 +1,9 @@
 message:
   subject: Documenti multimediali pronti per l'archiviazione
   body: |
-    È stata effettuata la scansione di %number% tuoi documenti multimediali, che
-    sono adesso pronti per l'archiviazione.
-
+    Alcuni documenti multimediali (per la precisione, %number%), sono stati 
+    analizzati e sono adesso pronti per l'archiviazione.
+    
     La lista dei documenti pronti per l'archiviazione è qui sotto:
     
     %sourceslist%

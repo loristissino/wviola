@@ -55,13 +55,8 @@ class SourcePeer extends BaseSourcePeer {
     return SourcePeer::doSelectOne($c);
   }
   
-  public static function markAsPublished($inode, $con=null)
+  public static function markAsPublished($inode, PropelPDO $con=null)
   {
-    if (!$con)
-    {
-      $con = Propel::getConnection(self::DATABASE_NAME);
-    }
-    
     $sc = new Criteria();
     $sc->add(SourcePeer::INODE, $inode);
 
@@ -69,7 +64,29 @@ class SourcePeer extends BaseSourcePeer {
     $uc->add(SourcePeer::STATUS, self::STATUS_SCHEDULED);
     
     BasePeer::doUpdate($sc, $uc, $con);
+  }
+  
+  public static function retrieveUsersWithAssetsReadyForArchiviation(PropelPDO $con = null)
+  {
+    $c = new Criteria();
+    $c->add(SourcePeer::STATUS, SourcePeer::STATUS_SCHEDULED, Criteria::LESS_THAN);
+    $c->setDistinct();
+    $c->clearSelectColumns();
+    $c->addAsColumn('user_id', SourcePeer::USER_ID);
+    $c->addAsColumn('assets', 'count('. SourcePeer::ID . ')');
+    $c->addGroupByColumn(SourcePeer::USER_ID);
+    $stmt=SourcePeer::doSelectStmt($c, $con);
+    
+    $users=array();
 
-}
+    while($row = $stmt->fetch(PDO::FETCH_OBJ))
+    {
+      $users[]=array(
+        'profile'=> sfGuardUserProfilePeer::retrieveByPK($row->user_id),
+        'number'=>   $row->assets
+        );
+    };
+    return $users;
+  }
 
 } // SourcePeer

@@ -17,7 +17,7 @@ class wviolaScansourcesTask extends sfBaseTask
 	
       new sfCommandOption('subdir', null, sfCommandOption::PARAMETER_OPTIONAL, 'Subdirectory name', '/'),
       new sfCommandOption('recursive', null, sfCommandOption::PARAMETER_OPTIONAL, 'Whether recursion will be applied', 'false'),
-      new sfCommandOption('ignore-scanned-files', null, sfCommandOption::PARAMETER_NONE, 'Ignores files for which the yml file is already present'),
+      new sfCommandOption('ignore-scanned-files', null, sfCommandOption::PARAMETER_NONE, 'Ignore files for which the yml file is already present'),
 
 //      new sfCommandOption('size-limit-for-md5sum', null, sfCommandOption::PARAMETER_OPTIONAL, 'size in bytes over which md5sums will not be computed (0 means no limit)', 0),
 	  new sfCommandOption('logged', null, sfCommandOption::PARAMETER_OPTIONAL, 'Whether the execution will be logged in the DB', 'true'),
@@ -269,7 +269,7 @@ EOF;
   
   $this->_ignoreScannedFiles=Generic::normalizedBooleanValue($options['ignore-scanned-files'], false);
 	$options['ignore-scanned-files']=Generic::normalizedBooleanDescription($this->_ignoreScannedFiles);
-		
+
 	$subdir=$options['subdir'];
 	Generic::normalizeDirName($subdir, '/');
 	$options['subdir']=$subdir;
@@ -336,7 +336,7 @@ EOF;
 		// we update the record
 	}
   
-  if($this->_isLogged)
+  if($this->_sendEmails)
   {
     $notices = $taskLogEvent->retrieveUsersToSendEmailsTo();
     
