@@ -50,6 +50,7 @@ CREATE TABLE "asset"
 	"thumbnail_height" INTEGER,
 	"thumbnail_size" INTEGER,
 	"thumbnail_position" FLOAT,
+	"inode" INT8,
 	"created_at" TIMESTAMP,
 	"updated_at" TIMESTAMP,
 	PRIMARY KEY ("id"),

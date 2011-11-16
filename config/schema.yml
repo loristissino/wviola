@@ -30,6 +30,7 @@ propel:
     thumbnail_height: integer
     thumbnail_size: integer
     thumbnail_position: float
+    inode: bigint # this is the inode of the original file
     created_at: ~
     updated_at: ~
     _uniques:

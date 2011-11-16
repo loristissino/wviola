@@ -54,5 +54,22 @@ class SourcePeer extends BaseSourcePeer {
     $c->add(SourcePeer::BASENAME, $basename);
     return SourcePeer::doSelectOne($c);
   }
+  
+  public static function markAsPublished($inode, $con=null)
+  {
+    if (!$con)
+    {
+      $con = Propel::getConnection(self::DATABASE_NAME);
+    }
+    
+    $sc = new Criteria();
+    $sc->add(SourcePeer::INODE, $inode);
+
+    $uc = new Criteria();
+    $uc->add(SourcePeer::STATUS, self::STATUS_SCHEDULED);
+    
+    BasePeer::doUpdate($sc, $uc, $con);
+
+}
 
 } // SourcePeer
