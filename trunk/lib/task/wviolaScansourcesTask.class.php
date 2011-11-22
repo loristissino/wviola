@@ -18,6 +18,7 @@ class wviolaScansourcesTask extends sfBaseTask
       new sfCommandOption('subdir', null, sfCommandOption::PARAMETER_OPTIONAL, 'Subdirectory name', '/'),
       new sfCommandOption('recursive', null, sfCommandOption::PARAMETER_OPTIONAL, 'Whether recursion will be applied', 'false'),
       new sfCommandOption('ignore-scanned-files', null, sfCommandOption::PARAMETER_NONE, 'Ignore files for which the yml file is already present'),
+      new sfCommandOption('fix-sources-table', null, sfCommandOption::PARAMETER_NONE, 'Deletes invalid entries for the source table before scanning'),
 
 //      new sfCommandOption('size-limit-for-md5sum', null, sfCommandOption::PARAMETER_OPTIONAL, 'size in bytes over which md5sums will not be computed (0 means no limit)', 0),
 	  new sfCommandOption('logged', null, sfCommandOption::PARAMETER_OPTIONAL, 'Whether the execution will be logged in the DB', 'true'),
@@ -28,7 +29,8 @@ class wviolaScansourcesTask extends sfBaseTask
     $this->name             = 'scan-sources';
     $this->briefDescription = 'Finds useful information about source asset files';
     $this->detailedDescription = <<<EOF
-The [wviola:scan-sources|INFO] task scans the source asset directory in order to find useful information and prepare thumbnails.
+The [wviola:scan-sources|INFO] task scans the source asset directory in order to 
+find useful information and prepare thumbnails.
 Call it with:
 
   [php symfony wviola:scan-sources --env=prod --application=frontend|INFO]
@@ -41,7 +43,8 @@ read or written).
 
 Please note that the user who launches this script must have sudo privileges in order 
 to create zip file for pictures collections (photoalbums) and chown them to the owner
-of the pictures collected: if this script is lauched in a cron job, you might need to specify the NOPASSWD option in your [/etc/sudoers|COMMENT] file.
+of the pictures collected: if this script is lauched in a cron job, you might need to 
+specify the NOPASSWD option in your [/etc/sudoers|COMMENT] file.
 
 EOF;
 
@@ -270,6 +273,9 @@ EOF;
   $this->_ignoreScannedFiles=Generic::normalizedBooleanValue($options['ignore-scanned-files'], false);
 	$options['ignore-scanned-files']=Generic::normalizedBooleanDescription($this->_ignoreScannedFiles);
 
+  $this->_fixSourcesTable=Generic::normalizedBooleanValue($options['fix-sources-table'], false);
+	$options['fix-sources-table']=Generic::normalizedBooleanDescription($this->_ignoreScannedFiles);
+
 	$subdir=$options['subdir'];
 	Generic::normalizeDirName($subdir, '/');
 	$options['subdir']=$subdir;
@@ -291,6 +297,8 @@ EOF;
 		'recursive',
 //		'size-limit-for-md5sum',
 		'logged',
+    'ignore-scanned-files',
+    'fix-sources-table',
 		) as $key)
 	{
 		$this->logSection($key, $options[$key], null, 'COMMENT');
@@ -311,6 +319,18 @@ EOF;
 	}
 
   echo "\n";
+
+  if ($this->_fixSourcesTable)
+  {
+    foreach(SourcePeer::retrieveByStatus(SourcePeer::STATUS_READY) as $Source)
+    {
+      if (!file_exists(wvConfig::get('directory_sources'). '/'. $Source->getRelativePath()))
+      {
+        $this->logSection('source-', sprintf('%d - «%s»', $Source->getId(), $Source->getRelativePath()) , null, 'INFO');
+        $Source->delete();
+      }
+    }
+  }
 
 	try
 	{
@@ -336,24 +356,7 @@ EOF;
 		// we update the record
 	}
   
-  if($this->_sendEmails)
-  {
-    $notices = $taskLogEvent->retrieveUsersToSendEmailsTo();
-    
-    if(sizeof($notices)>0)
-    {
-      echo "\n";
-      $this->logSection('mail', 'Email notices sent', null, 'COMMENT');
-      foreach($notices as $user=>$number)
-      {
-        $profile=sfGuardUserProfilePeer::retrieveByPK($user);
-        $profile->sendSourceReadyNotice($this->getMailer(), $number);
-        $this->logSection('mail@', $profile->getEmail() . ' (' . $number . ')', null, 'INFO');
-      }
-    }
-  }
-
-	return 0;
+  return 0;
 	
   }
 }
