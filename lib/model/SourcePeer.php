@@ -23,7 +23,8 @@ class SourcePeer extends BaseSourcePeer {
   const
     STATUS_READY = 1,
     STATUS_EMAILSENT = 2,
-    STATUS_SCHEDULED = 3
+    STATUS_SCHEDULED = 3,
+    STATUS_DONE = 4
     ;
     
   public static function getStatusDescription($status)
@@ -87,6 +88,13 @@ class SourcePeer extends BaseSourcePeer {
         );
     };
     return $users;
+  }
+  
+  public static function retrieveByStatus($status)
+  {
+    $c=new Criteria();
+    $c->add(self::STATUS, $status);
+    return self::doSelect($c);
   }
 
 } // SourcePeer
