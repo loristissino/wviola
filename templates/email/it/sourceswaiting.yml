@@ -1,0 +1,16 @@
+message:
+  subject: Documenti multimediali in attesa di archiviazione
+  body: |
+  
+    Ti ricordiamo che alcuni documenti multimediali (per la precisione, %number%),
+    sono pronti per l'archiviazione.
+    
+    La lista è qui sotto:
+    
+    %sourceslist%
+
+    In ogni caso, puoi vedere la lista completa e aggiornata accedendo alla pagina web:
+
+    http://www.example.com/source/
+    
+                  The Wviola Bot
