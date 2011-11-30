@@ -322,7 +322,7 @@ EOF;
 
   if ($this->_fixSourcesTable)
   {
-    foreach(SourcePeer::retrieveByStatus(SourcePeer::STATUS_READY) as $Source)
+    foreach(SourcePeer::retrieveByStatus(SourcePeer::STATUS_EMAILSENT, Criteria::LESS_EQUAL) as $Source)
     {
       if (!file_exists(wvConfig::get('directory_sources'). '/'. $Source->getRelativePath()))
       {
