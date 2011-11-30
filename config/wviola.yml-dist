@@ -171,8 +171,9 @@ archiviation:
 mail:
   bot_address: wviola@example.com
   bot_name: WVIOLA bot
-  sourceready_template: /var/wviola/templates/email/it/sourcesready.yml
-  archiveready_template: /var/wviola/templates/email/it/archiveready.yml
+  sourcesready_template: /var/wviola/templates/email/it/sourcesready.yml
+  sourceswaiting_template: /var/wviola/templates/email/it/sourceswaiting.yml
+
   # configuration for sending mail out is in the apps/frontend/config/factories.yml file
   
 web:

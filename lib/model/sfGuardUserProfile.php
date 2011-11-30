@@ -114,15 +114,25 @@ class sfGuardUserProfile extends BasesfGuardUserProfile
     $c->addAscendingOrderByColumn(SourcePeer::BASENAME);
     return $c;
   }
-  
-  public function getJustScannedSources()
+
+  private function _getSources($status)
   {
     $c = new Criteria();
     $c->add(SourcePeer::USER_ID, $this->getUserId());
-    $c->add(SourcePeer::STATUS, SourcePeer::STATUS_READY);
+    $c->add(SourcePeer::STATUS, $status);
     $c->addAscendingOrderByColumn(SourcePeer::RELATIVE_PATH);
     $c->addAscendingOrderByColumn(SourcePeer::BASENAME);
     return SourcePeer::doSelect($c);
+  }
+  
+  public function getJustScannedSources()
+  {
+    return self::_getSources(SourcePeer::STATUS_READY);
+  }
+  
+  public function getWaitingSources()
+  {
+    return self::_getSources(SourcePeer::STATUS_EMAILSENT);
   }
   
   private function _composeEmail($template_code)
@@ -144,14 +154,13 @@ class sfGuardUserProfile extends BasesfGuardUserProfile
   }
   
   
-  public function sendSourceReadyNotice(sfMailer $mailer, $number)
+  public function sendSourcesReadyNotice(sfMailer $mailer, $number)
   {
     if (!$this->getEmail())
     {
       return;
     }
-   
-    
+       
     $Sources=$this->getJustScannedSources();
     $links='';
     $count=0;
@@ -165,7 +174,7 @@ class sfGuardUserProfile extends BasesfGuardUserProfile
       ;
     }   
    
-    $message=$this->_composeEmail('mail_sourceready_template');
+    $message=$this->_composeEmail('mail_sourcesready_template');
    
     $subject=str_replace('%number%', $number, $message['subject']);
     $body=str_replace('%number%', $number, $message['body']);
@@ -181,6 +190,41 @@ class sfGuardUserProfile extends BasesfGuardUserProfile
     return $this;
     
   }
+
+  public function sendSourcesWaitingNotice(sfMailer $mailer, $number)
+  {
+    if (!$this->getEmail())
+    {
+      return;
+    }
+       
+    $Sources=$this->getWaitingSources();
+    $links='';
+    $count=0;
+    foreach($Sources as $Source)
+    {
+      $links.=++$count . '. ' . $Source->getBasename().":\n";
+      $links.=wvConfig::get('web_frontend_url').'/filebrowser/opendir?code=' . Generic::b64_serialize($Source->getRelativePath()) . '#' . $Source->getInode()."\n\n";
+    }   
+   
+    $message=$this->_composeEmail('mail_sourceswaiting_template');
+   
+    $subject=str_replace('%number%', $number, $message['subject']);
+    $body=str_replace('%number%', $number, $message['body']);
+    $body=str_replace('%sourceslist%', $links, $body);
+    
+    $message = $mailer->compose(
+      array(wvConfig::get('mail_bot_address') => wvConfig::get('mail_bot_address')),
+      $this->getEmail(),
+      $subject,
+      $body);
+ 
+    $mailer->send($message);
+    return $this;
+    
+  }
+
+
   
   public function sendArchiveReadyNotice(sfMailer $mailer, Archive $Archive)
   {

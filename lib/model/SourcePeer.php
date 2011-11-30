@@ -66,11 +66,11 @@ class SourcePeer extends BaseSourcePeer {
     
     BasePeer::doUpdate($sc, $uc, $con);
   }
-  
-  public static function retrieveUsersWithAssetsReadyForArchiviation(PropelPDO $con = null)
+
+  private static function _retrieveUsersWithAssets($status, PropelPDO $con = null)
   {
     $c = new Criteria();
-    $c->add(SourcePeer::STATUS, SourcePeer::STATUS_SCHEDULED, Criteria::LESS_THAN);
+    $c->add(SourcePeer::STATUS, $status);
     $c->setDistinct();
     $c->clearSelectColumns();
     $c->addAsColumn('user_id', SourcePeer::USER_ID);
@@ -89,11 +89,23 @@ class SourcePeer extends BaseSourcePeer {
     };
     return $users;
   }
+
   
-  public static function retrieveByStatus($status)
+  public static function retrieveUsersWithAssetsReadyForArchiviation(PropelPDO $con = null)
+  {
+    return self::_retrieveUsersWithAssets(SourcePeer::STATUS_READY);
+  }
+  
+  public static function retrieveUsersWithAssetsWaitingForArchiviation(PropelPDO $con = null)
+  {
+    return self::_retrieveUsersWithAssets(SourcePeer::STATUS_EMAILSENT);
+  }
+  
+  
+  public static function retrieveByStatus($status, $comparison=Criteria::EQUAL)
   {
     $c=new Criteria();
-    $c->add(self::STATUS, $status);
+    $c->add(self::STATUS, $status, $comparison);
     return self::doSelect($c);
   }
 

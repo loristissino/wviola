@@ -14,9 +14,8 @@ class wviolaSendemailsTask extends sfBaseTask
       new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environment', 'dev'),
       new sfCommandOption('connection', null, sfCommandOption::PARAMETER_REQUIRED, 'The connection name', 'propel'),
       new sfCommandOption('logged', null, sfCommandOption::PARAMETER_OPTIONAL, 'Whether the execution will be logged in the DB', 'true'), 
+      new sfCommandOption('reminder', null, sfCommandOption::PARAMETER_NONE, 'Sends only reminder mails'), 
     ));
-
-
 
     $this->namespace        = 'wviola';
     $this->name             = 'send-emails';
@@ -42,7 +41,10 @@ EOF;
 
     $this->_isLogged=Generic::normalizedBooleanValue($options['logged'], true);
     $options['logged']=Generic::normalizedBooleanDescription($this->_isLogged);
-    
+
+    $this->_reminder=Generic::normalizedBooleanValue($options['reminder'], false);
+    $options['reminder']=Generic::normalizedBooleanDescription($this->_reminder);
+
     if($this->_isLogged)
     {
       $taskLogEvent= new TaskLogEvent();
@@ -56,13 +58,28 @@ EOF;
       $this->_logEvent=$taskLogEvent->getId();
     }
 
-    $w=SourcePeer::retrieveUsersWithAssetsReadyForArchiviation();
-    
-    foreach($w as $row)
+    switch($this->_reminder)
     {
-      $row['profile']->sendSourceReadyNotice($this->getMailer(), $row['number']);
-      $this->logSection('mail@', $row['profile']->getEmail() . ' (' . $row['number'] . ')', null, 'INFO');
+      case (false):
+        $w=SourcePeer::retrieveUsersWithAssetsReadyForArchiviation();
+        
+        foreach($w as $row)
+        {
+          $row['profile']->sendSourcesReadyNotice($this->getMailer(), $row['number']);
+          $this->logSection('mail@', $row['profile']->getEmail() . ' (' . $row['number'] . ')', null, 'INFO');
+        }
+        break;
+      case (true):
+        $w=SourcePeer::retrieveUsersWithAssetsWaitingForArchiviation();
+        
+        foreach($w as $row)
+        {
+          $row['profile']->sendSourcesWaitingNotice($this->getMailer(), $row['number']);
+          $this->logSection('mail@', $row['profile']->getEmail() . ' (' . $row['number'] . ')', null, 'INFO');
+        }
+        break;
     }
+
   
     if($this->_isLogged)
     {
