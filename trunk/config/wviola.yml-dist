@@ -173,6 +173,7 @@ mail:
   bot_name: WVIOLA bot
   sourcesready_template: /var/wviola/templates/email/it/sourcesready.yml
   sourceswaiting_template: /var/wviola/templates/email/it/sourceswaiting.yml
+  archiveready_template: /var/wviola/templates/email/it/archiveready.yml
 
   # configuration for sending mail out is in the apps/frontend/config/factories.yml file
   
