@@ -15,10 +15,10 @@ class wviolaPublishassetsTask extends sfBaseTask
       new sfCommandOption('connection', null, sfCommandOption::PARAMETER_REQUIRED, 'The connection name', 'propel'),
       // add your own options here
 	
-	  new sfCommandOption('logged', null, sfCommandOption::PARAMETER_OPTIONAL, 'whether the execution will be logged in the DB', 'true'),
+      new sfCommandOption('logged', null, sfCommandOption::PARAMETER_OPTIONAL, 'whether the execution will be logged in the DB', 'true'),
     ));
 
-    $this->namespace        = 'wviola';
+    $this->namespace       = 'wviola';
     $this->name             = 'publish-assets';
     $this->briefDescription = 'Publishes scheduled assets';
     $this->detailedDescription = <<<EOF
@@ -44,81 +44,75 @@ EOF;
     $databaseManager = new sfDatabaseManager($this->configuration);
     $connection = $databaseManager->getDatabase($options['connection'] ? $options['connection'] : null)->getConnection();
 
-    // add your code here
-    
-
-	$this->_isLogged=Generic::normalizedBooleanValue($options['logged'], true);
-	$options['logged']=Generic::normalizedBooleanDescription($this->_isLogged);
-  	
-	$this->_sourcesDirectory=wvConfig::get('directory_sources');
-
-	if($this->_isLogged)
-	{
-		$taskLogEvent= new TaskLogEvent();
-		$taskLogEvent->
-		setTaskName($this->name)->
-		setArguments(serialize($arguments))->
-		setOptions(serialize($options))->
-		setStartedAt(time())->
-		save();
-    
-    $this->_logEvent=$taskLogEvent->getId();
-	}
-
-
-  $Assets=AssetPeer::retrieveByStatus(Asset::SCHEDULED);
-  
-//  print_r($Assets);
-  if (sizeof($Assets)>0)
-  {
-    foreach($Assets as $Asset)
-    {
-      $this->logSection('asset', $Asset->getId(), null, 'COMMENT');
-      try
-      {
-        $check=$Asset->publish();
-      }
-      catch (Exception $e)
-      {
-        $this->log($this->formatter->format($e->getMessage(), 'ERROR'));
-        if ($taskLogEvent)
-        {
-          $taskLogEvent->
-          setTaskException($taskLogEvent->getTaskException() . "\n" . $e->getMessage())->
-          save();
-        }
-        $check=false;
-        //return 1;
-      }
+    $this->_isLogged=Generic::normalizedBooleanValue($options['logged'], true);
+    $options['logged']=Generic::normalizedBooleanDescription($this->_isLogged);
       
-      if($check)
+    $this->_sourcesDirectory=wvConfig::get('directory_sources');
+
+    if($this->_isLogged)
+    {
+      $taskLogEvent= new TaskLogEvent();
+      $taskLogEvent->
+      setTaskName($this->name)->
+      setArguments(serialize($arguments))->
+      setOptions(serialize($options))->
+      setStartedAt(time())->
+      save();
+      
+      $this->_logEvent=$taskLogEvent->getId();
+    }
+    
+    $Assets=AssetPeer::retrieveByStatus(Asset::SCHEDULED);
+  
+    $this->logSection('assets', sprintf('Found %d asset(s) scheduled for publication', count($Assets)), null, 'COMMENT');
+    
+    if (sizeof($Assets)>0)
+    {
+      foreach($Assets as $Asset)
       {
-        echo "\n";
-        $this->logSection('file+', wvConfig::get('directory_published_assets') . '/' . $Asset->getUniqId(), null, 'INFO');
-        $this->logSection('file+', wvConfig::get('directory_iso_cache') . '/' . $Asset->getUniqId(), null, 'INFO');
-        $this->logSection('file-', wvConfig::get('directory_scheduled') . '/' . $Asset->getUniqId(), null, 'INFO');
-      }
-      else
-      {
-        $this->logSection('corrupted', wvConfig::get('directory_scheduled') . '/' . $Asset->getUniqId(), null, 'ERROR');
+        $this->logSection('asset', $Asset->getId(), null, 'COMMENT');
+        try
+        {
+          $check=$Asset->publish();
+        }
+        catch (Exception $e)
+        {
+          $this->log($this->formatter->format($e->getMessage(), 'ERROR'));
+          if ($taskLogEvent)
+          {
+            $taskLogEvent->addTaskException($e->getMessage());
+          }
+          $check=false;
+        }
+        
+        if($check)
+        {
+          echo "\n";
+          $this->logSection('file+', wvConfig::get('directory_published_assets') . '/' . $Asset->getUniqId(), null, 'INFO');
+          $this->logSection('file+', wvConfig::get('directory_iso_cache') . '/' . $Asset->getUniqId(), null, 'INFO');
+          $this->logSection('file-', wvConfig::get('directory_scheduled') . '/' . $Asset->getUniqId(), null, 'INFO');
+        }
+        else
+        {
+          $this->logSection('corrupted', wvConfig::get('directory_scheduled') . '/' . $Asset->getUniqId(), null, 'ERROR');
+        }
       }
     }
-  }
-  else
-  {
-    $this->logSection('info', 'No scheduled assets.', null, 'COMMENT');
-  }
+    else
+    {
+      $this->logSection('info', 'No scheduled assets.', null, 'COMMENT');
+    }
 
 	
-	if($this->_isLogged)
-	{
-		$taskLogEvent->
-		setFinishedAt(time())->
-		save();
-		// we update the record
-	}
-  
-	return 0;
+    if($this->_isLogged)
+    {
+      $taskLogEvent->
+      setFinishedAt(time())->
+      save();
+      // we update the record
+    }
+    
+    return 0;
 	
   }
 }
