@@ -58,6 +58,12 @@ class SourcePeer extends BaseSourcePeer {
   
   public static function markAsPublished($inode, PropelPDO $con=null)
   {
+    
+    if(!$con)
+    {
+      $con=Propel::getConnection(SourcePeer::DATABASE_NAME);
+    }
+    
     $sc = new Criteria();
     $sc->add(SourcePeer::INODE, $inode);
 

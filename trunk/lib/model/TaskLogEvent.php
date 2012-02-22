@@ -47,6 +47,19 @@ class TaskLogEvent extends BaseTaskLogEvent {
     return $users;
     
   }
+  
+  public function addTaskException($text, $con=null)
+  {
+    if($this->getTaskException())
+    {
+      $text = $this->getTaskException() . "\n" . $text;
+    }
+    $this
+    ->setTaskException($text)
+    ->save($con)
+    ;
+    return $this;
+  }
 
 
 } // TaskLogEvent
