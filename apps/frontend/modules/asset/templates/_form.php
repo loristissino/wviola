@@ -53,7 +53,7 @@
           <th><?php echo $form['thumbnail']->renderLabel() ?></th>
           <td>
             <?php echo $form['thumbnail']->renderError() ?>
-            <?php echo $form['thumbnail'] ?>
+            <?php echo htmlspecialchars_decode($form['thumbnail']->render()) ?>
           </td>
         </tr>
       <?php endif ?>
