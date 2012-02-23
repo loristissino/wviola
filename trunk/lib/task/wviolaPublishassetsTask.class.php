@@ -71,6 +71,7 @@ EOF;
       foreach($Assets as $Asset)
       {
         $this->logSection('asset', $Asset->getId(), null, 'COMMENT');
+        $check=false;
         try
         {
           $check=$Asset->publish();
