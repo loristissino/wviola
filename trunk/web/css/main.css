@@ -43,6 +43,7 @@ color: blue;
 
 #sf_admin_container ul li.sf_admin_action_show a
 {
+  color: green;
   background: url(../images/asset_show.png) no-repeat 0 0;
 }
 
