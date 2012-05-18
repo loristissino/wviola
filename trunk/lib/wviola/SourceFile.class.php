@@ -255,6 +255,12 @@ class SourceFile extends BasicFile
 			
 			$cropH=$movie->getFrameHeight();
 			$cropW=$movie->getFrameWidth()*$thumbnailAspectRatio/$sourceAspectRatio;
+      
+      if($cropW > $movie->getFrameWidth())
+      {
+        $cropW=$movie->getFrameWidth();
+        $cropH=$movie->getFrameHeight()*$sourceAspectRatio/$thumbnailAspectRatio;
+      }
 			      
 			for($i=0; $i<$thumbnailsNumber;$i++)
 			{
