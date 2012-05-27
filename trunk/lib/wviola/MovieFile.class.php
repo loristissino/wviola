@@ -66,6 +66,10 @@ class MovieFile extends BasicFile
 		}
 		else
 		{
+      if(wvConfig::get('thumbnail_default_dar', false)!=false)
+      {
+        return wvConfig::get('thumbnail_default_dar');
+      }
 			return false;
 		}
 

@@ -45,6 +45,10 @@ thumbnail:
   width: 60
   height: 45
   # the size of the thumbnail to prepare 
+
+  default_dar: 1.77777778
+  # if it is set, this will be used when an explicit Display Aspect Ratio is not found
+  # if it is not set, or it is set to false, the ratio will be computed (width/height), if not found
     
   photoalbum_reduction: 5
   # photoalbum pictures previews will be shown reduced by this factor
