@@ -112,6 +112,20 @@ class BasicFile
 		return $this->_basename;
 	}
   
+  /**
+   * Get the required path part from the file.
+   * 
+   * @return     string
+   */
+	public function getPathPart($part)
+	{
+    $path_parts = pathinfo($this->getFullPath());
+    return $path_parts[$part];
+    // dirname, basename, extension, filename
+    // see http://php.net/manual/en/function.pathinfo.php
+	}
+  
+  
 	/**
 	 * Set the value of [basename].
 	 * 
@@ -233,19 +247,30 @@ class BasicFile
 			// we need this because sometimes mpeg videos are reported as application/octet-stream
 			$command=sprintf('file --dereference --brief "%s"', $this->getFullPath());
 			$description=$this->executeCommand($command);
-			if (preg_match('/MPEG sequence/', $description))
-			{
-				$type='video'; $subtype='mpeg';
-			}
-			if (preg_match('/Theora video/', $description))
-			{
-				$type='video'; $subtype='ogg';
-			}
+      
+      foreach(wvConfig::get('filebrowser_description_matches') as $match)
+      {
+        if (preg_match($match['description'], $description))
+        {
+          return $match['result'];
+        }
+      }
+      
+      foreach(wvConfig::get('filebrowser_extension_matches') as $match)
+      {
+        if (strtolower($this->getPathPart('extension'))==$match['extension'])
+        {
+          return $match['result'];
+        }
+      }
+      
+      /*
 			if ($subtype=='ogg')
 			{
 				// FIXME This is likely not always true...
 				$type='video'; $subtype='ogg';
 			}
+      */
 		}
     
     if($type=='video')

@@ -124,6 +124,23 @@ filebrowser:
   # leave commented or set to false if you want to use the provided one
   # WARNING: avoid spaces in the path of the command
 
+  description_matches:
+  # these are matched only when the main file type is "application"
+    1:
+      description: '/MPEG sequence/'
+      result: 'video/mpeg'
+    2:
+      description: '/Theora video/'
+      result: 'video/ogg'
+      
+  extension_matches:
+  # these are matched only when the main file type is "application"
+  # write extensions lower case!
+    1:
+      extension: 'mov'
+      result: 'video/quicktime'
+
+
 binders:
   years_before: 5
   years_after: 0
