@@ -120,7 +120,7 @@ class BasicFile
 	public function getPathPart($part)
 	{
     $path_parts = pathinfo($this->getFullPath());
-    return $path_parts[$part];
+    return array_key_exists($part, $path_parts)? $path_parts[$part]: '';
     // dirname, basename, extension, filename
     // see http://php.net/manual/en/function.pathinfo.php
 	}
