@@ -8,7 +8,6 @@
  * @package    wviola
  * @subpackage form
  * @author     Loris Tissino <loris.tissino@gmail.com>
- * @version    SVN: $Id: sfPropelFormGeneratedTemplate.php 24171 2009-11-19 16:37:50Z Kris.Wallsmith $
  */
 abstract class BaseTaskLogEventForm extends BaseFormPropel
 {
@@ -25,7 +24,7 @@ abstract class BaseTaskLogEventForm extends BaseFormPropel
     ));
 
     $this->setValidators(array(
-      'id'             => new sfValidatorPropelChoice(array('model' => 'TaskLogEvent', 'column' => 'id', 'required' => false)),
+      'id'             => new sfValidatorChoice(array('choices' => array($this->getObject()->getId()), 'empty_value' => $this->getObject()->getId(), 'required' => false)),
       'task_name'      => new sfValidatorString(array('max_length' => 50, 'required' => false)),
       'options'        => new sfValidatorString(array('required' => false)),
       'arguments'      => new sfValidatorString(array('required' => false)),

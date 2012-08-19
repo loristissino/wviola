@@ -32,6 +32,16 @@ class sfGuardUserProfilePeer extends BasesfGuardUserProfilePeer
 		}
 		return $objs;
 	}
+  
+  public static function selectAllActiveSorted()
+  {
+    $c = new Criteria();
+    $c->addJoin(sfGuardUserProfilePeer::USER_ID, sfGuardUserPeer::ID);
+    $c->add(sfGuardUserPeer::IS_ACTIVE, true);
+    $c->addAscendingOrderByColumn(sfGuardUserProfilePeer::LAST_NAME);
+    $c->addAscendingOrderByColumn(sfGuardUserProfilePeer::FIRST_NAME);
+    return self::doSelectJoinsfGuardUser($c);
+  }
 
   
 }

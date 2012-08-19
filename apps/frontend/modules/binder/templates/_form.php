@@ -39,6 +39,15 @@
     </tfoot>
     <tbody>
       <?php echo $form->renderGlobalErrors() ?>
+      <?php if(isset($form['user_id'])): ?>
+        <tr>
+          <th><?php echo $form['user_id']->renderLabel() ?></th>
+          <td>
+            <?php echo $form['user_id']->renderError() ?>
+            <?php echo $form['user_id'] ?>
+          </td>
+        </tr>
+      <?php endif ?>
       <tr>
         <th><?php echo $form['category_id']->renderLabel() ?></th>
         <td>

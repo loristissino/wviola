@@ -17,21 +17,29 @@ class BinderForm extends BaseBinderForm
   public function __construct($object=null, $options=array())
   {
     
-    if(@$options['embedded']==true)
-    {
-      $this->_embedded = true;
-    }
+    $this->_embedded = (isset($options['embedded'])) && ($options['embedded']);
+    $this->_tagger = (isset($options['tagger'])) && ($options['tagger']);
+    
     parent::__construct($object, $options);
   }
   
   public function configure()
   {
+
+    $this->widgetSchema['user_id']->setLabel('Owner');
+    
+    $this['user_id']->getWidget()->setOption('peer_method', 'selectAllActiveSorted');
+
     unset(
-      $this['user_id'],
       $this['created_at'],
       $this['updated_at'],
       $this['archive_id']
     );
+    
+    if(!$this->_tagger)
+    {
+      unset($this['user_id']);
+    }
     
     $this->widgetSchema['title']->setAttribute('size', 70);
     
@@ -67,6 +75,11 @@ class BinderForm extends BaseBinderForm
       );
 
     $this->validatorSchema['category_id'] = new sfValidatorPropelChoice(array('model' => 'Category', 'column' => 'id', 'required' => true));
+
+    if($this->_tagger)
+    {
+      $this->validatorSchema['user_id'] = new sfValidatorPropelChoice(array('model' => 'sfGuardUserProfile', 'column' => 'user_id', 'required' => true));
+    }
     
     $this->validatorSchema['event_date'] = new sfValidatorDate(array('required' => true));
 

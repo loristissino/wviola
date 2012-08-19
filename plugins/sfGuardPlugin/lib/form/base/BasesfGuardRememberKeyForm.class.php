@@ -8,7 +8,6 @@
  * @package    ##PROJECT_NAME##
  * @subpackage form
  * @author     ##AUTHOR_NAME##
- * @version    SVN: $Id: sfPropelFormGeneratedTemplate.php 24171 2009-11-19 16:37:50Z Kris.Wallsmith $
  */
 abstract class BasesfGuardRememberKeyForm extends BaseFormPropel
 {
@@ -24,7 +23,7 @@ abstract class BasesfGuardRememberKeyForm extends BaseFormPropel
     $this->setValidators(array(
       'user_id'      => new sfValidatorPropelChoice(array('model' => 'sfGuardUser', 'column' => 'id', 'required' => false)),
       'remember_key' => new sfValidatorString(array('max_length' => 32, 'required' => false)),
-      'ip_address'   => new sfValidatorPropelChoice(array('model' => 'sfGuardRememberKey', 'column' => 'ip_address', 'required' => false)),
+      'ip_address'   => new sfValidatorChoice(array('choices' => array($this->getObject()->getIpAddress()), 'empty_value' => $this->getObject()->getIpAddress(), 'required' => false)),
       'created_at'   => new sfValidatorDateTime(array('required' => false)),
     ));
 

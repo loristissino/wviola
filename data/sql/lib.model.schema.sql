@@ -171,6 +171,7 @@ CREATE TABLE "binder"
 (
 	"id" serial  NOT NULL,
 	"user_id" INTEGER  NOT NULL,
+	"tagger_user_id" INTEGER,
 	"category_id" INTEGER,
 	"title" VARCHAR(255),
 	"code" VARCHAR(25),
@@ -321,9 +322,11 @@ ALTER TABLE "audio_asset" ADD CONSTRAINT "audio_asset_FK_1" FOREIGN KEY ("asset_
 
 ALTER TABLE "binder" ADD CONSTRAINT "binder_FK_1" FOREIGN KEY ("user_id") REFERENCES "sf_guard_user_profile" ("user_id") ON UPDATE CASCADE ON DELETE CASCADE;
 
-ALTER TABLE "binder" ADD CONSTRAINT "binder_FK_2" FOREIGN KEY ("category_id") REFERENCES "category" ("id");
+ALTER TABLE "binder" ADD CONSTRAINT "binder_FK_2" FOREIGN KEY ("tagger_user_id") REFERENCES "sf_guard_user_profile" ("user_id") ON UPDATE CASCADE ON DELETE CASCADE;
 
-ALTER TABLE "binder" ADD CONSTRAINT "binder_FK_3" FOREIGN KEY ("archive_id") REFERENCES "archive" ("id");
+ALTER TABLE "binder" ADD CONSTRAINT "binder_FK_3" FOREIGN KEY ("category_id") REFERENCES "category" ("id");
+
+ALTER TABLE "binder" ADD CONSTRAINT "binder_FK_4" FOREIGN KEY ("archive_id") REFERENCES "archive" ("id");
 
 ALTER TABLE "archive" ADD CONSTRAINT "archive_FK_1" FOREIGN KEY ("user_id") REFERENCES "sf_guard_user_profile" ("user_id") ON UPDATE CASCADE ON DELETE CASCADE;
 

@@ -6,7 +6,6 @@
  * @package    wviola
  * @subpackage filter
  * @author     Loris Tissino <loris.tissino@gmail.com>
- * @version    SVN: $Id: sfPropelFormFilterGeneratedTemplate.php 24171 2009-11-19 16:37:50Z Kris.Wallsmith $
  */
 abstract class BaseVideoAssetFormFilter extends BaseFormFilterPropel
 {

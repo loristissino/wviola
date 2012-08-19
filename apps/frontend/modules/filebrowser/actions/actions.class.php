@@ -41,8 +41,9 @@ class filebrowserActions extends sfActions
 	
 		$this->path=$this->folder->getPath();
 		//$this->folder->scanSourcesInBackground($this->getContext());
-		$this->folder_items=$this->folder->getFolderItems($this->profile->getUsername());
-		
+		$this->folder_items=$this->folder->getFolderItems(
+      $this->getUser()->hasCredential('tagging')? '' : $this->profile->getUsername()
+      );
 	
   }
   public function executeOpen(sfWebRequest $request)

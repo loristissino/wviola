@@ -8,6 +8,9 @@
   <thead>
     <tr>
       <th><?php echo __('Id') ?></th>
+      <?php if($sf_user->hasCredential('tagging')): ?>
+        <th><?php echo __('Owner') ?></th>
+      <?php endif ?>
       <th><?php echo __('Category') ?></th>
       <th><?php echo __('Title') ?></th>
       <th><?php echo __('Code') ?></th>
@@ -21,6 +24,9 @@
     <?php foreach ($pager->getResults() as $Binder): ?>
     <tr>
       <td><a href="<?php echo url_for('binder/show?id='.$Binder->getId()) ?>"><?php echo $Binder->getId() ?></a></td>
+      <?php if($sf_user->hasCredential('tagging')): ?>
+        <td><?php echo $Binder->getsfGuardUserProfile() ?></td>
+      <?php endif ?>
       <td><?php echo $Binder->getCategory() ?></td>
       <td><?php echo $Binder->getTitle() ?></td>
       <td><?php echo $Binder->getCode() ?></td>

@@ -68,11 +68,15 @@ class BinderPeer extends BaseBinderPeer {
   public static function getCriteriaForUser($userId, $onlyOpen=false)
   {
     $c = new Criteria();
-    $c->add(BinderPeer::USER_ID, $userId);
+    $c1 = $c->getNewCriterion(BinderPeer::USER_ID, $userId);
+    $c2 = $c->getNewCriterion(BinderPeer::TAGGER_USER_ID, $userId);
+    $c1->addOr($c2);
+    $c->add($c1);
     if ($onlyOpen)
     {
       $c->add(BinderPeer::IS_OPEN, true);
     }
+    $c->addJoin(BinderPeer::USER_ID, sfGuardUserProfilePeer::USER_ID);
     return $c;
   }
   
