@@ -137,7 +137,7 @@ class assetActions extends sfActions
     }
 
     
-    $this->binderform = new BinderForm(null, array('embedded'=>true));
+    $this->binderform = new BinderForm(null, array('embedded'=>true, 'tagger'=>$this->getUser()->hasCredential('tagging')));
   }
 
   public function executeCreate(sfWebRequest $request)

@@ -7,7 +7,10 @@ sfGuardPermission:
     description:    Asset encoding
   asset_view:
     name:           asset_view
-    description:    Asset viewing 
+    description:    Asset viewing
+  tagging:
+    name:           tagging
+    description:    Asset tagging
 
 sfGuardGroup:
   admin:

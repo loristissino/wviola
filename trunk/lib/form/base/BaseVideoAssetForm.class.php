@@ -8,7 +8,6 @@
  * @package    wviola
  * @subpackage form
  * @author     Loris Tissino <loris.tissino@gmail.com>
- * @version    SVN: $Id: sfPropelFormGeneratedTemplate.php 24171 2009-11-19 16:37:50Z Kris.Wallsmith $
  */
 abstract class BaseVideoAssetForm extends BaseFormPropel
 {

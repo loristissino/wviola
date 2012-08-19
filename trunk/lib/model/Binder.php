@@ -28,8 +28,21 @@ class Binder extends BaseBinder {
   
   public function setFromForm($user_id, $values)
   {
+    
+    if(isset($values['user_id']))
+    {
+      $owner_id=$values['user_id'];
+      $tagger_id=$user_id;
+    }
+    else
+    {
+      $owner_id=$user_id;
+      $tagger_id = null;
+    }
+    
     $this
-    ->setUserId($user_id)
+    ->setUserId($owner_id)
+    ->setTaggerUserId($tagger_id)
     ->setCategoryId($values['category_id'])
     ->setTitle($values['title'])
     ->setCode($values['code'])
@@ -119,7 +132,7 @@ class Binder extends BaseBinder {
 
   public function setIsEditable($userId)
   {
-    $this->_editable = $userId === $this->getUserId();
+    $this->_editable = ($userId === $this->getUserId()) || ($userId === $this->getTaggerUserId());
   }
   
   public function getIsEditable()
@@ -135,6 +148,60 @@ class Binder extends BaseBinder {
   {
     return !$this->getIsOpen();
   }
+  
+	/**
+	 * Get the associated sfGuardUserProfile object (owner)
+	 *
+	 * @param      PropelPDO Optional Connection object.
+	 * @return     sfGuardUserProfile The associated sfGuardUserProfile object.
+	 * @throws     PropelException
+	 */
+	public function getsfGuardUserProfile(PropelPDO $con = null)
+	{
+    return $this->getsfGuardUserProfileRelatedByUserId($con);
+	}
+
+	/**
+	 * Declares an association between this object and a sfGuardUserProfile object (owner)
+	 *
+	 * @param      sfGuardUserProfile $v
+	 * @return     Binder The current object (for fluent API support)
+	 * @throws     PropelException
+	 */
+	public function setsfGuardUserProfile(sfGuardUserProfile $v = null)
+	{
+    return $this->setsfGuardUserProfileRelatedByUserId($v);
+	}
+
+	/**
+	 * Get the associated sfGuardUserProfile object (tagger)
+	 *
+	 * @param      PropelPDO Optional Connection object.
+	 * @return     sfGuardUserProfile The associated sfGuardUserProfile object.
+	 * @throws     PropelException
+	 */
+	public function getTaggerProfile(PropelPDO $con = null)
+	{
+    return $this->getsfGuardUserProfileRelatedByTaggerUserId($con);
+	}
+
+	/**
+	 * Declares an association between this object and a sfGuardUserProfile object (tagger)
+	 *
+	 * @param      sfGuardUserProfile $v
+	 * @return     Binder The current object (for fluent API support)
+	 * @throws     PropelException
+	 */
+	public function setTaggerProfile(sfGuardUserProfile $v = null)
+	{
+    return $this->setsfGuardUserProfileRelatedByTaggerUserId($v);
+	}
+  
+  public function isOwnedBy($user_id)
+  {
+    return $this->getUserId()==$user_id;
+  }
+
 
 
 } // Binder

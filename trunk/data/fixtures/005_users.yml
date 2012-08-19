@@ -67,3 +67,7 @@ sfGuardUserProfile:
     email:           john@example.com
     imported_at:     11/06/2009 8:20
 
+sfGuardUserPermission:
+  tagger:
+    user_id:         andreas
+    permission_id:   tagging

@@ -7,8 +7,18 @@
     </tr>
     <tr>
       <th><?php echo __('User') ?></th>
-      <td><?php echo $Binder->getsfGuardUserProfile() ?></td>
+      <td><?php echo $Binder->getsfGuardUserProfile() ?>
+      <?php if($sf_user->hasCredential('tagging') and $Binder->isOwnedBy($sf_user->getProfile()->getUserId())): ?>
+        - <?php echo link_to(__('change owner...'), url_for('binder/changeowner?id=' . $Binder->getId())) ?>
+      <?php endif ?>
+      </td>
     </tr>
+    <?php if($Binder->getTaggerUserId()): ?>
+      <tr>
+        <th><?php echo __('Tagger') ?></th>
+        <td><?php echo $Binder->getTaggerProfile() ?></td>
+      </tr>
+    <?php endif ?>
     <tr>
       <th><?php echo __('Category') ?></th>
       <td><?php echo $Binder->getCategory() ?></td>

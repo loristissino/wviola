@@ -24,6 +24,9 @@
       <th class="sf_admin_text"><?php echo __('Type') ?></th>
       <th class="sf_admin_text"><?php echo __('Name') ?></th>
       <th class="sf_admin_text"><?php echo __('Size') ?></th>
+      <?php if($sf_user->hasCredential('tagging')): ?>
+        <th class="sf_admin_text"><?php echo __('Owner') ?></th>
+      <?php endif ?>
       <th class="sf_admin_text"><?php echo __('Date') ?></th>
       <th class="sf_admin_text"><?php echo __('Thumbnails') ?></th>
       <th class="sf_admin_text"><?php echo __('Actions') ?></th>
@@ -40,6 +43,9 @@
 		<?php echo human_readable_size($item->getStat('size')) ?>
 	<?php endif ?>
 	</td>
+      <?php if($sf_user->hasCredential('tagging')): ?>
+        <td><?php echo $item->getOwner() ?></td>
+      <?php endif ?>
       <td><?php echo Generic::datetime($item->getStat('mtime'), $sf_context) ?></td>
 	  <td>
       <?php include_component('filebrowser', 'thumbnails', array('file'=>$item)) ?>

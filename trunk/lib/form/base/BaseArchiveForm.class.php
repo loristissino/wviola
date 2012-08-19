@@ -8,7 +8,6 @@
  * @package    wviola
  * @subpackage form
  * @author     Loris Tissino <loris.tissino@gmail.com>
- * @version    SVN: $Id: sfPropelFormGeneratedTemplate.php 24171 2009-11-19 16:37:50Z Kris.Wallsmith $
  */
 abstract class BaseArchiveForm extends BaseFormPropel
 {
@@ -26,7 +25,7 @@ abstract class BaseArchiveForm extends BaseFormPropel
     ));
 
     $this->setValidators(array(
-      'id'           => new sfValidatorPropelChoice(array('model' => 'Archive', 'column' => 'id', 'required' => false)),
+      'id'           => new sfValidatorChoice(array('choices' => array($this->getObject()->getId()), 'empty_value' => $this->getObject()->getId(), 'required' => false)),
       'slug'         => new sfValidatorString(array('max_length' => 50, 'required' => false)),
       'archive_type' => new sfValidatorInteger(array('min' => -2147483648, 'max' => 2147483647, 'required' => false)),
       'position'     => new sfValidatorInteger(array('min' => -2147483648, 'max' => 2147483647, 'required' => false)),

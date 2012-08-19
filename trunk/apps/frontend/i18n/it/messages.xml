@@ -725,6 +725,14 @@
         <source>See logs for details.</source>
         <target>Vedi i log per i dettagli.</target>
       </trans-unit>
+      <trans-unit id="178">
+        <source>Tagger</source>
+        <target>Classificatore</target>
+      </trans-unit>
+      <trans-unit id="179">
+        <source>Owner</source>
+        <target>Proprietario</target>
+      </trans-unit>
      </body>
   </file>
 </xliff>

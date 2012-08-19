@@ -17,6 +17,7 @@ class binderActions extends sfActions
       sfConfig::get('app_max_binders_per_page')
     );
     $this->pager->setCriteria($this->getUser()->getProfile()->getBinderCriteria());
+    $this->pager->setPeerMethod('doSelectJoinsfGuardUserProfileRelatedByUserId');
 
     $this->pager->setPage($request->getParameter('page', 1));
     $this->pager->init();
@@ -45,9 +46,8 @@ class binderActions extends sfActions
   {
     $embedded = preg_match('/asset\/create/', $request->getReferer())
       || preg_match('/filebrowser\/archive/', $request->getReferer());
-    
-    $this->form = new BinderForm(null, array('embedded'=>$embedded));
-
+          
+    $this->form = new BinderForm(null, array('embedded'=>$embedded, 'tagger'=>$this->getUser()->hasCredential('tagging')));
 
   }
 
@@ -57,7 +57,7 @@ class binderActions extends sfActions
 
     $embedded = $request->getParameter('embedded');
 
-    $this->form = new BinderForm(null, array('embedded'=>$embedded));
+    $this->form = new BinderForm(null, array('embedded'=>$embedded, 'tagger'=>$this->getUser()->hasCredential('tagging')));
     
     $this->processForm($request, $this->form, $embedded);
 
@@ -81,15 +81,14 @@ class binderActions extends sfActions
 
     $embedded = $request->getParameter('embedded');
     
-    $this->form = new BinderForm($Binder, $embedded);
-    
+    $this->form = new BinderForm($Binder, array('embedded'=>$embedded, 'tagger'=>$this->getUser()->hasCredential('tagging')));
   }
 
   public function executeUpdate(sfWebRequest $request)
   {
     $this->forward404Unless($request->isMethod(sfRequest::POST) || $request->isMethod(sfRequest::PUT));
     $this->forward404Unless($Binder = BinderPeer::retrieveByPk($request->getParameter('id')), sprintf('Object Binder does not exist (%s).', $request->getParameter('id')));
-    $this->form = new BinderForm($Binder);
+    $this->form = new BinderForm($Binder, array('tagger'=>$this->getUser()->hasCredential('tagging')));
 
     $this->processForm($request, $this->form);
 
