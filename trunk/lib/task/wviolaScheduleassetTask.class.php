@@ -76,7 +76,7 @@ EOF;
   };
 
   $subdir=$options['subdir'];
-  Generic::normalizeDirName(&$subdir);
+  Generic::normalizeDirName($subdir);
 
   $sourcefile = new SourceFile($subdir, $options['file']);
 
