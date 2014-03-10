@@ -213,7 +213,7 @@ class SourceFile extends BasicFile
     $this->setWvInfo('source_type', self::VIDEO);
 		try
 		{
-			$movie= new ffmpeg_movie($this->getFullPath());
+			$movie= new FfmpegMovie($this->getFullPath());
 			$this->
 			setWvInfo('video_duration', $movie->getDuration())->
 			setWvInfo('video_framecount', $movie->getFrameCount())->
