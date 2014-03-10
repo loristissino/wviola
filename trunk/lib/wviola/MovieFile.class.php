@@ -81,7 +81,7 @@ class MovieFile extends BasicFile
     // the info in the db
     // we call it twice, for the low and for the high-quality video
     
-    $movie= new ffmpeg_movie($this->getFullPath());
+    $movie= new FfmpegMovie($this->getFullPath());
     
     switch($type)
     {
