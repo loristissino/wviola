@@ -20,4 +20,9 @@ require 'lib/model/om/BaseSource.php';
  */
 class Source extends BaseSource {
 
+   public function getFullPath()
+   {
+     return wvConfig::get('directory_sources'). '/'. $this->getRelativePath() . '/' . $this->getBasename;
+   }
+
 } // Source
