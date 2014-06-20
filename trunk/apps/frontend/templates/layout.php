@@ -30,7 +30,7 @@
 	<div class="tagline">
 	<p>
   <a href="http://code.google.com/p/wviola"><?php echo image_tag('wviola', array('alt'=>'WVIOLA logo', 'size'=>'16x16')) ?>&nbsp;WVIOLA (Web-based Videos and Images On Line Archiver)</a><br />
-  Copyright &copy 2009-2012 Loris Tissino<br />
+  Copyright &copy 2009-2014 Loris Tissino<br />
   <?php echo __('Free software released under the %license%', array(
       '%license%'=>link_to(
         __('GNU General Public License v3'),

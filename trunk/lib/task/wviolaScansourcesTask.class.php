@@ -325,13 +325,22 @@ EOF;
 
   if ($this->_fixSourcesTable)
   {
+    $this->logSection('fixes', 'Fixing source table...' , null, 'COMMENT');
     foreach(SourcePeer::retrieveByStatus(SourcePeer::STATUS_EMAILSENT, Criteria::LESS_EQUAL) as $Source)
     {
-      if (!file_exists(wvConfig::get('directory_sources'). '/'. $Source->getRelativePath()))
+      // echo "checking " . $Source->getFullPath() . "\n";
+      if (!file_exists($Source->getFullPath()))
       {
-        $this->logSection('source-', sprintf('%d - «%s»', $Source->getId(), $Source->getRelativePath()) , null, 'INFO');
+        $this->logSection('source-', sprintf('%d - «%s»', $Source->getId(), $Source->getFullPath()) , null, 'INFO');
         $Source->delete();
       }
+      /*
+       * uncomment for log purposes
+      else
+      {
+        $this->logSection('source', sprintf('%d - «%s» (kept)', $Source->getId(), $Source->getFullPath()) , null, 'COMMENT');
+      } 
+      */   
     }
   }
 
