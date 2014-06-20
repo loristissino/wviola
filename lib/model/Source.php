@@ -22,7 +22,7 @@ class Source extends BaseSource {
 
    public function getFullPath()
    {
-     return wvConfig::get('directory_sources'). '/'. $this->getRelativePath() . '/' . $this->getBasename;
+     return wvConfig::get('directory_sources'). $this->getRelativePath() . '/' . $this->getBasename();
    }
 
 } // Source
