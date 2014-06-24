@@ -26,13 +26,15 @@
         </td>
       </tr>
     </tfoot>
+
+   
     <tbody>
       <?php echo $form->renderGlobalErrors() ?>
       <tr>
         <th><?php echo $form['binder_id']->renderLabel() ?></th>
         <td>
           <?php echo $form['binder_id']->renderError() ?>
-          <span id="binderchoice"><?php echo $form['binder_id'] ?></span>
+          <?php if($form['binder_id']): ?><span id="binderchoice"><?php echo $form['binder_id'] ?></span><?php endif ?>
           <ul class="sf_admin_actions">
           <li class="sf_admin_action_new"><?php echo jq_link_to_function(__('New binder'),
             jq_visual_effect('fadeIn', '#newbinderform')
@@ -61,3 +63,4 @@
     </tbody>
   </table>
 </form>
+

@@ -95,7 +95,7 @@ EOF;
     
     if ($this->_ignoreScannedFiles and $file->getHasWvInfo())
     {
-			$this->logSection('info', 'Skipped because already scanned', null, 'COMMENT');
+			$this->logSection('info', sprintf('Skipped because already scanned (see %s)', $file->getWvInfoFileName()), null, 'COMMENT');
 			unset($file);
 			return;
     }

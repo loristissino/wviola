@@ -13,4 +13,5 @@ grep -v 'isoindex.php' | \
 grep -v 'sourcesready.yml' | \
 grep -v 'archiveready.yml' | \
 grep -v 'sourceswaiting.yml' | \
+grep -v 'data/asset*' | \
 sed 's/^?      //'

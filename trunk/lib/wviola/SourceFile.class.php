@@ -525,8 +525,13 @@ class SourceFile extends BasicFile
 	
 	public function getWvInfoFilePath()
 	{
-		return $this->getWvDirPath() . '/' . $this->getStat('ino') . '.yml';
+		return $this->getWvDirPath() . '/' . $this->getWvInfoFileName();
 	}
+  
+  public function getWvInfoFileName()
+  {
+    return $this->getStat('ino') . '.yml';
+  }
   
 	public function getWvDirPath()
 	{
