@@ -120,6 +120,7 @@ class assetActions extends sfActions
 
   public function executeNew(sfWebRequest $request)
   {
+
     $this->forward404Unless($this->sourcefile=$this->getUser()->getAttribute('sourcefile'));
     $this->form = new AssetForm($this->getUser()->getProfile()->getUserId());
     
@@ -135,7 +136,6 @@ class assetActions extends sfActions
       $this->form->setDefault('binder_id', $this->getUser()->getAttribute('last_binder'));
       Generic::logMessage('binder', $this->getUser()->getAttribute('last_binder'));
     }
-
     
     $this->binderform = new BinderForm(null, array('embedded'=>true, 'tagger'=>$this->getUser()->hasCredential('tagging')));
   }
