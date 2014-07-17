@@ -56,6 +56,13 @@ class SourcePeer extends BaseSourcePeer {
     return SourcePeer::doSelectOne($c);
   }
   
+  public static function retrieveByInode($inode)
+  {
+    $c = new Criteria();
+    $c->add(SourcePeer::INODE, $inode);
+    return SourcePeer::doSelectOne($c);
+  }
+  
   public static function markAsPublished($inode, PropelPDO $con=null)
   {
     
@@ -68,7 +75,7 @@ class SourcePeer extends BaseSourcePeer {
     $sc->add(SourcePeer::INODE, $inode);
 
     $uc = new Criteria();
-    $uc->add(SourcePeer::STATUS, self::STATUS_SCHEDULED);
+    $uc->add(SourcePeer::STATUS, self::STATUS_DONE);
     
     BasePeer::doUpdate($sc, $uc, $con);
   }

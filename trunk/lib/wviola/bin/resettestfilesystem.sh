@@ -9,3 +9,6 @@ mkdir /var/wviola/data/filesystem/sources/videos/.wviola 2>/dev/null
 cp -v /etc/wviola/wviola.yml /var/wviola/data/filesystem/sources/videos/.wviola/$WVIOLAFILE
 
 chmod -R 777 /var/wviola/data/filesystem/sources/videos/.wviola
+
+# find /var/wviola/data/filesystem/sources/ -type d -exec chgrp -v www-data {} \;
+# find /var/wviola/data/filesystem/sources/ -type d -exec chmod -v g+w {} \;

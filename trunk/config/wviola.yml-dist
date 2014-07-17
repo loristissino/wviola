@@ -9,6 +9,9 @@ directory:
   published_thumbnails: /var/wviola/data/filesystem/published/thumbnails
   # where thumbnails of published assets are kept
 
+  marked: /var/wviola/data/filesystem/sources/.wviola/marked
+  # where files to be published are moved when the user mark them as scheduled
+
   scheduled: /var/wviola/data/filesystem/scheduled
   # where files to be published are kept
 
