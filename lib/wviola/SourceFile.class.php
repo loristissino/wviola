@@ -310,10 +310,19 @@ class SourceFile extends BasicFile
     {
       $command=sprintf('ffprobe "%s" 2>&1 | grep "  Duration:" | head -1 | sed -e "s/.*Duration: //" -e "s/,.*//"', $this->getFullPath());
       $duration=$this->executeCommand($command);
-      list($secs, $dec) = explode('.', $duration);
-      list($hours, $minutes, $seconds) = explode(':', $secs);
       
-      $this->setWvInfo('audio_duration', $seconds + $minutes*60 + $hours*3600 + $dec/100);
+      if(!is_array($duration))  // we expect the result in one single line
+      {
+        list($secs, $dec) = explode('.', $duration);
+        list($hours, $minutes, $seconds) = explode(':', $secs);
+        $value = $seconds + $minutes*60 + $hours*3600 + $dec/100;
+      }
+      else
+      {
+		  $value = null;
+	  }
+      
+      $this->setWvInfo('audio_duration', $value);
     }
     catch (Exception $e)
     {
@@ -553,37 +562,38 @@ class SourceFile extends BasicFile
 		return is_writeable($this->getPath());
 	}
 
-    public function moveFileToScheduled($prefix)
+    public function moveFileToMarked($prefix)
+    // This was the old moveFileToScheduled(), renamed to deal with a different idea of steps
     {
       $uniqid=uniqid($prefix . '_', true);
       
-      Generic::logMessage('sourcefile::moveFileToScheduled()', 'started');
+      Generic::logMessage('sourcefile::moveFileToMarked()', 'started');
 
       if (!rename(
         $this->getWvInfoFilePath(),
-        wvConfig::get('directory_scheduled') . '/' . $uniqid . '.yml'
+        wvConfig::get('directory_marked') . '/' . $uniqid . '.yml'
         ))
       {
-        Generic::logMessage('sourcefile::moveFileToScheduled()', sprintf('could not move "%s" to "%s"', $this->getWvInfoFilePath(),wvConfig::get('directory_scheduled') . '/' . $uniqid . '.yml'));
+        Generic::logMessage('sourcefile::moveFileToMarked()', sprintf('could not move "%s" to "%s"', $this->getWvInfoFilePath(),wvConfig::get('directory_marked') . '/' . $uniqid . '.yml'));
         return false;
       }
       else
       {
-        Generic::logMessage('sourcefile::moveFileToScheduled()', sprintf('moved "%s" to "%s"', $this->getWvInfoFilePath(),wvConfig::get('directory_scheduled') . '/' . $uniqid . '.yml'));
+        Generic::logMessage('sourcefile::moveFileToMarked()', sprintf('moved "%s" to "%s"', $this->getWvInfoFilePath(),wvConfig::get('directory_marked') . '/' . $uniqid . '.yml'));
       }
 
       if (!rename(
           $this->getFullPath(),
-          wvConfig::get('directory_scheduled') . '/' . $uniqid
+          wvConfig::get('directory_marked') . '/' . $uniqid
           ))
       {
         // This shouldn't happen, since we were able to write the yml info file...
-        Generic::logMessage('sourcefile::moveFileToScheduled()', sprintf('could not move "%s" to "%s"', $this->getFullPath(), wvConfig::get('directory_scheduled') . '/' . $uniqid));
+        Generic::logMessage('sourcefile::moveFileToMarked()', sprintf('could not move "%s" to "%s"', $this->getFullPath(), wvConfig::get('directory_marked') . '/' . $uniqid));
         return false;
       }
       else
       {
-        Generic::logMessage('sourcefile::moveFileToScheduled()', sprintf('moved "%s" to "%s"', $this->getFullPath(), wvConfig::get('directory_scheduled') . '/' . $uniqid));
+        Generic::logMessage('sourcefile::moveFileToMarked()', sprintf('moved "%s" to "%s"', $this->getFullPath(), wvConfig::get('directory_marked') . '/' . $uniqid));
       }
     
       return $uniqid;

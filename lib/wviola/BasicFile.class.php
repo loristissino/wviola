@@ -204,6 +204,10 @@ class BasicFile
     }
     else
     {
+      if(strpos($limit, ':')!==false)
+      {
+        list($sum,$limit)=explode(':',$limit);
+      }
       $info=$this->executeCommand(
         sprintf('limitedmd5sum "%s" %s', $this->getFullPath(), $limit),
         true);

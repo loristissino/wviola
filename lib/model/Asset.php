@@ -201,7 +201,7 @@ class Asset extends BaseAsset {
       $thumbnail=$sourcefile->getThumbnail($values['thumbnail']);
     }
 
-    $uniqid = $sourcefile->moveFileToScheduled($this->getAssetTypeShortCode());
+    $uniqid = $sourcefile->moveFileToMarked($this->getAssetTypeShortCode());
     
     Generic::logMessage('Asset->scheduleSourceFileForArchiviation()', 'got uniqid: ' . $uniqid);
 

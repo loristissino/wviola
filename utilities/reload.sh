@@ -3,8 +3,10 @@ echo -n "Removing Lucene indexes... "
 rm -rf data/*index
 echo "done."
 lib/wviola/bin/resettestfilesystem.sh
-symfony propel:data-load --env=dev --application=frontend
-symfony propel:insert-sql --env=test --no-confirmation
+
+cd /var/wviola
+php symfony propel:data-load --env=dev --application=frontend
+php symfony propel:insert-sql --env=test --no-confirmation
 
 sudo mkdir -v /var/wviola/data/asset.{dev,prod,test}.index
 sudo chgrp -v www-data /var/wviola/data/*.index

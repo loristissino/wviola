@@ -124,11 +124,11 @@ $id=$file->getWvInfo('file_asset_id');
 
 $t->isnt($id, null, '->getWvInfo() returns the id of an asset that has the same size and md5sum');
 
-$t->diag('->moveToScheduled()');
+$t->diag('->moveToMarked()');
 
 unset($file);
 $file=new SourceFile('/videos', 'bigbuckbunny01.avi');
-$uniqid=$file->moveFileToScheduled('vid');
-$t->cmp_ok($uniqid, '!==', false, '->moveFileToScheduled() returns the uniqid of the file');
-$t->is(file_exists(wvConfig::get('directory_scheduled') . '/' . $uniqid), true, '->moveFileToScheduled() actually moves the file');
-$t->is(file_exists($file->getWvInfoFilePath()), false, '->moveFileToScheduled() deletes the wvinfo file');
+$uniqid=$file->moveFileToMarked('vid');
+$t->cmp_ok($uniqid, '!==', false, '->moveFileToMarked() returns the uniqid of the file');
+$t->is(file_exists(wvConfig::get('directory_marked') . '/' . $uniqid), true, '->moveFileToMarked() actually moves the file');
+$t->is(file_exists($file->getWvInfoFilePath()), false, '->moveFileToMarked() deletes the wvinfo file');
