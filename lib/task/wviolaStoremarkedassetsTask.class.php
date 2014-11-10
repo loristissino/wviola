@@ -55,6 +55,11 @@ EOF;
 					echo "done.\n";
 				}
 				$asset=AssetPeer::retrieveByUniqid($file);
+        if(!$asset)
+        {
+          echo "Could not find db information about the asset identified by " . $file . ". Skipping.\n";
+          continue;
+        }
 				$copiedFile = new BasicFile($sf);
 				echo "Checking md5... ";
 				if($copiedFile->getMD5Sum($asset->getSourceLmd5sum())==$asset->getSourceLmd5sum())
