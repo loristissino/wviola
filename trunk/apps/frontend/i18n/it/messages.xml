@@ -733,6 +733,10 @@
         <source>Owner</source>
         <target>Proprietario</target>
       </trans-unit>
+      <trans-unit id="180">
+        <source>Probably you were trying to archive a duplicate.</source>
+        <target>Probabilmente stavi cercando di archiviare un duplicato.</target>
+      </trans-unit>
      </body>
   </file>
 </xliff>

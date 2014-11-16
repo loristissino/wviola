@@ -238,27 +238,34 @@ class Asset extends BaseAsset {
 
     if ($uniqid)
     {
-       
-      $this
-      ->setUniqid($uniqid)
-      ->setBinderId($values['binder_id'])
-      ->setNotes($values['notes'])
-      ->setStatus(self::SCHEDULED)
-      ->save();
       
-      Generic::logMessage('Asset->scheduleSourceFileForArchiviation()', 'saved info on db');
-
-      
-	  // FIXME This should be put in a transaction
-      $Source = SourcePeer::retrieveByPathAndBasename(
-        $sourcefile->getRelativePath(),
-        $sourcefile->getBaseName()
-        );
-      if ($Source)
-      {
-        $Source
-        ->setStatus(SourcePeer::STATUS_SCHEDULED)
+      try { 
+        $this
+        ->setUniqid($uniqid)
+        ->setBinderId($values['binder_id'])
+        ->setNotes($values['notes'])
+        ->setStatus(self::SCHEDULED)
         ->save();
+        Generic::logMessage('Asset->scheduleSourceFileForArchiviation()', 'saved info on db');
+
+        
+      // FIXME This should be put in a transaction
+        $Source = SourcePeer::retrieveByPathAndBasename(
+          $sourcefile->getRelativePath(),
+          $sourcefile->getBaseName()
+          );
+        if ($Source)
+        {
+          $Source
+          ->setStatus(SourcePeer::STATUS_SCHEDULED)
+          ->save();
+        }
+      }
+      catch (Exception $e)
+      {
+        // the file is a duplicate of an asset that we already have.
+        $sourcefile->moveFileBack();
+        return false;
       }
 	
 

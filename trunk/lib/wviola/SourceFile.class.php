@@ -87,7 +87,10 @@ class SourceFile extends BasicFile
 		setWvInfo('file_mtime', $this->getStat('mtime'))->
 		setWvInfo('file_ctime', $this->getStat('ctime'))->
 		setWvInfo('file_atime', $this->getStat('atime'))->
-		setWvInfo('file_size', $this->getStat('size'))->
+		setWvInfo('file_uid', $this->getStat('uid'))->
+		setWvInfo('file_gid', $this->getStat('gid'))->
+    setWvInfo('file_originalpath', $this->getFullPath())->
+    setWvInfo('file_size', $this->getStat('size'))->
 		setWvInfo('file_mediatype', $this->getGuessedInternetMediaType())->
 		setWvInfo('file_type', $this->getFileType())
 		;
@@ -598,6 +601,17 @@ class SourceFile extends BasicFile
     
       return $uniqid;
   }
+
+
+    public function moveFileBack()
+    {
+      /*
+      * This is just a placeholder.
+      * Actually, we will restore the file in its original directory using the task store-marked-assets. 
+      */
+    }
+
+
   
   public function getIsBeingCopied()
   {

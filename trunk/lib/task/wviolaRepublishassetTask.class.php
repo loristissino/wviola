@@ -50,7 +50,7 @@ EOF;
     $connection = $databaseManager->getDatabase($options['connection'] ? $options['connection'] : null)->getConnection();
 
     // add your code here
-    
+  $this->logSection('started', date('c'), null, 'COMMENT');
 
 	$this->_isLogged=Generic::normalizedBooleanValue($options['logged'], true);
 	$options['logged']=Generic::normalizedBooleanDescription($this->_isLogged);
@@ -106,6 +106,8 @@ EOF;
 		// we update the record
 	}
   
+  $this->logSection('completed', date('c'), null, 'COMMENT');
+
 	return 0;
 	
   }
