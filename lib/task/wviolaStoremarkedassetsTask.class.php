@@ -41,6 +41,8 @@ EOF;
   {
     $files=scandir($this->_markedDirectory);
     
+    $fixes = array();
+    
     foreach($files as $file)
     {
 		if(substr($file, 0, 1)!='.')
@@ -49,6 +51,7 @@ EOF;
 			{
 				echo "Copying file " . $file . "... ";
         $sf = $this->_markedDirectory . '/' . $file;
+        $if = $this->_markedDirectory . '/' . $file . '.yml';
         $tf = $this->_scheduledDirectory . '/' . $file;
 				if(copy($sf, $tf))
 				{
@@ -57,7 +60,31 @@ EOF;
 				$asset=AssetPeer::retrieveByUniqid($file);
         if(!$asset)
         {
-          echo "Could not find db information about the asset identified by " . $file . ". Skipping.\n";
+          echo "Could not find db information about the asset identified by " . $file . ".\n";
+          
+          $info=sfYaml::load($if);
+          
+          if(is_array($info) && isset($info['file']))
+          {
+            if(isset($info['file']['originalpath']))
+            {
+              echo "* The file should be moved back to " . $info['file']['originalpath'] . "\n";
+              $fixes[] = sprintf("sudo mv -v '%s' '%s'", $sf, $info['file']['originalpath']);
+            }
+            if(isset($info['file']['uid']))
+            {
+              echo "* The file owner (uid) should be set back to " . $info['file']['uid'] . "\n";
+              $fixes[] = sprintf("sudo chown -v %s '%s'", $info['file']['uid'], $info['file']['originalpath']);
+            }
+            if(isset($info['file']['gid']))
+            {
+              echo "* The file owner (gid) should be set back to " . $info['file']['gid'] . "\n";
+              $fixes[] = sprintf("sudo chgrp -v %s '%s'", $info['file']['gid'], $info['file']['originalpath']);
+            }
+          }
+          
+          echo "\n";
+          
           continue;
         }
 				$copiedFile = new BasicFile($sf);
@@ -87,6 +114,15 @@ EOF;
 		}
 	}
 
+
+    if(sizeof($fixes))
+    {
+      $tempname = tempnam(sys_get_temp_dir(), 'wviola_generated_');
+      file_put_contents($tempname, "#!/bin/bash\n" . implode("\n", $fixes) . "\n");
+      $this->logSection('file+', $tempname, null, 'INFO');
+      echo 'Some duplicates have been found. If you want to restore them, run '. $tempname . "\n";
+    }
+
   }
 
 
@@ -96,6 +132,8 @@ EOF;
     // initialize the database connection
     $databaseManager = new sfDatabaseManager($this->configuration);
     $connection = $databaseManager->getDatabase($options['connection'] ? $options['connection'] : null)->getConnection();
+
+    $this->logSection('started', date('c'), null, 'COMMENT');
 
     $this->_isLogged=Generic::normalizedBooleanValue($options['logged'], true);
     $options['logged']=Generic::normalizedBooleanDescription($this->_isLogged);
@@ -134,6 +172,8 @@ EOF;
       // we update the record
     }
     
+    $this->logSection('completed', date('c'), null, 'COMMENT');
+
     return 0;
 	
   }

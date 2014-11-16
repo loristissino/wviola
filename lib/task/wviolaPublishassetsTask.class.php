@@ -44,6 +44,9 @@ EOF;
     $databaseManager = new sfDatabaseManager($this->configuration);
     $connection = $databaseManager->getDatabase($options['connection'] ? $options['connection'] : null)->getConnection();
 
+    $this->logSection('started', date('c'), null, 'COMMENT');
+
+
     $this->_isLogged=Generic::normalizedBooleanValue($options['logged'], true);
     $options['logged']=Generic::normalizedBooleanDescription($this->_isLogged);
       
@@ -113,6 +116,8 @@ EOF;
       // we update the record
     }
     
+    $this->logSection('completed', date('c'), null, 'COMMENT');
+
     return 0;
 	
   }

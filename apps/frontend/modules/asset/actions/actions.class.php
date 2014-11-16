@@ -305,7 +305,7 @@ class assetActions extends sfActions
         }
         else
         {
-          $this->getUser()->setFlash('error', $this->getContext()->getI18N()->__('Something went wrong with scheduling.'));
+          $this->getUser()->setFlash('error', $this->getContext()->getI18N()->__('Something went wrong with scheduling.'). ' ' . $this->getContext()->getI18N()->__('Probably you were trying to archive a duplicate.'));
         }
           
         $this->redirect('filebrowser/index');
