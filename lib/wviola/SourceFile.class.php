@@ -14,7 +14,8 @@ class SourceFile extends BasicFile
 		$_relativePath,
 		$_basicPath,
 		$_fileInfo,
-		$_infoChanged;
+		$_infoChanged,
+    $_duplicateOfAssetId;
 
 	public function __construct($relativePath, $basename)
 	{
@@ -27,6 +28,7 @@ class SourceFile extends BasicFile
 		parent::__construct($this->getBasicPath() . $relativePath, $basename);
 		$this->setRelativePath($relativePath);
 		$this->loadWvInfoFile();
+    $_duplicateOfAssetId = null;
 	}
   
 	public function getHasWvInfo()
@@ -633,6 +635,30 @@ class SourceFile extends BasicFile
       echo 't' . $waittime . ' size: ' . $currentsize . "\n";
     }
     return $originalsize!=$currentsize;
+  }
+  
+  public function getIsArchivable()
+  {
+    // the task scan-sources has already found this is a duplicate
+    if(true !== $this->getWvInfo('file_archivable'))
+    {
+      $this->_duplicateOfAssetId = $this->getWvInfo('file_asset_id');
+      return false;
+    }
+    
+    // this is a new file, and the task scan-sources hasn't yet found it as a duplicate
+    if($asset = AssetPeer::retrieveBySourceSizeAndMd5sum($this->getWvInfo('file_size'), $this->getWvInfo('file_lmd5sum')))
+    {
+      $this->_duplicateOfAssetId = $asset->getId();
+      return false;
+    }
+    return true;
+    
+  }
+  
+  public function getDuplicateOfAssetId()
+  {
+    return $this->_duplicateOfAssetId;
   }
 	
 }

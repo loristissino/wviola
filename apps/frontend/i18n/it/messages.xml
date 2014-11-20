@@ -169,8 +169,8 @@
         <target>Modifica</target>
       </trans-unit>
       <trans-unit id="42">
-        <source>For some reason, it is not possible to schedule file %filename% for archiviation.</source>
-        <target>Per qualche motivo, non è possibile predisporre %filename% per l'archiviazione.</target>
+        <source>For some reason, it is not possible to schedule file «%filename%» for archiviation.</source>
+        <target>Per qualche motivo, non è possibile predisporre «%filename%» per l'archiviazione.</target>
       </trans-unit>
       <trans-unit id="43">
         <source>Directory changed to %directoryname%.</source>
@@ -736,6 +736,10 @@
       <trans-unit id="180">
         <source>Probably you were trying to archive a duplicate.</source>
         <target>Probabilmente stavi cercando di archiviare un duplicato.</target>
+      </trans-unit>
+      <trans-unit id="181">
+        <source>Looks like it is a a duplicate of asset %id%.</source>
+        <target>A quanto pare, si tratta di un duplicato del documento multimediale %id%.</target>
       </trans-unit>
      </body>
   </file>

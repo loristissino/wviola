@@ -77,6 +77,25 @@ class SourceFolder
           }
 					else
 					{
+            /* 
+             * //we can't do this here, because the webserver user might not have the right permissions to update the yml file...
+             * 
+            $lmd5sum = $sourceFile->getWvInfo('file_lmd5sum');
+            $size = $sourceFile->getWvInfo('file_size');
+            if(AssetPeer::retrieveBySourceSizeAndMd5sum($size, $lmd5sum))
+            {
+              $sourceFile->setWvInfo('file_archivable', false);
+              try
+              {
+                $sourceFile->saveWvInfoFile();
+              }
+              catch (Exception $e)
+              {
+                // add something here...
+              }
+            }
+            */
+            
 						$this->_folderItems[]=$sourceFile;
 					}
 				}
