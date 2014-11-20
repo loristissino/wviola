@@ -85,7 +85,7 @@ class filebrowserActions extends sfActions
       $this->forward404();
     }
 
-    if(!$error && true !== $this->sourcefile->getWvInfo('file_archivable'))
+    if(!$error && !$this->sourcefile->getIsArchivable())
     {
       $error=true;
     }
@@ -95,9 +95,22 @@ class filebrowserActions extends sfActions
     {
       $this->getUser()->setFlash('error',
         $this->getContext()->getI18N()->
-        __('For some reason, it is not possible to schedule file %filename% for archiviation.',
-        array('%filename%'=>$this->filename))
-        );
+        __('For some reason, it is not possible to schedule file «%filename%» for archiviation.',
+        array('%filename%'=>$this->filename)) .
+        
+        ($this->sourcefile->getDuplicateOfAssetId() ?
+          (' ' . $this->getContext()->getI18N()->
+            __('Looks like it is a a duplicate of asset %id%.',
+            array('%id%'=>$this->sourcefile->getDuplicateOfAssetId())))
+            /*
+            . 
+            ' <a href="' . $this->getController()->genUrl('asset/show?id='. $this->sourcefile->getDuplicateOfAssetId(), true) .
+            '">' . $this->getContext()->getI18N()->
+              __('Show') . '</a>')
+            */
+            
+          : ''
+        ));
       $this->redirect('filebrowser/index');
       
     }
