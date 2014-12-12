@@ -196,6 +196,7 @@ EOF;
       {
         $users = ldap_get_entries($connect, $sr);
         Generic::logMessage('users', $users);
+        Generic::logMessage('users_json', json_encode($users));
       }
       else
       {
@@ -210,6 +211,7 @@ EOF;
       {
         $groups = ldap_get_entries($connect, $sr);
         Generic::logMessage('groups', $groups);
+        Generic::logMessage('groups_json', json_encode($groups));
       }
       else
       {
