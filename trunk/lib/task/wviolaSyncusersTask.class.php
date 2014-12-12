@@ -195,6 +195,7 @@ EOF;
       if ($nr > 0)
       {
         $users = ldap_get_entries($connect, $sr);
+        Generic::logMessage('users', $users);
       }
       else
       {
@@ -208,6 +209,7 @@ EOF;
       if ($nr > 0)
       {
         $groups = ldap_get_entries($connect, $sr);
+        Generic::logMessage('groups', $groups);
       }
       else
       {
