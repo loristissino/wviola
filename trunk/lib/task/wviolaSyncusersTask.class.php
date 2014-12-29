@@ -61,14 +61,18 @@ EOF;
       
       foreach($ldapGroups as $ldapGroup)
       {
+        
         for($i=0;$i<$groups['count']; $i++)
         {
           if($groups[$i][$ldapGroupCN][0]==$ldapGroup)
           {
             $this->logSection(' ldap*', $groups[$i][$ldapGroupCN][0], null, 'COMMENT');
-            for($u=0;$u<$groups[$i][$ldapGroupMembers]['count'];$u++)
+            if(isset($groups[$i][$ldapGroupMembers]))
             {
-              $guardGroupMembers[$groups[$i][$ldapGroupMembers][$u]]=1;
+              for($u=0;$u<$groups[$i][$ldapGroupMembers]['count'];$u++)
+              {
+                $guardGroupMembers[$groups[$i][$ldapGroupMembers][$u]]=1;
+              }
             }
           }
         }
@@ -134,7 +138,7 @@ EOF;
         if(!$profile->getBelongsToGuardGroupByName($guardGroupName))
         {
           $profile->addToGuardGroup(sfGuardGroupProfilePeer::retrieveByName($guardGroupName));
-          $this->logSection(' group+', $guardGroupName, null, 'INFO');
+          //$this->logSection(' group+', $guardGroupName, null, 'INFO');
         }
       }
       else
@@ -171,7 +175,7 @@ EOF;
     );
 
 
-    $test=false;
+    $test=true;
     if ($test)
     {
       // USED FOR TESTS
