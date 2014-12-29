@@ -138,7 +138,7 @@ EOF;
         if(!$profile->getBelongsToGuardGroupByName($guardGroupName))
         {
           $profile->addToGuardGroup(sfGuardGroupProfilePeer::retrieveByName($guardGroupName));
-          //$this->logSection(' group+', $guardGroupName, null, 'INFO');
+          $this->logSection(' group+', $guardGroupName, null, 'INFO');
         }
       }
       else
@@ -175,7 +175,7 @@ EOF;
     );
 
 
-    $test=true;
+    $test=false;
     if ($test)
     {
       // USED FOR TESTS
