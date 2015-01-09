@@ -15,6 +15,9 @@ class wviolaSyncusersTask extends sfBaseTask
       new sfCommandOption('connection', null, sfCommandOption::PARAMETER_REQUIRED, 'The connection name', 'propel'),
       // add your own options here
       new sfCommandOption('logged', null, sfCommandOption::PARAMETER_OPTIONAL, 'Whether the execution will be logged in the DB', 'true'),
+      new sfCommandOption('to-json', null, sfCommandOption::PARAMETER_OPTIONAL, 'The file where data from ldap connection will be stored', ''), 
+      new sfCommandOption('from-json', null, sfCommandOption::PARAMETER_OPTIONAL, 'The file where data will be taken from, instead of connecting to ldap server', ''), 
+
 
     ));
 
@@ -37,7 +40,9 @@ EOF;
 
     $this->_isLogged=true;
     $this->_logEvent=null;
-
+    
+    $this->_toJson = null;
+    $this->_fromJson = null;
 
   }
   
@@ -174,74 +179,97 @@ EOF;
       sfConfig::get('app_authentication_ldap_groupattribute_members'),
     );
 
+    $data = array();
 
-    $test=false;
+    $test=true;
     if ($test)
     {
       // USED FOR TESTS
       require('/etc/wviola/ldap_output.php');
+      $data = array('users'=>$users, 'groups'=>$groups);
     }
     else
     {
       // we do the real thing...
-      if (!($connect = ldap_connect($server)))
-      {
-        throw new Exception("Could not connect to LDAP server");
-      }
-
-      ldap_set_option($connect, LDAP_OPT_PROTOCOL_VERSION, 3);
-      ldap_bind($connect);
       
-      $sr = ldap_search($connect, $usersou. ',' . $basedn, "uid=*", $users_attributes);
-
-      $nr = ldap_count_entries($connect, $sr);
-
-      if ($nr > 0)
+      if($this->_fromJson)
       {
-        $users = ldap_get_entries($connect, $sr);
-        Generic::logMessage('users', $users);
-        Generic::logMessage('users_json', json_encode($users));
+        // our data come from the json file provided, not from LDAP connection
+        $data = json_decode(file_get_contents($this->_fromJson), true);
       }
       else
       {
-        throw new Exception('No user entries found');
-      }
 
-      $sr = ldap_search($connect, $groupsou. ',' . $basedn, "cn=*", $groups_attributes);
+        // our data come from an LDAP connection
+        if (!($connect = ldap_connect($server)))
+        {
+          throw new Exception("Could not connect to LDAP server");
+        }
 
-      $nr = ldap_count_entries($connect, $sr);
+        ldap_set_option($connect, LDAP_OPT_PROTOCOL_VERSION, 3);
+        ldap_bind($connect);
+        
+        $sr = ldap_search($connect, $usersou. ',' . $basedn, "uid=*", $users_attributes);
 
-      if ($nr > 0)
-      {
-        $groups = ldap_get_entries($connect, $sr);
-        Generic::logMessage('groups', $groups);
-        Generic::logMessage('groups_json', json_encode($groups));
+        $nr = ldap_count_entries($connect, $sr);
+
+        if ($nr > 0)
+        {
+          $data['users'] = ldap_get_entries($connect, $sr);
+        }
+        else
+        {
+          throw new Exception('No user entries found');
+        }
+
+        $sr = ldap_search($connect, $groupsou. ',' . $basedn, "cn=*", $groups_attributes);
+
+        $nr = ldap_count_entries($connect, $sr);
+
+        if ($nr > 0)
+        {
+          $data['groups'] = ldap_get_entries($connect, $sr);
+        }
+        else
+        {
+          throw new Exception('No group entries found');
+        }
       }
-      else
-      {
-        throw new Exception('No group entries found');
-      }
+      
     }
     
-    $this->setGuardGroups($groups);
+    // now we have the data, either from json file or from LDAP connection
     
-    for($i=0;$i<$users['count']; $i++)
+    
+    if($this->_toJson)
     {
-      $this->checkUser($users[$i]);
+      // we only save the data to the json file, without doing anything else
+      file_put_contents($this->_toJson, json_encode($data));
+      $this->logSection('file+', $this->_toJson, null, 'INFO');
     }
-    
-    $oldUsers = sfGuardUserProfilePeer::retrieveByUsernames($this->_foundUsers, $selected=false);
-    
-    foreach($oldUsers as $sfuser)
+    else
     {
-      if($sfuser->getIsActive())
+      // we use the data for what we need
+      $this->setGuardGroups($data['groups']);
+      
+      for($i=0;$i<$users['count']; $i++)
       {
-        $sfuser->setIsActive(false)->save();
-        $this->logSection('user-', $sfuser->getUsername(), null, 'INFO');
+        $this->checkUser($data['users'][$i]);
       }
+      
+      $oldUsers = sfGuardUserProfilePeer::retrieveByUsernames($this->_foundUsers, $selected=false);
+      
+      foreach($oldUsers as $sfuser)
+      {
+        if($sfuser->getIsActive())
+        {
+          $sfuser->setIsActive(false)->save();
+          $this->logSection('user-', $sfuser->getUsername(), null, 'INFO');
+        }
+      }
+
     }
     
-
 
   }
 
@@ -251,9 +279,37 @@ EOF;
     $databaseManager = new sfDatabaseManager($this->configuration);
     $connection = $databaseManager->getDatabase($options['connection'] ? $options['connection'] : null)->getConnection();
 
+    $this->_isLogged=Generic::normalizedBooleanValue($options['logged'], true);
+    $options['logged']=Generic::normalizedBooleanDescription($this->_isLogged);
+
+    if($this->_fromJson=$options['from-json'])
+    {
+      if(!(file_exists($this->_fromJson) && is_readable($this->_fromJson)))
+      {
+        echo "File not readable: " . $this->_fromJson . "\n";
+        return 1;
+      }
+    }
+    
+    if($this->_toJson=$options['to-json'])
+    {
+      if(file_exists($this->_toJson))
+      {
+        echo "File already exists, I won't overwrite: " . $this->_toJson . "\n";
+        return 2;
+      }
+    }
+    
+    if($this->_fromJson && $this->_toJson)
+    {
+      echo "You cannot have both to-json and from-json options set for the same execution.\n";
+      return 3;
+    }
+    
+
     // add your code here
     $this->logSection('started', date('c'), null, 'COMMENT');
-    
+        
     if($this->_isLogged)
     {
       $taskLogEvent= new TaskLogEvent();
