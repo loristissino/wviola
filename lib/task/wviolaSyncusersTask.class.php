@@ -17,7 +17,7 @@ class wviolaSyncusersTask extends sfBaseTask
       new sfCommandOption('logged', null, sfCommandOption::PARAMETER_OPTIONAL, 'Whether the execution will be logged in the DB', 'true'),
       new sfCommandOption('to-json', null, sfCommandOption::PARAMETER_OPTIONAL, 'The file where data from ldap connection will be stored', ''), 
       new sfCommandOption('from-json', null, sfCommandOption::PARAMETER_OPTIONAL, 'The file where data will be taken from, instead of connecting to ldap server', ''), 
-
+      new sfCommandOption('test', null, sfCommandOption::PARAMETER_NONE, 'Run without an actual LDAP connection, loading data from a hard-coded source'),
 
     ));
 
@@ -43,6 +43,7 @@ EOF;
     
     $this->_toJson = null;
     $this->_fromJson = null;
+    $this->_test = false;
 
   }
   
@@ -181,12 +182,10 @@ EOF;
 
     $data = array();
 
-    $test=true;
-    if ($test)
+    if ($this->_test)
     {
       // USED FOR TESTS
       require('/etc/wviola/ldap_output.php');
-      $data = array('users'=>$users, 'groups'=>$groups);
     }
     else
     {
@@ -252,7 +251,7 @@ EOF;
       // we use the data for what we need
       $this->setGuardGroups($data['groups']);
       
-      for($i=0;$i<$users['count']; $i++)
+      for($i=0;$i<$data['users']['count']; $i++)
       {
         $this->checkUser($data['users'][$i]);
       }
@@ -281,6 +280,9 @@ EOF;
 
     $this->_isLogged=Generic::normalizedBooleanValue($options['logged'], true);
     $options['logged']=Generic::normalizedBooleanDescription($this->_isLogged);
+
+    $this->_test=Generic::normalizedBooleanValue($options['test'], false);
+    $options['test']=Generic::normalizedBooleanDescription($this->_test);
 
     if($this->_fromJson=$options['from-json'])
     {
