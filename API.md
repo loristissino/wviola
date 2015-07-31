@@ -1,0 +1,77 @@
+**This should be translated into English**
+
+# API #
+
+## Applicazione di frontend ##
+
+L'applicazione di frontend è raggiungibile all'indirizzo _.../index.php_.
+
+Gli URL indicati di seguito sono da aggiungere a questo indirizzo (ad esempio: _.../index.php/asset/show/id/1_).
+
+Nota: non tutti funzionano per il momento.
+
+```
+	
+login
+  get: visualizza il modulo per il login
+  post: verifica nome utente e password e reindirizza alla pagina di provenienza (http_referer)
+
+logout
+  get: effettua il logout dell'utente
+
+profile
+  get: mostra informazioni sull'utente
+
+asset/index
+  get: mostra l'elenco degli asset, applicando i filtri e i criteri di ordinamento correntemente impostati,
+       con i risultati paginati a gruppi di 20 (o quanto configurato)
+
+asset/search
+  get: mostra un modulo con la possibilità di specificare alcuni criteri di ricerca
+  post: imposta come variabili di sessione dell'utente i criteri di ricerca indicati, e ridirige a 'asset/index'
+
+asset/show/id/1234
+  get: visualizza l'asset con id 1234 (registrando l'operazione nel log degli accessi)  
+
+asset/edit/id/1234
+  get: propone il modulo per la modifica delle informazioni associate all'asset con id 1234
+
+asset/update/id/1234
+  post: salva le modifiche inserite relative all'asset con id 1234
+
+asset/delete/id/1234
+  post: elimina l'asset con id 1234
+
+asset/new
+  get: presenta un modulo per l'inserimento dei dati relativi ad un asset
+
+asset/create
+  post: archivia le informazioni sull'asset, sposta il file sorgente schedulandolo per la codifica
+        di bassa qualità e l'archiviazione su DVD-ROM
+
+filebrowser
+  get: mostra la directory corrente (dove si trovano i file da convertire/archiviare)
+
+filebrowser/open/{dirname}
+  post: cambia la directory corrente su {dirname}
+
+filebrowser/up
+  post: cambia la directory corrente andando al livello superiore
+
+filebrowser/archive/{filename}
+  get: imposta il path del file come variabile di sessione e ridirige l'azione ad 'asset/new'
+
+```
+
+## Applicazione di backend ##
+
+L'applicazione di backend è raggiungibile all'indirizzo _.../backend.php_.
+
+Gli URL indicati di seguito sono da aggiungere a questo indirizzo (ad esempio: _.../index.php/archive/index_).
+
+Se lo si desidera, si può configurare l'applicazione di backend in modo che possa essere richiamata solo da determinati indirizzi di rete.
+
+
+## Task eseguibili da riga di comando ##
+
+

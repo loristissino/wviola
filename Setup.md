@@ -1,0 +1,465 @@
+**This should be translated into English**
+
+# Installazione e configurazione iniziale #
+
+## Installazione dei file del progetto ##
+
+Le indicazioni seguenti sono state testate su Ubuntu 10.04 Lucid Lynx e su Debian GNU/Linux 5.0 Lenny, usando PostgreSQL come DB. Per Debian è necessario abilitare il repository [debian-multimedia](http://debian-multimedia.org).
+
+  * seguire le indicazioni su http://www.symfony-project.org/getting-started/1_4/en/02-Prerequisites (in particolare, sarà necessario agire sui file _/etc/php5/cli/php.ini_ e _/etc/php5/apache2/php.ini_, cambiando `short_open_tag` e `magic_quotes_gpg`)
+
+  * installare i pacchetti che servono:
+
+```
+sudo apt-get install php-apc php5-ffmpeg php5-xsl ffprobe ffmpeg ffmpeg2theora mplayer subversion php5-cli php5-pgsql php5-ldap zip unzip genisoimage imagemagick
+```
+
+  * creare una directory _var/wviola_ (o equivalente)
+
+Nota: qui si potrebbe anche inserire qualche informazione in merito alla possibile configurazione specifica di questa applicazione con un file particolare di Apache.
+
+Scaricare i file del progetto via svn:
+
+```
+svn checkout http://wviola.googlecode.com/svn/trunk/ /var/wviola
+```
+
+Nota: vengono scaricati sia i file del progetto _wviola_ sia quelli del framework _symfony_.
+
+Dare il comando:
+```
+php /var/wviola/web/check_configuration.php
+```
+
+Si dovrebbe ottenere il seguente output:
+
+```
+********************************
+*                              *
+*  symfony requirements check  *
+*                              *
+********************************
+
+php.ini used by PHP: /etc/php5/cli/php.ini
+
+** WARNING **
+*  The PHP CLI can use a different php.ini file
+*  than the one used with your web server.
+*  If this is the case, please launch this
+*  utility from your web server.
+** WARNING **
+
+** Mandatory requirements **
+
+  OK        PHP version is at least 5.2.4 (5.2.10-2ubuntu6.4)
+
+** Optional checks **
+
+  OK        PDO is installed
+  OK        PDO has some drivers installed: mysql, odbc, pgsql, sqlite, sqlite2
+  OK        PHP-XML module is installed
+  OK        XSL module is installed
+  OK        The token_get_all() function is available
+  OK        The mb_strlen() function is available
+  OK        The iconv() function is available
+  OK        The utf8_decode() is available
+  OK        A PHP accelerator is installed
+  OK        php.ini has short_open_tag set to off
+  OK        php.ini has magic_quotes_gpc set to off
+  OK        php.ini has register_globals set to off
+  OK        php.ini has session.auto_start set to off
+  OK        PHP version is not 5.2.9
+```
+
+Visitare con il browser la pagina web (ovviamente l'URL varia a seconda della configurazione):
+
+```
+http://www.wviola.net.localhost/check_configuration.php
+```
+
+Si dovrebbe ottenere un output come questo:
+
+```
+********************************
+*                              *
+*  symfony requirements check  *
+*                              *
+********************************
+
+php.ini used by PHP: /etc/php5/apache2/php.ini
+
+
+** Mandatory requirements **
+
+  OK        PHP version is at least 5.2.4 (5.2.10-2ubuntu6.4)
+
+** Optional checks **
+
+  OK        PDO is installed
+  OK        PDO has some drivers installed: mysql, odbc, pgsql, sqlite, sqlite2
+  OK        PHP-XML module is installed
+  OK        XSL module is installed
+  OK        The token_get_all() function is available
+  OK        The mb_strlen() function is available
+  OK        The iconv() function is available
+  OK        The utf8_decode() is available
+  OK        A PHP accelerator is installed
+  OK        php.ini has short_open_tag set to off
+  OK        php.ini has magic_quotes_gpc set to off
+  OK        php.ini has register_globals set to off
+  OK        php.ini has session.auto_start set to off
+  OK        PHP version is not 5.2.9
+```
+
+Controllo della versione di symfony:
+
+```
+php /var/wviola/lib/vendor/symfony/data/bin/symfony -V
+symfony version 1.4.0 (/var/wviola/lib/vendor/symfony/lib)
+```
+
+## Link per il comando _symfony_ ##
+
+Conviene predisporre un link simbolico per l'esecuzione dei task, in modo da poterli richiamare senza cambiare directory.
+
+Dovrebbe essere sufficiente qualcosa come:
+
+```
+sudo ln -sfv /var/schoolmesh/symfony /usr/local/bin/symfony
+```
+
+## Ambienti di esecuzione ##
+
+Esistono tre ambienti di esecuzione in cui possono essere fatte funzionare le applicazioni:
+
+  1. **dev** (ambiente di sviluppo)
+  1. **test** (ambiente di test)
+  1. **prod** (ambiente di produzione)
+
+Gli ambienti si distinguono per il database usato e per le configurazioni relative all'uso degli strumenti di debug.
+
+Tutti i task devono essere eseguiti specificando l'ambiente di esecuzione (il default è _dev_), ad esempio specificando sulla riga di comando `--env=prod`.
+
+## Configurazione personalizzata ##
+
+Tutti i file soggetti a configurazione personalizzata vengono forniti con il suffisso _-dist_. Essi devono essere copiati con lo stesso nome, senza il suffisso, in modo che non vengano sovrascritti in occasione degli aggiornamenti.
+
+Nella directory _utilities_ c'è uno script (`checkdistfiles`) che mostra quali sono i file che vanno creati a partire dal file _-dist_ corrispondente.
+
+Esempio:
+
+```
+$ utilities/checkdistfiles.sh 
+OK:         ./templates/isoimage/it/isoindex.php
+MISSING:    ./templates/email/it/sourcesready.yml
+OK:         ./apps/frontend/config/app.yml
+OK:         ./apps/frontend/config/factories.yml
+OK:         ./config/wviola.yml
+OK:         ./config/app.yml
+OK:         ./config/databases.yml
+
+```
+
+Nota: probabilmente sarebbe meglio avere i file di configurazione sotto _/etc_, in modo da rispettare le indicazioni del [Filesystem Hierarchy Standard](http://www.pathname.com/fhs/). Si può fare, creando poi dei link simbolici nelle posizioni corrispondenti sotto _/var_.
+
+### Accesso al database ###
+
+Per l'accesso al database va modificato il file _config/databases.yml_:
+
+```
+dev:
+  propel:
+    param:
+      classname: DebugPDO
+test:
+  propel:
+    param:
+      classname: DebugPDO
+      dsn: 'pgsql:host=localhost;port=5432;dbname=wviola_test'
+prod:
+  propel:
+    param:
+      classname: PropelPDO
+      dsn: 'pgsql:host=localhost;port=5432;dbname=wviola_prod'
+all:
+  propel:
+    class: sfPropelDatabase
+    param:
+      classname: PropelPDO
+      dsn: 'pgsql:host=localhost;port=5432;dbname=wviola'
+      username: wviola
+      password: superSekret
+      encoding: utf8
+      persistent: true
+      pooling: true
+```
+
+La configurazione segue la logica dei valori di default (_all_) che vengono presi in considerazione solo nel caso in cui non siano specificati valori diversi per i particolari ambienti (_dev_, _test_, _prod_).
+
+Nota: si tratta di un file YAML (vedi http://www.yaml.org/) e le indentazioni sono fatte con spazi, non con tabulatori.
+
+Creare i database (almeno quello di produzione e quello di test) con il nome preferito, dare ad un utente i privilegi necessari perché possa lavorarci e infine cambiare la configurazione come necessario.
+
+### Predisposizione delle tabelle ###
+
+Per la predisposizione delle tabelle c'è un task apposito:
+
+```
+symfony propel:insert-sql --env=prod
+symfony propel:insert-sql --env=test
+```
+
+Si dovrebbe ottenere un output come questo:
+
+```
+>> schema    converting "/var/wviola/config/schema.yml" to XML
+>> schema    putting /var/wviola/config/generated-schema.xml
+>> schema    converting "/var/wviola/plugins/...Plugin/config/schema.yml" to XML
+>> schema    putting /var/wviola/plugins/sfGu...nerated-sfGuardPlugin-schema.xml
+>> file+     config/generated-sfGuardPlugin-schema.xml
+>> file-     /var/wviola/plugins/sfGuardPlugi...nerated-sfGuardPlugin-schema.xml
+
+  WARNING: The data in the database related to the connection name  
+  propel will be removed.                                  
+  Are you sure you want to proceed? (y/N)
+  
+y
+>> propel    Running "insert-sql" phing task
+>> file-     /var/wviola/config/generated-schema.xml
+>> file-     /var/wviola/config/generated-sfGuardPlugin-schema.xml
+```
+
+L'inserimento di alcuni dati di prova può avvenire con il comando
+
+```
+symfony propel:data-load --env=prod
+```
+
+Nota: i dati di prova sono quelli presenti nella directory _/data/fixtures_.
+
+### Configurazione dell'applicazione ###
+
+La configurazione di base dell'applicazione web si fa agendo sul file _apps/frontend/config/app.yml_. In particolare, per quanto riguarda l'autenticazione, si potrà fare in modo che l'autenticazione avvenga via LDAP togliendo gli hash dal file e modificando opportunamente le voci `ldap_host` e `ldap_domain`.
+
+```
+all:
+  config:
+    organization: My Organization Name
+    website: http://www.example.com
+
+#  sf_guard_plugin:
+#    check_password_callable: [Authentication, checkLdapPassword]
+
+#  authentication:
+#    ldap_host: ldaps://ldap.example.com ldaps://ldap2.example.com
+#    ldap_domain: dc=example,dc=com
+```
+
+Nota: l'autenticazione avverrà via LDAP, ma i nomi degli utenti devono essere presenti comunque nel DB di wviola. I dati dovranno essere sincronizzati periodicamente tramite l'apposito task.
+
+### File binari per i test ###
+
+Per effettuare i test, è necessario avere dei file binari a disposizione (piccoli frammenti di video, immagini, ecc.). I file che uso attualmente sono disponibili nella [pagina dei download](http://code.google.com/p/wviola/downloads/list).
+
+Va prelevato il file più recente, messo nella directory _/etc/wviola_ (questa directory, posta sotto _/etc_, può essere usata per cose che non sono sotto il controllo di subversion), creato un link simbolico, e scompattato il file, come indicato qui di seguito:
+
+```
+cd /etc/wviola
+wget http://wviola.googlecode.com/files/filesystem2010-02-18_090954.tar.bz2
+ln -sf filesystem2010-02-18_090954.tar.bz2 filesystem.tar.bz2
+tar xvjf filesystem.tar.bz2
+```
+
+Quando vengono eseguiti i test, i file vengono copiati tramite rsync e posti nella directory _/var/wviola/data/filesystem_, in modo da partire da una situazione pulita.
+
+L'estrazione avviene (vedi file _lib/wviola/bin/resettestfilesystem.sh_) con l'esecuzione del comando:
+
+```
+rsync -az --delete /etc/wviola/filesystem /var/wviola/data/
+```
+
+### Deleghe ###
+
+Alcuni task e/o azioni potrebbero necessitare di privilegi utenti specifici e pertanto si dovrà intervenire modificando il file di gestione delle deleghe _/etc/sudoers_.
+
+Ad esempio, per fare in modo che il task _wviola:scan-sources_ possa creare file zip che risultino di proprietà dell'utente proprietario dei file della raccolta, l'utente che lancia il task deve avere la delega per l'esecuzione del comando _chown_ nella directory dei file degli originali da archiviare.
+
+Una configurazione come la seguente dovrebbe permettere all'utente _loris_ di eseguire il comando `/bin/chown` assegnando a qualsiasi utente la proprietà di un file presente nella directory _/var/wviola/data/sources_:
+
+```
+...
+...
+# User alias specification
+User_Alias WVIOLA_CLIUSER=loris
+
+# Cmnd alias specification
+Cmnd_Alias WVIOLA_COMMANDS = /bin/chown * /var/wviola/data/sources/*
+
+WVIOLA_CLIUSER ALL=NOPASSWD: WVIOLA_COMMANDS
+```
+
+### Altre impostazioni ###
+
+Il file _wviola.yml_ contiene tutte le impostazioni che devono essere utilizzabili direttamente dal modello, anche quando l'applicazione web non è lanciata (ad esempio nei task da riga di comando o nei test di unità).
+
+In particolare, ci saranno qui le preferenze relative alle codifiche video da effettuare, ai percorsi dove trovare i file, ecc.
+
+Al momento ci sono queste informazioni:
+
+```
+directory:
+  published_assets: /var/wviola/data/filesystem/published/assets
+  # where published assets are kept
+
+  published_thumbnails: /var/wviola/data/filesystem/published/thumbnails
+  # where thumbnails of published assets are kept
+
+  scheduled: /var/wviola/data/filesystem/scheduled
+  # where files to be published are kept
+
+  sources:  /var/wviola/data/filesystem/sources
+  # where the user will browse files to publish (by using the web app)
+
+  iso_cache:  /var/wviola/data/filesystem/iso_images/cache
+  # where encoded file to be burn into a DVD are kept
+
+  iso_images: /var/wviola/data/filesystem/iso_images/done
+  # where iso images ready for burning are kept
+
+  trash: /var/wviola/data/filesystem/trash
+  # where original source files are moved after beeing encoded
+
+  executables: /var/wviola/lib/wviola/bin
+  # where common utilities are to be found
+  
+  lucene_index: /var/wviola/data
+  # where Lucene index binary files will be put
+  # since different indexes may be built, we'll get different subdirectories 
+  # like /var/wviola/data/foo_prod.index/, /var/wviola/data/bar_prod.index/,
+  # and so on (the names are made up with the object indexed and the environment)
+
+
+thumbnail:
+  number: 8
+  # number of thumbnails to prepare for each asset (videos and photoalbums)  
+  width: 60
+  height: 45
+  # the size of the thumbnail to prepare  
+
+publishing:
+  video_width: 320
+  video_height: 240
+  video_low_quality_command: ffmpeg -i "%source%" -ar 22050 -ab 32000 -f flv -s %width%x%height% "%target%" -y
+  video_high_quality_command: ffmpeg -i "%source%" -f ogg "%target%" -y
+  video_low_quality_extension: .flv
+  video_high_quality_extension: .ogv
+  picture_low_quality_width: 640
+  picture_low_quality_height: 480
+  picture_low_quality_jpeg_quality: 75
+  picture_high_quality_width: 800
+  picture_high_quality_height: 600
+  picture_high_quality_jpeg_quality: 90
+  picture_low_quality_command: convert "%source%" -scale %width%x%height% -quality %quality% "%target%"
+  picture_high_quality_command: convert "%source%" -scale %width%x%height% -quality %quality% "%target%"
+  photoalbum_low_quality_extension: .zip
+  photoalbum_high_quality_extension: .zip
+  extensions_used: [ '', '.flv', '.ogg', '.ogv', '.mp3', '.zip', '.jpg', '.png', '.jpeg' ]
+  # this is useful because when we look for a file we could try with a different
+  # extension
+
+filebrowser:
+  md5sum_limit: f
+  photoalbum_items: [ '/jpg$/', '/png$/' ]
+  white_list: [ '/png$/i', '/jpg$/i', '/mov$/i', '/mpeg$/i', '/mpg$/i', '/avi$/i', '/ogv$/i', '/mp4$/i', '/zip$/i' ]
+  # regular expressions to use with filenames: only files matching are scanned
+
+archiviation:
+  binder_max_age: 0
+  # days after which a binder should be closed
+  iso_image_size: 4800
+  # iso dvd image size, in MB
+  index_template: /var/wviola/templates/isoimage/it/isoindex.php
+  index_title: Raccoglitori archiviati il %date%
+
+mail:
+  bot_address: wviola@example.com
+  bot_name: WVIOLA bot
+  sourceready_template: /var/wviola/templates/email/it/sourcesready.yml
+```
+
+**Attenzione**: è importante che vengano rigenerati gli script di pubblicazione degli asset ogni volta che vengono modificate le impostazioni di questo file.
+
+### Mailer ###
+
+L'applicazione è in grado di spedire dei messaggi di posta elettronica agli utenti.
+
+È necessario però configurare, agendo sul file _/apps/frontend/config/factories.yml_, quale server di posta va usato, quale strategia di spedizione, ecc.
+
+Per informazioni al riguardo, si rimanda a:
+
+http://www.symfony-project.org/more-with-symfony/1_4/en/04-Emails
+
+## Test ##
+
+Verranno predisposti gradualmente dei test di tipo unitario e di tipo funzionale.
+
+Per l'esecuzione, dovrebbe essere sufficiente eseguire il comando:
+
+```
+symfony test:all
+```
+
+che dovrebbe portare ad un risultato simile al seguente:
+
+```
+functional/backend/accesslogActionsTest..............................ok
+functional/backend/archiveActionsTest................................ok
+functional/backend/tasklogActionsTest................................ok
+functional/backend/video_assetActionsTest............................ok
+functional/frontend/filebrowserActionsTest...........................ok
+functional/frontend/profileActionsTest...............................ok
+functional/frontend/welcomeActionsTest...............................ok
+unit/AssetFileTest...................................................ok
+unit/AssetPeerTest...................................................ok
+unit/AssetTest.......................................................ok
+unit/BasicFileTest...................................................ok
+unit/GenericTest.....................................................ok
+unit/MovieFileTest...................................................ok
+unit/SourceFileTest..................................................ok
+unit/ThumbnailFileTest...............................................ok
+unit/VideoFileTest...................................................ok
+unit/wvConfigTest....................................................ok
+ All tests successful.                                                 
+ Files=17, Tests=235                                                   
+```
+
+
+# Aggiornamenti #
+
+Per gli aggiornamenti, dovrebbe essere sufficiente spostarsi nella directory _/var/wviola_ e digitare il comando
+
+```
+svn update
+symfony cache:clear
+```
+
+Se, durante lo sviluppo, lo schema relazionale dovesse essere ridefinito, sarà necessario ricreare da zero le tabelle, cosa che si può fare con i seguenti comandi (che **cancellano le tabelle correnti**):
+
+```
+symfony propel:insert-sql --env=prod
+symfony propel:insert-sql --env=test
+```
+
+Nota: i dati per l'ambiente di test vengono caricati automaticamente all'esecuzione dei test.
+
+# Configurazione ulteriore #
+
+Volendo, si può evitare di avere negli URL il nome dello script (es. _index.php_). Bisogna intervenire sul file _apps/frontend/config/settings.yml_, indicando
+
+```
+prod:
+  .settings:
+    no_script_name:         true
+```
+
+(Forse è anche necessario lavorare sul file _web/.htaccess_)

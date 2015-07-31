@@ -1,0 +1,310 @@
+**This should be translated into English**
+
+# Architettura generale #
+
+Nota terminologica: visto che si possono archiviare diversi tipi di elementi (video, immagini, collezioni di immagini, registrazioni audio), qui di seguito userò il termine generico _asset_ per riferirmi ad una di queste risorse. (Se viene in mente un altro termine, ditemelo).
+
+Wviola si basa su tre componenti:
+
+  * un'applicazione di frontend (destinata agli utenti ordinari, che devono poter classificare gli asset)
+  * un'applicazione di backend (destinata agli amministratori, che possono consultare i _log_, impostare valori di default nelle tabelle principali, ecc.)
+  * una serie di _task_ eseguibili da riga di comando, tipicamente tramite _cron jobs_.
+
+Per chi è interessato,  è disponibile un [diagramma dello schema relazionale del DB](PropelSchema.md).
+
+I dettagli sull'uso delle applicazioni saranno progressivamente resi disponibili nella pagina relativa all'[Application Program Interface](API.md).
+
+## Applicazione di frontend ##
+
+**Nota: ciò che segue va rivisto, in seguito alla considerazione che sia più efficiente
+gestire dei raccoglitori di asset, con informazioni cumulative**
+
+Descriviamo l'applicazione di frontend tramite alcuni scenari:
+
+### Archiviazione e classificazione di un asset ###
+
+Matthew deve archiviare un asset (es. un video frutto di riprese con videocamera, o un file zip contenente una serie di fotografie). Mette il file in una particolare directory (o in una sottodirectory di questa) che gli è stata indicata.
+
+Accede all'applicazione Wviola con il proprio browser, effettua il login, sceglie l'opzione "Archiviazione asset" e gli appare un elenco dei file presenti nella directory indicata, tra i quali saranno presenti anche quello da lui appena caricato.
+
+Per ogni file trova l'indicazione del nome originale, la data di caricamento, la dimensione, una serie di fotogrammi, ecc.
+
+Facendo clic sul link "Archivia" gli si apre una finestra in cui gli viene chiesto di specificare alcuni dati utili per la ricerca dell'asset in fasi successive (da definire nei dettagli). Quando fa clic sul pulsante "Archivia" le informazioni vengono inserite nel database e l'asset viene posto in coda per l'operazione di archiviazione.
+
+Un asset viene inserito in un raccoglitore (_binder_) collegato all'utente: è nel raccoglitore che potranno essere inserite informazioni quali categoria, data dell'evento, ecc.
+
+Per quanto riguarda le fotografie, Matthew sa che tutte le fotografie di cui è proprietario poste nella stessa directory verranno automaticamente trasformate in un album fotografico, che verrà archiviato come un unico asset.
+
+### Ricerca e visualizzazione di un asset ###
+
+John deve visualizzare alcuni asset tra quelli precedentemente archiviati.
+
+Accede all'applicazione Wviola con il proprio browser, effettua il login, sceglie l'opzione "Ricerca asset" e gli appare una finestra di ricerca in cui può specificare diversi criteri di ricerca (data, parola chiave, archiviatore, ecc.). Quando fa clic su "Trova" gli compare un elenco di asset che corrispondono ai criteri di ricerca indicati.
+
+Per ogni asset è presente una piccola anteprima (un fotogramma di un video, un'immagine rimpicciolita di una collezione, ecc.). Facendo clic sul link "Visualizza" gli viene mostrato l'asset (a bassa risoluzione), nonché un link per rintracciare l'asset archiviato ad alta risoluzione.
+
+Le operazioni di visualizzazione vengono registrate in un file di log.
+
+### Modifica informazioni errate per gli asset archiviati ###
+
+Quando un asset viene visualizzato da un utente con permessi di amministrazione, egli troverà anche il link "Modifica informazioni", per la modifica delle informazioni associate ad un asset.
+
+## Applicazione di backend ##
+
+Andreas è l'amministratore del sistema.
+
+### Visualizzazione dei log ###
+
+Andreas consulta i log di tutte le operazioni.
+
+### Visualizzazione dell'archivio immagini ISO ###
+
+Andreas consulta l'archivio delle immagini ISO dei DVD-ROM contenenti gli asset in forma non compressa.
+
+## Applicazioni batch (task) ##
+
+Le applicazioni batch (_task_, nella terminologia di Symfony) vengono eseguite da riga di comando direttamente o tramite apposito _cron job_.
+
+Per tutti i task è possibile ottenere un help in linea con il comando `symfony help`. Ad esempio:
+
+```
+$ symfony help wviola:scan-sources
+Usage:
+ symfony wviola:scan-sources [--application="..."] [--env="..."] [--connection="..."] [--subdir[="..."]] [--recursive[="..."]] [--logged[="..."]] 
+
+Options:
+ --application            The application name (default: frontend)
+ --env                    The environment (default: dev)
+ --connection             The connection name (default: propel)
+ --subdir                 Subdirectory name (default: /)
+ --recursive              whether recursion will be applied (default: false)
+ --logged                 whether the execution will be logged in the DB (default: true)
+
+Description:
+ The wviola:scan-sources task scans the source asset directory in order to find useful information and prepare thumbnails.
+ Call it with:
+ 
+   php symfony wviola:scan-sources
+ 
+ The subdirectory name can be specified either as '/foo', 'foo/', 'foo' or '/foo/'.
+ Anyway, it must exist and must be under the path specified in wviola.yml for sources.
+ 
+ The task ends with an exception if something goes wrong (e.g. when a file could not be
+ read or written). 
+```
+
+Di ogni esecuzione di task viene tenuta traccia nel database, a meno che non si specifichi l'opzione `--logged=false`.
+
+### Sincronizzazione utenti ###
+
+Gli utenti di Wviola vengono autenticati tramite LDAP, ma le informazioni di base su di essi devono essere inserite nel database. Sarà quindi necessario un task di sincronizzazione degli utenti, con il quale le informazioni sugli utenti nuovi vengono memorizzati nelle tabelle corrette del DB.
+
+Il task dovrebbe essere richiamabile con il comando:
+
+```
+symfony wviola:sync-users --application=frontend --env=prod
+```
+
+Affinché la sincronizzazione avvenga correttamente, è necessario specificare nel file _config/app.yml_:
+
+  * le unità organizzative a cui appartengono utenti e gruppi
+  * quali attributi devono essere usati per utenti e gruppi (e come farli corrispondere ai campi nella base di dati)
+  * quali gruppi LDAP devono essere fatti corrispondere ai GuardGroups dell'applicazione (ai quali, a loro volta, sono assegnati i permessi necessari per eseguire le diverse azioni)
+
+Ad esempio, se il file _config/app.yml_ contiene le seguenti righe
+
+```
+  ...
+  
+  authentication:
+    ldap_host: ldaps://ldap.example.com ldaps://ldap2.example.com
+    ldap_domain: dc=example,dc=com
+    ldap_users: ou=People
+    ldap_groups: ou=Group
+    ldap_userattribute_username: uid
+    ldap_userattribute_email: mail
+    ldap_userattribute_firstname: first
+    ldap_userattribute_lastname: last
+    ldap_groupattribute_cn: cn
+    ldap_groupattribute_members: memberuid
+    guardgroup_admin: [webadmin]
+    guardgroup_asset_encoders: [alpha]
+    guardgroup_asset_viewers: [beta,gamma]
+```
+
+tutti gli utenti che fanno parte del gruppo beta o del gruppo gamma verranno inseriti nel GuardGroup _asset\_viewers_, per cui potranno accedere alla visualizzazione degli asset._
+
+L'output del task, simile al seguente,
+
+```
+>> group*    admin
+>>  ldap*    webadmin
+>> group*    asset_encoders
+>>  ldap*    alpha
+>> group*    asset_viewers
+>>  ldap*    beta
+>>  ldap*    gamma
+>> user      mark
+>> user      matthew
+>>  group-   asset_encoders
+>> user      andreas
+>>  group-   asset_encoders
+>> user      eloise
+>>  group-   asset_viewers
+>> user      john
+>>  group+   asset_viewers
+>> user+     sarah
+>>  group+   admin
+>>  group+   asset_viewers
+>> user-     paul
+```
+
+va interpretato in questo modo:
+
+  * sono stati presi in considerazione i GuardGroup _admin_, _asset\_encoders_e_asset\_viewers_ (per ognuno vengono visualizzati i gruppi LDAP corrispondenti)
+  * per _mark_ non ci sono state modifiche
+  * _matthew_ e _andreas_ sono stati tolto dal GuardGroup _asset\_encoders_*_eloise_è stata tolta dal GuardGroup_asset\_viewers_
+  * _john_ è stato inserito nel GuardGroup _asset\_viewers_* è stato aggiunto un nuovo utente,_sarah_, inserita nei GuardGroup_admin_e_asset\_viewers_
+  * è stato reso "non più attivo" l'utente _paul_
+
+
+### Predisposizione anteprime ###
+
+Questa applicazione, per ogni file posto nella directory delle sorgenti, determina se si tratta di un asset da archiviare (ossia, se è un'immagine, un video, una registrazione video o una collezione di immagini). In caso positivo:
+
+  * predispone alcune immagini tra cui sceglire per l'anteprima (estraendo fotogrammi a campione)
+  * calcola un hash del file
+  * archivia le informazioni associate al file in un file YAML
+
+Le informazioni estratte vengono messe in una directory nascosta _.wviola_ presente nella directory in cui è presente l'asset (in questo modo non cambiano se il nome della directory viene variato) e sono associate all'i-node del file (così anche il nome del file può cambiare).
+
+La ricerca avviene basandosi sulla data di ultima modifica (partendo dalla conclusione dell'ultima esecuzione dello stesso task).
+
+Il task dovrebbe essere richiamabile con il comando:
+
+```
+symfony wviola:scan-sources --application=frontend --env=prod
+```
+
+È possibile specificare:
+
+  * una sottodirectory in cui lavorare (che deve essere all'interno della directory di base)
+  * se attivare o meno la ricorsione
+  * un valore limite per la dimensione del file oltre il quale non deve essere calcolato l'hash MD5
+  * se registrare nel log su DB l'esecuzione del task
+
+Queste opzioni vengono sfruttate dall'applicazione web quando un utente visualizza i file di una directory appena creata, e per la quale devono essere predisposte in fretta le anteprime e le informazioni di base, lasciando per tempi successivi il calcolo degli altri valori.
+
+Un esempio di interazione è il seguente:
+
+```
+$ symfony wviola:scan-sources --recursive=true --subdir=videos/stuff 
+>> directory /var/wviola/data/filesystem/sources/videos/stuff
+>> subdir    /videos/stuff
+>> recursive true
+>> logged    true
+
+>> source    Opening candidate source file...
+>> file      /var/wviola/data/filesystem/sour...os/stuff/bigbuckbunny01_copy.avi
+>> info      Locked.
+
+>> source    Opening candidate source file...
+>> file      /var/wviola/data/filesystem/sources/videos/stuff/data.file
+>> info      Gathering information...
+>> md5sum    Computing MD5 hash...
+>> info      Writing information file...
+>> file+     /var/wviola/data/filesystem/sour.../videos/stuff/.wviola/394315.yml
+
+>> source    Opening candidate source file...
+>> file      /var/wviola/data/filesystem/sources/videos/stuff/sample.txt
+>> info      Skipped for file name matching.
+
+```
+
+
+### Preparazione degli script per l'archiviazione ###
+
+Gli script bash che consentono di pubblicare gli asset vengono generati in base al contenuto del file _wviola.yml_. In particolare, nella sezione _publishing_ di tale file sono specificati i comandi esterni da impartire per produrre i filmati a bassa e ad alta qualità, e le immagini degli album.
+
+Ad esempio:
+
+```
+publishing:
+  video_width: 320
+  video_height: 240
+  video_low_quality_command: ffmpeg -i "%source%" -ar 22050 -ab 32000 -f flv -s %width%x%height% "%target%"
+  video_high_quality_command: ffmpeg -i "%source%' -f ogg "%target%"
+```
+
+Il task dovrebbe essere richiamabile con il comando:
+
+```
+symfony wviola:generate-scripts --application=frontend --env=prod
+```
+
+I file generati vengono messi nella directory specificata nel file di configurazione _wviola.yml_.
+
+**Attenzione!** È importante rigenerare gli script se si cambiano le configurazioni (es. dove sono file e directory).
+
+### Archiviazione ###
+
+Quando un utente archivia un asset, esso viene spostato in una diversa directory, con l'attribuzione di un ID univoco (uniqid).
+
+Questa applicazione batch, per ogni asset da archiviare:
+
+  * effettua la codifica in bassa risoluzione
+  * rende disponibile l'asset per la fruizione
+  * sposta l'asset ad alta risoluzione in una directory destinata all'archiviazione off-line
+
+Il task dovrebbe essere richiamabile con il comando:
+
+```
+  ...
+  
+  authentication:
+    ldap_host: ldaps://ldap.example.com ldaps://ldap2.example.com
+    ldap_domain: dc=example,dc=com
+    ldap_users: ou=People
+    ldap_groups: ou=Group
+    ldap_useractive_objectclass_item: posixAccount
+    # for a user to be considered active, we check that they have this 
+    ldap_userattribute_username: uid
+    ldap_userattribute_email: mail
+    ldap_userattribute_firstname: first
+    ldap_userattribute_lastname: last
+    ldap_groupattribute_cn: cn
+    ldap_groupattribute_members: memberuid
+    guardgroup_admin: [webadmin]
+    guardgroup_asset_encoders: [alpha]
+    guardgroup_asset_viewers: [beta,gamma]
+```
+
+tutti gli utenti che fanno parte del gruppo beta o del gruppo gamma verranno inseriti nel GuardGroup `asset_viewers`, per cui potranno accedere alla visualizzazione degli asset.
+
+La voce `ldap_useractive_objectclass_item` serve a indicare quale elemento cercare tra quelli specificati come objectitem per considerare l'utente attivo.
+
+L'output del task, simile al seguente,
+
+Questa applicazione batch:
+  * chiude i raccoglitori aperti da più di un certo numero di giorni (specificato in _wviola.yml_)
+  * crea, seguendo un ordine cronologico, un'immagine ISO contenente le versioni ad alta qualità degli asset da archiviare, raggruppati per raccoglitore.
+
+Se non ci sono abbastanza asset per riempire un DVD-ROM, esce senza fare nulla. Altrimenti, crea l'immagine ISO (in cui è presente anche un file index.html contenente informazioni sintetiche sugli asset archiviati) e imposta per il raccoglitore l'id dell'immagine ISO generata.
+
+Il file index.html viene generato in base ad un template specificato nel file _wviola.yml_, che può essere personalizzato.
+
+Il task dovrebbe essere richiamabile con il comando:
+
+```
+symfony wviola:archive-binders --application=frontend --env=prod
+```
+
+va interpretato in questo modo:
+
+  * sono stati presi in considerazione i GuardGroup `admin`, `asset_encoders` e `asset_viewers` (per ognuno vengono visualizzati i gruppi LDAP corrispondenti)
+  * per `mark` non ci sono state modifiche
+  * `matthew` e `andreas` sono stati tolti dal GuardGroup `asset_encoders`
+  * `eloise` è stata tolta dal GuardGroup `asset_viewers`
+  * `john` è stato inserito nel GuardGroup `asset_viewers`
+  * è stato aggiunto un nuovo utente, `sarah`, inserita nei GuardGroup `admin` e `asset_viewers`
+  * è stato reso "non più attivo" l'utente `paul`
