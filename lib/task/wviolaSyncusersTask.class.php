@@ -22,7 +22,7 @@ class wviolaSyncusersTask extends sfBaseTask
     ));
 
     $this->namespace        = 'wviola';
-    $this->name             = 'sync-users';
+    $this->name             = 'sync-users';  //LT*MOD*/
     $this->briefDescription = 'Synchronizes users from an external source (LDAP)';
     $this->detailedDescription = <<<EOF
 The [wviola:sync-users|INFO] task synchronizes users from an external source.
@@ -48,61 +48,12 @@ EOF;
   }
   
   
-  protected function setGuardGroups($groups)
+  protected function checkUser($user, $guardGroupName)
   {
-    $ldapGroupCN=sfConfig::get('app_authentication_ldap_groupattribute_cn');
-    $ldapGroupMembers=sfConfig::get('app_authentication_ldap_groupattribute_members');
-    
-    $guardgroups=sfGuardGroupProfilePeer::retrieveAllGuardGroupsAsArray();
-    foreach($guardgroups as $guardgroup)
-    {
-      $this->_guardGroups[$guardgroup]=Array();
-    }
-    
-    foreach($this->_guardGroups as $guardGroupName=>&$guardGroupMembers)
-    {
-      $this->logSection('group*', $guardGroupName, null, 'COMMENT');
-
-      $ldapGroups=sfConfig::get('app_authentication_guardgroup_' . $guardGroupName);
-      
-      foreach($ldapGroups as $ldapGroup)
-      {
-        
-        for($i=0;$i<$groups['count']; $i++)
-        {
-          if($groups[$i][$ldapGroupCN][0]==$ldapGroup)
-          {
-            $this->logSection(' ldap*', $groups[$i][$ldapGroupCN][0], null, 'COMMENT');
-            if(isset($groups[$i][$ldapGroupMembers]))
-            {
-              for($u=0;$u<$groups[$i][$ldapGroupMembers]['count'];$u++)
-              {
-                $guardGroupMembers[$groups[$i][$ldapGroupMembers][$u]]=1;
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-  
-  
-  protected function checkUser($user)
-  {
-    /* FIXME This doesn't work as expected, we must check it 
-    if(!in_array(
-      sfConfig::get('app_authentication_ldap_useractive_objectclass_item'),
-      $user['objectclass']
-      ))
-    {
-      return;
-    }
-    */
-    
-    $username=$user[sfConfig::get('app_authentication_ldap_userattribute_username')][0];
-    $email=@$user[sfConfig::get('app_authentication_ldap_userattribute_email')][0];
-    $firstname=@$user[sfConfig::get('app_authentication_ldap_userattribute_firstname')][0];
-    $lastname=@$user[sfConfig::get('app_authentication_ldap_userattribute_lastname')][0];
+    $username=$user[sfConfig::get('app_authentication_ad_userattribute_username')][0];
+    $email=@$user[sfConfig::get('app_authentication_ad_userattribute_email')][0];
+    $firstname=@$user[sfConfig::get('app_authentication_ad_userattribute_firstname')][0];
+    $lastname=@$user[sfConfig::get('app_authentication_ad_userattribute_lastname')][0];
     
     $this->_foundUsers[]=$username;
     // we need this later to set not found users to "not active" status
@@ -135,52 +86,37 @@ EOF;
       ->save();
       $this->logSection('user', $username, null, 'COMMENT');
     }
-    
-    
-    foreach($this->_guardGroups as $guardGroupName=>$guardGroupMembers)
+
+    if(!$profile->getBelongsToGuardGroupByName($guardGroupName))
     {
-      if(array_key_exists($username, $guardGroupMembers))
-      {
-        if(!$profile->getBelongsToGuardGroupByName($guardGroupName))
-        {
-          $profile->addToGuardGroup(sfGuardGroupProfilePeer::retrieveByName($guardGroupName));
-          $this->logSection(' group+', $guardGroupName, null, 'INFO');
-        }
-      }
-      else
-      {
-        if($profile->getBelongsToGuardGroupByName($guardGroupName))
-        {
-          $profile->removeFromGuardGroup(sfGuardGroupProfilePeer::retrieveByName($guardGroupName));
-          $this->logSection(' group-', $guardGroupName, null, 'INFO');
-        }
-      }
+      $profile->addToGuardGroup(sfGuardGroupProfilePeer::retrieveByName($guardGroupName));
+      $this->logSection(' group+', $guardGroupName, null, 'INFO');
     }
-    
   }
   
-  
+
   protected function syncUsers()
   {
 
-    $server=sfConfig::get('app_authentication_ldap_host');
-		$basedn=sfConfig::get('app_authentication_ldap_domain');
-    $usersou=sfConfig::get('app_authentication_ldap_users');
-    $groupsou=sfConfig::get('app_authentication_ldap_groups');
+    $server=sfConfig::get('app_authentication_ad_host');
+    $connectdn=sfConfig::get('app_authentication_ad_connectdn');
+    $dnpassword=sfConfig::get('app_authentication_ad_dnpassword');
+    $basedn=sfConfig::get('app_authentication_ad_basedn');
+    $usersfilter=sfConfig::get('app_authentication_ad_users_filter');
+    $groupsfilter=sfConfig::get('app_authentication_ad_groups_filter');
     
     $users_attributes=array(
-      sfConfig::get('app_authentication_ldap_userattribute_username'),
-      sfConfig::get('app_authentication_ldap_userattribute_email'),
-      sfConfig::get('app_authentication_ldap_userattribute_firstname'),
-      sfConfig::get('app_authentication_ldap_userattribute_lastname')
+      sfConfig::get('app_authentication_ad_userattribute_username'),
+      sfConfig::get('app_authentication_ad_userattribute_email'),
+      sfConfig::get('app_authentication_ad_userattribute_firstname'),
+      sfConfig::get('app_authentication_ad_userattribute_lastname'),
     );
-    
     $groups_attributes=array(
-      sfConfig::get('app_authentication_ldap_groupattribute_cn'),
-      sfConfig::get('app_authentication_ldap_groupattribute_members'),
+      'dn',
+      sfConfig::get('app_authentication_ad_groupattribute_groupname'),
     );
 
-    $data = array();
+    //$data = array();
 
     if ($this->_test)
     {
@@ -206,39 +142,29 @@ EOF;
         }
 
         ldap_set_option($connect, LDAP_OPT_PROTOCOL_VERSION, 3);
-        ldap_bind($connect);
+        ldap_bind($connect, $connectdn, $dnpassword);
         
-        $sr = ldap_search($connect, $usersou. ',' . $basedn, "uid=*", $users_attributes);
+        $guardgroups=sfGuardGroupProfilePeer::retrieveAllGuardGroupsAsArray();
+        foreach($guardgroups as $guardgroup){
+          $ad_groups = sfConfig::get('app_authentication_guardgroup_'. $guardgroup);
+          foreach($ad_groups as $ad_group){
+            $this->logSection($guardgroup, $ad_group, null, 'INFO');
 
-        $nr = ldap_count_entries($connect, $sr);
-
-        if ($nr > 0)
-        {
-          $data['users'] = ldap_get_entries($connect, $sr);
-        }
-        else
-        {
-          throw new Exception('No user entries found');
-        }
-
-        $sr = ldap_search($connect, $groupsou. ',' . $basedn, "cn=*", $groups_attributes);
-
-        $nr = ldap_count_entries($connect, $sr);
-
-        if ($nr > 0)
-        {
-          $data['groups'] = ldap_get_entries($connect, $sr);
-        }
-        else
-        {
-          throw new Exception('No group entries found');
+            $query = sprintf('(&(objectClass=group)(samaccountname=%s))', $ad_group);
+            $sr = ldap_search($connect, $basedn, $query, array('dn'));
+            $dn = ldap_get_entries($connect, $sr)[0]['dn'];
+            $query = sprintf('(&(objectClass=user)(!(objectClass=computer))(memberOf:1.2.840.113556.1.4.1941:=%s))', $dn);
+            $sr = ldap_search($connect, $basedn, $query, $users_attributes);
+            $users = ldap_get_entries($connect, $sr);
+            for ($i=0; $i<$users['count']; $i++){
+              $user = $users[$i];
+              $samaccountname = $user['samaccountname'][0];
+              $this->checkUser($user, $guardgroup);
+            }
+          }
         }
       }
-      
     }
-    
-    // now we have the data, either from json file or from LDAP connection
-    
     
     if($this->_toJson)
     {
@@ -248,14 +174,6 @@ EOF;
     }
     else
     {
-      // we use the data for what we need
-      $this->setGuardGroups($data['groups']);
-      
-      for($i=0;$i<$data['users']['count']; $i++)
-      {
-        $this->checkUser($data['users'][$i]);
-      }
-      
       $oldUsers = sfGuardUserProfilePeer::retrieveByUsernames($this->_foundUsers, $selected=false);
       
       foreach($oldUsers as $sfuser)
@@ -268,9 +186,10 @@ EOF;
       }
 
     }
-    
 
-  }
+}
+
+
 
   protected function execute($arguments = array(), $options = array())
   {
